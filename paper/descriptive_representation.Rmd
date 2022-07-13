@@ -1,0 +1,331 @@
+---
+title: "gender"
+output: pdf_document
+date: '2022-06-23'
+---
+
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    dpi = 300
+)
+
+if (!require(pacman))
+    install.packages("pacman")
+library(pacman)
+  
+p_install(janitor, force = FALSE)
+
+p_load(
+    # analysis
+    lme4,
+    lmerTest,
+    
+    # presentation
+    gridExtra,
+    modelsummary,
+    dotwhisker,
+    latex2exp,
+    RColorBrewer,
+    colorRamps,
+    directlabels,
+    
+    # data wrangling
+    DCPOtools,
+    janitor,
+    countrycode,
+    here,
+    broom,
+    tidyverse,
+    glue)
+
+getPalette = colorRampPalette(brewer.pal(9, "Spectral"))
+
+set.seed(324)
+```
+
+```{r load_party_data}
+# PGE: gender egalitarianism (from Dataverse)
+if (!file.exists(here::here("data-raw", "pge1_0", "pge1_0.rda"))) { 
+dataverse::get_file_by_id(6176980) %>% 
+    writeBin(here::here("data-raw", "pge1_0.zip"))
+unzip(here::here("data-raw", "pge1_0.zip"),
+      exdir = here::here("data-raw"))
+}
+pge <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
+                   which = "pge")
+
+pge_summary <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
+                   which = "pge_summary")
+
+# Manifesto Project: parties and election results
+if (!file.exists(here::here("data-raw", "manifesto_project", "mpds2021a.csv"))) {
+    download.file("https://manifesto-project.wzb.eu/down/data/2021a/datasets/MPDataset_MPDS2021a.csv",
+                  here::here("data-raw", "manifesto_project", "mpds2021a.csv"))
+}
+
+mp_parties <- read_csv(here::here("data-raw",
+                                  "manifesto_project",
+                                  "mpds2021a.csv"),
+                       show_col_types = FALSE) %>% 
+    select(country, countryname, eumember, 
+           date,
+           party, partyname, partyabbrev, parfam,
+           pervote, absseat, totseats,
+           rile)
+
+# Continuity: fixes to MP parties
+party_continuity <- read_csv(here::here("data-raw", "party_continuity.csv"),
+                             show_col_types = FALSE) %>% 
+                  select(-partyname)
+
+# Weeks, Meguid, Kittilson, and Coffé 2022 (from Dataverse): 
+# women elected and female leadership
+weeks <- rio::import(here::here("data-raw",
+                                "WeeksMeguidKittilsonCoffe2022",
+                                "Replication_data.RData")) %>%
+    select(country, weurope, party, 
+           date,
+           pfem_new2, femaleleader2_lag,
+           cabinet_party2_lag) %>% 
+    distinct()
+
+# Adams, Bracken, Gidron, Horne, and O’BrienSenk 2022 (from Dataverse):
+# women elected and female leadership
+adams <- rio::import(here::here("data-raw",
+                                "AdamsBrackenGidronHorneO’BrienSenk2022",
+                                "dyadic_data_1-4-22.Rdata")) %>%
+    filter(!is.na(to_pfeml)) %>%
+    transmute(countryname = countrycode::countrycode(country,
+                                                     "country.name",
+                                                     "country.name"),
+              year = year,
+              party = to_mp_number,
+              pfem_a_lag = to_pfeml*100,
+              femaleleader_a_lag = to_femaleleader,
+              cabinet_party_a_lag = to_in_gov) %>%
+    arrange(countryname, year, party) %>% 
+    distinct()
+
+# Australia: women elected and female leadership
+australia <- rvest::session("https://en.wikipedia.org/wiki/Women_in_the_Australian_House_of_Representatives") %>% 
+    rvest::html_table() %>% 
+    nth(2) %>% 
+    janitor::clean_names() %>% 
+    mutate(year = str_extract(election, "\\d{4}") %>% 
+               as.numeric()) %>% 
+    select(year, labor_3, liberal_3, national_3) %>% 
+    filter(year > 1970 & !is.na(year)) %>% 
+    rename_with(., ~c("Australian Labor Party",
+                      "Liberal Party of Australia",
+                      "National Party of Australia"), names(.)[2:4]) %>% 
+    pivot_longer(cols = !year, 
+                 names_to = "partyname",
+                 values_to = "pfem0") %>% 
+    mutate(pfem_party = str_extract(pfem0, "\\d{1,2}\\.?\\d?") %>% 
+               as.numeric()) %>% 
+    filter(!is.na(year) & !is.na(pfem_party)) %>% 
+    select(-pfem0) %>% 
+    left_join(tibble(party = c(63320,
+                               63620,
+                               63810), 
+                     partyname = c("Australian Labor Party",
+                                   "Liberal Party of Australia",
+                                   "National Party of Australia")),
+              by = "partyname") %>% 
+    mutate(femaleleader_update = case_when(party == 63320 ~ as.numeric(year==2010),
+                                           party == 63620 ~ 0,
+                                           party == 63810 ~ 0)) %>% 
+    bind_rows(tibble(party = 63110,
+                     partyname = "Australian Greens",
+                     year = c(2004, 2007, 2010, 2013, 2016, 2019, 2022),
+                     pfem_party = c(NA, NA, 0, 0, 0, 0, 25),
+                     femaleleader = c(0, 0, 0, 1, 0, 0, 0)))
+
+# Germany: women elected and female leadership
+germany <- rvest::session("https://de.wikipedia.org/wiki/Frauenanteil_im_Deutschen_Bundestag_seit_1949") %>% 
+    rvest::html_table() %>% 
+    nth(2) %>% 
+    janitor::clean_names() %>% 
+    mutate(year = str_extract(wahlperiode, "\\d{4}") %>% 
+               as.numeric()) %>% 
+    select(-wahlperiode, -contains("_2")) %>% 
+    rename_with(., ~c("Christian Democratic Union/Christian Social Union",
+                      "Free Democratic Party",
+                      "Social Democratic Party of Germany",
+                      "Alliance‘90/Greens", "The Left",
+                      "Alternative for Germany"), names(.)[1:6]) %>% 
+    pivot_longer(cols = !year, 
+                 names_to = "partyname",
+                 values_to = "pfem0") %>% 
+    mutate(pfem_party = str_extract(pfem0, "\\d{1,2},?\\d?") %>% 
+               str_replace(",", ".") %>% 
+               as.numeric()) %>% 
+    filter(!is.na(year) & !is.na(pfem_party)) %>% 
+    select(-pfem0) %>% 
+    left_join(tibble(party = c(41521, 
+                               41420, 
+                               41320,
+                               41113, 41223,
+                               41953), 
+                     partyname = c("Christian Democratic Union/Christian Social Union",
+                                   "Free Democratic Party",
+                                   "Social Democratic Party of Germany",
+                                   "Alliance‘90/Greens", "The Left",
+                                   "Alternative for Germany")),
+              by = "partyname") %>% 
+    mutate(femaleleader_update = case_when(party == 41521 ~ as.numeric(between(year, 2005, 2017)),
+                                           party == 41420 ~ 0,
+                                           party == 41320 ~ 0,
+                                           party == 41113 ~ as.numeric(year!=1990),
+                                           party == 41223 ~ as.numeric(year==2021),
+                                           party == 41953 ~ as.numeric(year!=2013)))
+
+# United States: women elected and female leadership
+united_states <- rvest::session("https://en.wikipedia.org/wiki/Women_in_the_United_States_House_of_Representatives") %>% 
+    rvest::html_table() %>% 
+    nth(4) %>% 
+    janitor::clean_names() %>% 
+    mutate(year = str_extract(years, "\\d{4}") %>% 
+               as.numeric() - 1) %>% 
+    select(year,
+           `Republican Party` = percent_of_party,
+           `Democratic Party` = percent_of_party_2) %>% 
+    pivot_longer(cols = !year, 
+                 names_to = "partyname",
+                 values_to = "pfem0") %>% 
+    mutate(pfem_party = str_extract(pfem0, "\\d{1,2}\\.?\\d?") %>% 
+               as.numeric()) %>% 
+    select(-pfem0) %>% 
+    left_join(tibble(party = c(61320, 
+                               61620), 
+                     partyname = c("Democratic Party",
+                                   "Republican Party")),
+              by = "partyname") %>% 
+    mutate(femaleleader_update = case_when(party == 61320 ~ as.numeric(year==2016),
+                                           party == 61620 ~ 0))
+
+# Original updates to women elected and female leadership
+updates <- read_csv(here::here("data-raw", "pfem_updates.csv"),
+         col_types = "cddcdcd") %>% 
+    select(party, year, pfem_new2_update, absseat_update)
+
+# QAROT: national quotas
+qarot <- read_csv(here::here("data-raw", 
+                             "qarot",                             "QAROTdata_HughesPaxtonClaytonZetterberg_CountryYear_V1_August2017.csv"),
+                  show_col_types = FALSE) %>%  # http://doi.org/10.3886/E100918V1
+    mutate(countryname = countrycode::countrycode(country,
+                                                  origin = "country.name",
+                                                  destination = "country.name")) %>% 
+    janitor::clean_names() %>% 
+    select(-country)
+
+# Party Quotas (compilation)
+party_quotas <- read_csv(here::here("data-raw", "party_quotas.csv"),
+                         col_types = "cdcddc") %>% 
+    select(country, party_quota, adoption_year, party) %>% 
+    filter(!is.na(party_quota)) %>% 
+    group_by(country, party, party_quota) %>% 
+    mutate(year = list(seq(adoption_year, 
+                           Sys.Date() %>%
+                               str_extract("\\d{4}") %>%
+                               as.numeric())),
+           countryname = countrycode::countrycode(country,
+                                                  "country.name",
+                                                  "country.name")) %>% 
+    unnest(year) %>% 
+    ungroup() %>% 
+    select(-country) %>% 
+    group_by(countryname, party, year) %>% 
+    arrange(-adoption_year) %>%
+    slice(1) %>%
+    ungroup() %>% 
+    select(-adoption_year)
+
+# Borman and Golder: electoral systems
+des <- rio::import(here::here("data-raw", "des", "es_data-v4_0.dta")) %>% 
+    transmute(countryname = countrycode::countrycode(country,
+                                                     "country.name",
+                                                     "country.name",
+                                                     warn = FALSE),
+              year = year,
+              pr = as.numeric(legislative_type == 2 |
+                                  elecrule == 11))
+
+
+
+```
+
+```{r join_data}
+by_party <- mp_parties %>% 
+    mutate(countryname_old = countryname,
+           countryname = countrycode::countrycode(countryname,
+                                                  "country.name",
+                                                  "country.name",
+                                                  warn = FALSE)) %>% 
+    left_join(weeks,
+              by = c("country", "date", "party")) %>% 
+    mutate(year = round(date/100)) %>% 
+    left_join(bind_rows(australia, germany, united_states) %>%
+                  select(-partyname),
+              by = c("party", "year")) %>% 
+    left_join(updates,
+              by = c("party", "year")) %>% 
+    left_join(adams,
+              by = c("countryname", "party", "year")) %>% 
+    left_join(party_continuity,
+              by = c("countryname", "party")) %>% 
+    left_join(qarot,
+              by = c("countryname", "year")) %>% 
+    left_join(des,
+              by = c("countryname", "year")) %>% 
+    mutate(party_old = party,
+           party = if_else(is.na(party_new), party_old, party_new)) %>% 
+    arrange(countryname, party, year) %>% 
+    group_by(party) %>% 
+    mutate(parfam = if_else(parfam == 999, NA_real_, parfam),
+           pfem_a = lead(pfem_a_lag),
+           femaleleader_a = lead(femaleleader_a_lag),
+           pfem = case_when(!is.na(pfem_party) ~ pfem_party,
+                            !is.na(pfem_new2_update) ~ pfem_new2_update,
+                            is.na(pfem_new2_update) & !is.na(pfem_a) ~ pfem_a,
+                            is.na(pfem_new2_update) & is.na(pfem_a) ~ pfem_new2,
+                            TRUE ~ NA_real_),
+           pfem_diff1 = abs(pfem_new2_update - pfem_new2),
+           pfem_diff2 = abs(pfem_new2 - pfem_a),
+           pfem_diff3 = abs(pfem_a - pfem_new2_update),
+           leader = case_when(!is.na(femaleleader_update) ~ femaleleader_update,
+                              is.na(femaleleader) & !is.na(femaleleader_a) ~ femaleleader_a,
+                              TRUE ~ as.double(lead(femaleleader2_lag))),
+           seats = if_else(is.na(absseat_update), absseat, absseat_update),
+           vote_percent = pervote,
+           seat_percent = round((seats/totseats * 100), 1),
+           election = as.numeric(factor(year)),
+           r_avg_seat_percent = if_else(election > 1,
+                                 (cumsum(seat_percent)-seat_percent)/(election - 1), # exclude current election
+                                 0),
+           seat_shock = round((lag(seat_percent) - lag(r_avg_seat_percent)), 1)) %>% 
+    ungroup() %>% 
+    left_join(party_quotas,
+              by = c("countryname", "party", "year")) %>% 
+    mutate(party_quota = if_else(is.na(party_quota), 0, party_quota),
+           defacto_quota = if_else(is.na(defacto_threshold), 0, defacto_threshold),
+           quota = pmax(party_quota, defacto_quota)) %>% 
+    left_join(pge_summary %>% 
+                  mutate(pge_lag = lag(pge)),
+              by = c("countryname" = "country", "year")) %>% 
+    group_by(country, party) %>% 
+    filter(year >= 1975) %>% 
+    mutate(time0 = (year - min(year) + 1)) %>% 
+    ungroup() %>% 
+    mutate(time = (time0 - mean(time0))/sd(time0),
+           time_squared = time^2,
+           time_cubed = time^3) %>% 
+    ungroup()
+```    
+
+
