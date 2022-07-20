@@ -1,0 +1,25 @@
+.Rproj.user
+.Rhistory
+.RData
+.DS_Store
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.tex
+*.nav
+*.snm
+*.toc
+dev/*
+data-raw/~*
+data-raw/AdamsBracken*
+data-raw/WeeksMeguid*
+data-raw/des/*
+data-raw/Cross-national Data 1908-2016.dta
+data-raw/manifesto_project/*
+data-raw/qarot/*
+data-raw/pge*
+framed.sty
+paper/*cache/
+sources/*
