@@ -60,7 +60,13 @@ pge <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
                    which = "pge")
 
 pge_summary <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
-                           which = "pge_summary")
+                           which = "pge_summary") %>%
+  rename_with(~ paste0("summary_", .x), starts_with("p")) %>% 
+  group_by(country) %>% 
+  mutate(across(starts_with("summary"),
+                ~ lag(.x),
+                .names = "{.col}_lag")) %>% 
+  ungroup()
 
 # Manifesto Project: parties and election results
 if (!file.exists(here::here("data-raw", "manifesto_project", "mpds2021a.csv"))) {
@@ -316,6 +322,26 @@ oecd_countries <- rvest::session("https://en.wikipedia.org/wiki/OECD") %>%
                                             "country.name")) %>% 
   pull(country)
 
+# Country data
+by_country <- qarot %>% 
+  left_join(des,
+            by = c("countryname", "year")) %>% 
+  left_join(pge_summary,
+            by = c("countryname" = "country", "year")) %>% 
+  filter(countryname %in% oecd_countries &
+           !is.na(summary_pge_lag) &
+           !is.na(pr)) %>%
+  mutate(iso2c = countrycode::countrycode(countryname, "country.name", "iso2c"),
+         national_quota = if_else(is.na(defacto_threshold), 0, defacto_threshold)) %>% 
+  unique() %>% 
+  group_by(countryname) %>% 
+  mutate(time0 = (year - min(year) + 1),
+         time = (time0 - mean(time0))/sd(time0),
+         time_squared = time^2,
+         time_cubed = time^3) %>% 
+  ungroup()
+
+# Party data
 interleave <- function(data, var) {
   val <- deparse(substitute(var))
   name1.x <- paste0(val, ".x")
@@ -327,7 +353,7 @@ interleave <- function(data, var) {
     select(-all_of(name1.x), -all_of(name1.y))
 }
 
-# Party data
+
 by_party <- mp_parties %>% 
   mutate(countryname_old = countryname,
          countryname = countrycode::countrycode(countryname,
@@ -400,19 +426,19 @@ by_party <- mp_parties %>%
                              between(parfam, 50, 60) ~ "right",
                              parfam == 70 ~ "extreme right",
                              TRUE ~ NA_character_)) %>% 
-  left_join(pge_summary %>%
-              mutate(pge_summary_lag = lag(pge)),
+  left_join(pge_summary,
             by = c("countryname" = "country", "year")) %>%
   group_by(country, party) %>% 
   filter(year >= 1975) %>% 
   mutate(time0 = (year - min(year) + 1)) %>% 
   ungroup() %>% 
-  mutate(time = (time0 - mean(time0))/sd(time0),
+  mutate(time = (time0 - mean(time0))/sd(time0)*2,
          time_squared = time^2,
          time_cubed = time^3) %>% 
   ungroup() %>% 
   unique() %>% 
   filter(countryname %in% oecd_countries)
+
 
 var_list <- c("pge_lag",
               "tier1_avemag",
@@ -430,7 +456,97 @@ party_pge <- pge %>%
                       ~ scale(.x)[, 1],
                       .names = "{.col}_s")))
 
+country_var_list <- c("pge_lag", "national_quota", "time0")
+
+country_pge <- pge %>% 
+  map(. %>% 
+        group_by(country) %>% 
+        mutate(pge_lag = lag(pge)*100) %>%
+        ungroup() %>% 
+        inner_join(by_country, by = c("country" = "countryname", "year")) %>% 
+        mutate(across(all_of(country_var_list),
+                      ~ scale(.x)[, 1]/2,
+                      .names = "{.col}_by2sd")))
+
 ```    
+
+```{r wr_plot}
+wr_cor <- map(country_pge,
+                     ~ with(.x, cor(pge_lag, women_rep,
+                                    use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+wr_label <- tibble(summary_pge_lag = .3, women_rep = 48, label = wr_cor)
+
+wr_plot <- ggplot(by_country,
+       aes(x = summary_pge_lag,
+           y = women_rep)) +
+  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
+                   y = women_rep, yend = women_rep),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_text(aes(label = iso2c), size = 2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+                     axis.text  = element_text(size=8),
+                     axis.title = element_text(size=9)) +
+  scale_x_continuous(limits=c(0.25, 1),
+                     breaks=seq(.25, 1, by = .25)) +
+  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Legislative Seats") +
+  geom_label(data = wr_label, aes(label = label))
+
+ggsave(here::here("paper", "descriptive_representation", "wr_plot.jpg"))
+```
+
+```{r wr_models}
+m1_wr <- country_pge %>%
+  map(~ lmer(women_rep ~ pge_lag_by2sd +
+               (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m2_wr <- country_pge %>%
+  map(~ lmer(women_rep ~ pge_lag_by2sd +
+               national_quota_by2sd + 
+               pr +
+               (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m3_wr <- country_pge %>%
+  map(~ lmer(women_rep ~ pge_lag_by2sd +
+               national_quota_by2sd + 
+               pr +
+               pge_lag_by2sd*national_quota_by2sd +
+               (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m3_wr_b <- country_pge %>%
+  map(~ lmer(women_rep ~ pge_lag_by2sd +
+               national_quota_by2sd + 
+               pr +
+               pge_lag_by2sd*pr +
+               (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m4_wr <- country_pge %>%
+  map(~ lmer(women_rep ~ pge_lag_by2sd +
+               national_quota_by2sd + 
+               time0_by2sd +
+               pr +
+               (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+
+```
 
 ```{r pfem_analyses}
 sim_and_tidy <- function(m) {
