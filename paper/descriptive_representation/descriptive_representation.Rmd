@@ -497,7 +497,7 @@ wr_plot <- ggplot(by_country,
                      axis.title = element_text(size=9)) +
   scale_x_continuous(limits=c(0.25, 1),
                      breaks=seq(.25, 1, by = .25)) +
-  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Legislative Seats") +
+  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Women's Share of Legislative Seats") +
   geom_label(data = wr_label, aes(label = label))
 
 ggsave(here::here("paper", "descriptive_representation", "wr_plot.jpg"))
