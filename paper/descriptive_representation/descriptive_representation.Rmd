@@ -537,8 +537,8 @@ wr_plot <- ggplot(by_country,
   geom_smooth(method = 'lm', se = FALSE) +
   theme_bw() +
   theme(legend.position="none",
-        axis.text  = element_text(size=8),
-        axis.title = element_text(size=10)) +
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
   scale_x_continuous(limits=c(0.25, 1),
                      breaks=seq(.25, 1, by = .25)) +
   labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Women's Share of Legislative Seats") +
