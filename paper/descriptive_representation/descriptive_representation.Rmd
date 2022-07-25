@@ -45,8 +45,6 @@ p_load(
   tidyverse,
   glue)
 
-getPalette = colorRampPalette(brewer.pal(9, "Spectral"))
-
 interplot2 <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95, 
                         adjCI = FALSE, hist = FALSE, var2_dt = NA, predPro = FALSE, 
                         var2_vals = NULL, point = FALSE, sims = 5000, xmin = NA, 
@@ -345,10 +343,21 @@ interplot2 <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95,
   }
 }
 
+make_dummies <- function(df, col) {
+  x <- df[[col]]
+  mm <- model.matrix(~ x - 1)
+  colnames(mm) <- str_replace(colnames(mm), "^x", "") %>% 
+    str_replace(" ", "_")
+  
+  bind_cols(df, mm)
+}
+
 
 set.seed(324)
 ```
 
+
+## Data Collection
 ```{r load_party_data}
 # PGE: gender egalitarianism (from Dataverse)
 if (!file.exists(here::here("data-raw", "pge1_0", "pge1_0.rda"))) { 
@@ -728,7 +737,9 @@ by_party <- mp_parties %>%
                              (parfam == 40 | parfam == 80) ~ "center",
                              between(parfam, 50, 60) ~ "right",
                              parfam == 70 ~ "extreme right",
-                             TRUE ~ NA_character_)) %>% 
+                             TRUE ~ "other"),
+         parfam3 = if_else(parfam == 10, "green", parfam2)) %>% 
+  make_dummies("parfam3") %>% 
   left_join(pge_summary,
             by = c("countryname" = "country", "year")) %>%
   unique() %>% 
@@ -765,6 +776,44 @@ country_pge <- pge %>%
 
 ```    
 
+## PGE
+```{r ts_plots, fig.cap="PGE Scores Over Time Within Selected Countries \\label{ts}", fig.height=3.5}
+countries <- c("Norway", "Germany", "United States", "Chile",
+               "Poland", "South Africa",
+               "Turkey", "China", "South Korea", "India", 
+               "Nigeria", "Indonesia")
+
+countries2 <- countries %>% 
+  str_replace("United States", "U.S.")
+
+c_res <- pge_summary %>% 
+  filter(country %in% countries) %>%
+  mutate(country = factor(country, levels = countries))
+
+ggplot(data = c_res, aes(x = year, y = summary_pge)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_cartesian(xlim = c(1980, 2020), ylim = c(0, 1)) +
+  labs(x = NULL, y = "PGE Scores") +
+  geom_ribbon(data = c_res, aes(ymin = summary_p10, 
+                                ymax = summary_p90,
+                                linetype=NA), alpha = .25) +
+  geom_line(data = c_res) +
+  facet_wrap(~country, nrow = 2) +
+  theme(axis.text.x  = element_text(size=12,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        axis.title.y = element_text(size=14),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        strip.text.x = element_text(size=14))
+
+ggsave(here::here("paper", "descriptive_representation", "pge_12cases.jpg"),
+       width = 16)
+```
+
+
+## Country Maps
 ```{r country_maps}
 world_map <- map_data("world") %>% 
   filter(!long > 180)
@@ -807,6 +856,8 @@ ggsave(here::here("paper", "descriptive_representation", "map_oecd_elections.jpg
 
 ```
 
+
+## Country-Elections
 ```{r wr_plot}
 wr_cor <- map(country_pge,
               ~ with(.x, cor(pge_lag, women_rep,
@@ -1026,6 +1077,7 @@ m04_wr_fe <- bind_rows(m0_wr_fe %>%
   filter(str_detect(term, "factor"))
 ```
 
+## Party Map
 ```{r party_maps}
 parties <- map_data("world") %>% 
   filter(! long > 180) %>% 
@@ -1054,6 +1106,7 @@ ggsave(here::here("paper", "descriptive_representation", "map_oecd_party_electio
 
 ```
 
+## Party-Elections
 ```{r pfem_plot}
 pfem_cor <- map(party_pge,
                 ~ with(.x, cor(pge_lag, pfem,
@@ -1138,7 +1191,23 @@ m11 <- party_pge %>%
   map(~ lmer(pfem ~ pge_lag_by2sd +
                quota_by2sd +
                list +
-               as_factor(parfam2) +
+               left +
+               center +
+               extreme_right +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m12 <- party_pge %>%
+  map(~ lmer(pfem ~ pge_lag_by2sd +
+               quota_by2sd +
+               list +
+               left +
+               center +
+               extreme_right +
+               left:pge_lag_by2sd +
+               center:pge_lag_by2sd +
+               extreme_right:pge_lag_by2sd +
                (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
              data = .x)) %>% 
   sim_and_tidy()
@@ -1203,69 +1272,57 @@ m04 %>%
 ```
 
 ```{r m4_interplot}
+m4_mod_a <- party_pge %>%
+  map(~ lmer(pfem ~ pge_lag +
+               quota_by2sd +
+               list + list:pge_lag +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x))
 
-
-
+interplot2(m4_mod_a, "list", "pge_lag", hist = TRUE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  ylab("Coefficient for List") +
+  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
+  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
+  ggtitle("Coefficients for Party-List Electoral Systems\nby Public Gender Egalitarianism")
+ggsave(here::here("paper", "descriptive_representation", "list_by_pge.jpg"))
+  
+interplot2(m4_mod, "pge_lag_by2sd", "list") +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  ylab(TeX("Coefficient for Public Gender Egalitarianism$_{t-1}$")) +
+  xlab("Party-List Electoral System") +
+  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
+  ggtitle("Coefficients for Public Gender Egalitarianism\nby Party-List Electoral System")
+ggsave(here::here("paper", "descriptive_representation", "pge_by_list.jpg"))
 ```
 
-```{r}
-m1_quota <- party_pge %>%
-  map(~ lmer(quota ~ pge_lag +
-               year +
-               (1 | party ) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+## Quotas
+```{r quota_plot}
+party_quota_cor <- map(party_pge,
+                ~ with(.x, cor(pge_lag, party_quota,
+                               use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
 
-m2_quota <- party_pge %>%
-  map(~ lmer(quota ~ pge_lag +
-               list +
-               year +
-               (1 | party ) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+party_quota_label <- tibble(summary_pge_lag = .3, party_quota = 51, label = party_quota_cor)
 
-m1_leader <- party_pge %>%
-  map(~ lmer(leader ~ pge_lag +
-               year + 
-               (1 | party ) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m2_leader <- party_pge %>%
-  map(~ lmer(leader ~ pge_lag +
-               year +
-               quota +
-               (1 | party ) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-```
-
-
-```{r pfem_plot_by_partyfam}
-pfem_cor <- map(c("left", "center", "right", "extreme right"), function(pf2) {
-  map(party_pge,
-      ~ with(.x %>% 
-               filter(parfam2 == pf2),
-             cor(pge_lag, pfem,
-                 use = "pairwise.complete.obs"))) %>% 
-    unlist() %>% 
-    mean() %>% 
-    round(2) %>% 
-    sprintf("%.2f", .) %>% 
-    paste0(snakecase::to_title_case(pf2), ": R = ", .)
-})
-
-pfem_label <- tibble(summary_pge_lag = .3, pfem = 98, label = pfem_cor)
-
-pfem_plot <- ggplot(by_party,
-                  aes(x = summary_pge_lag,
-                      y = pfem)) +
+ggplot(by_party,
+       aes(x = summary_pge_lag,
+           y = party_quota)) +
   geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
-                   y = pfem, yend = pfem),
+                   y = party_quota, yend = party_quota),
                na.rm = TRUE,
-               alpha = .1) +
-  geom_point(alpha = by_party$seat_percent/100) +
+               alpha = .05) +
+  geom_point(alpha = .05) +
   geom_smooth(method = 'lm', se = FALSE) +
   theme_bw() +
   theme(legend.position="none",
@@ -1273,46 +1330,254 @@ pfem_plot <- ggplot(by_party,
         axis.title = element_text(size=12)) +
   scale_x_continuous(limits=c(0.25, 1),
                      breaks=seq(.25, 1, by = .25)) +
-  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Women's Share of Party Legislative Seats") +
-  geom_label(data = pfem_label, aes(label = label))
+  scale_y_continuous(limits=c(0, 51)) +
+  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Party Quota") +
+  geom_label(data = party_quota_label, aes(label = label))
 
-ggsave(here::here("paper", "descriptive_representation", "pfem_plot.jpg"))
+ggsave(here::here("paper", "descriptive_representation",
+                  "party_quota_plot.jpg"))
+```
+
+```{r quotas}
+m0_party_quota <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag_by2sd +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m1_party_quota <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag_by2sd +
+               list +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m2_party_quota <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag_by2sd +
+               list +
+               green +
+               left +
+               pge_lag_by2sd:green +
+               pge_lag_by2sd:left +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m2_party_quota_a <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag +
+               list +
+               green +
+               left +
+               pge_lag:green +
+               pge_lag:left +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m3_party_quota <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag_by2sd +
+               list +
+               green +
+               left +
+               extreme_right +
+               pge_lag_by2sd:green +
+               pge_lag_by2sd:left +
+               pge_lag_by2sd:extreme_right +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m2_party_quota_a <- party_pge %>%
+  map(~ lmer(party_quota ~ pge_lag +
+               list +
+               green +
+               left +
+               pge_lag:green +
+               pge_lag:left +
+               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m02_party_quota <- bind_rows(m0_party_quota %>% 
+                      mutate(model = "Model 0"),
+                    m1_party_quota %>% 
+                      mutate(model = "Model 1"),
+                    m2_party_quota %>% 
+                      mutate(model = "Model 2")) %>% 
+  filter(!term=="(Intercept)")
+
+quota_vars_proper <- c(bquote(PGE[t-1]),
+                 "Party List",
+                 "Green Party",
+                 "Leftwing Party",
+                 bquote(PGE[t-1] %*% Green~Party),
+                 bquote(PGE[t-1] %*% Leftwing~Party))
+
+walk(1:3, function(mod) {
+  m02_party_quota %>% 
+    mutate(estimate = if_else(as.numeric(as_factor(model)) > mod,
+                              NA_real_,
+                              estimate),
+           std.error = if_else(as.numeric(as_factor(model)) > mod,
+                               NA_real_,
+                               std.error)) %>% 
+    dwplot() +
+    scale_y_discrete(labels=do.call(expression, 
+                                    rev(quota_vars_proper))) +
+    theme_bw() +
+    theme(legend.position="none",
+          plot.title.position = "plot",
+          axis.text  = element_text(size=12)) +
+    geom_vline(xintercept = 0, colour = "grey60", linetype = 2) +
+    coord_cartesian(xlim = c(min(m02_party_quota$estimate -
+                                   1.96*m02_party_quota$std.error), 
+                             max(m02_party_quota$estimate +
+                                   1.96*m02_party_quota$std.error))) +
+    scale_color_viridis_d(direction = -1,
+                          end = .8) +
+    xlab("Standardized Coefficients") +
+    ggtitle("Multilevel Models of Gender Quotas")
+  ggsave(here::here("paper",
+                    "descriptive_representation",
+                    paste0("m02_party_quota_", mod, ".jpg")))
+})
+
+interplot2(m2_party_quota_a, "green", "pge_lag_by2sd", hist = TRUE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  ylab("Coefficient for List") +
+  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
+  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
+  ggtitle("Coefficients for Party-List Electoral Systems\nby Public Gender Egalitarianism")
+ggsave(here::here("paper", "descriptive_representation", "list_by_pge.jpg"))
+
+```
+
+```{r}
+m1_leader <- party_pge %>%
+  map(~ glmer(leader ~ pge_lag_by2sd +
+               (1 | party ) + (1 | cyear) + (1 | country),
+              family = "binomial",
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m2_leader <- party_pge %>%
+  map(~ glmer(leader ~ pge_lag_by2sd +
+               quota +
+               (1 | party ) + (1 | cyear) + (1 | country),
+              family = "binomial",
+             data = .x)) %>% 
+  sim_and_tidy()
+
+m3_leader <- party_pge %>%
+  map(~ glmer(leader ~ pge_lag_by2sd +
+               quota +
+               list +
+               (1 | party ) + (1 | cyear) + (1 | country),
+              family = "binomial",
+             data = .x)) %>% 
+  sim_and_tidy()
+```
+
+
+```{r pfem_plot_by_partyfam}
+pfem_by_party_cor <- map(c("green", "left",
+                           "center", "right",
+                           "extreme right", "other"), function(pf3) {
+  map(party_pge,
+      ~ with(.x %>% 
+               filter(parfam3 == pf3),
+             cor(pge_lag, pfem,
+                 use = "pairwise.complete.obs"))) %>% 
+    unlist() %>% 
+    mean() %>% 
+    round(2) %>% 
+    sprintf("%.2f", .) %>% 
+    paste0("R = ", .)
+})
+
+pfem_by_party_label <- tibble(summary_pge_lag = .3,
+                              pfem = c(98, 96, 94, 92, 90, 88),
+                              label = pfem_by_party_cor,
+                              parfam3 = c("green", "left", "center",
+                                          "right", "extreme right", "other"))
+
+pfem_by_party_plot <- ggplot(by_party,
+                             aes(x = summary_pge_lag,
+                                 y = pfem,
+                                 color = parfam3)) +
+  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
+                   y = pfem, yend = pfem,
+                   color = parfam2),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  # scale_color_manual(values=c("black",
+  #                             "#64A12D", # Grüen Green
+  #                             "#009EE0", # AfD Blue
+  #                             "#EB001F", # SPD Red
+  #                             "#2D3D95",  # Swedish Moderates Blue
+  #                             "gray50")) +
+    scale_color_manual(values=c("center" = "black",
+                              "green" = "chartreuse", 
+                              "extreme right" = "#009EE0", # AfD Blue
+                              "left" = "darkred", 
+                              "right" = "blue4",
+                              "other" = "gray50")) +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  scale_x_continuous(limits=c(0.25, 1),
+                     breaks=seq(.25, 1, by = .25)) +
+  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"),
+       y = "Women's Share of Party Legislative Seats") +
+  geom_label(data = pfem_by_party_label, aes(label = label))
+
+ggsave(here::here("paper",
+                  "descriptive_representation",
+                  "pfem_by_party_plot.jpg"))
+
+pfem_by_party_plot
 ```
 
 ```{r by_partyfam}
-party_fam2 <- by_party %>% 
-  pull(parfam2) %>% 
+party_fam3 <- by_party %>% 
+  pull(parfam3) %>% 
   unique()
 
-m1_fam <- map_df(party_fam2, function(x) {
+m1_fam <- map_df(party_fam3, function(x) {
   party_pge %>% 
     map(~ lmer(pfem ~ pge_lag +
-                 year +
-                 (1 + party) +
+                 (1 | party) +
+                 (1 | cyear) +
                  (1 | country), REML=FALSE,
                data = .x %>%
-                 filter(parfam2 == x))) %>% 
+                 filter(parfam3 == x))) %>% 
     sim_and_tidy() %>% 
-    mutate(parfam2 = x)
+    mutate(parfam3 = x)
 })
 
-m2_fam <- map_df(party_fam2, function(x) {
+m2_fam <- map_df(party_fam3, function(x) {
   party_pge %>% 
     map(~ lmer(pfem ~ pge_lag +
-                 year +
-                 quota +
+                 (1 | party) +
+                 (1 | cyear) +
                  (1 | country), REML=FALSE,
                data = .x %>%
-                 filter(parfam2 == x))) %>% 
+                 filter(parfam3 == x))) %>% 
     sim_and_tidy() %>% 
-    mutate(parfam2 = x)
+    mutate(parfam3 = x)
 })
 
 m3_fam <- map_df(party_fam2, function(x) {
   party_pge %>% 
     map(~ lmer(pfem ~ pge_lag +
-                 year +
                  quota +
+                 list +
                  pge_lag:quota +
                  (1 | country), REML=FALSE,
                data = .x %>%
