@@ -1449,18 +1449,6 @@ interplot2(m2_party_quota_a, "leftwing", "pge_lag", hist = TRUE) +
 ggsave(here::here("paper", "descriptive_representation",
                   "quota_leftwing_by_pge.jpg"))
 
-interplot2(m2_quota_a, "green", "pge_lag", hist = TRUE) +
-  theme_bw() +
-  theme(legend.position="none",
-        axis.text  = element_text(size=10),
-        axis.title = element_text(size=12)) +
-  ylab("Coefficient for Green Parties") +
-  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
-  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
-  ggtitle("Coefficients for Green Parties\nby Public Gender Egalitarianism")
-ggsave(here::here("paper", "descriptive_representation",
-                  "green_by_pge_quota.jpg"))
-
 ```
 
 ```{r}
