@@ -738,7 +738,8 @@ by_party <- mp_parties %>%
                              between(parfam, 50, 60) ~ "right",
                              parfam == 70 ~ "extreme right",
                              TRUE ~ "other"),
-         parfam3 = if_else(parfam == 10, "green", parfam2)) %>% 
+         parfam3 = if_else(parfam == 10, "green", parfam2),
+         leftwing = if_else(parfam2 == "left", 1, 0)) %>% 
   make_dummies("parfam3") %>% 
   left_join(pge_summary,
             by = c("countryname" = "country", "year")) %>%
@@ -1355,10 +1356,8 @@ m1_party_quota <- party_pge %>%
 m2_party_quota <- party_pge %>%
   map(~ lmer(party_quota ~ pge_lag_by2sd +
                list +
-               green +
-               left +
-               pge_lag_by2sd:green +
-               pge_lag_by2sd:left +
+               leftwing +
+               pge_lag_by2sd:leftwing +
                (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
              data = .x)) %>% 
   sim_and_tidy()
@@ -1366,13 +1365,10 @@ m2_party_quota <- party_pge %>%
 m2_party_quota_a <- party_pge %>%
   map(~ lmer(party_quota ~ pge_lag +
                list +
-               green +
-               left +
-               pge_lag:green +
-               pge_lag:left +
+               leftwing +
+               pge_lag:leftwing +
                (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+             data = .x))
 
 m3_party_quota <- party_pge %>%
   map(~ lmer(party_quota ~ pge_lag_by2sd +
@@ -1387,16 +1383,17 @@ m3_party_quota <- party_pge %>%
              data = .x)) %>% 
   sim_and_tidy()
 
-m2_party_quota_a <- party_pge %>%
+m3_party_quota_a <- party_pge %>%
   map(~ lmer(party_quota ~ pge_lag +
                list +
                green +
                left +
+               extreme_right +
                pge_lag:green +
                pge_lag:left +
+               pge_lag:extreme_right +
                (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+             data = .x))
 
 m02_party_quota <- bind_rows(m0_party_quota %>% 
                       mutate(model = "Model 0"),
@@ -1408,9 +1405,7 @@ m02_party_quota <- bind_rows(m0_party_quota %>%
 
 quota_vars_proper <- c(bquote(PGE[t-1]),
                  "Party List",
-                 "Green Party",
                  "Leftwing Party",
-                 bquote(PGE[t-1] %*% Green~Party),
                  bquote(PGE[t-1] %*% Leftwing~Party))
 
 walk(1:3, function(mod) {
@@ -1442,16 +1437,29 @@ walk(1:3, function(mod) {
                     paste0("m02_party_quota_", mod, ".jpg")))
 })
 
-interplot2(m2_party_quota_a, "green", "pge_lag_by2sd", hist = TRUE) +
+interplot2(m2_party_quota_a, "leftwing", "pge_lag", hist = TRUE) +
   theme_bw() +
   theme(legend.position="none",
         axis.text  = element_text(size=10),
         axis.title = element_text(size=12)) +
-  ylab("Coefficient for List") +
+  ylab("Coefficient for Leftwing Parties") +
   xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
   geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
-  ggtitle("Coefficients for Party-List Electoral Systems\nby Public Gender Egalitarianism")
-ggsave(here::here("paper", "descriptive_representation", "list_by_pge.jpg"))
+  ggtitle("Coefficients for Leftwing Parties\nby Public Gender Egalitarianism")
+ggsave(here::here("paper", "descriptive_representation",
+                  "quota_leftwing_by_pge.jpg"))
+
+interplot2(m2_quota_a, "green", "pge_lag", hist = TRUE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  ylab("Coefficient for Green Parties") +
+  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
+  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
+  ggtitle("Coefficients for Green Parties\nby Public Gender Egalitarianism")
+ggsave(here::here("paper", "descriptive_representation",
+                  "green_by_pge_quota.jpg"))
 
 ```
 
