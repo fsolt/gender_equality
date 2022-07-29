@@ -12,14 +12,15 @@
 *.snm
 *.toc
 dev/*
-data-raw/~*
-data-raw/AdamsBracken*
-data-raw/WeeksMeguid*
-data-raw/des/*
-data-raw/Cross-national Data 1908-2016.dta
-data-raw/manifesto_project/*
-data-raw/qarot/*
-data-raw/pge*
+*/data-raw/~*
+AdamsBracken*
+WeeksMeguid*
+des/
+qarot/
+Cross-national Data 1908-2016.dta
+manifesto_project/
+qarot/*
+pge*
 framed.sty
 paper/*cache/
 sources/*
