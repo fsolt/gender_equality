@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "gender_equality"
+  author: "Jane Doe"
+  date: "7/29/2022"
+  chapters:
+    - index.qmd
+    - introduction.qmd
+    - theory.qmd
+    - /measuring_egalitarianism/measuring_egalitarianism.qmd
+    - /descriptive_representation/descriptive_representation.qmd
+    - /policy_adoption/policy_adoption.qmd
+    - /korea/korea.qmd
+    - conclusion.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+
