@@ -1,8 +1,4 @@
----
-title: "gender"
-output: pdf_document
-date: '2022-06-23'
----
+# Gender Egalitarianism and Descriptive Representation
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
