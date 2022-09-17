@@ -1,5 +1,7 @@
-# Preface {.unnumbered}
+# Preface for KIRL Readers {.unnumbered}
 
-This is a Quarto book.
+At present, we have a bunch of pieces that have yet to be well integrated. Chapter 2, on theory, is not much more than a sketch of hypotheses, and Chapter 4, on descriptive representation, is *extremely* drafty---it's still basically the transcript of a talk.  Chapter 6, on the Korean case, is in better shape, but some of the material presented there likely goes elsewhere.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+Nevertheless, we're excited for the manuscript's promise, and how it will come together in time.
+
+So, with apologies for its current state, we thank you for taking a look at this work.
