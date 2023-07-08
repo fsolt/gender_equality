@@ -1,0 +1,1052 @@
+# Measuring the Public's Gender Egalitarianism Around the World
+
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE,
+  dpi = 1000,
+  fig.width=7,
+  fig.height = 2.5
+)
+# If `DCPOtools` is not yet installed:
+# remotes::install_github("fsolt/DCPOtools")
+
+library(DCPOtools)
+library(cmdstanr)
+library(ggthemes)
+library(here)
+library(tidyverse)
+library(countrycode)
+library(patchwork)
+library(rsdmx)
+
+set.seed(324)
+```
+
+Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for women's exclusion from the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
+Yet even a half century after @RuleKrauss1974 [, 1719] called for more and better data on these collective attitudes, what we have available to us remains inadequate for fully examining their causes and consequences.
+In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
+As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2020] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
+Cross-national and longitudinal investigation of, for example, the argument that such "attitudes influence both the supply of, and demand for, female candidates" has remained persistently a topic for future research [@Paxton2010, 47].
+
+```{r dcpo_input_raw_pge, include=FALSE, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data-raw", "surveys_pge_classification.csv"))}
+surveys_pge <- read_csv(here("paper", "measuring_egalitarianism", "data-raw", "surveys_pge.csv"),
+                        col_types = "cccccnn")
+
+dcpo_input_raw_pge <- dcpo_setup(vars = surveys_pge,
+                                 datapath = here("..",
+                                                 "data",
+                                                 "dcpo_surveys"),
+                                 file = here("paper",
+                                             "measuring_egalitarianism",
+                                             "data",
+                                             "dcpo_input_raw_pge.csv"))
+
+```
+
+```{r dcpo_input_raw_balance, include=FALSE, cache = TRUE}
+surveys_egr_balance <- read_csv(here("paper",
+                                     "measuring_egalitarianism",
+                                     "data-raw",
+                                     "surveys_egr_classification.csv"),
+                                col_types = "ccccnnn") %>% 
+  filter(agreed == 3)
+
+dcpo_input_raw_balance <- dcpo_setup(vars = surveys_pge,
+                                     datapath = here("..",
+                                                     "data",
+                                                     "dcpo_surveys"),
+                                     file = here("paper",
+                                                 "measuring_egalitarianism", 
+                                                 "data",                                                       "dcpo_input_raw_balance.csv"))
+
+```
+
+```{r egr_summary_stats, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "dcpo_input_raw_public.csv"))}
+dcpo_input_raw_pge <- read_csv(here("paper",
+                                    "measuring_egalitarianism",
+                                    "data",
+                                    "dcpo_input_raw_pge.csv"),
+                               col_types = "cdcddcd")
+
+dcpo_input_raw_balance <- read_csv(here("paper",
+                                        "measuring_egalitarianism",
+                                        "data",
+                                        "dcpo_input_raw_balance.csv"),
+                                   col_types = "cdcddcd")
+
+process_dcpo_input_raw <- function(dcpo_input_raw_df) {
+  dcpo_input_raw_df %>% 
+    with_min_yrs(2) %>% 
+    with_min_cy(5) %>% 
+    filter(year >= 1972) %>% 
+    group_by(country) %>% 
+    mutate(cc_rank = n()) %>% 
+    ungroup() %>% 
+    arrange(-cc_rank)
+} 
+
+dcpo_input_raw_pge1 <- process_dcpo_input_raw(dcpo_input_raw_pge)
+dcpo_input_raw_balance1 <- process_dcpo_input_raw(dcpo_input_raw_balance)
+
+n_surveys <- surveys_pge %>% 
+  distinct(survey) %>% 
+  nrow()
+
+n_items <- dcpo_input_raw_pge1 %>%
+  distinct(item) %>% 
+  nrow()
+
+n_countries <- dcpo_input_raw_pge1 %>%
+  distinct(country) %>% 
+  nrow()
+
+n_cy <- dcpo_input_raw_pge1 %>%
+  distinct(country, year) %>% 
+  nrow() %>% 
+  scales::comma()
+
+n_years <- as.integer(summary(dcpo_input_raw_pge1$year)[6]-summary(dcpo_input_raw_pge1$year)[1])
+
+spanned_cy <- dcpo_input_raw_pge1 %>% 
+  group_by(country) %>% 
+  summarize(years = max(year) - min(year) + 1) %>% 
+  summarize(n = sum(years)) %>% 
+  pull(n) %>% 
+  scales::comma()
+
+total_cy <- {n_countries * n_years} %>% 
+  scales::comma()
+
+year_range <- paste("from",
+                    summary(dcpo_input_raw_pge1$year)[1],
+                    "to",
+                    summary(dcpo_input_raw_pge1$year)[6])
+
+n_cyi <- dcpo_input_raw_pge1 %>% 
+  distinct(country, year, item) %>% 
+  nrow() %>% 
+  scales::comma()
+
+back_to_numeric <- function(string_number) {
+  string_number %>% 
+    str_replace(",", "") %>% 
+    as.numeric()
+}
+
+covered_share_of_spanned <- {back_to_numeric(n_cy)/back_to_numeric(spanned_cy) * 100}
+```
+
+In this chapter, we present the latest version of the Public Gender Egalitarianism (PGE) dataset, which is based on the host of national and cross-national survey data available and recent advances in latent variable modeling of public opinion that allow us to make use of this sparse and incomparable data.
+It provides comparable estimates of the public's attitudes on gender equality in the public sphere of politics and paid work across countries and over time.
+We show that these PGE scores are strongly correlated with responses to single survey items as well as with measures of women's participation in the workforce and in the boardroom.
+The PGE data are an invaluable source for studying the consequences of collective attitudes toward gender equality in the public sphere over time in countries around the world.
+
+
+## Examining the Source Data on Public Gender Egalitarianism {.unnumbered}
+
+National and cross-national surveys have often included questions tapping attitudes toward equality for women and men in the public sphere over the past half-century, but the resulting data are both sparse, that is, unavailable for many countries and years, and incomparable, generated by many different survey items.
+In all, we identified `r n_items` such survey items that were asked in no fewer than five country-years in countries surveyed at least twice; these items were drawn from `r n_surveys` different survey datasets.^[
+The complete list of public gender egalitarianism survey items is included in the online supplementary materials Appendix A.  A discussion of excluded survey items---those covering the related but distinct concepts of gender equality in the private sphere, how women should balance opportunities in the public sphere with their traditional duties in the private sphere, or issues of gender dominance such as sexual harassment---is found in online Appendix B.]
+Together, the survey items in the source data were asked in `r n_countries` different countries in at least two time points over `r n_years` years, `r year_range`, yielding a total of `r n_cyi` country-year-item observations.
+Observations for every year in each country surveyed would number `r total_cy`, and a complete set of country-year-items would encompass `r {n_countries * n_years * n_items} %>% scales::comma()` observations.
+Compared to this complete set of country-year-items, the available data can be seen to be very, very sparse.
+From a more optimistic standpoint, we note there there are `r n_cy` country-years in which we have at least _some_ information about the public gender egalitarianism of the population, that is, some `r round(covered_share_of_spanned)`% of the `r spanned_cy` country-years spanned by the data we collected.
+But there can be no denying Claveria's [-@Claveria2014] observation that the many different survey items employed renders these data incomparable and difficult to use together.
+
+```{r item_and_country_plots, fig.height = 3.5, fig.cap = "Countries and Years with the Most Observations in the PGE Source Data \\label{item_country_plots}"}
+items_plot <- dcpo_input_raw_pge1 %>%
+  distinct(country, year, item) %>%
+  count(item) %>%
+  arrange(desc(n)) %>% 
+  head(12) %>% 
+  ggplot(aes(forcats::fct_reorder(item, n, .desc = TRUE), n)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
+        axis.title.y = element_text(size = 9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ylab("Country-Years\nObserved") +
+  ggtitle("Items")
+
+polileader4_cy <- dcpo_input_raw_pge1 %>% filter(item == "polileader4") %>% distinct(country, year) %>% nrow()
+
+polileader4_surveys <- dcpo_input_raw_pge1 %>% filter(item == "polileader4") %>% distinct(survey) %>% pull(survey)
+
+countries_plot <- dcpo_input_raw_pge1 %>%
+  mutate(country = if_else(stringr::str_detect(country, "United"),
+                           stringr::str_replace(country, "((.).*) ((.).*)", "\\2.\\4."),
+                           country)) %>% 
+  distinct(country, year, item) %>% 
+  count(country) %>%
+  arrange(desc(n)) %>% 
+  head(12) %>% 
+  ggplot(aes(forcats::fct_reorder(country, n, .desc = TRUE), n)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
+        axis.title.y = element_text(size = 9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ylab("Year-Items\nObserved") +
+  ggtitle("Countries")
+
+cby_plot <- dcpo_input_raw_pge1 %>%
+  mutate(country = if_else(stringr::str_detect(country, "United"),
+                           stringr::str_replace(country, "((.).*) ((.).*)", "\\2.\\4."),
+                           country),
+         country = stringr::str_replace(country, "South", "S.")) %>% 
+  distinct(country, year) %>%
+  count(country) %>% 
+  arrange(desc(n)) %>% 
+  head(12) %>% 
+  ggplot(aes(forcats::fct_reorder(country, n, .desc = TRUE), n)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
+        axis.title.y = element_text(size = 9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ylab("Years\nObserved") +
+  ggtitle("Countries")
+
+
+ybc_plot <- dcpo_input_raw_pge1 %>%
+  distinct(country, year) %>%
+  count(year, name = "nn") %>%
+  ggplot(aes(year, nn)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        # axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
+        axis.title.y = element_text(size = 9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ylab("Countries\nObserved") +
+  ggtitle("Years")
+
+us_obs <- dcpo_input_raw_pge1 %>% 
+  distinct(country, year, item) %>%
+  count(country) %>%
+  filter(country == "United States") %>%
+  pull(n)
+
+others <- dcpo_input_raw_pge1 %>%
+  distinct(country, year, item) %>%
+  count(country) %>%
+  arrange(desc(n)) %>%
+  slice(2:5) %>%
+  pull(country) %>% 
+  knitr::combine_words()
+
+countries_cp <- dcpo_input_raw_pge1 %>%
+  mutate(country = if_else(stringr::str_detect(country, "United"),
+                           stringr::str_replace(country, "((.).*) ((.).*)", "\\2.\\4."),
+                           country),
+         country = stringr::str_replace(country, "South", "S.")) %>% 
+  distinct(country, year, item) %>%
+  count(country) %>% 
+  arrange(desc(n)) %>% 
+  head(12) %>% 
+  pull(country)
+
+countries_cbyp <- dcpo_input_raw_pge1 %>%
+  mutate(country = if_else(stringr::str_detect(country, "United"),
+                           stringr::str_replace(country, "((.).*) ((.).*)", "\\2.\\4."),
+                           country),
+         country = stringr::str_replace(country, "South", "S.")) %>% 
+  distinct(country, year) %>%
+  count(country) %>% 
+  arrange(desc(n)) %>% 
+  head(12) %>% 
+  pull(country)
+
+adding <- setdiff(countries_cbyp, countries_cp) %>% 
+  knitr::combine_words()
+
+dropping <- setdiff(countries_cp, countries_cbyp) %>% 
+  str_replace("S.", "South") %>% 
+  knitr::combine_words()
+
+y_peak_year <- dcpo_input_raw_pge1 %>%
+  distinct(country, year) %>%
+  count(year, name = "nn") %>% 
+  filter(nn == max(nn)) %>% 
+  pull(year)
+
+y_peak_nn <- dcpo_input_raw_pge1 %>%
+  distinct(country, year) %>%
+  count(year, name = "nn") %>% 
+  filter(nn == max(nn)) %>% 
+  pull(nn)
+
+data_poorest <- dcpo_input_raw_pge1 %>%
+  distinct(country, year, item) %>%
+  count(country) %>%
+  arrange(n) %>%
+  filter(n == 2) %>%
+  pull(country) %>% 
+  knitr::combine_words()
+
+wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", " seventeen", "eighteen", "nineteen"), 1:19)[x]
+
+n_data_poorest <- {data_poorest %>%
+    str_split(",|(?<!, )and") %>% 
+    first()} %>% 
+  length() %>% 
+  wordify_numeral()
+
+(countries_plot + cby_plot) / (ybc_plot)
+```
+
+Consider the most frequently asked item in these data, which asks respondents whether they strongly agree, agree, disagree, or strongly disagree with the statement "On the whole, men make better political leaders than women do."
+Employed by the Americas Barometer, the Arab Barometer, the Eurobarometer, the Latinobarómetro, the Pew Research Center, and the World Values Survey, this question was asked in a total of `r polileader4_cy` different country-years.
+That this constitutes only `r {polileader4_cy*100/(spanned_cy %>% str_replace(",", "") %>% as.numeric())} %>% round()`% of the country-years spanned by our data---and remember, this is the _most common_ survey item---again underscores just how sparse the available public opinion data is on this topic.
+
+The upper left panel of Figure&nbsp;\ref{item_country_plots} shows the dozen countries with the highest count of country-year-item observations.
+The United States, with `r us_obs` observations, is far and away the best represented country in the source data, followed by `r others`.
+At the other end of the spectrum, `r n_data_poorest` countries---`r data_poorest`---have only the minimum two observations required to be included in the source dataset at all.
+The upper right panel shows the twelve countries with the most years observed; this group is similar, but with `r adding` joining the list and `r dropping` dropping off.
+The bottom panel counts the countries observed in each year and reveals just how few relevant survey items were asked before 1990.
+Country coverage reached its peak in `r y_peak_year`, when respondents in `r y_peak_nn` countries were asked items about gender egalitarianism in the public sphere.
+In the next section, we describe how we are able to make use of all of this sparse and incomparable survey data to generate complete, comparable time-series PGE scores using a latent variable model.
+
+```{r dcpo_input_public}
+dcpo_input_pge <- DCPOtools::format_dcpo(dcpo_input_raw_pge1,
+                                              scale_q = "polileader4",
+                                              scale_cp = 2)
+save(dcpo_input_pge, file = here("paper", "measuring_egalitarianism", "data", "dcpo_input_pge.rda"))
+```
+
+## Estimating Public Gender Egalitarianism {.unnumbered}
+
+There has been a recent blossoming of scholarship developing latent variable models of public opinion based on cross-national survey data [see @Claassen2019; @Caughey2019; @McGann2019; @Kolczynska2020].
+To estimate public gender egalitarianism across countries and over time, we draw on the latest of these methods that is appropriate for data that is not only incomparable but also sparse, the Dynamic Comparative Public Opinion (DCPO) model presented in @Solt2020c.
+The DCPO model is a population-level two-parameter ordinal logistic item response theory (IRT) model with country-specific item-bias terms.
+For a detailed description of the DCPO model, see online Appendix C and @Solt2020c [, 3-8]; here, we focus on how it deals with the principal issues raised by our source data, incomparability and sparsity.
+
+The DCPO model accounts for the incomparability of different survey questions with two parameters.
+First, it incorporates the _difficulty_ of each question's responses, that is, how much public gender egalitarianism is indicated by a given response. 
+That each response evinces more or less of our latent trait is most easily seen with regard to the ordinal responses to the same question: strongly agreeing with the statement "both the husband and wife should contribute to household income," exhibits more public gender egalitarianism than responding "agree," which in turn is more egalitarian than responding "disagree," which is a more egalitarian response than "strongly disagree."
+But this is also true across questions.
+For example, strongly disagreeing that "on the whole, men make better business executives than women do" likely expresses even more egalitarianism than strongly agreeing merely that both spouses should have paying jobs.
+Second, the DCPO model accounts for each question's _dispersion_, its noisiness with regard to our latent trait.
+The lower a question's dispersion, the better that changes in responses to the question map onto changes in public gender egalitarianism.
+Together, the model's difficulty and dispersion estimates work to generate comparable estimates of the latent variable of public gender egalitarianism from the available but incomparable source data.
+
+To address the sparsity of the source data---the fact that there are gaps in the time series of each country, and even many observed country-years have only one or few observed items---DCPO uses local-level dynamic linear models, i.e., random-walk priors, for each country.
+That is, within each country, each year's value of public gender egalitarianism is modeled as the previous year's estimate plus a random shock.
+These dynamic models smooth the estimates of public gender egalitarianism over time and allow estimation even in years for which little or no survey data is available, albeit at the expense of greater measurement uncertainty.
+
+
+
+```{r dcpo, eval=FALSE}
+dcpo_input <- dcpo_input_pge
+
+iter <- 1000
+ 
+dcpo <- cmdstan_model("~/Documents/Projects/DCPO/inst/stan/dcpo.stan")
+
+dcpo_output <- dcpo$sample(
+   data = dcpo_input[1:13], 
+   max_treedepth = 14,
+   adapt_delta = 0.99,
+   step_size = 0.005,
+   seed = 324, 
+   chains = 4, 
+   parallel_chains = 4,
+   iter_warmup = iter/2,
+   iter_sampling = iter/2,
+   refresh = iter/50
+ )
+
+results_path <- here::here(file.path("data", 
+                                     iter, 
+                                  {str_replace_all(Sys.time(),
+                                                      "[- :]",
+                                                   "") %>%
+                                         str_replace("\\d{2}$",
+                                                     "")}))
+
+dir.create(results_path, 
+           showWarnings = FALSE, 
+           recursive = TRUE)
+
+dcpo_output$save_data_file(dir = results_path,
+                           random = FALSE)
+dcpo_output$save_output_files(dir = results_path,
+                              random = FALSE)
+
+save(dcpo_input, file = here("paper", "measuring_egalitarianism", "data", "dcpo_input.rda"))
+```
+
+```{r dcpo_results}
+ if (!exists("results_path")) {
+   latest <- "202307061813"
+   results_path <- here::here("data", "1000", latest)
+   
+   # Define OSF_PAT in .Renviron: https://docs.ropensci.org/osfr/articles/auth
+   if (!file.exists(file.path(results_path, paste0("dcpo-", latest, "-1.csv")))) {
+     dir.create(results_path, showWarnings = FALSE, recursive = TRUE)
+     osf_retrieve_node("9uvdk") %>% 
+       osf_ls_files() %>% 
+       filter(name == latest) %>% 
+       osf_download(path = here::here("data", "1000"))
+   }
+}
+ 
+dcpo_output <- as_cmdstan_fit(here(results_path,
+                                   list.files(results_path,
+                                              pattern="csv$")))
+
+load(here("paper", "measuring_egalitarianism", "data", "dcpo_input.rda"))
+```
+
+```{r dcpo_results_summary, cache=TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "dcpo_output.rda"))}
+theta_summary <- DCPOtools::summarize_dcpo_results(dcpo_input,
+                                                   dcpo_output,
+                                                   "theta")
+
+res_cy <- nrow(theta_summary) %>% 
+  scales::comma()
+
+res_c <- theta_summary %>% 
+  pull(country) %>% 
+  unique() %>% 
+  length()
+
+save(theta_summary, file = here("data",
+                                "theta_summary.rda"))
+```
+
+```{r cs_plot, fig.cap="PGE Scores, Most Recent Available Year \\label{cs_mry}", fig.height=10, fig.width=8}
+
+n_panes <- 2
+axis_text_size <- 10
+
+p1_data <- theta_summary %>%
+  group_by(country) %>%
+  top_n(1, year) %>%
+  ungroup() %>%
+  arrange(mean) %>%
+  transmute(country_year = paste0(country, " (", year, ")") %>% 
+              str_replace("’", "'"),
+            estimate = mean,
+            conf.high = q90,
+            conf.low = q10,
+            pane = n_panes - (ntile(mean, n_panes) - 1),
+            ranked = as.factor(ceiling(row_number())))
+
+p_theta <- ggplot(p1_data,
+                  aes(x = estimate, y = ranked)) +
+  geom_segment(aes(x = conf.low, xend = conf.high,
+                   y = ranked, yend = ranked),
+               na.rm = TRUE,
+               alpha = .4) +
+  geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
+  theme_bw() + theme(legend.position="none",
+                     axis.text.x  = element_text(size = axis_text_size,
+                                                 angle = 90,
+                                                 vjust = .45,
+                                                 hjust = .95),
+                     axis.text.y  = element_text(size = axis_text_size),
+                     axis.title = element_blank(),
+                     strip.background = element_blank(), 
+                     strip.text = element_blank(),
+                     panel.grid.major = element_line(linewidth = .3),
+                     panel.grid.minor = element_line(linewidth = .15)) +
+  scale_y_discrete(breaks = p1_data$ranked, labels=p1_data$country_year) +
+  coord_cartesian(xlim=c(0, 1)) +
+  facet_wrap(vars(pane), scales = "free", nrow = 1)
+
+
+p_theta +
+  plot_annotation(caption = "Note: Gray whiskers represent 80% credible intervals.")
+
+bottom5 <- p1_data %>% 
+  arrange(ranked) %>% 
+  slice(1:5) %>% 
+  pull(country_year) %>% 
+  str_replace(" \\(.*", "") %>% 
+  str_replace("Palestinian", "the Palestinian") %>% 
+  knitr::combine_words()
+
+```
+
+We estimated the model on our source data using the `DCPO` and `cmdstanr` packages for R [@Solt2020a; @Gabry2022], running four chains for 1,000 iterations each and discarding the first half as warmup, which left us with 2,000 samples.
+All $\hat{R}$ diagnostics were below 1.02, indicating that the model converged.
+
+The dispersion parameters of the survey items indicate that all of them load well on the latent variable (see Appendix A).
+The result is estimates, in all `r res_cy` country-years spanned by the source data, of mean public gender egalitarianism, what we call PGE scores.^[
+To provide further confirmation of the unidimensionality of public gender egalitarianism, we estimated two separate indices of gender egalitarianism in politics and in the workplace.  These indices correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years; see Appendix D.]
+Figure&nbsp;\ref{cs_mry} displays the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
+
+The Scandinavian countries and Germany are at the top of this list, along with Puerto Rico, which has had women of both of its major parties serve as chief executive and as recently as 2020 had a woman from each party holding the two most prominent elected offices on the island.
+The latest scores for `r bottom5` have them as the places where public opinion is least favorable to gender equality in the public sphere.
+
+```{r ts_plots, fig.cap="PGE Scores Over Time Within Selected Countries \\label{ts}", fig.height=3.5}
+countries <- c("Norway", "Australia", "United States", "Argentina",
+               "Mexico", "Poland", "South Africa", "Japan",
+               "Turkey", "China", "South Korea", "India", 
+               "Nigeria", "Philippines", "Indonesia", "Egypt")
+
+countries2 <- countries %>% 
+  str_replace("United States", "U.S.")
+
+# alpha_results <- DCPO::summarize_dcpo_results(dcpo_input,
+#                                         dcpo_output,
+#                                         "alpha")
+# 
+# c_rawdata <- dcpo_input$data %>% 
+#   filter(country %in% countries) %>%
+#   mutate(mean = y_r/n_r,
+#          country = str_replace(country, "United States", "U.S.") %>% 
+#            factor(levels = countries2)) %>% 
+#   left_join(alpha_results %>% select(question, alpha_mean = mean), by = "question")
+
+c_res <- theta_summary %>% 
+  filter(country %in% countries) %>%
+  mutate(country = str_replace(country, "United States", "U.S.") %>% 
+           factor(levels = countries2))
+
+# ggplot(data = c_rawdata, aes(x = year, y = mean)) +
+#   geom_line(aes(color = item, alpha = 1/alpha_mean)) +
+#   geom_point(aes(color = item, alpha = 1/alpha_mean)) +
+ggplot(data = c_res, aes(x = year, y = mean)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_cartesian(xlim = c(1980, 2020), ylim = c(0, 1)) +
+  labs(x = NULL, y = "PGE Scores") +
+  geom_ribbon(data = c_res, 
+              aes(ymin = q10, ymax = q90, linetype=NA),
+              alpha = .25) +
+  geom_line(data = c_res) +
+  facet_wrap(~country, nrow = 2) +
+  theme(axis.text.x  = element_text(size=7,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        strip.background = element_rect(fill = "white", colour = "white")) +
+  plot_annotation(caption = "Note: Countries are ordered by their PGE scores in their most recent\navailable year; gray shading represents 80% credible intervals.")
+```
+
+Figure&nbsp;\ref{ts} displays how PGE scores have changed over time in sixteen countries.
+Like Figure&nbsp;\ref{cs_mry}, it underscores the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
+The figure also shows that while public opinion favoring gender equality in the public sphere has risen steadily in some countries, such as Norway and Australia, attitudes have changed little over time in others, like China and the Philippines, or fallen, as in Indonesia. 
+They have even advanced and retreated as in Brazil or have declined and recovered as in Nigeria.
+There is much to do to explain the causes and consequences of these trends in public gender egalitarianism.
+
+## Validating Public Gender Egalitarianism {.unnumbered}
+
+```{r theta_results}
+theta_results <- extract_dcpo_results(dcpo_input,
+                                      dcpo_output,
+                                      par = "theta")
+pge <- theta_results
+
+save(pge, file = here("paper", "measuring_egalitarianism", "data", "pge.rda"))
+```
+
+```{r convergent_setup, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "pge.rda"))}
+
+internal_dat <- dcpo_input$data %>% 
+  filter(item == "polileader4 3 or higher") %>% 
+  mutate(prop = 1 - y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  left_join(theta_results %>% select(-kk, -tt), by = c("country", "year"))
+
+pge_polileader <- pge %>% 
+  map(. %>% right_join(dcpo_input$data %>% 
+                         filter(item == "polileader4 3 or higher") %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = 1 - y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   polileader = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+internal_cor <- map(pge_polileader, function(x) with(x, cor(pge_mean, polileader))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+internal_label <- tibble(mean = .78, prop = .99, label = internal_cor)
+
+internal_plot <- internal_dat %>% 
+  ggplot(aes(x = mean,
+             y = prop * 100)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = prop * 100, yend = prop * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_segment(aes(x = mean, xend = mean,
+                   y = prop_90 * 100, yend = prop_10 * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  coord_cartesian(ylim=c(0,100)) +
+  scale_x_continuous(breaks=seq(.1, .9, 0.2)) +
+  labs(x = "PGE Score", 
+       y = '% Agreeing That "On the Whole, Men\nMake Better Political Leaders than Women Do"') + 
+  ggtitle("All Country-Years") +
+  geom_label(data = internal_label, aes(label = label), size = 3)
+
+## Cross-sectional
+internal_poliequal <- dcpo_input$data %>% 
+  filter(item == "poliequal3 2 or higher" & year == 2007) %>% 
+  mutate(iso2c = countrycode::countrycode(country,
+                                          origin = "country.name",
+                                          destination = "iso2c"),
+         prop = 1 - y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  left_join(theta_results %>% select(-kk, -tt), by = c("country", "year"))
+
+pge_poliequal <- pge %>% 
+  map(. %>% right_join(dcpo_input$data %>% 
+                         filter(item == "poliequal3 2 or higher" & year == 2007) %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = 1 - y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   poliequal = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+internal_cs_cor <- map(pge_poliequal, 
+                       function(x) with(x, cor(pge_mean, poliequal))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+internal_cs_label <- tibble(mean = .7, prop = .73, label = internal_cs_cor)
+
+internal_cs_plot <- internal_poliequal %>% 
+  ggplot(aes(x = mean,
+             y = prop * 100)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = prop * 100, yend = prop * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_segment(aes(x = mean, xend = mean,
+                   y = prop_90 * 100, yend = prop_10 * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_text(aes(label = iso2c), size = 2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  labs(x = "PGE Score", 
+       y = '% Opining That "Men Generally Make\nBetter Political Leaders Than Women"') + 
+  ggtitle("Pew Global Spring 2007") +
+  geom_label(data = internal_cs_label, aes(label = label), size = 3)
+
+# Longitudinal
+internal_us <- dcpo_input$data %>% 
+  filter(item == "emopoli2 2 or higher") %>% 
+  mutate(prop = y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  right_join(theta_results %>% 
+               select(-kk, -tt) %>%
+               filter(country == "United States"),
+             by = c("country", "year"))
+
+pge_emopoli <- pge %>% 
+  map(. %>% right_join(dcpo_input$data %>% 
+                         filter(item == "emopoli2 2 or higher") %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   emopoli = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+internal_us_cor <- map(pge_emopoli, function(x) with(x, cor(pge_mean, emopoli))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+internal_us_label <- tibble(year = 1980, mean = .87, label = internal_us_cor)
+
+internal_us_plot <- internal_us %>% 
+  ggplot(aes(x = year,
+             y = mean)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = `10%`,
+                  ymax = `90%`,
+                  linetype = NA),
+              alpha = .2) +
+  geom_point(aes(y = prop),
+             fill = "black",
+             shape = 21,
+             size = .5,
+             na.rm = TRUE) +
+  geom_path(aes(y = prop),
+            linetype = 3,
+            na.rm = TRUE,
+            alpha = .7) +
+  geom_segment(aes(x = year, xend = year,
+                   y = prop_90, yend = prop_10),
+               na.rm = TRUE,
+               alpha = .2) +
+  annotate("text", x = 1979, y = .7, size = 2,
+           label = 'U.S. GSS') +
+  annotate("text", x = 2012, y = .60, size = 2,
+           label = "PGE") +
+  labs(x = "Year", 
+       y = "Score") +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ggtitle("United States") +
+  geom_label(data = internal_us_label, aes(label = label), size = 3)
+
+```
+
+```{r convergent, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "pge.rda")), fig.cap="Convergent Validation: Correlations Between PGE Scores and Individual PGE Source Data Survey Items \\label{conv_plot}", fig.height=4}
+
+internal_plot + internal_cs_plot + internal_us_plot +
+  plot_annotation(caption = "Note: Gray whiskers and shading represent 80% credible intervals.")
+```
+
+Such future research, however, depends on the validity of the PGE scores.
+Like @Caughey2019 [684-685], we provide evidence of our measure's validity with convergent validation and construct validation.
+Convergent validation refers to showing that a measure is empirically associated with alternative indicators of the same concept [@Adcock2001, 540].
+Here, we compare PGE scores to responses to individual source-data survey items that were used to generate our estimates, that is, we provide an 'internal' validation test [see, e.g., @Caughey2019, 689; @Solt2020c, 10].
+In the left panel of Figure&nbsp;\ref{conv_plot}, we examine the four-point question on political leaders mentioned above, the most common item in the source data across all country-years.
+Then, in the center panel, we look at the question that provides the most data-rich cross-section in the source data, which asked whether respondents felt "men generally make better political leaders than women" and was included in Pew Global's Spring 2007 survey.
+Finally, in the right panel, to evaluate how well the PGE scores capture change over time, we focus on the item with the largest number of observations for a single country in the source data, which asked respondents to the U.S. General Social Survey whether they agreed or disagreed that "most men are better suited emotionally for politics than are most women."
+In every case, the correlations---estimated taking into account the uncertainty in the measures---are in the expected direction and very strong.
+<!-- ^[ -->
+<!-- The uncertainty in the PGE score and in the percentage in the population who would agree with the item does not substantially affect the correlation with the political leadership question, but failing to account for this uncertainty would overstate the correlation with the Pew item, at $R =$ `r with(internal_poliequal, cor(prop, mean)) %>% round(2)`, and the U.S. GSS item, at $R =$ `r with(internal_us, cor(prop, mean, use = "pairwise.complete.obs")) %>% round(2)`. -->
+<!-- We take up the issue of the importance of taking uncertainty into account when working with the PGE data in a subsequent section.] -->
+
+
+```{r construct_validation_survey, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "pge.rda")), fig.cap="Construct Validation: Correlations Between PGE Scores and Individual 'Balancing' Gender Egalitarianism Survey Items \\label{surv_const_plot}", fig.height=4}
+dcpo_input_balance <- DCPOtools::format_dcpo(dcpo_input_raw_balance1,
+                                             scale_q = "familywoman4",
+                                             scale_cp = 2)
+
+wantch <- dcpo_input_balance$data %>% 
+  filter(item == "wantch4 3 or higher") %>% 
+  mutate(iso2c = countrycode::countrycode(country,
+                                          origin = "country.name",
+                                          destination = "iso2c"),
+         prop = 1 - y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  left_join(theta_results %>% select(-kk, -tt), by = c("country", "year"))
+
+pge_wantch <- pge %>% 
+  map(. %>% right_join(wantch %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = 1 - y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   wantch = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+wantch_cor <- map(pge_wantch, function(x) 
+  with(x, cor(pge_mean, wantch))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+wantch_label <- tibble(mean = .76, prop = .97, label = wantch_cor)
+
+wantch_plot <- wantch %>% 
+  ggplot(aes(x = mean,
+             y = prop * 100)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = prop * 100, yend = prop * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_segment(aes(x = mean, xend = mean,
+                   y = prop_90 * 100, yend = prop_10 * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  coord_cartesian(ylim=c(0,100)) +
+  labs(x = "PGE Score", 
+       y = '% Agreeing That "A Job is Alright But What\nMost Women Really Want is a Home and Children"') + 
+  ggtitle("All Country-Years") +
+  geom_label(data = wantch_label, aes(label = label), size = 3)
+
+# cross-section
+familywoman <- dcpo_input_balance$data %>% 
+  filter(item == "familywoman4 3 or higher") %>% 
+  mutate(iso2c = countrycode::countrycode(country,
+                                          origin = "country.name",
+                                          destination = "iso2c"),
+         prop = 1 - y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  left_join(theta_results %>% select(-kk, -tt), by = c("country", "year"))
+
+pge_familywoman <- pge %>% 
+  map(. %>% right_join(familywoman %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = 1 - y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   familywoman = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+familywoman_cor <- map(pge_familywoman, function(x) 
+  with(x, cor(pge_mean, familywoman))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+familywoman_label <- tibble(mean = .8, prop = .97, label = familywoman_cor)
+
+familywoman_plot <- familywoman %>% 
+  ggplot(aes(x = mean,
+             y = prop * 100)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = prop * 100, yend = prop * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_segment(aes(x = mean, xend = mean,
+                   y = prop_90 * 100, yend = prop_10 * 100),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_text(aes(label = iso2c), size = 2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  coord_cartesian(ylim=c(0,100)) +
+  labs(x = "PGE Score", 
+       y = '% Agreeing That "The Most Important Role of a\nWoman is to Take Care of Her Home and Family"') + 
+  ggtitle("Eurobarometer 87.4") +
+  geom_label(data = familywoman_label, aes(label = label), size = 3)
+
+# time series
+psw_de <- dcpo_input_balance$data %>% 
+  filter(item == "preschoolwork4 3 or higher" & country == "Germany") %>% 
+  mutate(prop = y_r/n_r,
+         se = sqrt((prop*(1-prop))/n),
+         prop_90 = prop + qnorm(.9)*se,
+         prop_10 = prop - qnorm(.9)*se) %>% 
+  right_join(theta_results %>% 
+               select(-kk, -tt) %>%
+               filter(country == "Germany"),
+             by = c("country", "year"))
+
+pge_de <- pge %>% 
+  map(. %>% right_join(psw_de %>% 
+                         rowwise() %>% 
+                         transmute(country = country,
+                                   year = year,
+                                   prop = y_r/n_r,
+                                   se = sqrt((prop*(1-prop))/n),
+                                   var = rnorm(1, mean = prop, sd = se)), 
+                       by = c("country", "year")))
+
+psw_de_cor <- map(pge_de, function(x) 
+  with(x, cor(pge_mean, var, use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+psw_de_label <- tibble(year = 1990, mean = .8, label = psw_de_cor)
+
+psw_de_plot <- psw_de %>% 
+  ggplot(aes(x = year,
+             y = mean)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = `10%`,
+                  ymax = `90%`,
+                  linetype = NA),
+              alpha = .2) +
+  geom_point(aes(y = prop),
+             fill = "black",
+             shape = 21,
+             size = .5,
+             na.rm = TRUE) +
+  geom_path(aes(y = prop),
+            linetype = 3,
+            na.rm = TRUE,
+            alpha = .7) +
+  geom_segment(aes(x = year, xend = year,
+                   y = prop_90, yend = prop_10),
+               na.rm = TRUE,
+               alpha = .2) +
+  annotate("text", x = 2010, y = .30, size = 2,
+           label = 'ALLBUS, EVS, WVS') +
+  annotate("text", x = 1986, y = .66, size = 2,
+           label = "PGE") +
+  labs(x = "Year", 
+       y = "Score") +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=8),
+        axis.title = element_text(size=9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ggtitle("Germany") +
+  geom_label(data = psw_de_label, aes(label = label), size = 3)
+
+
+wantch_plot + familywoman_plot + psw_de_plot +
+  plot_annotation(caption = "Note: Gray whiskers and shading represent 80% credible intervals.")
+```
+
+We continue, then, to construct validation, which refers to demonstrating, for some _other_ concept believed causally related to the concept a measure seeks to represent, that the measure is empirically associated with measures of that other concept [@Adcock2001, 542].
+In Figure&nbsp;\ref{surv_const_plot}, we look to individual survey items not included in our source data but tapping a related category of gender egalitarianism, namely questions that ask how women should balance opportunities in the public sphere with their traditional duties in the private sphere.
+Assuming that attitudes that women should prioritize housework and childcare over paid employment and politics---or convictions that there will be negative consequences if they do not---will lead to less gender egalitarian opinions with regard to these latter, public-sphere activities, evidence for this theoretical relationship will provide construct validation for the PGE scores.
+Exemplars of such items across all available country-years ("a job is alright but what most women really want is a home and children" from the WVS and EVS), in cross-section ("the most important role of a woman is to take care of her home and family" from the Eurobarometer 87.4), and in time series ("a pre-school child is likely to suffer if his or her mother works" from the German ALLBUS, WVS, and EVS) all show strong correlations with the PGE scores.
+
+```{r cons_valid}
+
+# https://genderstats.un.org/#/downloads
+lfpr_un <- read_csv(here("paper", "measuring_egalitarianism", "data", "3b - Labour force participation rate for persons aged 15+  by sex_data.csv"), skip = 1, col_types = "ccdcdcdccccccdddcc") %>% 
+  select(Country, Year, Sex, Value) %>% 
+  pivot_wider(names_from = Sex,
+              values_from = Value) %>% 
+  transmute(country = countrycode::countrycode(Country, 
+                                               origin = "country.name",
+                                               destination = "country.name"),
+            iso2c = countrycode::countrycode(country,
+                                             origin = "country.name",
+                                             destination = "iso2c"),
+            year = Year,
+            flfpr = Female,
+            f2m_ratio = round(Female/Male*100, 2)) %>% 
+  filter(!is.na(country) & !is.na(flfpr)) %>% 
+  left_join(theta_results, by = c("country", "year")) %>% 
+  filter(!is.na(mean))
+
+pge_lfpr <- pge %>% 
+  map(. %>% right_join(lfpr_un, 
+                       by = c("country", "year")))
+
+lfpr_cor <- map(pge_lfpr, function(x) {
+  x %>% 
+    filter(year == 2017) %>% 
+    with(cor(pge_mean, f2m_ratio, use = "pairwise.complete.obs"))
+}) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  paste0("R = ", .)
+
+lfpr_label <- tibble(mean = .15, f2m_ratio = 90, label = lfpr_cor)
+
+# https://stats.oecd.org/index.aspx?queryid=54753
+# rsdmx::readSDMX("https://stats.oecd.org/restsdmx/sdmx.ashx/GetData/GENDER_EMP/.EMP11.WOMEN.TOTAL.2017/all?") %>% 
+#  as_tibble() %>%
+#  write_csv("paper/measuring_egalitarianism/data/directors.csv")
+directors <- read_csv(here("paper",
+                           "measuring_egalitarianism",
+                           "data",
+                           "directors.csv")) %>% 
+  transmute(country = countrycode::countrycode(COU, "iso3c", "country.name"),
+            iso2c = countrycode::countrycode(country,
+                                             origin = "country.name",
+                                             destination = "iso2c"),
+            year = as.numeric(TIME),
+            directors = obsValue) %>% 
+  filter(!is.na(country)) %>% 
+  inner_join(theta_results, by = c("country", "year"))
+
+directors_cor <- map(pge, function(x) {
+  x %>% 
+    inner_join(directors %>% select(country, year, directors),
+               by = c("country", "year")) %>% 
+    with(cor(pge_mean, directors))
+}) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+directors_label <- tibble(mean = .37, directors = 40, label = directors_cor)
+
+lfpr_plot <- ggplot(lfpr_un %>% filter(year==2017),
+                    aes(x = mean,
+                        y = f2m_ratio)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = f2m_ratio, yend = f2m_ratio),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_text(aes(label = iso2c), size = 2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() + theme(legend.position="none",
+                     axis.text  = element_text(size=8),
+                     axis.title = element_text(size=9)) +
+  coord_cartesian(xlim=c(0, 1)) +
+  labs(x = "Public Gender Egalitarianism, 2017", y = "Female to Male Labor Force Participation Ratio, 2017") +
+  geom_label(data = lfpr_label, aes(label = label))
+
+dir_plot <- ggplot(directors,
+                   aes(x = mean,
+                       y = directors)) +
+  geom_segment(aes(x = `10%`, xend = `90%`,
+                   y = directors, yend = directors),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_text(aes(label = iso2c), size = 2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() + theme(legend.position="none",
+                     axis.text  = element_text(size=8),
+                     axis.title = element_text(size=9)) +
+  coord_cartesian(xlim=c(.2, 1)) +
+  labs(x = "Public Gender Egalitarianism, 2017", y = "% Women, Boards of Directors of the \n Largest Publicly Listed Companies, 2017") +
+  geom_label(data = directors_label, aes(label = label))
+```
+
+```{r cons_valid_plot, fig.cap="Construct Validation: Correlations Between PGE Scores and Indicators of Workplace Gender Equality \\label{construct_plot}", fig.height=4}
+lfpr_plot + dir_plot +
+  plot_annotation(caption = "Note: Gray whiskers represent 80% credible intervals.")
+
+```
+
+Finally, Figure&nbsp;\ref{construct_plot} shows additional tests of construct validation.
+As attitudes toward gender egalitarianism in the public sphere plausibly both cause and are caused by women's gains in the workplace, strong relationships between the PGE scores and measures of workplace gender equality provide construct validation for our measure.
+In the left panel of Figure&nbsp;\ref{construct_plot}, we compare the PGE scores to the ratio of women's to men's labor force participation rates in `r nrow(lfpr_un %>% filter(year == 2017))` countries in 2017, drawing on data compiled by the Statistics Division of the UN Department of Economic and Social Affairs [-@UNDESA2020].
+In the right panel, we plot the PGE scores against the percentage of women on the boards of directors of the largest publicly listed companies in `r nrow(directors)` countries, also in 2017 [see @OECD2020].
+Both correlations are strong.
+Together, this evidence of construct validation and convergent validation attests to the validity of the PGE scores as measures of public opinion towards gender equality in the public sphere.
+
+In the following chapters, we will use the PGE data to better address such long-standing questions as how collective attitudes on gender roles have influenced the election of women to national legislatures [see, e.g., @Paxton2003; @Alexander2012] and to pursue both new and more nuanced lines of inquiry on issues of policy responsiveness [cf., @Kittilson2008; @Busemeyer2021].
+

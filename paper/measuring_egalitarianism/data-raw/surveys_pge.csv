@@ -1,0 +1,265 @@
+survey,item,variable,values,question_text,political,workplace
+aes1993,govtact5,e6opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes1993,jobpref5,e6pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes1996,govtact5,e5opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes1996,jobpref5,e5pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes1998,govtact5,e6opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes1998,jobpref5,e6pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes2001,govtact5,e4opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes2001,jobpref5,e4pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes2004,govtact5,e4opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes2004,jobpref5,e4pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes2010,govtact5,e4opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes2010,jobpref5,e4pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+aes2013,govtact5,e6opp,c(5:1),The government should increase opportunities for women in business and industry,0,1
+aes2013,jobpref5,e6pref,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+allbus,job4a,fr06,c(1:4),A married woman should not work if there are not enough jobs to go around and her husband is also in a position to support the family.,0,1
+allbus,tradroles4,fr04a,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+allbus,tradroles4,fr04b,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+allbus2021,tradroles4,fr04b,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+amb_argentina2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_argentina2012,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_argentina2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_argentina2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_bolivia2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_bolivia2012,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_bolivia2014,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_bolivia2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_bolivia2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_brazil2016,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_brazil2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_brazil2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_canada2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_canada2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_canada2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_canada2021,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_canada2021,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_chile2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_chile2012,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_chile2014,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_chile2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_chile2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_combo,jobs7,gen1,c(7:1),"Changing the subject again, some say that when there is not enough work, men should have a greater right to jobs than women.",0,1
+amb_combo,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_combo,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_combo,politics3,w10,c(1:3),Attitudes towards Participation of Women in Politics,1,0
+amb_combo,quota7,gen6,c(1:7),ballot quotas for women,1,0
+amb_costarica2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_costarica2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_ecuador2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_ecuador2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_mexico2021,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_mexico2021,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_panama2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_panama2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_suriname2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_trinidad2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_uruguay2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_uruguay2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_us2012,jobs7,gen1,c(7:1),"Changing the subject again, some say that when there is not enough work, men should have a greater right to jobs than women.",0,1
+amb_us2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_us2018,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_us2018,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_venezuela2012,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+amb_venezuela2012,politicianecon3,vb52,c(1:3),"If a politician is responsible for running the national economy, who would do a better job, a man, or a woman or does it not matter?",1,0
+amb_venezuela2014,polileader4,vb50,c(1:4),"On the whole, men make better political leaders than women do",1,0
+anes_combo,poliwork7,vcf0834,c(7:1),"Recently there has been a lot of talk about women's rights.  Some people feel that women should have an equal role with  men in running business, industry and government. Others feel that a women's place is in the home. Where would you place yourself on this scale or haven't you thought much about this?",1,1
+arabb1,equaljob4,q5055,c(4:1),Men and women should have equal job opportunities and wages,0,1
+arabb1,equalwage4,q5056,c(4:1),Men and women should receive equal wages and salaries,0,1
+arabb1,polileader4,q5053,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb2,equalwork4,q60105,c(4:1),Men and women should have equal work opportunities.,0,1
+arabb2,polileader4,q60103,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb3,equalright4a,q812a1,c(4:1),Insuring equal rights between men and women,1,1
+arabb3,polileader4,q6013,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb4,polileader4,q6013,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb5,polileader4,q601_3,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb61,polileader4,q601_3,c(1:4),"In general, men are better at political leadership than women",1,0
+arabb7,polileader4,q601_3,c(1:4),"In general, men are better at political leadership than women",1,0
+asianb1,supervise4,q070,c(1:4),A man will lose face if he works under a female supervisor.,0,1
+asianb3,politics4,q139,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb4,politics4,q139,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_australia,politics4,q139,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_india,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_indonesia,politics4,v_146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_japan,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_korea,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_malaysia,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_mongolia,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_myanmar,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_philippines,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_taiwan,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_thailand,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+asianb5_vietnam,politics4,q146,c(1:4),Women should not be involved in politics as much as men,1,0
+cbsnyt198104,earn2,q42,c(2:1),Do you approve or disapprove of a married woman earning money in business or industry if she has a husband capable of supporting her?,0,1
+cdcee,household4,v232,c(1:4),The best thing for a woman to do is to take care of the house,1,1
+cmlic1980_val,earn2,iv21,c(2:1),Do you approve or disapprove of a married woman earning money in business or industry if she has a husband capable of supporting her?,0,1
+eb19,politics4a,v105,c(1:4),"It is sometimes said that ""politics should be left to men."" How far would you agree with this?",1,0
+eb27,politics4a,v95,c(1:4),"It is sometimes said that ""politics should be left to men."" How far would you agree with this?",1,0
+eb42,tradroles5,v148,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+eb443,job2,v388,c(2:1),"When jobs are scarce, men should have more right to a job than women",0,1
+eb443,polileader3,v421,"c(1,3,2)","Here is a list of occupations and responsibilities that men or women can have. For each of them, please indicate whether you think that they should be more for men, more for women, or for either a man or a woman. Head of Government",1,0
+eb443,businessleader3,v414,"c(1,3,2)","Here is a list of occupations and responsibilities that men or women can have. For each of them, please indicate whether you think that they should be more for men, more for women, or for either a man or a woman. Chief Executive",0,1
+eb631,polileader4,v324,c(1:4),"On the whole, men make better political leaders than women do",1,0
+eb651,income4,v530,c(4:1),Both the husband and wife should contribute to household income,0,1
+eb651,tradroles4,v531,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+eb653,income4,v649,c(4:1),Both the husband and wife should contribute to household income,0,1
+eb653,tradroles4,v650,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+eb722,womenmp4,v248,c(4:1),"In the European Union, women represent on average approximately one out of four national MPs. In general, do you think that this should be treated...?",1,0
+eb722,unqualified4,v254,c(1:4),"At the present time, in the European Union, women are less likely than men to hold positions of responsibility. Please tell me whether you agree or disagree with each of the following statements on this subject: Women do not always have the necessary qualities and skills to fill positions of responsibility",1,1
+eb761,unqualified4,qe1_5,c(1:4),"At the present time, in the European Union, women are less likely than men to hold positions of responsibility. Please tell me whether you agree or disagree with each of the following statements on this subject: Women do not always have the necessary qualities and skills to fill positions of responsibility",1,1
+eb761,businessleader4,qe2,c(4:1),"Given equal competence, women should be equally represented in positions of leadership in companies.",0,1
+eb824,righteq4,qb11_1,c(4:1),Equality between men and women is a fundamental right,1,1
+eb874,equalwage4a,qc13,c(1:4),"In some circumstances, a woman is paid less than a male colleague for the same job. Do you think this is acceptable?",0,1
+eb874,unqualpol4,qc7_5,c(1:4),Women do not have the necessary qualities and skills to fill positions of responsibility in politics,1,0
+ess2,job5,mnrgtjb,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+ess4,job5,mnrgtjb,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+ess5,job5,mnrgtjb,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+ess8,job5,mnrgtjb,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+evs_combo,income4,d058,c(4:1),Both the husband and wife should contribute to household income,0,1
+evs_combo,job3a,c001,"c(1,3,2)","When jobs are scarce, men should have more right to a job than women",0,1
+evs_combo,polileader4,d059,c(1:4),"On the whole, men make better political leaders than women do",1,0
+evs2017,busiexecutive4,v78,c(1:4),"On the whole, men make better business executives than women do.",0,1
+evs2017,job5,v81,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+evs2017,polileader4,v76,c(1:4),"On the whole, men make better political leaders than women do",1,0
+issp1985,govtact5,v37,c(5:1),The government should increase opportunities for women in business and industry,0,1
+issp1988,income5,v11,c(5:1),Both the man and woman should contribute to the household income,0,1
+issp1988,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp1991,tradroles5,v16,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp1994,income5,v11,c(5:1),Both the man and woman should contribute to the household income,0,1
+issp1994,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp1998,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp1998br,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2002,income5,v10,c(5:1),Both the man and woman should contribute to the household income,0,1
+issp2002,tradroles5,v11,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2008,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2008a,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2008ca,tradroles5,v12,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2012,tradroles5,v11,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2012,income5,v10,c(5:1),Both the man and woman should contribute to the household income,0,1
+issp2012,income4,es_v10,c(4:1),Both the husband and wife should contribute to household income,0,1
+issp2018,tradroles5,v6,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2018ext,tradroles5,v6,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+issp2018tn,tradroles5,v6,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+jgss,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2005,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2005,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2005,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2005,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2006,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2006,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2006,job4,q7wwloff,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+jgss2006,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2008,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2008,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2006,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2010,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2010,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2010,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2012,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2012,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2012,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2015,earn4,q4wwjbia,c(1:4),"If the husband has enough income, the wife should not have a job",0,1
+jgss2015,tradroles4,q4wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+jgss2015,helpmeet4,q4wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2018,helpmeet4,q7wwhphh,c(1:4),"Role of wife is to help husband's career, not have her own",0,1
+jgss2018,tradroles4,q7wwhhx,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+kgss,income5,twoincs,c(5:1),Both the man and woman should contribute to the household income,0,1
+kgss,tradroles5,hubbywrk,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+kgss,tradroles5,hbbywk08,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+kgss,helpmeet7,sexrole1,c(1:7),It is more important for a wife to help her husband's career than to have her own,0,1
+koweps2008,tradroles5,p0304_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2009,tradroles5,p0404_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2010,tradroles5,p0504_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2011,tradroles5,p0604_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2012,tradroles5,p0704_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2013,tradroles5,p0804_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2014,tradroles5,p0904_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2015,tradroles5,p1004_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2016,tradroles5,p1104_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2017,tradroles5,p1204_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2018,tradroles5,p1304_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2019,tradroles5,p1404_3aq4,c(5:1),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+koweps2008,income5,p0304_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2009,income5,p0404_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2010,income5,p0504_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2011,income5,p0604_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2012,income5,p0704_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2013,income5,p0804_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2014,income5,p0904_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2015,income5,p1004_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2016,income5,p1104_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2017,income5,p1204_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2018,income5,p1304_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+koweps2019,income5,p1404_3aq5,c(1:5),Both the man and woman should contribute to the household income,0,1
+lb1997,tradroles4a,nsp68b,c(1:4),It is preferable that a woman concentrates on the home and a man on his work                                                                                                                       (1997 LB: nps67b / 2000LB: p69st  / 2004 LB: p57st_a / 2009 LB: p67st_c),0,1
+lb2000,tradroles4a,p69st,c(1:4),It is preferable that a woman concentrates on the home and a man on his work                                                                                                                       (1997 LB: nps67b / 2000LB: p69st  / 2004 LB: p57st_a / 2009 LB: p67st_c),0,1
+lb2004,polileader4,p57wvs_b,c(1:4),"On the whole, men make better political leaders than women do",1,0
+lb2004,tradroles4a,p57st_a,c(1:4),It is preferable that a woman concentrates on the home and a man on his work                                                                                                                       (1997 LB: nps67b / 2000LB: p69st  / 2004 LB: p57st_a / 2009 LB: p67st_c),0,1
+lb2006,office2,p87n_5,c(1:0),Why there are not enough women in public charges: That is not their place,1,0
+lb2009,polileader4,p67wvs_d,c(1:4),"On the whole, men make better political leaders than women do",1,0
+lb2009,tradroles4a,p67st_c,c(1:4),It is preferable that a woman concentrates on the home and a man on his work                                                                                                                       (1997 LB: nps67b / 2000LB: p69st  / 2004 LB: p57st_a / 2009 LB: p67st_c),0,1
+nsss_combo,earn5,wearnok,c(5:1),I approve of a married woman earning money in business or industry even if she has a husband capable of supporting her,0,1
+nsss_combo,jobpref5,affactw2,c(5:1),Women should be given preferential treatment when applying for jobs and promotions,0,1
+nsss1989,earn5,wearnok,c(5:1),I approve of a married woman earning money in business or industry even if she has a husband capable of supporting her,0,1
+nsss1989,income5,hsbwfwk,c(5:1),Both the man and woman should contribute to the household income,0,1
+nsss1989,tradroles5,wfhmfam,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+nsss1993,earn5,wearnok3,c(5:1),I approve of a married woman earning money in business or industry even if she has a husband capable of supporting her,0,1
+nsss1993,tradroles5,wfhmfam3,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+pew2002,samework4,q53c,c(1:4),There should be restrictions on men and women being employed in the same workplace.,0,1
+pew2002,tradroles2,q38,c(1:2),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
+pew2007,poliequal3,q47,"c(1,3,2)","Which one of the following statements comes closest to your opinion about men and women as political leaders? Men generally make better political leaders than women; In general, women and men make equally good political leaders; Women generally make better political leaders than men",1,0
+pew2007,samework4,q74b,c(1:4),There should be restrictions on men and women being employed in the same workplace.,0,1
+pew2008,samework4,q55ab,c(1:4),There should be restrictions on men and women being employed in the same workplace.,0,1
+pew2010,equalright2,q80,c(2:1),"On a different subject, do you think women should have equal rights with men, or shouldn‚Äôt they?",1,1
+pew2010,job4,q69c,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pew2010,tradroles2,q93,c(1:2),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
+pew2012,equalright2,q85,c(2:1),"On a different subject, do you think women should have equal rights with men, or shouldn‚Äôt they?",1,1
+pew2012,job4,q86b,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pew2012,poliequal3,q101,"c(1,3,2)","Which one of the following statements comes closest to your opinion about men and women as political leaders? Men generally make better political leaders than women; In general, women and men make equally good political leaders; Women generally make better political leaders than men",1,0
+pew2015,equalright4b,q56c,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
+pew2016,equalright4b,q33c,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
+pew2019,equalright4b,gender_equality,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
+pew2019,tradroles2,kind_of_marriage,c(1:4),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
+pew2019,job4,women_job,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pewrel2006_10nat,job4,q27a,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pewrel2006_10nat,polileader4,q27b,c(1:4),"On the whole, men make better political leaders than women do",1,0
+pewrel2009_afr,job4,q11d,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pewrel2014_latam,job4,q19d,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pewrel2015_ee,job4,q16c,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
+pewrel2020_in,job4,q23b,c(1:4),"When there are few jobs, men should have more right to a job than women",0,1
+pgss,tradroles4,q7d,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+sasianb1,work4,c31c,c(4:1),"Like men, women should have freedom to go out and work",0,1
+som_combo,equality5,ba900c,c(5:1),Proposal: Strive towards a society with greater equality between women and men,1,1
+tcmeg2004,equaljob5,m710e,c(5:1),Men and women should have equal job opportunities and wages,0,1
+tcmeg2004,income5,m710l,c(5:1),Both the man and woman should contribute to the household income,0,1
+tcmeg2004,polileader5,m710c,c(1:5),"On the whole, men make better political leaders than women do",1,0
+tcmeg2004,rightvote5,m710h,c(5:1),A woman should have the right to vote and to be a member of parliament,1,0
+usgss,earn2,fework,c(2:1),Do you approve or disapprove of a married woman earning money in business or industry if she has a husband capable of supporting her?,0,1
+usgss,emopoli2,fepol,c(1:2),Most men are better suited emotionally for politics than are most women.,1,0
+usgss,helpmeet4,fehelp,c(1:4),"A woman should help husband’s career, not have own",0,1
+usgss,homecountry2,fehome,c(1:2),Do you agree or disagree with this statement? Women should take care of running their homes and leave running the country up to men.,1,0
+usgss,president2,fepres,c(2:1),"If your party nominated a woman for President, would you vote for her if she were qualified for the job?",1,0
+usgss,tradroles4,fefam,c(1:4),It is much better for everyone involved if the man is the achiever outside the home and the woman takes care of the home and family.,0,1
+usgss,tradroles5,hubbywk1,c(1:5),A husband's job is to earn money; a wife's job is to look after the home and family,0,1
+usgss,tradroles2,tradmod,c(1:2),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
+uspew_valcombo,return4,q16j,c(1:4),Women should return to their traditional roles in society,1,1
+uspew2006_12val,return4,q21jf2,c(1:4),Women should return to their traditional roles in society,1,1
+uspew2008_07st,return4,q14,c(1:4),Women should return to their traditional roles in society,1,1
+uspew2009_val,return4,q31jf2,c(1:4),Women should return to their traditional roles in society,1,1
+uspew2012_04val,return4,q41jf2,c(1:4),Women should return to their traditional roles in society,1,1
+uspew2020_04amd,equalright4b,eqrights,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
+wvs_combo,busiexecutive4,d078,c(1:4),"On the whole, men make better business executives than women do.",0,1
+wvs_combo,income4,d058,c(4:1),Both the husband and wife should contribute to household income,0,1
+wvs_combo,job3a,c001_01,"c(1,3,2)","When jobs are scarce, men should have more right to a job than women",0,1
+wvs_combo,polileader4,d059,c(1:4),"On the whole, men make better political leaders than women do",1,0
+wvs_combo,earn5,e213,c(1:5),I approve of a married woman earning money in business or industry even if she has a husband capable of supporting her,0,1
+wvs4_swe,income4,v117,c(4:1),Both the husband and wife should contribute to household income,0,1
+wvs4_swe,job3a,v78,c(1:3),"When jobs are scarce, men should have more right to a job than women",0,1
+wvs4_swe,polileader4,v118,c(1:4),"On the whole, men make better political leaders than women do",1,0
+wvs6_bahrain,job3a,v45,c(1:3),"When jobs are scarce, men should have more right to a job than women",0,1
+wvs6_bahrain,polileader4,v51,c(1:4),"On the whole, men make better political leaders than women do",1,0
+wvs6_bahrain,busiexecutive4,v53,c(1:4),"On the whole, men make better business executives than women do.",0,1
+wvs7,busiexecutive4,q31,c(1:4),"On the whole, men make better business executives than women do.",0,1
+wvs7,job5,q33,c(1:5),"When jobs are scarce, men should have more right to a job than women",0,1
+wvs7,polileader4,q29,c(1:4),"On the whole, men make better political leaders than women do",1,0
