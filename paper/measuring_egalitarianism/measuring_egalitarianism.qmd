@@ -33,7 +33,7 @@ In the decades since, national and cross-national surveys have included a pletho
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2020] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
 Cross-national and longitudinal investigation of, for example, the argument that such "attitudes influence both the supply of, and demand for, female candidates" has remained persistently a topic for future research [@Paxton2010, 47].
 
-```{r dcpo_input_raw_pge, include=FALSE, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data-raw", "surveys_pge_classification.csv"))}
+```{r dcpo_input_raw_pge, include=FALSE, eval=FALSE}
 surveys_pge <- read_csv(here("paper", "measuring_egalitarianism", "data-raw", "surveys_pge.csv"),
                         col_types = "cccccnn")
 
@@ -48,7 +48,7 @@ dcpo_input_raw_pge <- dcpo_setup(vars = surveys_pge,
 
 ```
 
-```{r dcpo_input_raw_balance, include=FALSE, cache = TRUE}
+```{r dcpo_input_raw_balance, include=FALSE, eval=FALSE}
 surveys_egr_balance <- read_csv(here("paper",
                                      "measuring_egalitarianism",
                                      "data-raw",
@@ -66,7 +66,7 @@ dcpo_input_raw_balance <- dcpo_setup(vars = surveys_pge,
 
 ```
 
-```{r egr_summary_stats, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "dcpo_input_raw_public.csv"))}
+```{r egr_summary_stats, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "dcpo_input_raw_pge.csv"))}
 dcpo_input_raw_pge <- read_csv(here("paper",
                                     "measuring_egalitarianism",
                                     "data",
@@ -497,25 +497,11 @@ countries <- c("Norway", "Australia", "United States", "Argentina",
 countries2 <- countries %>% 
   str_replace("United States", "U.S.")
 
-# alpha_results <- DCPO::summarize_dcpo_results(dcpo_input,
-#                                         dcpo_output,
-#                                         "alpha")
-# 
-# c_rawdata <- dcpo_input$data %>% 
-#   filter(country %in% countries) %>%
-#   mutate(mean = y_r/n_r,
-#          country = str_replace(country, "United States", "U.S.") %>% 
-#            factor(levels = countries2)) %>% 
-#   left_join(alpha_results %>% select(question, alpha_mean = mean), by = "question")
-
 c_res <- theta_summary %>% 
   filter(country %in% countries) %>%
   mutate(country = str_replace(country, "United States", "U.S.") %>% 
            factor(levels = countries2))
 
-# ggplot(data = c_rawdata, aes(x = year, y = mean)) +
-#   geom_line(aes(color = item, alpha = 1/alpha_mean)) +
-#   geom_point(aes(color = item, alpha = 1/alpha_mean)) +
 ggplot(data = c_res, aes(x = year, y = mean)) +
   theme_bw() +
   theme(legend.position = "none") +

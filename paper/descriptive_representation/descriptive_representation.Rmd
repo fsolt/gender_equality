@@ -355,24 +355,10 @@ set.seed(324)
 
 ## Data Collection
 ```{r load_party_data}
-# PGE: gender egalitarianism (from Dataverse)
-if (!file.exists(here::here("data-raw", "pge1_0", "pge1_0.rda"))) { 
-  dataverse::get_file_by_id(6176980) %>% 
-    writeBin(here::here("data-raw", "pge1_0.zip"))
-  unzip(here::here("data-raw", "pge1_0.zip"),
-        exdir = here::here("data-raw"))
-}
-pge <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
-                   which = "pge")
+descrep_path <- here::here("paper", "descriptive_representation")
 
-pge_summary <- rio::import(here::here("data-raw", "pge1_0", "pge1_0.rda"),
-                           which = "pge_summary") %>%
-  rename_with(~ paste0("summary_", .x), starts_with("p")) %>% 
-  group_by(country) %>% 
-  mutate(across(starts_with("summary"),
-                ~ lag(.x),
-                .names = "{.col}_lag")) %>% 
-  ungroup()
+# PGE: gender egalitarianism
+pge_summary <- rio::import(here::here("data", "theta_summary.rda"))
 
 # Manifesto Project: parties and election results
 if (!file.exists(here::here("data-raw", "manifesto_project", "mpds2021a.csv"))) {
