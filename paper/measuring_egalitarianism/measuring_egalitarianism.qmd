@@ -509,8 +509,17 @@ res_c <- pge_summary %>%
   length()
 ```
 
+We estimated the model on our source data using the `DCPO` and `cmdstanr` packages for R [@Solt2020a; @Gabry2022], running four chains for 1,000 iterations each and discarding the first half as warmup, which left us with 2,000 samples.
+All $\hat{R}$ diagnostics were below 1.02, indicating that the model converged.
+
+The dispersion parameters of the survey items indicate that all of them load well on the latent variable (see Appendix A).
+The result is estimates, in all `r res_cy` country-years spanned by the source data, of mean public gender egalitarianism, what we call PGE scores.^[
+To provide further confirmation of the unidimensionality of public gender egalitarianism, we estimated two separate indices of gender egalitarianism in politics and in the workplace.  These indices correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years; see Appendix D.]
 
 
+## Public Gender Egalitarianism Around the World {.unnumbered}
+Figure&nbsp;\ref{cs_mry} and Figure&nbsp;\ref{world_map} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
+Together, they underscore the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
 
 ```{r cs_plot, fig.cap="PGE Scores, Most Recent Available Year \\label{cs_mry}", fig.height=10, fig.width=8}
 
@@ -564,16 +573,6 @@ bottom5 <- p1_data %>%
   knitr::combine_words()
 ```
 
-We estimated the model on our source data using the `DCPO` and `cmdstanr` packages for R [@Solt2020a; @Gabry2022], running four chains for 1,000 iterations each and discarding the first half as warmup, which left us with 2,000 samples.
-All $\hat{R}$ diagnostics were below 1.02, indicating that the model converged.
-
-The dispersion parameters of the survey items indicate that all of them load well on the latent variable (see Appendix A).
-The result is estimates, in all `r res_cy` country-years spanned by the source data, of mean public gender egalitarianism, what we call PGE scores.^[
-To provide further confirmation of the unidimensionality of public gender egalitarianism, we estimated two separate indices of gender egalitarianism in politics and in the workplace.  These indices correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years; see Appendix D.]
-Figure&nbsp;\ref{world_map} and Figure&nbsp;\ref{cs_mry} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
-Together, they underscore the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
-
-## Public Gender Egalitarianism Around the World {.unnumbered}
 
 \newpage
 <!-- % changing the orientation to landscape -------------------------- -->
@@ -654,7 +653,7 @@ ggplot() +
 Figure&nbsp;\ref{cs_mry} shows that the Scandinavian countries and Germany are at the top of this list, along with Puerto Rico, which has had women of both of its major parties serve as chief executive and as recently as 2020 had a woman from each party holding the two most prominent elected offices on the island.
 The latest scores for `r bottom5` have them as the places where public opinion is least favorable to gender equality in the public sphere.
 The PGE scores vary considerably across countries.
-Next, we will examine this variation more closely in each of the world's regions.
+Next, we examine this variation more closely in each of the world's regions.
 
 ```{r region_maps}
 regions_geom <- world_geom %>% 
@@ -1030,8 +1029,7 @@ ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>%
 ```
 
 The trend over time in how the public considers gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
-Most of the countries for which data are available have seen some increase over the time observed.
-In Morocco, Tunisia, and Lebanon, these increases have exceeded a fifth of the entire theoretical PGE scale.
+Most of the countries for which data are available have seen some increase over the time observed, and indeed in Morocco, Tunisia, and Lebanon, these increases exceeded a fifth of the entire theoretical PGE scale.
 Gains in gender egalitarianism were not distinguishable from zero in Algeria, Yemen, Libya, and Saudi Arabia.
 Public gender egalitarianism was estimated to decline over the years observed in Bahrain and Israel, though only in the former country does the 80% credible interval of this drop exclude zero.
 
