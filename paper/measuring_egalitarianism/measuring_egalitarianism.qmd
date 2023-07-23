@@ -516,546 +516,6 @@ The dispersion parameters of the survey items indicate that all of them load wel
 The result is estimates, in all `r res_cy` country-years spanned by the source data, of mean public gender egalitarianism, what we call PGE scores.^[
 To provide further confirmation of the unidimensionality of public gender egalitarianism, we estimated two separate indices of gender egalitarianism in politics and in the workplace.  These indices correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years; see Appendix D.]
 
-
-## Public Gender Egalitarianism Around the World {.unnumbered}
-Figure&nbsp;\ref{cs_mry} and Figure&nbsp;\ref{world_map} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
-Together, they underscore the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
-
-```{r cs_plot, fig.cap="PGE Scores, Most Recent Available Year \\label{cs_mry}", fig.height=10, fig.width=8}
-
-n_panes <- 2
-axis_text_size <- 10
-p1_data <- pge_summary %>%
-  group_by(country) %>%
-  top_n(1, year) %>%
-  ungroup() %>%
-  arrange(pge) %>%
-  transmute(country_year = paste0(country, " (", year, ")") %>% 
-              str_replace("’", "'"),
-            pge,
-            conf.high = p90,
-            conf.low = p10,
-            pane = n_panes - (ntile(pge, n_panes) - 1),
-            ranked = as.factor(ceiling(row_number())))
-
-p_theta <- ggplot(p1_data,
-                  aes(x = pge, y = ranked)) +
-  geom_segment(aes(x = conf.low, xend = conf.high,
-                   y = ranked, yend = ranked),
-               na.rm = TRUE,
-               alpha = .4) +
-  geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
-  theme_bw() + theme(legend.position="none",
-                     axis.text.x  = element_text(size = axis_text_size,
-                                                 angle = 90,
-                                                 vjust = .45,
-                                                 hjust = .95),
-                     axis.text.y  = element_text(size = axis_text_size),
-                     axis.title = element_blank(),
-                     strip.background = element_blank(), 
-                     strip.text = element_blank(),
-                     panel.grid.major = element_line(linewidth = .3),
-                     panel.grid.minor = element_line(linewidth = .15)) +
-  scale_y_discrete(breaks = p1_data$ranked, labels=p1_data$country_year) +
-  coord_cartesian(xlim=c(0, 1)) +
-  facet_wrap(vars(pane), scales = "free", nrow = 1)
-
-
-p_theta +
-  plot_annotation(caption = "Note: Gray whiskers represent 80% credible intervals.")
-
-bottom5 <- p1_data %>% 
-  arrange(ranked) %>% 
-  slice(1:5) %>% 
-  pull(country_year) %>% 
-  str_replace(" \\(.*", "") %>% 
-  str_replace("Palestinian", "the Palestinian") %>% 
-  knitr::combine_words()
-```
-
-
-\newpage
-<!-- % changing the orientation to landscape -------------------------- -->
-\KOMAoptions{paper=landscape,pagesize}
-\recalctypearea
-
-```{r world_map, fig.cap="PGE Scores Around the World \\label{world_map}", fig.height = 6}
-world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
-    filter(!admin == "Antarctica")
-
-pge_range <- c(.15, .95)
-na_value = "white"
-central_asia <- c("Armenia", "Azerbaijan", "Georgia", "Kazakhstan", "Kyrgyzstan", "Russia", "Tajikistan", "Turkmenistan", "Uzbekistan")
-
-region_dict <- codelist %>% 
-    mutate(region8 = case_when(region == "Europe & Central Asia" &
-                                   country.name.en %in% central_asia ~
-                                   "Central Asia",
-                               region == "Europe & Central Asia" &
-                                   !country.name.en %in% central_asia ~ "Europe",
-                               TRUE ~ region)) %>% 
-    select(country.name.en, region8) %>% 
-    add_row(country.name.en = "Northern Ireland", region8 = "Europe")
-
-region_pge <- pge_summary %>%
-  group_by(country) %>%
-  top_n(1, year) %>%
-  ungroup() %>%
-  select(country, pge, world_region) %>%
-  group_by(world_region) %>%
-  summarize(n_countries = n())
-
-world_geom <- world1 %>% 
-    mutate(country = countrycode::countrycode(admin,
-                                              "country.name",
-                                              "country.name"),
-           world_region = countrycode(country,
-                                      "country.name.en",
-                                      "region8",
-                                      custom_dict = region_dict)) %>% 
-    filter(!admin == "Antarctica") %>% 
-    left_join(pge_summary %>%
-                  group_by(country) %>%
-                  top_n(1, year) %>%
-                  ungroup() %>%
-                  select(country, pge),
-              by = "country") %>% 
-    arrange(-pge) %>% 
-    left_join(region_pge,
-              by = "world_region") %>% 
-    mutate(world_region = fct_reorder(world_region,
-                                      -n_countries,
-                                      .na_rm = FALSE))
-
-ggplot() +
-    geom_sf(data = world1) +
-    geom_sf(data = world_geom,
-            aes(fill = pge, color = 'NA')) +
-    coord_sf(crs = sf::st_crs("ESRI:53035")) +
-    scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
-                        low = "grey95",
-                        high = "grey5",
-                        na.value = na_value,
-                        limits = pge_range) +
-    scale_color_manual(name = "", 
-                       values = 'black',
-                       labels = 'No Data') +
-    guides(color = guide_legend(override.aes = 
-                                    list(fill = na_value))) +
-    theme(legend.position="right")
-
-```
-
-
-\KOMAoptions{paper=portrait,pagesize}
-\recalctypearea
-
-Figure&nbsp;\ref{cs_mry} shows that the Scandinavian countries and Germany are at the top of this list, along with Puerto Rico, which has had women of both of its major parties serve as chief executive and as recently as 2020 had a woman from each party holding the two most prominent elected offices on the island.
-The latest scores for `r bottom5` have them as the places where public opinion is least favorable to gender equality in the public sphere.
-The PGE scores vary considerably across countries.
-Next, we examine this variation more closely in each of the world's regions.
-
-```{r region_maps}
-regions_geom <- world_geom %>% 
-    split(., .$world_region)
-
-regions_bbox <- map_df(regions_geom,
-                    \(reg){
-                        reg %>% 
-                            summarize(ee_geom = st_transform(geometry,
-                                                             crs = "ESRI:53035"),
-                                      reg_xmin = ee_geom %>%
-                                          sf::st_bbox() %>% 
-                                          first() %>% 
-                                          min(),
-                                      reg_xmax = ee_geom %>% 
-                                          sf::st_bbox() %>% 
-                                          nth(3) %>% 
-                                          max(),
-                                      reg_ymin = ee_geom %>%
-                                          sf::st_bbox() %>% 
-                                          nth(2) %>% 
-                                          min(),
-                                      reg_ymax = ee_geom %>% 
-                                          sf::st_bbox() %>% 
-                                          nth(4) %>% 
-                                          max(),
-                                      .by = world_region) %>% 
-                            as_data_frame() %>% 
-                            select(-ee_geom) %>% 
-                            distinct()
-                    }) %>% 
-    mutate(reg_xmin = case_when(world_region == "Europe" ~ -1700000,
-                                world_region == "East Asia & Pacific" ~ 6200000,
-                                world_region == "Central Asia" ~1850000,
-                                TRUE ~ reg_xmin),
-           reg_ymin = case_when(world_region == "Europe" ~ 4250000,
-                                TRUE ~ reg_ymin),
-           legend_pos = case_when(world_region == "Europe" ~ "c(.99, .99)",
-                                  world_region == "Central Asia" ~ "bottom",
-                                  TRUE ~ "right"),
-           legend_just = case_when(world_region == "Europe" ~ "c(1, 1)",
-                                  world_region == "Central Asia" ~ "bottom",
-                                  TRUE ~ "right"))
-
-region_maps <- map(regions_bbox$world_region,
-                   \(reg) {
-                       ggplot() +
-                           geom_sf(data = world1,
-                                           fill = "grey97") +
-                           geom_sf(data = regions_geom[[reg]],
-                                   aes(fill = pge, color = 'NA')) +
-                           coord_sf(crs = sf::st_crs("ESRI:53035"),
-                                    xlim = c(regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_xmin),
-                                             regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_xmax)),
-                                    ylim = c(regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_ymin),
-                                             regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_ymax)),
-                                    expand = FALSE) +
-                           scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
-                                               low = "grey95",
-                                               high = "grey5",
-                                               na.value = na_value,
-                                               limits = pge_range) +
-                           scale_color_manual(name = element_blank(), 
-                                              values = 'black',
-                                              labels = 'No Data') +
-                           guides(color = guide_legend(override.aes = 
-                                                           list(fill = na_value))) +
-                       theme(legend.spacing.y = unit(0.7, "mm"),
-                             panel.border = element_rect(colour = "black",
-                                                         fill = NA),
-                             legend.background = element_blank(),
-                             legend.box.background = element_rect(
-                               colour = "black",
-                               fill = "white"))
-                     })
-```
-
-```{r region_countries_pge}
-region_countries_pge_summary <- pge_summary %>% 
-  left_join(region_pge,
-            by = "world_region") %>% 
-  mutate(world_region = fct_reorder(world_region,
-                                      -n_countries,
-                                      .na_rm = FALSE)) %>% 
-  split(., .$world_region) %>% 
-  map(\(reg) {
-    reg %>%
-      group_by(country) %>% 
-      mutate(pge_mry = last(pge)) %>% 
-      ungroup() %>% 
-      mutate(country = country %>% 
-               str_replace("(.*) ", "\\1\n") %>% 
-               str_replace(" SAR\n", "\nSAR ") %>% 
-               factor() %>%
-             fct_reorder(-pge_mry))
-  })
-
-note <- plot_annotation(caption = "Note: Countries are ordered by their PGE scores in their most recent\navailable year; gray shading and whiskers represent 80% credible intervals.")
-```
-
-```{r region_countries_pge_list}
-region_pge_list <- pge %>%
-  mutate(world_region = countrycode(country,
-                                    "country.name.en",
-                                    "region8",
-                                    custom_dict = region_dict)) %>%
-  left_join(region_pge,
-            by = "world_region") %>% 
-  mutate(world_region = fct_reorder(world_region,
-                                    -n_countries,
-                                    .na_rm = FALSE)) %>% 
-  filter(!country == "Northern Ireland") %>% 
-  group_by(country) %>% 
-  mutate(pge_mry = last(pge)) %>% 
-  ungroup() %>% 
-  split(., .$world_region) 
-
-region_countries_pge_list <- region_pge_list %>% 
-  map(\(reg) 
-      reg %>% 
-        mutate(country = factor(country) %>%
-                 fct_reorder(-pge_mry)) %>%   
-        split(., .$country))
-```
-
-```{r trends}
-trends <- pge_summary %>%
-    group_by(country) %>% 
-    summarize(pge_min = min(pge),
-              pge_se_min = mean(ifelse(pge == pge_min, pge_se, NA_integer_),
-                                na.rm = TRUE),
-              pge_max = max(pge),
-              pge_se_max = mean(ifelse(pge == pge_max, pge_se, NA_integer_),
-                                na.rm = TRUE),
-              pge_last = mean(ifelse(year == max(year), pge, NA_real_),
-                              na.rm = TRUE),
-              pge_se_last = mean(ifelse(pge == pge_last, pge_se, NA_integer_),
-                                na.rm = TRUE),
-              pge_first = mean(ifelse(year == min(year), pge, NA_real_),
-                              na.rm = TRUE),
-              pge_se_first = mean(ifelse(pge == pge_first, pge_se, NA_integer_),
-                                 na.rm = TRUE),
-              yr_min = mean(ifelse(pge == pge_min, year, NA_integer_),
-                            na.rm = TRUE),
-              yr_max = mean(ifelse(pge == pge_max, year, NA_integer_),
-                            na.rm = TRUE),
-              yr_last = max(year),
-              yr_first = min(year),
-              pge_gain = ifelse(yr_max > yr_min, pge_max - pge_min, pge_min - pge_max),
-              pge_gain_se = sqrt(pge_se_max^2 + pge_se_min^2),
-              pge_change = ifelse(yr_last > yr_first, pge_last - pge_first, pge_first - pge_last),
-              pge_change_se = sqrt(pge_se_last^2 + pge_se_min^2),
-              world_region = first(world_region)) %>% 
-  arrange(world_region, -pge_change) %>% 
-  filter(!country == "Malta") %>% 
-  mutate(country = as_factor(country))
-
-change_plot <- function(region, axis_text_size = 7) {
-  trends %>% 
-    filter(world_region == region) %>% 
-    ggplot(aes(x = pge_change, y = country)) +
-  geom_segment(aes(x = pge_change - qnorm(.9)*pge_change_se,
-                   xend = pge_change + qnorm(.9)*pge_change_se,
-                   y = country,
-                   yend = country),
-               na.rm = TRUE,
-               alpha = .4) +
-    geom_vline(xintercept = 0,
-               linetype = "dashed",
-               alpha = .25) +
-  geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
-    theme_bw() + 
-    theme(legend.position="none",
-          axis.text.x  = element_text(size = axis_text_size,
-                                      angle = 90,
-                                      vjust = .45,
-                                      hjust = .95),
-          axis.text.y  = element_text(size = axis_text_size),
-          axis.title = element_blank(),
-          strip.background = element_blank(), 
-          strip.text = element_blank(),
-          panel.grid.major = element_line(linewidth = .3),
-          panel.grid.minor = element_line(linewidth = .15),
-          plot.title = element_text(size=8)) +
-    scale_y_discrete(limits = rev,
-                     position = "right") +
-    ggtitle("Change in PGE,\nFirst to Last Observed Year")
-}
-
-```
-
-\pagebreak
-
-### Europe {.unnumbered}
-We turn first to Europe, the region with the largest number of countries in the PGE database.
-Figure&nbsp;\ref{europe_map} depicts how the most recent PGE score for each country varies across the region.
-The map reinforces that the public in many northern and western European countries have some of the most egalitarian views toward women in politics and the workforce in the world.
-Led by Norway, Sweden, and Denmark, nearly all of these countries have PGE scores of .75 or higher in the most recent available year.
-Gender egalitarianism tends to be lower in the countries to the east and southeast.
-The lowest levels of gender egalitarianism in Europe were observed in Ukraine, Slovakia, and Moldova.
-It should be noted, however, that the most recent available PGE scores in even these latter countries still attained or approached .5, indicating that roughly half the population holds egalitarian views. 
-Gender egalitarianism is generally a widely held attitude among European publics.
-
-\pagebreak
-```{r europe_map, fig.cap="PGE Scores Across Europe, Most Recent Available Year \\label{europe_map}", fig.height = 5}
-region_maps[[1]] +
-  theme(legend.position = c(.99, .99),
-        legend.justification = c(1, 1))
-```
-
-Figure&nbsp;\ref{europe_ts} displays how PGE scores have changed over time in the forty European countries for which estimates are available.
-The biggest changes in gender egalitarianism over the observed years occurred in Estonia, Germany, and the Benelux countries of Belgium, the Netherlands, and Luxembourg.
-The PGE scores in each of those countries increased by 30% or more of the measure's theoretical range.
-On the other hand, shifts over time in the public's views toward gender equality were indiscernible in Moldova, Greece, Bosnia and Herzegovina, and North Macedonia.
-Although some temporary declines are easily seen in this figure, and egalitarianism dips recently in a few, none of the countries of Europe exhibited lower levels of public gender egalitarianism in the most recent observed year than in their first observed year.
-
-```{r europe_ts, fig.cap="PGE Scores in Europe Over Time \\label{europe_ts}", fig.height = 9, fig.width=7, cache=FALSE}
-ts_plot <- function(data,
-                    facet_text_size = 7,
-                    ...) {
-  ggplot(data = data, aes(x = year, y = pge)) +
-    theme_bw() +
-    theme(legend.position = "none") +
-    coord_cartesian(xlim = c(1980, 2022), ylim = c(0, 1)) +
-    labs(x = NULL, y = "PGE Scores") +
-    geom_ribbon(data = data, 
-                aes(ymin = p10, ymax = p90, linetype=NA),
-                alpha = .25) +
-    geom_line(data = data) +
-    facet_wrap(~country, ...) +
-    # force_panelsizes(rows = unit(1.3, "in"), 
-    #                  cols = unit(.7, "in"), 
-    #                  TRUE) +
-    theme(axis.text.x  = element_text(size = 7,
-                                      angle = 90,
-                                      vjust = .45,
-                                      hjust = .95),
-          strip.text.x = element_text(size = facet_text_size),
-          strip.background = element_rect(fill = "white", colour = "white"),
-          plot.title = element_text(size=8)) +
-    ggtitle("PGE Scores Over Time by Country")
-}
-
-ts_plot(region_countries_pge_summary[["Europe"]], 
-        facet_text_size = 6,
-        nrow = 5) + 
-  change_plot("Europe") +
-  plot_layout(widths = c(6, 1)) +
-  note
-```
-
-
-```{r europe_trends, eval=FALSE}
-europe_country_trends <- region_country_trends("Europe")
-
-save(europe_country_trends, file = here("data", "europe_country_trends.rda"))
-```
-
-```{r europe_trends_plot}
-load(here("data", "europe_country_trends.rda"))
-```
-
-\pagebreak
-\newpage
-### Latin America and the Caribbean {.unnumbered}
-
-Latin America and the Caribbean encompass the next largest number of countries and include one of the places with the world's most gender egalitarian attitudes with regard to politics and the workplace, Puerto Rico.
-Figure&nbsp;\ref{latam_map} shows the most recent PGE scores for the region.
-It shows that public opinion in Latin America has generally become favorable to gender equality in the public sphere.
-In addition to Puerto Rico, Uruguay and Costa Rica have PGE scores of .75 or higher in the most recent available year.
-Argentina, Mexico, and Brazil---countries with three of the four biggest populations in the region---also exhibit gender egalitarianism scores nearly that high.
-The Latin American countries with the lowest levels of gender egalitarianism are Guyana and Haiti, but as with the least egalitarian countries in Europe, even these countries' most recent PGE scores are around .5, putting them not far below the median of all countries.
-
-```{r latam_map, fig.cap="PGE Scores Across Latin America and the Caribbean, Most Recent Available Year \\label{latam_map}", fig.height = 9}
-region_maps[[2]] +
-  theme(legend.position = c(.01, .01),
-        legend.justification = c(0, 0))
-```
-
-
-
-```{r latam_ts, fig.cap="PGE Scores in Latin America and the Caribbean Over Time \\label{latam_ts}", fig.height = 9, cache=FALSE}
-ts_plot(region_countries_pge_summary[["Latin America & Caribbean"]], nrow = 5) + change_plot("Latin America & Caribbean") +
-  plot_layout(widths = c(5, 1)) +
-  note
-```
-
-How PGE scores in Latin America and the Caribbean have changed over time is shown in Figure&nbsp;\ref{latam_ts}.
-Attitudes shifted the most in Costa Rica, Argentina, and Mexico, moving about a fifth of the theoretical range of the measure over the years spanned by our observations.
-But in nearly half of the region's countries, the difference in the estimated level of public gender egalitarianism from the first observed year to the last observed year is indistinguishable from zero.
-These countries are listed, from Panama to Suriname, towards the bottom of the rightmost pane of Figure&nbsp;\ref{latam_ts}.
-Still, only in Suriname did the public's views grow decisively less gender egalitarian, at least according to the 80% credible interval, over the observed time span.
-
-```{r latam_trends, eval=FALSE}
-latam_country_trends <- region_country_trends("Latin America & Caribbean")
-
-save(latam_country_trends, file = here("data", "latam_country_trends.rda"))
-```
-
-```{r latam_trends_plot}
-load(here("data", "latam_country_trends.rda"))
-```
-
-\pagebreak
-### East Asia and the Pacific {.unnumbered}
-
-The countries of East Asia and the Pacific exhibit more variation than the countries of either of the two regions discussed above.
-Figure&nbsp;\ref{eapac_map} shows the most recent PGE scores for each territory in the region.
-In New Zealand and Australia, PGE scores exceed .75 in the most recent year available. 
-On the other hand, attitudes remain decidedly opposed in gender equality in politics and the workplace in Myanmar.
-South Korea, where a PGE score just above .5 indicates the public is nearly evenly split in its views, constitutes the median of the region, with Japan and China close to either side.
-
-```{r eapac_map, fig.cap="PGE Scores Across East Asia and the Pacific, Most Recent Available Year \\label{eapac_map}", fig.height = 9, cache=FALSE}
-region_maps[[3]] +
-  theme(legend.position = c(.01, .01),
-        legend.justification = c(0, 0))
-```
-
-
-
-```{r eapac_ts, fig.cap="PGE Scores in East Asia and the Pacific Over Time \\label{eapac_ts}", fig.height = 5.4}
-ts_plot(region_countries_pge_summary[["East Asia & Pacific"]], 
-        nrow = 3) + 
-  change_plot("East Asia & Pacific",
-              axis_text_size = 9) +
-  plot_layout(widths = c(6, 1)) +
-  note
-```
-
-Figure&nbsp;\ref{eapac_ts} shows how attitudes toward gender equality have evolved over time in the region.
-Comparing the first observed year to the last, nine of the seventeen countries and territories saw gains in public gender egalitarianism whose 80% credible intervals exclude zero, with the biggest increases occurring in Australia, South Korea, and Thailand.
-In six places---China, Vietnam, Mongolia, Myanmar, Macao, and the Philippines---the change from the first to last observed year is not distinguishable from zero.
-The public in both Cambodia and Indonesia registered a statistically discernible decline in gender egalitarianism.
-
-\pagebreak
-\newpage
-
-### The Middle East and North Africa {.unnumbered}
-
-The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
-The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
-Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
-Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
-Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
-The most recent PGE score is roughly .25 in each of these last three countries.
-
-```{r mena_map, fig.cap="PGE Scores Across the Middle East and North Africa, Most Recent Available Year \\label{mena_map}", fig.height = 3.5}
-region_maps[[4]] +
-  theme(legend.position = c(.01, .01),
-        legend.justification = c(0, 0),
-        legend.direction = "horizontal") +
-  guides(color = FALSE)
-```
-
-
-
-```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
-ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
-          filter(!country == "Malta"), 
-        nrow = 3) + 
-  change_plot("Middle East & North Africa",
-              axis_text_size = 9) +
-  plot_layout(widths = c(6, 1)) +
-  note
-```
-
-The trend over time in how the public considers gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
-Most of the countries for which data are available have seen some increase over the time observed, and indeed in Morocco, Tunisia, and Lebanon, these increases exceeded a fifth of the entire theoretical PGE scale.
-Gains in gender egalitarianism were not distinguishable from zero in Algeria, Yemen, Libya, and Saudi Arabia.
-Public gender egalitarianism was estimated to decline over the years observed in Bahrain and Israel, though only in the former country does the 80% credible interval of this drop exclude zero.
-
-\pagebreak
-\newpage
-
-
-### Trends in Public Gender Egalitarianism {.unnumbered}
-
-```{r region_trends}
-region_trends_model <- region_pge_list %>% 
-  furrr::future_imap(\(reg, reg_name) {
-    lmer(pge ~ year +
-           I(year^2) +
-           (1 | country),
-         data = reg) %>% 
-      broom.mixed::tidy() %>% 
-      filter(effect == "fixed") %>% 
-      mutate(model = first(reg$world_region))
-  }) %>% 
-  list_rbind()
-```
-
-
-
-
 ## Validating Public Gender Egalitarianism {.unnumbered}
 
 ```{r internal_plot, cache = TRUE}
@@ -1241,8 +701,9 @@ internal_plot + internal_cs_plot + internal_us_plot +
   plot_annotation(caption = "Note: Gray whiskers and shading represent 80% credible intervals.")
 ```
 
-Such future research, however, depends on the validity of the PGE scores.
-Like @Caughey2019 [684-685], we provide evidence of our measure's validity with convergent validation and construct validation.
+Before we can use the PGE scores to evaluate whether and to what extent that public gender egalitarianism contributes to women's descriptive representation and to gender egalitarian policy outcomes---and even before we put too much effort into examining how it varies around the world---we must assess the validity of these PGE scores.
+That is, we must make certain that the PGE scores, as a measure, reflect the concept of the public's gender egalitarianism with regard to the public sphere of politics and the workforce.
+Like @Caughey2019 [684-685], we provide evidence of the measure's validity with convergent validation and construct validation.
 Convergent validation refers to showing that a measure is empirically associated with alternative indicators of the same concept [@Adcock2001, 540].
 Here, we compare PGE scores to responses to individual source-data survey items that were used to generate our estimates, that is, we provide an 'internal' validation test [see, e.g., @Caughey2019, 689; @Solt2020c, 10].
 In the left panel of Figure&nbsp;\ref{conv_plot}, we examine the four-point question on political leaders mentioned above, the most common item in the source data across all country-years.
@@ -1251,7 +712,6 @@ Finally, in the right panel, to evaluate how well the PGE scores capture change 
 In every case, the correlations---estimated taking into account the uncertainty in the measures---are in the expected direction and very strong.^[
 The uncertainty in the PGE score and in the percentage in the population who would agree with the item does not substantially affect the correlation with the political leadership question, but failing to account for this uncertainty would overstate the correlation with the Pew item, at $R =$ `r with(internal_poliequal, cor(prop, pge)) %>% round(2)`, and the U.S. GSS item, at $R =$ `r with(internal_us, cor(prop, pge, use = "pairwise.complete.obs")) %>% round(2)`.
 We take up the issue of the importance of taking uncertainty into account when working with the PGE data in a subsequent section.]
-
 
 ```{r construct_validation_survey, cache = TRUE, cache.extra = tools::md5sum(here("paper", "measuring_egalitarianism", "data", "pge.rda")), fig.cap="Construct Validation: Correlations Between PGE Scores and Individual 'Balancing' Gender Egalitarianism Survey Items \\label{surv_const_plot}", fig.height=4}
 dcpo_input_balance <- DCPOtools::format_dcpo(dcpo_input_raw_balance1,
@@ -1555,6 +1015,580 @@ In the left panel of Figure&nbsp;\ref{construct_plot}, we compare the PGE scores
 In the right panel, we plot the PGE scores against the percentage of women on the boards of directors of the largest publicly listed companies in `r nrow(directors)` countries, also in 2017 [see @OECD2020].
 Both correlations are strong.
 Together, this evidence of construct validation and convergent validation attests to the validity of the PGE scores as measures of public opinion towards gender equality in the public sphere.
+
+## Public Gender Egalitarianism Around the World {.unnumbered}
+Figure&nbsp;\ref{cs_mry} and Figure&nbsp;\ref{world_map} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
+Together, they underscore the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
+
+\newpage
+<!-- % changing the orientation to landscape -------------------------- -->
+\KOMAoptions{paper=landscape,pagesize}
+\recalctypearea
+
+```{r world_map, fig.cap="PGE Scores Around the World \\label{world_map}", fig.height = 6}
+world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
+    filter(!admin == "Antarctica")
+
+pge_range <- c(.15, .95)
+na_value = "white"
+central_asia <- c("Armenia", "Azerbaijan", "Georgia", "Kazakhstan", "Kyrgyzstan", "Russia", "Tajikistan", "Turkmenistan", "Uzbekistan")
+
+region_dict <- codelist %>% 
+    mutate(region8 = case_when(region == "Europe & Central Asia" &
+                                   country.name.en %in% central_asia ~
+                                   "Central Asia",
+                               region == "Europe & Central Asia" &
+                                   !country.name.en %in% central_asia ~ "Europe",
+                               TRUE ~ region)) %>% 
+    select(country.name.en, region8) %>% 
+    add_row(country.name.en = "Northern Ireland", region8 = "Europe")
+
+region_pge <- pge_summary %>%
+  group_by(country) %>%
+  top_n(1, year) %>%
+  ungroup() %>%
+  select(country, pge, world_region) %>%
+  group_by(world_region) %>%
+  summarize(n_countries = n())
+
+world_geom <- world1 %>% 
+    mutate(country = countrycode::countrycode(admin,
+                                              "country.name",
+                                              "country.name"),
+           world_region = countrycode(country,
+                                      "country.name.en",
+                                      "region8",
+                                      custom_dict = region_dict)) %>% 
+    filter(!admin == "Antarctica") %>% 
+    left_join(pge_summary %>%
+                  group_by(country) %>%
+                  top_n(1, year) %>%
+                  ungroup() %>%
+                  select(country, pge),
+              by = "country") %>% 
+    arrange(-pge) %>% 
+    left_join(region_pge,
+              by = "world_region") %>% 
+    mutate(world_region = fct_reorder(world_region,
+                                      -n_countries,
+                                      .na_rm = FALSE))
+
+ggplot() +
+    geom_sf(data = world1) +
+    geom_sf(data = world_geom,
+            aes(fill = pge, color = 'NA')) +
+    coord_sf(crs = sf::st_crs("ESRI:53035")) +
+    scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
+                        low = "grey95",
+                        high = "grey5",
+                        na.value = na_value,
+                        limits = pge_range) +
+    scale_color_manual(name = "", 
+                       values = 'black',
+                       labels = 'No Data') +
+    guides(color = guide_legend(override.aes = 
+                                    list(fill = na_value))) +
+    theme(legend.position="right")
+
+```
+
+
+\KOMAoptions{paper=portrait,pagesize}
+\recalctypearea
+
+```{r cs_plot, fig.cap="PGE Scores, Most Recent Available Year \\label{cs_mry}", fig.height=10, fig.width=8}
+
+n_panes <- 2
+axis_text_size <- 10
+p1_data <- pge_summary %>%
+  group_by(country) %>%
+  top_n(1, year) %>%
+  ungroup() %>%
+  arrange(pge) %>%
+  transmute(country_year = paste0(country, " (", year, ")") %>% 
+              str_replace("’", "'"),
+            pge,
+            conf.high = p90,
+            conf.low = p10,
+            pane = n_panes - (ntile(pge, n_panes) - 1),
+            ranked = as.factor(ceiling(row_number())))
+
+p_theta <- ggplot(p1_data,
+                  aes(x = pge, y = ranked)) +
+  geom_segment(aes(x = conf.low, xend = conf.high,
+                   y = ranked, yend = ranked),
+               na.rm = TRUE,
+               alpha = .4) +
+  geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
+  theme_bw() + theme(legend.position="none",
+                     axis.text.x  = element_text(size = axis_text_size,
+                                                 angle = 90,
+                                                 vjust = .45,
+                                                 hjust = .95),
+                     axis.text.y  = element_text(size = axis_text_size),
+                     axis.title = element_blank(),
+                     strip.background = element_blank(), 
+                     strip.text = element_blank(),
+                     panel.grid.major = element_line(linewidth = .3),
+                     panel.grid.minor = element_line(linewidth = .15)) +
+  scale_y_discrete(breaks = p1_data$ranked, labels=p1_data$country_year) +
+  coord_cartesian(xlim=c(0, 1)) +
+  facet_wrap(vars(pane), scales = "free", nrow = 1)
+
+
+p_theta +
+  plot_annotation(caption = "Note: Gray whiskers represent 80% credible intervals.")
+
+bottom5 <- p1_data %>% 
+  arrange(ranked) %>% 
+  slice(1:5) %>% 
+  pull(country_year) %>% 
+  str_replace(" \\(.*", "") %>% 
+  str_replace("Palestinian", "the Palestinian") %>% 
+  knitr::combine_words()
+```
+
+Figure&nbsp;\ref{cs_mry} shows that the Scandinavian countries and Germany are at the top of this list, along with Puerto Rico, which has had women of both of its major parties serve as chief executive and as recently as 2020 had a woman from each party holding the two most prominent elected offices on the island.
+The latest scores for `r bottom5` have them as the places where public opinion is least favorable to gender equality in the public sphere.
+The PGE scores vary considerably across countries.
+Next, we examine this variation more closely in each of the world's regions.
+
+```{r region_maps}
+regions_geom <- world_geom %>% 
+    split(., .$world_region)
+
+regions_bbox <- map_df(regions_geom,
+                    \(reg){
+                        reg %>% 
+                            summarize(ee_geom = st_transform(geometry,
+                                                             crs = "ESRI:53035"),
+                                      reg_xmin = ee_geom %>%
+                                          sf::st_bbox() %>% 
+                                          first() %>% 
+                                          min(),
+                                      reg_xmax = ee_geom %>% 
+                                          sf::st_bbox() %>% 
+                                          nth(3) %>% 
+                                          max(),
+                                      reg_ymin = ee_geom %>%
+                                          sf::st_bbox() %>% 
+                                          nth(2) %>% 
+                                          min(),
+                                      reg_ymax = ee_geom %>% 
+                                          sf::st_bbox() %>% 
+                                          nth(4) %>% 
+                                          max(),
+                                      .by = world_region) %>% 
+                            as_data_frame() %>% 
+                            select(-ee_geom) %>% 
+                            distinct()
+                    }) %>% 
+    mutate(reg_xmin = case_when(world_region == "Europe" ~ -1700000,
+                                world_region == "East Asia & Pacific" ~ 6200000,
+                                world_region == "Central Asia" ~1850000,
+                                TRUE ~ reg_xmin),
+           reg_ymin = case_when(world_region == "Europe" ~ 4250000,
+                                TRUE ~ reg_ymin),
+           legend_pos = case_when(world_region == "Europe" ~ "c(.99, .99)",
+                                  world_region == "Central Asia" ~ "bottom",
+                                  TRUE ~ "right"),
+           legend_just = case_when(world_region == "Europe" ~ "c(1, 1)",
+                                  world_region == "Central Asia" ~ "bottom",
+                                  TRUE ~ "right"))
+
+region_maps <- map(regions_bbox$world_region,
+                   \(reg) {
+                       ggplot() +
+                           geom_sf(data = world1,
+                                           fill = "grey97") +
+                           geom_sf(data = regions_geom[[reg]],
+                                   aes(fill = pge, color = 'NA')) +
+                           coord_sf(crs = sf::st_crs("ESRI:53035"),
+                                    xlim = c(regions_bbox %>% 
+                                                 filter(world_region == reg) %>% 
+                                                 pull(reg_xmin),
+                                             regions_bbox %>% 
+                                                 filter(world_region == reg) %>% 
+                                                 pull(reg_xmax)),
+                                    ylim = c(regions_bbox %>% 
+                                                 filter(world_region == reg) %>% 
+                                                 pull(reg_ymin),
+                                             regions_bbox %>% 
+                                                 filter(world_region == reg) %>% 
+                                                 pull(reg_ymax)),
+                                    expand = FALSE) +
+                           scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
+                                               low = "grey95",
+                                               high = "grey5",
+                                               na.value = na_value,
+                                               limits = pge_range) +
+                           scale_color_manual(name = element_blank(), 
+                                              values = 'black',
+                                              labels = 'No Data') +
+                           guides(color = guide_legend(override.aes = 
+                                                           list(fill = na_value))) +
+                       theme(legend.spacing.y = unit(0.7, "mm"),
+                             panel.border = element_rect(colour = "black",
+                                                         fill = NA),
+                             legend.background = element_blank(),
+                             legend.box.background = element_rect(
+                               colour = "black",
+                               fill = "white"))
+                     })
+```
+
+```{r region_countries_pge}
+region_countries_pge_summary <- pge_summary %>% 
+  left_join(region_pge,
+            by = "world_region") %>% 
+  mutate(world_region = fct_reorder(world_region,
+                                      -n_countries,
+                                      .na_rm = FALSE)) %>% 
+  split(., .$world_region) %>% 
+  map(\(reg) {
+    reg %>%
+      group_by(country) %>% 
+      mutate(pge_mry = last(pge)) %>% 
+      ungroup() %>% 
+      mutate(country = country %>% 
+               str_replace("(.*) ", "\\1\n") %>% 
+               str_replace(" SAR\n", "\nSAR ") %>% 
+               factor() %>%
+             fct_reorder(-pge_mry))
+  })
+
+note <- plot_annotation(caption = "Note: Countries are ordered by their PGE scores in their most recent\navailable year; gray shading and whiskers represent 80% credible intervals.")
+```
+
+```{r region_countries_pge_list}
+region_pge_list <- pge %>%
+  mutate(world_region = countrycode(country,
+                                    "country.name.en",
+                                    "region8",
+                                    custom_dict = region_dict)) %>%
+  left_join(region_pge,
+            by = "world_region") %>% 
+  mutate(world_region = fct_reorder(world_region,
+                                    -n_countries,
+                                    .na_rm = FALSE)) %>% 
+  filter(!country == "Northern Ireland") %>% 
+  group_by(country) %>% 
+  mutate(pge_mry = last(pge)) %>% 
+  ungroup() %>% 
+  split(., .$world_region) 
+
+region_countries_pge_list <- region_pge_list %>% 
+  map(\(reg) 
+      reg %>% 
+        mutate(country = factor(country) %>%
+                 fct_reorder(-pge_mry)) %>%   
+        split(., .$country))
+```
+
+```{r trends}
+trends <- pge_summary %>%
+    group_by(country) %>% 
+    summarize(pge_min = min(pge),
+              pge_se_min = mean(ifelse(pge == pge_min, pge_se, NA_integer_),
+                                na.rm = TRUE),
+              pge_max = max(pge),
+              pge_se_max = mean(ifelse(pge == pge_max, pge_se, NA_integer_),
+                                na.rm = TRUE),
+              pge_last = mean(ifelse(year == max(year), pge, NA_real_),
+                              na.rm = TRUE),
+              pge_se_last = mean(ifelse(pge == pge_last, pge_se, NA_integer_),
+                                na.rm = TRUE),
+              pge_first = mean(ifelse(year == min(year), pge, NA_real_),
+                              na.rm = TRUE),
+              pge_se_first = mean(ifelse(pge == pge_first, pge_se, NA_integer_),
+                                 na.rm = TRUE),
+              yr_min = mean(ifelse(pge == pge_min, year, NA_integer_),
+                            na.rm = TRUE),
+              yr_max = mean(ifelse(pge == pge_max, year, NA_integer_),
+                            na.rm = TRUE),
+              yr_last = max(year),
+              yr_first = min(year),
+              pge_gain = ifelse(yr_max > yr_min, pge_max - pge_min, pge_min - pge_max),
+              pge_gain_se = sqrt(pge_se_max^2 + pge_se_min^2),
+              pge_change = ifelse(yr_last > yr_first, pge_last - pge_first, pge_first - pge_last),
+              pge_change_se = sqrt(pge_se_last^2 + pge_se_min^2),
+              world_region = first(world_region)) %>% 
+  arrange(world_region, -pge_change) %>% 
+  filter(!country == "Malta") %>% 
+  mutate(country = as_factor(country))
+
+change_plot <- function(region, axis_text_size = 7) {
+  trends %>% 
+    filter(world_region == region) %>% 
+    ggplot(aes(x = pge_change, y = country)) +
+  geom_segment(aes(x = pge_change - qnorm(.9)*pge_change_se,
+                   xend = pge_change + qnorm(.9)*pge_change_se,
+                   y = country,
+                   yend = country),
+               na.rm = TRUE,
+               alpha = .4) +
+    geom_vline(xintercept = 0,
+               linetype = "dashed",
+               alpha = .25) +
+  geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
+    theme_bw() + 
+    theme(legend.position="none",
+          axis.text.x  = element_text(size = axis_text_size,
+                                      angle = 90,
+                                      vjust = .45,
+                                      hjust = .95),
+          axis.text.y  = element_text(size = axis_text_size),
+          axis.title = element_blank(),
+          strip.background = element_blank(), 
+          strip.text = element_blank(),
+          panel.grid.major = element_line(linewidth = .3),
+          panel.grid.minor = element_line(linewidth = .15),
+          plot.title = element_text(size=8)) +
+    scale_y_discrete(limits = rev,
+                     position = "right") +
+    ggtitle("Change in PGE,\nFirst to Last Observed Year")
+}
+
+```
+
+\pagebreak
+\newpage
+### Europe {.unnumbered}
+We turn first to Europe, the region with the largest number of countries in the PGE database.
+Figure&nbsp;\ref{europe_map} depicts how the most recent PGE score for each country varies across the region.
+The map reinforces that the public in many northern and western European countries have some of the most egalitarian views toward women in politics and the workforce in the world.
+Led by Norway, Sweden, and Denmark, nearly all of these countries have PGE scores of .75 or higher in the most recent available year.
+Gender egalitarianism tends to be lower in the countries to the east and southeast.
+The lowest levels of gender egalitarianism in Europe were observed in Ukraine, Slovakia, and Moldova.
+It should be noted, however, that the most recent available PGE scores in even these latter countries still attained or approached .5, indicating that roughly half the population holds egalitarian views. 
+Gender egalitarianism is generally a widely held attitude among European publics.
+
+\pagebreak
+```{r europe_map, fig.cap="PGE Scores Across Europe, Most Recent Available Year \\label{europe_map}", fig.height = 5}
+region_maps[[1]] +
+  theme(legend.position = c(.99, .99),
+        legend.justification = c(1, 1))
+```
+
+Figure&nbsp;\ref{europe_ts} displays how PGE scores have changed over time in the forty European countries for which estimates are available.
+The biggest changes in gender egalitarianism over the observed years occurred in Estonia, Germany, and the Benelux countries of Belgium, the Netherlands, and Luxembourg.
+The PGE scores in each of those countries increased by 30% or more of the measure's theoretical range.
+On the other hand, shifts over time in the public's views toward gender equality were indiscernible in Moldova, Greece, Bosnia and Herzegovina, and North Macedonia.
+Although some temporary declines are easily seen in this figure, and egalitarianism dips recently in a few, none of the countries of Europe exhibited lower levels of public gender egalitarianism in the most recent observed year than in their first observed year.
+
+```{r europe_ts, fig.cap="PGE Scores in Europe Over Time \\label{europe_ts}", fig.height = 9, fig.width=7, cache=FALSE}
+ts_plot <- function(data,
+                    facet_text_size = 7,
+                    ...) {
+  ggplot(data = data, aes(x = year, y = pge)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    coord_cartesian(xlim = c(1980, 2022), ylim = c(0, 1)) +
+    labs(x = NULL, y = "PGE Scores") +
+    geom_ribbon(data = data, 
+                aes(ymin = p10, ymax = p90, linetype=NA),
+                alpha = .25) +
+    geom_line(data = data) +
+    facet_wrap(~country, ...) +
+    # force_panelsizes(rows = unit(1.3, "in"), 
+    #                  cols = unit(.7, "in"), 
+    #                  TRUE) +
+    theme(axis.text.x  = element_text(size = 7,
+                                      angle = 90,
+                                      vjust = .45,
+                                      hjust = .95),
+          strip.text.x = element_text(size = facet_text_size),
+          strip.background = element_rect(fill = "white", colour = "white"),
+          plot.title = element_text(size=8)) +
+    ggtitle("PGE Scores Over Time by Country")
+}
+
+ts_plot(region_countries_pge_summary[["Europe"]], 
+        facet_text_size = 6,
+        nrow = 5) + 
+  change_plot("Europe") +
+  plot_layout(widths = c(6, 1)) +
+  note
+```
+
+
+```{r europe_trends, eval=FALSE}
+europe_country_trends <- region_country_trends("Europe")
+
+save(europe_country_trends, file = here("data", "europe_country_trends.rda"))
+```
+
+```{r europe_trends_plot}
+load(here("data", "europe_country_trends.rda"))
+```
+
+\pagebreak
+\newpage
+### Latin America and the Caribbean {.unnumbered}
+
+Latin America and the Caribbean encompass the next largest number of countries and include one of the places with the world's most gender egalitarian attitudes with regard to politics and the workplace, Puerto Rico.
+Figure&nbsp;\ref{latam_map} shows the most recent PGE scores for the region.
+It shows that public opinion in Latin America has generally become favorable to gender equality in the public sphere.
+In addition to Puerto Rico, Uruguay and Costa Rica have PGE scores of .75 or higher in the most recent available year.
+Argentina, Mexico, and Brazil---countries with three of the four biggest populations in the region---also exhibit gender egalitarianism scores nearly that high.
+The Latin American countries with the lowest levels of gender egalitarianism are Guyana and Haiti, but as with the least egalitarian countries in Europe, even these countries' most recent PGE scores are around .5, putting them not far below the median of all countries.
+
+```{r latam_map, fig.cap="PGE Scores Across Latin America and the Caribbean, Most Recent Available Year \\label{latam_map}", fig.height = 9}
+region_maps[[2]] +
+  theme(legend.position = c(.01, .01),
+        legend.justification = c(0, 0))
+```
+
+
+
+```{r latam_ts, fig.cap="PGE Scores in Latin America and the Caribbean Over Time \\label{latam_ts}", fig.height = 9, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Latin America & Caribbean"]], nrow = 5) + change_plot("Latin America & Caribbean") +
+  plot_layout(widths = c(5, 1)) +
+  note
+```
+
+How PGE scores in Latin America and the Caribbean have changed over time is shown in Figure&nbsp;\ref{latam_ts}.
+Attitudes shifted the most in Costa Rica, Argentina, and Mexico, moving about a fifth of the theoretical range of the measure over the years spanned by our observations.
+But in nearly half of the region's countries, the difference in the estimated level of public gender egalitarianism from the first observed year to the last observed year is indistinguishable from zero.
+These countries are listed, from Panama to Suriname, towards the bottom of the rightmost pane of Figure&nbsp;\ref{latam_ts}.
+Still, only in Suriname did the public's views grow decisively less gender egalitarian, at least according to the 80% credible interval, over the observed time span.
+
+```{r latam_trends, eval=FALSE}
+latam_country_trends <- region_country_trends("Latin America & Caribbean")
+
+save(latam_country_trends, file = here("data", "latam_country_trends.rda"))
+```
+
+```{r latam_trends_plot}
+load(here("data", "latam_country_trends.rda"))
+```
+
+\pagebreak
+### East Asia and the Pacific {.unnumbered}
+
+The countries of East Asia and the Pacific exhibit more variation than the countries of either of the two regions discussed above.
+Figure&nbsp;\ref{eapac_map} shows the most recent PGE scores for each territory in the region.
+In New Zealand and Australia, PGE scores exceed .75 in the most recent year available. 
+On the other hand, attitudes remain decidedly opposed in gender equality in politics and the workplace in Myanmar.
+South Korea, where a PGE score just above .5 indicates the public is nearly evenly split in its views, constitutes the median of the region, with Japan and China close to either side.
+
+```{r eapac_map, fig.cap="PGE Scores Across East Asia and the Pacific, Most Recent Available Year \\label{eapac_map}", fig.height = 9, cache=FALSE}
+region_maps[[3]] +
+  theme(legend.position = c(.01, .01),
+        legend.justification = c(0, 0))
+```
+
+
+
+```{r eapac_ts, fig.cap="PGE Scores in East Asia and the Pacific Over Time \\label{eapac_ts}", fig.height = 5.4}
+ts_plot(region_countries_pge_summary[["East Asia & Pacific"]], 
+        nrow = 3) + 
+  change_plot("East Asia & Pacific",
+              axis_text_size = 9) +
+  plot_layout(widths = c(6, 1)) +
+  note
+```
+
+Figure&nbsp;\ref{eapac_ts} shows how attitudes toward gender equality have evolved over time in the region.
+Comparing the first observed year to the last, nine of the seventeen countries and territories saw gains in public gender egalitarianism whose 80% credible intervals exclude zero, with the biggest increases occurring in Australia, South Korea, and Thailand.
+In six places---China, Vietnam, Mongolia, Myanmar, Macao, and the Philippines---the change from the first to last observed year is not distinguishable from zero.
+The public in both Cambodia and Indonesia registered a statistically discernible decline in gender egalitarianism.
+
+\pagebreak
+\newpage
+### The Middle East and North Africa {.unnumbered}
+
+The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
+The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
+Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
+Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
+Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
+The most recent PGE score is roughly .25 in each of these last three countries.
+
+```{r mena_map, fig.cap="PGE Scores Across the Middle East and North Africa, Most Recent Available Year \\label{mena_map}", fig.height = 3.5}
+region_maps[[4]] +
+  theme(legend.position = c(.01, .01),
+        legend.justification = c(0, 0),
+        legend.direction = "horizontal") +
+  guides(color = FALSE)
+```
+
+
+
+```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
+          filter(!country == "Malta"), 
+        nrow = 3) + 
+  change_plot("Middle East & North Africa",
+              axis_text_size = 9) +
+  plot_layout(widths = c(6, 1)) +
+  note
+```
+
+The trend over time in how the public considers gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
+Most of the countries for which data are available have seen some increase over the time observed, and indeed in Morocco, Tunisia, and Lebanon, these increases exceeded a fifth of the entire theoretical PGE scale.
+Gains in gender egalitarianism were not distinguishable from zero in Algeria, Yemen, Libya, and Saudi Arabia.
+Public gender egalitarianism was estimated to decline over the years observed in Bahrain and Israel, though only in the former country does the 80% credible interval of this drop exclude zero.
+
+\pagebreak
+\newpage
+### The Middle East and North Africa {.unnumbered}
+
+The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
+The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
+Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
+Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
+Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
+The most recent PGE score is roughly .25 in each of these last three countries.
+
+```{r mena_map, fig.cap="PGE Scores Across the Middle East and North Africa, Most Recent Available Year \\label{mena_map}", fig.height = 3.5}
+region_maps[[4]] +
+  theme(legend.position = c(.01, .01),
+        legend.justification = c(0, 0),
+        legend.direction = "horizontal") +
+  guides(color = FALSE)
+```
+
+
+
+```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
+          filter(!country == "Malta"), 
+        nrow = 3) + 
+  change_plot("Middle East & North Africa",
+              axis_text_size = 9) +
+  plot_layout(widths = c(6, 1)) +
+  note
+```
+
+The trend over time in how the public considers gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
+Most of the countries for which data are available have seen some increase over the time observed, and indeed in Morocco, Tunisia, and Lebanon, these increases exceeded a fifth of the entire theoretical PGE scale.
+Gains in gender egalitarianism were not distinguishable from zero in Algeria, Yemen, Libya, and Saudi Arabia.
+Public gender egalitarianism was estimated to decline over the years observed in Bahrain and Israel, though only in the former country does the 80% credible interval of this drop exclude zero.
+
+\pagebreak
+\newpage
+
+### Trends in Public Gender Egalitarianism {.unnumbered}
+
+```{r region_trends}
+region_trends_model <- region_pge_list %>% 
+  furrr::future_imap(\(reg, reg_name) {
+    lmer(pge ~ year +
+           I(year^2) +
+           (1 | country),
+         data = reg) %>% 
+      broom.mixed::tidy() %>% 
+      filter(effect == "fixed") %>% 
+      mutate(model = first(reg$world_region))
+  }) %>% 
+  list_rbind()
+```
+
+
+
+
+## Conclusions
 
 In the following chapters, we will use the PGE data to better address such long-standing questions as how collective attitudes on gender roles have influenced the election of women to national legislatures [see, e.g., @Paxton2003; @Alexander2012] and to pursue both new and more nuanced lines of inquiry on issues of policy responsiveness [cf., @Kittilson2008; @Busemeyer2021].
 
