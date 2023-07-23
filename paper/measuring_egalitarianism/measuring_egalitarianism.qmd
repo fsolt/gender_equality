@@ -817,6 +817,7 @@ trends <- pge_summary %>%
               pge_change_se = sqrt(pge_se_last^2 + pge_se_min^2),
               world_region = first(world_region)) %>% 
   arrange(world_region, -pge_change) %>% 
+  filter(!country == "Malta") %>% 
   mutate(country = as_factor(country))
 
 change_plot <- function(region, axis_text_size = 7) {
@@ -982,7 +983,7 @@ region_maps[[3]] +
 
 
 
-```{r eapac_ts, fig.cap="PGE Scores in East Asia and the Pacific Over Time \\label{eapac_ts}", fig.height = 5}
+```{r eapac_ts, fig.cap="PGE Scores in East Asia and the Pacific Over Time \\label{eapac_ts}", fig.height = 5.4}
 ts_plot(region_countries_pge_summary[["East Asia & Pacific"]], 
         nrow = 3) + 
   change_plot("East Asia & Pacific",
@@ -1001,24 +1002,26 @@ The public in both Cambodia and Indonesia registered a statistically discernable
 
 ### The Middle East and North Africa {.unnumbered}
 
-The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in sixteen countries across the Middle East and North Africa.
-The countries of East Asia and the Pacific exhibit more variation than the countries of either of the two regions discussed above.
-Figure&nbsp;\ref{eapac_map} shows the most recent PGE scores for each territory in the region.
-In New Zealand and Australia, PGE scores exceed .75 in the most recent year available. 
-On the other hand, attitudes remain decidedly opposed in gender equality in politics and the workplace in Myanmar.
-South Korea, where a PGE score just above .5 indicates the public is nearly evenly split in its views, constitutes the median of the region, with Japan and China close to either side.
+The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
+The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
+Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
+Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
+Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
+The most recent PGE score is roughly .25 in each of these last three countries.
 
-```{r mena_map, fig.cap="PGE Scores Across East Asia and the Pacific, Most Recent Available Year \\label{eapac_map}", fig.height = 9, cache=FALSE}
+```{r mena_map, fig.cap="PGE Scores Across the Middle East and North Africa, Most Recent Available Year \\label{mena_map}", fig.height = 3.5}
 region_maps[[4]] +
   theme(legend.position = c(.01, .01),
         legend.justification = c(0, 0),
-        legend.direction = "horizontal")
+        legend.direction = "horizontal") +
+  guides(color = FALSE)
 ```
 
 
 
-```{r mena_ts, fig.cap="PGE Scores in East Asia and the Pacific Over Time \\label{mena_ts}", fig.height = 5}
-ts_plot(region_countries_pge_summary[["Middle East & North Africa"]], 
+```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
+          filter(!country == "Malta"), 
         nrow = 3) + 
   change_plot("Middle East & North Africa",
               axis_text_size = 9) +
@@ -1026,7 +1029,7 @@ ts_plot(region_countries_pge_summary[["Middle East & North Africa"]],
   note
 ```
 
-Figure&nbsp;\ref{eapac_ts} shows how attitudes toward gender equality have evolved over time in the region.
+The trend over time in how the public views gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
 Comparing the first observed year to the last, nine of the seventeen countries and territories saw gains in public gender egalitarianism whose 80% credible intervals exclude zero, with the biggest increases occurring in Australia, South Korea, and Thailand.
 In six places---China, Vietnam, Mongolia, Myanmar, Macao, and the Philippines---the change from the first to last observed year is not distinguishable from zero.
 The public in both Cambodia and Indonesia registered a statistically discernable decline in gender egalitarianism.
