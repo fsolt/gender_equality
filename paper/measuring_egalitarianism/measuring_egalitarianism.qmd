@@ -8,6 +8,10 @@ format:
     include-in-header: 
       text: |
         \usepackage{typearea}
+        \renewcommand{\topfraction}{.85} 
+        \renewcommand{\bottomfraction}{.7}
+        \renewcommand{\textfraction}{.15}
+        \renewcommand{\floatpagefraction}{.66}
 ---
 
 # Measuring Public Gender Egalitarianism Around the World
@@ -1198,35 +1202,38 @@ regions_bbox <- map_df(regions_geom,
 
 region_maps <- map(regions_bbox$world_region,
                    \(reg) {
-                       ggplot() +
-                           geom_sf(data = world1,
-                                           fill = "grey97") +
-                           geom_sf(data = regions_geom[[reg]],
-                                   aes(fill = pge, color = 'NA')) +
-                           coord_sf(crs = sf::st_crs("ESRI:53035"),
-                                    xlim = c(regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_xmin),
-                                             regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_xmax)),
-                                    ylim = c(regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_ymin),
-                                             regions_bbox %>% 
-                                                 filter(world_region == reg) %>% 
-                                                 pull(reg_ymax)),
-                                    expand = FALSE) +
-                           scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
-                                               low = "grey95",
-                                               high = "grey5",
-                                               na.value = na_value,
-                                               limits = pge_range) +
-                           scale_color_manual(name = element_blank(), 
-                                              values = 'black',
-                                              labels = 'No Data') +
-                           guides(color = guide_legend(override.aes = 
-                                                           list(fill = na_value))) +
+                     ggplot() +
+                       geom_sf(data = world1,
+                               fill = "grey97") +
+                       geom_sf(data = regions_geom[[reg]],
+                               aes(fill = pge, color = 'NA')) +
+                       # geom_sf_label(data = regions_geom[[reg]],
+                       #              aes(label = country),
+                       #              size = 2) +
+                       coord_sf(crs = sf::st_crs("ESRI:53035"),
+                                xlim = c(regions_bbox %>% 
+                                           filter(world_region == reg) %>% 
+                                           pull(reg_xmin),
+                                         regions_bbox %>% 
+                                           filter(world_region == reg) %>% 
+                                           pull(reg_xmax)),
+                                ylim = c(regions_bbox %>% 
+                                           filter(world_region == reg) %>% 
+                                           pull(reg_ymin),
+                                         regions_bbox %>% 
+                                           filter(world_region == reg) %>% 
+                                           pull(reg_ymax)),
+                                expand = FALSE) +
+                     scale_fill_gradient(name = "Public\nGender\nEgalitarianism",
+                                         low = "grey95",
+                                         high = "grey5",
+                                         na.value = na_value,
+                                         limits = pge_range) +
+                       scale_color_manual(name = element_blank(), 
+                                          values = 'black',
+                                          labels = 'No Data') +
+                       guides(color = guide_legend(override.aes = 
+                                                     list(fill = na_value))) +
                        theme(legend.spacing.y = unit(0.7, "mm"),
                              panel.border = element_rect(colour = "black",
                                                          fill = NA),
@@ -1234,7 +1241,7 @@ region_maps <- map(regions_bbox$world_region,
                              legend.box.background = element_rect(
                                colour = "black",
                                fill = "white"))
-                     })
+                   })
 ```
 
 ```{r region_countries_pge}
@@ -1515,7 +1522,7 @@ region_maps[[4]] +
 
 
 
-```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
+```{r mena_ts, fig.cap="PGE Scores in the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
 ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
           filter(!country == "Malta"), 
         nrow = 3) + 
@@ -1532,42 +1539,101 @@ Public gender egalitarianism was estimated to decline over the years observed in
 
 \pagebreak
 \newpage
-### The Middle East and North Africa {.unnumbered}
+### Sub-Saharan Africa {.unnumbered}
 
-The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
-The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
-Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
-Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
-Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
-The most recent PGE score is roughly .25 in each of these last three countries.
+Although sub-Saharan Africa is a large region encompassing over forty countries, it is also among the parts of the world most neglected by survey research.
+Moreover, the premier survey of the region, the Afrobarometer, unfortunately does not include questions regarding gender equality in politics and work.
+As a result, even the PGE dataset includes only fourteen countries in the region, and generally over relatively short time periods.
+Still, these fourteen countries include eight of sub-Saharan Africa's ten most populous, missing only Congo-Kinshasa and Angola, and together the included countries account for nearly two-thirds of the region's total population.
 
-```{r mena_map, fig.cap="PGE Scores Across the Middle East and North Africa, Most Recent Available Year \\label{mena_map}", fig.height = 3.5}
-region_maps[[4]] +
+Figure&nbsp;\ref{ssa_map} maps the most recent PGE scores of these countries.
+Zambia and Tanzania are the countries where public opinion is the most gender egalitarian, with scores over .6, in the region.
+Kenya, South Africa, Rwanda, Ethiopia, and Zimbabwe score at or above .5 in the most recent available year.
+Of these countries, attitudes toward gender are least egalitarian in Sudan, Senegal, Mali, and particularly Burkina Faso.
+
+```{r ssa_map, fig.cap="PGE Scores Across Sub-Saharan Africa, Most Recent Available Year \\label{ssa_map}", fig.height = 9}
+region_maps[[5]] +
   theme(legend.position = c(.01, .01),
-        legend.justification = c(0, 0),
+        legend.justification = c(0, 0))
+```
+
+```{r ssa_ts, fig.cap="PGE Scores in Sub-Saharan Africa Over Time \\label{ssa_ts}", fig.height = 5.4, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Sub-Saharan Africa"]],
+        nrow = 3) + 
+  change_plot("Sub-Saharan Africa",
+              axis_text_size = 9) +
+  plot_layout(widths = c(6, 1)) +
+  note
+```
+
+Figure&nbsp;\ref{ssa_ts} shows how the public's views on gender equality in the public sphere have changed over time, and the differences across sub-Saharan countries are stark.
+The sparse data on attitudes in Zambia, covering only the three-year period from 2007 to 2009, indicates there was a small but sharp uptick in egalitarian views during that time. 
+Of the fourteen countries included in the PGE data, only Sudan also saw an increase in public gender egalitarianism from the first observed year to the last, albeit a small one and from a very low base.
+Attitudes shifted considerably over time in Tanzania and Nigeria, but ended up roughly where they began in both of these cases.
+Trends in Ghana, Uganda, Burkina Faso, and Senegal all exhibit well-estimated declines in gender egalitarian public opinion.
+
+\pagebreak
+\newpage
+### Central Asia {.unnumbered}
+The availability of relevant survey data allows better coverage of the countries of Central Asia than of sub-Saharan Africa, with only Tajikistan and Turkmenistan excluded from the PGE dataset for want of surveys.
+The most recent year of PGE estimates available in the region is mapped in Figure&nbsp;\ref{casia_map}.
+Only in Georgia does this score exceed .5, and there only barely: gender egalitarian views are not widespread in this part of the world.
+Across the region, public opinion is least favorable to gender equality in the public sphere in Uzbekistan.
+The point estimate of the most recent PGE score, that is, putting aside uncertainty, is scarcely above .2 in that country.
+
+```{r casia_map, fig.cap="PGE Scores Across Central Asia, Most Recent Available Year \\label{casia_map}", fig.height = 3.6}
+region_maps[[6]] +
+  theme(legend.position = c(.99, .01),
+        legend.justification = c(1, 0),
         legend.direction = "horizontal") +
   guides(color = FALSE)
 ```
 
-
-
-```{r mena_ts, fig.cap="PGE Scores in  the Middle East and North Africa Over Time \\label{mena_ts}", fig.height = 5.4, cache=FALSE}
-ts_plot(region_countries_pge_summary[["Middle East & North Africa"]] %>% 
-          filter(!country == "Malta"), 
-        nrow = 3) + 
-  change_plot("Middle East & North Africa",
+```{r casia_ts, fig.cap="PGE Scores in Central Asia Over Time \\label{casia_ts}", fig.height = 3.6, cache=FALSE}
+ts_plot(region_countries_pge_summary[["Central Asia"]],
+        nrow = 2) + 
+  change_plot("Central Asia",
               axis_text_size = 9) +
   plot_layout(widths = c(6, 1)) +
   note
 ```
 
-The trend over time in how the public considers gender equality in each of the countries of the Middle East and North Africa is plotted in Figure&nbsp;\ref{mena_ts}.
-Most of the countries for which data are available have seen some increase over the time observed, and indeed in Morocco, Tunisia, and Lebanon, these increases exceeded a fifth of the entire theoretical PGE scale.
-Gains in gender egalitarianism were not distinguishable from zero in Algeria, Yemen, Libya, and Saudi Arabia.
-Public gender egalitarianism was estimated to decline over the years observed in Bahrain and Israel, though only in the former country does the 80% credible interval of this drop exclude zero.
+How PGE scores have changed in Central Asia over the years is depicted in  Figure&nbsp;\ref{casia_ts}.
+Georgia and Armenia have seen attitudes toward gender equality trend upwards over the past quarter-century by roughly a fifth of the PGE scale's range or more.
+Public gender egalitarianism has increased slightly and slowly from the first to last observed year in Russia, Kazakhstan, and Azerbaijan.
+Uzbekistan saw little change.
+But according to the PGE data, public opinion regarding gender equality declined considerably in Kyrgyzstan.
 
 \pagebreak
 \newpage
+### South Asia {.unnumbered}
+The availability of relevant survey data allows better coverage of the countries of Central Asia than of sub-Saharan Africa, with only Tajikistan and Turkmenistan excluded from the PGE dataset for want of surveys.
+The most recent year of PGE estimates available in the region is mapped in Figure&nbsp;\ref{casia_map}.
+Only in Georgia does this score exceed .5, and there only barely: gender egalitarian views are not widespread in this part of the world.
+Across the region, public opinion is least favorable to gender equality in the public sphere in Uzbekistan.
+The point estimate of the most recent PGE score, that is, putting aside uncertainty, is scarcely above .2 in that country.
+
+```{r sasia_map, fig.cap="PGE Scores Across South Asia, Most Recent Available Year \\label{sasia_map}", fig.height = 9}
+region_maps[[7]] +
+  theme(legend.position = c(.01, .01),
+        legend.justification = c(0, 0)) +
+ts_plot(region_countries_pge_summary[["South Asia"]],
+        nrow = 1) + 
+  change_plot("South Asia",
+              axis_text_size = 9) +
+  plot_layout(widths = c(6, 1)) +
+  note  
+
+```
+
+
+How PGE scores have changed in Central Asia over the years is depicted in  Figure&nbsp;\ref{casia_ts}.
+Georgia and Armenia have seen attitudes toward gender equality trend upwards over the past quarter-century by roughly a fifth of the PGE scale's range or more.
+Public gender egalitarianism has increased slightly and slowly from the first to last observed year in Russia, Kazakhstan, and Azerbaijan.
+Uzbekistan saw little change.
+But according to the PGE data, public opinion regarding gender equality declined considerably in Kyrgyzstan.
+
+
 
 ### Trends in Public Gender Egalitarianism {.unnumbered}
 
@@ -1588,7 +1654,8 @@ region_trends_model <- region_pge_list %>%
 
 
 
-## Conclusions
+## Conclusions {.unnumbered}
 
 In the following chapters, we will use the PGE data to better address such long-standing questions as how collective attitudes on gender roles have influenced the election of women to national legislatures [see, e.g., @Paxton2003; @Alexander2012] and to pursue both new and more nuanced lines of inquiry on issues of policy responsiveness [cf., @Kittilson2008; @Busemeyer2021].
 
+\pagebreak
