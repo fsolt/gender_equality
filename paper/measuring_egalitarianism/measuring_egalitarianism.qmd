@@ -1650,7 +1650,7 @@ noram_layout <- "
 AAAAAA
 AAAAAA
 AAAAAA
-##BBBC
+AAAAAA
 ##BBBC
 "
 
