@@ -23,4 +23,6 @@ qarot/*
 pge*
 framed.sty
 paper/*cache/
+paper/*/*cache/
+paper/*/*files/
 sources/*
