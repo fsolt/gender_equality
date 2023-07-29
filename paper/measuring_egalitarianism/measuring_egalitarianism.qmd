@@ -1191,14 +1191,10 @@ regions_bbox <- map_df(regions_geom,
                                 world_region == "East Asia & Pacific" ~ 6200000,
                                 world_region == "Central Asia" ~1850000,
                                 TRUE ~ reg_xmin),
+           reg_xmax = case_when(world_region == "North America" ~ -4000000,
+                                TRUE ~ reg_xmax),
            reg_ymin = case_when(world_region == "Europe" ~ 4250000,
-                                TRUE ~ reg_ymin),
-           legend_pos = case_when(world_region == "Europe" ~ "c(.99, .99)",
-                                  world_region == "Central Asia" ~ "bottom",
-                                  TRUE ~ "right"),
-           legend_just = case_when(world_region == "Europe" ~ "c(1, 1)",
-                                  world_region == "Central Asia" ~ "bottom",
-                                  TRUE ~ "right"))
+                                TRUE ~ reg_ymin))
 
 region_maps <- map(regions_bbox$world_region,
                    \(reg) {
@@ -1362,12 +1358,12 @@ change_plot <- function(region, axis_text_size = 7) {
 \newpage
 ### Europe {.unnumbered}
 We turn first to Europe, the region with the largest number of countries in the PGE database.
-Figure&nbsp;\ref{europe_map} depicts how the most recent PGE score for each country varies across the region.
+Figure&nbsp;\ref{europe_map} depicts how the point estimates of the most recent PGE score for each country vary across the region.
 The map reinforces that the public in many northern and western European countries have some of the most egalitarian views toward women in politics and the workforce in the world.
 Led by Norway, Sweden, and Denmark, nearly all of these countries have PGE scores of .75 or higher in the most recent available year.
 Gender egalitarianism tends to be lower in the countries to the east and southeast.
 The lowest levels of gender egalitarianism in Europe were observed in Ukraine, Slovakia, and Moldova.
-It should be noted, however, that the most recent available PGE scores in even these latter countries still attained or approached .5, indicating that roughly half the population holds egalitarian views. 
+It should be noted, however, that the point estimates of the most recent available PGE scores in even these latter countries still attained or approached .5, indicating that roughly half the population holds egalitarian views. 
 Gender egalitarianism is generally a widely held attitude among European publics.
 
 \pagebreak
@@ -1379,7 +1375,7 @@ region_maps[[1]] +
 
 Figure&nbsp;\ref{europe_ts} displays how PGE scores have changed over time in the forty European countries for which estimates are available.
 The biggest changes in gender egalitarianism over the observed years occurred in Estonia, Germany, and the Benelux countries of Belgium, the Netherlands, and Luxembourg.
-The PGE scores in each of those countries increased by 30% or more of the measure's theoretical range.
+The PGE scores in each of those countries were estimated to have increased by 30% or more of the measure's theoretical range.
 On the other hand, shifts over time in the public's views toward gender equality were indiscernible in Moldova, Greece, Bosnia and Herzegovina, and North Macedonia.
 Although some temporary declines are easily seen in this figure, and egalitarianism dips recently in a few, none of the countries of Europe exhibited lower levels of public gender egalitarianism in the most recent observed year than in their first observed year.
 
@@ -1434,7 +1430,7 @@ load(here("data", "europe_country_trends.rda"))
 ### Latin America and the Caribbean {.unnumbered}
 
 Latin America and the Caribbean encompass the next largest number of countries and include one of the places with the world's most gender egalitarian attitudes with regard to politics and the workplace, Puerto Rico.
-Figure&nbsp;\ref{latam_map} shows the most recent PGE scores for the region.
+Figure&nbsp;\ref{latam_map} shows the most recent PGE scores, as point estimates, for the region.
 It shows that public opinion in Latin America has generally become favorable to gender equality in the public sphere.
 In addition to Puerto Rico, Uruguay and Costa Rica have PGE scores of .75 or higher in the most recent available year.
 Argentina, Mexico, and Brazil---countries with three of the four biggest populations in the region---also exhibit gender egalitarianism scores nearly that high.
@@ -1474,7 +1470,7 @@ load(here("data", "latam_country_trends.rda"))
 ### East Asia and the Pacific {.unnumbered}
 
 The countries of East Asia and the Pacific exhibit more variation than the countries of either of the two regions discussed above.
-Figure&nbsp;\ref{eapac_map} shows the most recent PGE scores for each territory in the region.
+Figure&nbsp;\ref{eapac_map} shows the point estimates of the most recent PGE scores for each territory in the region.
 In New Zealand and Australia, PGE scores exceed .75 in the most recent year available. 
 On the other hand, attitudes remain decidedly opposed in gender equality in politics and the workplace in Myanmar.
 South Korea, where a PGE score just above .5 indicates the public is nearly evenly split in its views, constitutes the median of the region, with Japan and China close to either side.
@@ -1506,7 +1502,7 @@ The public in both Cambodia and Indonesia registered a statistically discernible
 ### The Middle East and North Africa {.unnumbered}
 
 The available survey data described in the first section of this chapter allows us to estimate public gender egalitarianism in fifteen countries across the Middle East and North Africa.
-The most recent PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
+The most recent point-estimate PGE scores that resulted in these countries are mapped in Figure&nbsp;\ref{mena_map}.
 Attitudes are most egalitarian at the western end of the Mediterranean, exceeding .6 in both in Lebanon and in Israel.
 Public gender egalitarianism scores of over .5 are found in Tunisia and Morocco.
 Views toward equality between women and men at work and in politics are more negative in the rest of the region, particularly in Saudi Arabia, Iraq, and Yemen.
@@ -1542,11 +1538,11 @@ Public gender egalitarianism was estimated to decline over the years observed in
 ### Sub-Saharan Africa {.unnumbered}
 
 Although sub-Saharan Africa is a large region encompassing over forty countries, it is also among the parts of the world most neglected by survey research.
-Moreover, the premier survey of the region, the Afrobarometer, unfortunately does not include questions regarding gender equality in politics and work.
+Moreover, the premier survey of the region, the Afrobarometer, unfortunately does not include questions regarding gender equality in politics or work.
 As a result, even the PGE dataset includes only fourteen countries in the region, and generally over relatively short time periods.
 Still, these fourteen countries include eight of sub-Saharan Africa's ten most populous, missing only Congo-Kinshasa and Angola, and together the included countries account for nearly two-thirds of the region's total population.
 
-Figure&nbsp;\ref{ssa_map} maps the most recent PGE scores of these countries.
+Figure&nbsp;\ref{ssa_map} maps the point estimates of the most recent PGE scores of these countries.
 Zambia and Tanzania are the countries where public opinion is the most gender egalitarian, with scores over .6, in the region.
 Kenya, South Africa, Rwanda, Ethiopia, and Zimbabwe score at or above .5 in the most recent available year.
 Of these countries, attitudes toward gender are least egalitarian in Sudan, Senegal, Mali, and particularly Burkina Faso.
@@ -1576,7 +1572,7 @@ Trends in Ghana, Uganda, Burkina Faso, and Senegal all exhibit well-estimated de
 \newpage
 ### Central Asia {.unnumbered}
 The availability of relevant survey data allows better coverage of the countries of Central Asia than of sub-Saharan Africa, with only Tajikistan and Turkmenistan excluded from the PGE dataset for want of surveys.
-The most recent year of PGE estimates available in the region is mapped in Figure&nbsp;\ref{casia_map}.
+The most recent year of PGE point estimates available in the region is mapped in Figure&nbsp;\ref{casia_map}.
 Only in Georgia does this score exceed .5, and there only barely: gender egalitarian views are not widespread in this part of the world.
 Across the region, public opinion is least favorable to gender equality in the public sphere in Uzbekistan.
 The point estimate of the most recent PGE score, that is, putting aside uncertainty, is scarcely above .2 in that country.
@@ -1607,50 +1603,71 @@ But according to the PGE data, public opinion regarding gender equality declined
 \pagebreak
 \newpage
 ### South Asia {.unnumbered}
-The availability of relevant survey data allows better coverage of the countries of Central Asia than of sub-Saharan Africa, with only Tajikistan and Turkmenistan excluded from the PGE dataset for want of surveys.
-The most recent year of PGE estimates available in the region is mapped in Figure&nbsp;\ref{casia_map}.
-Only in Georgia does this score exceed .5, and there only barely: gender egalitarian views are not widespread in this part of the world.
-Across the region, public opinion is least favorable to gender equality in the public sphere in Uzbekistan.
-The point estimate of the most recent PGE score, that is, putting aside uncertainty, is scarcely above .2 in that country.
+Across South Asia, the available survey data allows us to estimate PGE scores for only five of the region's seven countries; there are no estimates for Afghanistan or Bhutan.
+The top panel of Figure&nbsp;\ref{sasia_map} provides a map showing the most recent score, as a point estimate, for each of the remaining countries.
+These estimates are below .5 for all of the South Asian countries: indeed, only for Sri Lanka does .5 even fall within the 80% credible interval.
+The public in each of these countries is, in the aggregate, opposed to gender equality in politics and in the workforce.
+This is particularly true in Pakistan, where the most recent PGE score is estimated to be below .25.
 
 ```{r sasia_map, fig.cap="PGE Scores Across South Asia, Most Recent Available Year \\label{sasia_map}", fig.height = 9}
-region_maps[[7]] +
+sasia_layout <- "
+AAAAAA
+AAAAAA
+AAAAAA
+AAAAAA
+AAAAAA
+CCCCCB
+"
+
+(region_maps[[7]] +
   theme(legend.position = c(.01, .01),
         legend.justification = c(0, 0)) +
+    change_plot("South Asia",
+              axis_text_size = 9)) +
 ts_plot(region_countries_pge_summary[["South Asia"]],
         nrow = 1) + 
-  change_plot("South Asia",
-              axis_text_size = 9) +
-  plot_layout(widths = c(6, 1)) +
+  plot_layout(design = sasia_layout) +
   note  
-
 ```
 
+Moreover, as shown in the trends over time are shown at the bottom of the figure, public attitudes toward gender equality in most of these countries have been veering downward.
+Only in Sri Lanka do the available data suggest that views have remained unchanged since the first observed year, 2005.
+In Pakistan, Bangladesh, and India, PGE scores appear to have declined by roughly a tenth of the index's full range, and in Nepal they have fallen by approximately twice that amount.
 
-How PGE scores have changed in Central Asia over the years is depicted in  Figure&nbsp;\ref{casia_ts}.
-Georgia and Armenia have seen attitudes toward gender equality trend upwards over the past quarter-century by roughly a fifth of the PGE scale's range or more.
-Public gender egalitarianism has increased slightly and slowly from the first to last observed year in Russia, Kazakhstan, and Azerbaijan.
-Uzbekistan saw little change.
-But according to the PGE data, public opinion regarding gender equality declined considerably in Kyrgyzstan.
+\pagebreak
+\newpage
+### North America {.unnumbered}
+Canada and the United States comprise the last region of our survey of public gender egalitarianism around the world.
 
+Across South Asia, the available survey data allows us to estimate PGE scores for only five of the region's seven countries; there are no estimates for Afghanistan or Bhutan.
+The top panel of Figure&nbsp;\ref{noram_map} provides a map showing the most recent score, as a point estimate, for each of the remaining countries.
+These estimates are below .5 for all of the South Asian countries: indeed, only for Sri Lanka does .5 even fall within the 80% credible interval.
+The public in each of these countries is, in the aggregate, opposed to gender equality in politics and in the workforce.
+This is particularly true in Pakistan, where the most recent PGE score is estimated to be below .25.
 
+```{r noram_map, fig.cap="PGE Scores Across North America, Most Recent Available Year \\label{noram_map}", fig.height = 6.5}
+noram_layout <- "
+AAAAAA
+AAAAAA
+AAAAAA
+##BBBC
+##BBBC
+"
 
-### Trends in Public Gender Egalitarianism {.unnumbered}
-
-```{r region_trends}
-region_trends_model <- region_pge_list %>% 
-  furrr::future_imap(\(reg, reg_name) {
-    lmer(pge ~ year +
-           I(year^2) +
-           (1 | country),
-         data = reg) %>% 
-      broom.mixed::tidy() %>% 
-      filter(effect == "fixed") %>% 
-      mutate(model = first(reg$world_region))
-  }) %>% 
-  list_rbind()
+(region_maps[[8]] +
+  theme(legend.position = c(.01, .99),
+        legend.justification = c(0, 1)) +
+    ts_plot(region_countries_pge_summary[["North America"]],
+        nrow = 1) +
+    change_plot("North America",
+              axis_text_size = 9)) +
+  plot_layout(design = noram_layout) +
+  note  
 ```
 
+Moreover, as shown in the trends over time are shown at the bottom of the figure, public attitudes toward gender equality in most of these countries have been veering downward.
+Only in Sri Lanka do the available data suggest that views have remained unchanged since the first observed year, 2005.
+In Pakistan, Bangladesh, and India, PGE scores appear to have declined by roughly a tenth of the index's full range, and in Nepal they have fallen by approximately twice that amount.
 
 
 
