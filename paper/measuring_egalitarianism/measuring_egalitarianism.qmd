@@ -710,8 +710,7 @@ That is, we must make certain that the PGE scores, as a measure, reflect the con
 
 Above, we discussed how we distinguished this concept from broader conceptions of gender egalitarianism.
 Here, we first confirm that our refined concept of public gender egalitarianism is not itself multidimensional---that attitudes toward gender equality in politics do in fact hang together with attitudes toward gender equality in the workplace---a crucial first step in the validation of latent variable measures like the PGE dataset [see, e.g., @Hu2023].
-
-To provide further confirmation of the unidimensionality of public gender egalitarianism, we used the survey items listed in Appendix A to estimate separate indices of gender egalitarianism in politics and in the workplace.  As shown in Figure \ref{pge_pwe_corr_plot}, these two indices both correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years.
+We used the survey items listed in Appendix A to estimate separate indices of gender egalitarianism in politics and in the workplace.  As shown in Figure \ref{pge_pwe_corr_plot}, these two indices both correlate very highly with the PGE scores and with each other, reinforcing the conclusion that public gender egalitarianism exists as a single dimension across countries and years.
 
 ```{r create_pwe_indices, cache=TRUE}
 public_items <- read_csv(here::here("paper",
