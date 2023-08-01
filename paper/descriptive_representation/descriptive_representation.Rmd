@@ -33,13 +33,13 @@ p_load(
   directlabels,
   
   # data wrangling
-  DCPOtools,
-  janitor,
-  countrycode,
-  here,
   broom,
-  tidyverse,
-  glue)
+  countrycode,
+  DCPOtools,
+  glue,
+  here,
+  janitor,
+  tidyverse)
 
 interplot2 <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95, 
                         adjCI = FALSE, hist = FALSE, var2_dt = NA, predPro = FALSE, 
@@ -355,20 +355,25 @@ set.seed(324)
 
 ## Data Collection
 ```{r load_party_data}
-descrep_path <- here::here("paper", "descriptive_representation")
+descrep_path <- here("paper", "descriptive_representation")
 
 # PGE: gender egalitarianism
-pge_summary <- rio::import(here::here("data", "theta_summary.rda"))
+pge_summary <- rio::import(here("data",
+                                "pge_summary.rda"))
 
 # Manifesto Project: parties and election results
-if (!file.exists(here::here("data-raw", "manifesto_project", "mpds2021a.csv"))) {
+if (!file.exists(file.path(descrep_path,
+                           "data-raw",
+                           "manifesto_project",
+                           "mpds2021a.csv"))) {
   download.file("https://manifesto-project.wzb.eu/down/data/2021a/datasets/MPDataset_MPDS2021a.csv",
-                here::here("data-raw", "manifesto_project", "mpds2021a.csv"))
+                file.path(descrep_path, "data-raw", "manifesto_project", "mpds2021a.csv"))
 }
 
-mp_parties <- read_csv(here::here("data-raw",
-                                  "manifesto_project",
-                                  "mpds2021a.csv"),
+mp_parties <- read_csv(file.path(descrep_path,
+                                 "data-raw",
+                                 "manifesto_project",
+                                 "mpds2021a.csv"),
                        show_col_types = FALSE) %>%
   mutate(year = round(as.numeric(date)/100)) %>% 
   select(country, countryname, eumember, 
@@ -379,19 +384,24 @@ mp_parties <- read_csv(here::here("data-raw",
   arrange(party, date)
 
 # Original data on Colombia and Costa Rica (not included in MP)
-latam <- read_csv(here::here("data-raw", "latam.csv"),
+latam <- read_csv(file.path(descrep_path,
+                            "data-raw",
+                            "latam.csv"),
                   col_types = "cddcddcddd")
 
 # Continuity: fixes to MP parties
-party_continuity <- read_csv(here::here("data-raw", "party_continuity.csv"),
+party_continuity <- read_csv(file.path(descrep_path,
+                                       "data-raw",
+                                       "party_continuity.csv"),
                              show_col_types = FALSE) %>% 
   select(-partyname)
 
 # Weeks, Meguid, Kittilson, and Coffé 2022 (from Dataverse): 
 # women elected and female leadership
-weeks <- rio::import(here::here("data-raw",
-                                "WeeksMeguidKittilsonCoffe2022",
-                                "Replication_data.RData")) %>%
+weeks <- rio::import(file.path(descrep_path,
+                               "data-raw",
+                               "WeeksMeguidKittilsonCoffe2022",
+                               "Replication_data.RData")) %>%
   mutate(year = round(as.numeric(date)/100)) %>% 
   select(weurope, party, 
          date,
@@ -408,11 +418,13 @@ previous_election <- mp_parties %>%
   mutate(date = date,
          date_lag = lag(date),
          year_lag = round(as.numeric(date_lag)/100)) %>% 
+  distinct(party, year, .keep_all = TRUE ) %>% 
   select(party, date, year, date_lag, year_lag)
 
-adams0 <- rio::import(here::here("data-raw",
-                                 "AdamsBrackenGidronHorneO’BrienSenk2022",
-                                 "dyadic_data_1-4-22.Rdata")) %>%
+adams0 <- rio::import(file.path(descrep_path,
+                                "data-raw",
+                                "AdamsBrackenGidronHorneOBrienSenk2022",
+                                "dyadic_data_1-4-22.Rdata")) %>%
   filter(!is.na(to_pfeml)) %>%
   transmute(countryname = countrycode::countrycode(country,
                                                    "country.name",
@@ -520,7 +532,7 @@ germany <- rvest::session("https://de.wikipedia.org/wiki/Frauenanteil_im_Deutsch
 # United States: women elected and female leadership
 united_states <- rvest::session("https://en.wikipedia.org/wiki/Women_in_the_United_States_House_of_Representatives") %>% 
   rvest::html_table() %>% 
-  nth(4) %>% 
+  nth(5) %>% 
   janitor::clean_names() %>% 
   mutate(year = str_extract(years, "\\d{4}") %>% 
            as.numeric() - 1) %>% 
@@ -544,14 +556,17 @@ united_states <- rvest::session("https://en.wikipedia.org/wiki/Women_in_the_Unit
          source = "https://en.wikipedia.org/wiki/Women_in_the_United_States_House_of_Representatives")
 
 # Original updates to women elected and female leadership
-updates <- read_csv(here::here("data-raw", "pfem_updates.csv"),
+updates <- read_csv(file.path(descrep_path,
+                              "data-raw",
+                              "pfem_updates.csv"),
                     col_types = "cdddcdcdd")
 
 
 
 # QAROT: national quotas
-qarot <- read_csv(here::here("data-raw", 
-                             "qarot",                             "QAROTdata_HughesPaxtonClaytonZetterberg_CountryYear_V1_August2017.csv"),
+qarot <- read_csv(file.path(descrep_path,
+                            "data-raw", 
+                            "qarot",                             "QAROTdata_HughesPaxtonClaytonZetterberg_CountryYear_V1_August2017.csv"),
                   show_col_types = FALSE) %>%  # http://doi.org/10.3886/E100918V1
   mutate(countryname = countrycode::countrycode(country,
                                                 origin = "country.name",
@@ -569,7 +584,9 @@ qarot <- read_csv(here::here("data-raw",
 
 
 # Party Quotas (compilation)
-party_quotas <- read_csv(here::here("data-raw", "party_quotas.csv"),
+party_quotas <- read_csv(file.path(descrep_path,
+                                   "data-raw",
+                                   "party_quotas.csv"),
                          col_types = "cdcddc") %>% 
   select(countryname, party_quota, adoption_year, party) %>% 
   filter(!is.na(party_quota)) %>% 
