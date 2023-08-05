@@ -821,9 +821,11 @@ pge <- rio::import(here("data",
 
 pge_summary <- rio::import(here("data",
                                 "pge_summary.rda")) %>% 
+  group_by(country) %>% 
   mutate(across(starts_with("p"),
                 ~ lag(.x),
-                .names = "summary_{.col}_lag"))
+                .names = "summary_{.col}_lag")) %>% 
+  ungroup()
 
 # OECD countries
 oecd_countries <- rvest::session("https://en.wikipedia.org/wiki/OECD") %>% 
@@ -862,6 +864,7 @@ interleave <- function(data, var) {
 }
 
 by_party <- mp_parties %>% 
+  filter(year > 1970) %>% 
   mutate(countryname_old = countryname,
          countryname = countrycode::countrycode(countryname,
                                                 "country.name",
@@ -1105,7 +1108,7 @@ if (!file.exists(file.path(descrep_path, "wr_b_results.rda"))) {
     group_by(country) %>% 
     transmute(year,
               women_rep,
-              pge_mean = mean(summary_pge_lag),
+              pge_mean = mean(summary_pge_lag, na.rm = TRUE),
               pge_mean_se = sqrt(sum(summary_pge_se_lag^2))/
                 length(summary_pge_lag),
               pge_diff = summary_pge_lag - pge_mean,
@@ -1319,19 +1322,6 @@ coef_data0 %>%
 
 ## Party Map
 ```{r party_maps}
-world_geom <- world1 %>% 
-  mutate(country = countrycode::countrycode(admin,
-                                            "country.name",
-                                            "country.name"),
-         oecd = country %in% oecd_countries) %>% 
-  filter(!admin == "Antarctica") %>% 
-  left_join(by_country %>%
-              filter(!is.na(women_rep) & !is.na(summary_pge_lag)) %>% 
-              group_by(countryname) %>% 
-              count(name = "elections") %>% 
-              mutate(elections = ifelse(elections >=13, 13, elections)),
-            by = c("country" = "countryname"))
-
 parties <- world1 %>% 
   mutate(country = countrycode::countrycode(admin,
                                             "country.name",
@@ -1426,18 +1416,40 @@ The quota estimate is seven-and-a-half points plus or minus one--a bit larger th
 I put that down to the better measurement.
 
 ```{r pfem_models}
-m0 <- party_pge %>%
-  map(~ lmer(pfem ~ pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+by_party2 <- by_party %>% 
+  group_by(country) %>% 
+  transmute(countryname,
+            party,
+            year,
+            cyear = paste0(country, year),
+            cy_code = as.numeric(as.factor(cyear)),
+            pfem,
+            pge_mean = mean(summary_pge_lag, na.rm = TRUE),
+            pge_mean_se = sqrt(sum(summary_pge_se_lag^2))/
+              length(summary_pge_lag),
+            pge_diff = summary_pge_lag - pge_mean,
+            pge_diff_se = sqrt(summary_pge_se_lag^2 + pge_mean_se^2)/2,
+            quota_mean = mean(quota),
+            quota_diff = quota - quota_mean,
+            list_mean = mean(list),
+            list_diff = list - list_mean) %>% 
+  ungroup()
 
-m1 <- party_pge %>%
-  map(~ lmer(pfem ~ pge_lag_by2sd +
-               quota_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+  m2_pfem_b <- brm(formula = bf(pfem ~ 
+                                me(pge_mean, pge_mean_se) +
+                                me(pge_diff, pge_diff_se) +
+                                quota_mean + 
+                                quota_diff +
+                                list_mean +
+                                list_diff +
+                                (1 | party) + (1 | cyear) + (1 | country),  
+                 data = by_party2,
+                 backend = "cmdstanr",
+                 warmup = 200, 
+                 iter = 400, 
+                 chains = 4, 
+                 cores = 4,
+                 seed = 324))
 
 m2 <- party_pge %>%
   map(~ lmer(pfem ~ pge_lag_by2sd +
@@ -1516,138 +1528,6 @@ m04 <- bind_rows(m0%>%
   filter(!term=="(Intercept)")
 
 
-
-m04 %>% 
-  dwplot() +
-  scale_y_discrete(labels=do.call(expression, rev(vars_proper))) +
-  theme_bw() +
-  theme(legend.position="none",
-        plot.title.position = "plot") +
-  geom_vline(xintercept = 0, colour = "grey60", linetype = 2) +
-  coord_cartesian(xlim = c(min(m04$estimate - 1.96*m04$std.error), 
-                           max(m04$estimate + 1.96*m04$std.error))) +
-  scale_color_viridis_d(direction = -1,
-                        end = .8) +
-  xlab("Standardized Coefficients") +
-  ggtitle("Multilevel Models of Women's Share of Parties' Legislative Seats")
-```
-
-```{r pfem_models_dynamic}
-m0 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m1 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m2 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m3 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list + quota_by2sd:pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m4 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list + list:pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m10 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list +
-               seat_percent +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m11 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list +
-               left +
-               center +
-               extreme_right +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m12 <- party_pge %>%
-  map(~ lmer(pfem ~ lag(women_rep) + pge_lag_by2sd +
-               quota_by2sd +
-               list +
-               left +
-               center +
-               extreme_right +
-               left:pge_lag_by2sd +
-               center:pge_lag_by2sd +
-               extreme_right:pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-vars_proper_d <- c(bquote("Women's Seat Share"[t-1]),
-                   bquote(PGE[t-1]),
-                   "Quota",
-                   "Party List",
-                   bquote(PGE[t-1] %*% Quota),
-                   bquote(PGE[t-1] %*% Party~List))
-
-m04 <- bind_rows(m0%>% 
-                   mutate(model = "Model 0"),
-                    m1 %>% 
-                      mutate(model = "Model 1"),
-                    m2 %>% 
-                      mutate(model = "Model 2"),
-                    m3 %>% 
-                      mutate(model = "Model 3"),
-                    m4 %>% 
-                      mutate(model = "Model 4")) %>% 
-  filter(!term=="(Intercept)")
-
-walk(1:5, function(mod) {
-  m04 %>% 
-    mutate(estimate = if_else(as.numeric(as_factor(model)) > mod,
-                              NA_real_,
-                              estimate),
-           std.error = if_else(as.numeric(as_factor(model)) > mod,
-                               NA_real_,
-                               std.error)) %>% 
-    dwplot() +
-    scale_y_discrete(labels=do.call(expression, rev(vars_proper))) +
-    theme_bw() +
-    theme(legend.position="none",
-          plot.title.position = "plot",
-          axis.text  = element_text(size=12)) +
-    geom_vline(xintercept = 0, colour = "grey60", linetype = 2) +
-    coord_cartesian(xlim = c(min(m04$estimate - 1.96*m04$std.error), 
-                             max(m04$estimate + 1.96*m04$std.error))) +
-    scale_color_viridis_d(direction = -1,
-                          end = .8) +
-    xlab("Standardized Coefficients") +
-    ggtitle("Multilevel Models of Women's Share of Parties' Legislative Seats")
-  ggsave(here::here("paper",
-                    "descriptive_representation",
-                    paste0("m04_", mod, ".jpg")))
-})
 
 m04 %>% 
   dwplot() +
