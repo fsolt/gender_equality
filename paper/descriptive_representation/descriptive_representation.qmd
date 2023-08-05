@@ -368,6 +368,73 @@ interplot2 <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95,
   }
 }
 
+interplot_b <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95, 
+                         adjCI = FALSE, hist = FALSE, var2_dt = NA, predPro = FALSE, 
+                         var2_vals = NULL, point = FALSE, sims = 5000, xmin = NA, 
+                         xmax = NA, ercolor = NA, esize = 0.5, ralpha = 0.5, rfill = "grey70", 
+                         stats_cp = "none", txt_caption = NULL, facet_labs = NULL, 
+                         ...) {
+    
+    m.sims <- brms::as_draws_df(m) %>% 
+        as_tibble()
+    
+    if (is.na(xmin)) 
+        xmin <- min(m$data[var2], na.rm = TRUE)
+    if (is.na(xmax)) 
+        xmax <- max(m$data[var2], na.rm = TRUE)
+    if (is.null(steps)) {
+        steps <- eval(parse(text = paste0("length(unique(na.omit(m$data$", 
+                                          var2, ")))")))
+    }
+    if (steps > 100) 
+        steps <- 100
+    
+    coef <- data.frame(fake = seq(xmin, xmax, length.out = steps), 
+                       coef1 = NA, ub = NA, lb = NA)
+    coef_df <- data.frame(fake = numeric(0), coef1 = numeric(0), 
+                          ub = numeric(0), lb = numeric(0), model = character(0))
+    
+    var1a <- str_subset(names(m.sims), var1)[1]
+    var2a <- str_subset(names(m.sims), var2)[1]
+    ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+           var12 <- paste0(var2a, ":", var1))
+    if (!var12 %in% names(m.sims))
+        var12 <- paste0(var1a, ":", var2)
+    if (!var12 %in% names(m.sims)) 
+        stop(paste("Model does not include the interaction of", 
+                   var1, "and", var2, "."))
+    
+    multiplier <- ifelse(var1 == var2, 2, 1) 
+    
+    for (i in 1:steps) {
+        coef$coef1[i] <- mean({m.sims[, var1a] + {multiplier * 
+                coef$fake[i] * m.sims[, var12]}}[, 1])
+        coef$lb[i] <- quantile({m.sims[, var1a] + {multiplier * 
+                coef$fake[i] * m.sims[, var12]}}[, 1], (1 - ci)/2)
+        coef$ub[i] <- quantile({m.sims[, var1a] + {multiplier * 
+                coef$fake[i] * m.sims[, var12]}}[, 1], 1 - (1 - ci)/2)
+    }
+    
+    min_sim <- {m.sims[, var1a] + {multiplier * 
+            xmin * m.sims[, var12]}}[, 1]
+    max_sim <- {m.sims[, var1a] + {multiplier * 
+            xmax * m.sims[, var12]}}[, 1]
+    diff <- first(max_sim - min_sim)
+    ci_diff <- c(quantile(diff, (1 - ci)/2), quantile(diff, 
+                                                      1 - (1 - ci)/2))
+    if (plot == TRUE) {
+        interplot:::interplot.plot(m = coef, steps = steps, hist = hist, 
+                                   predPro = predPro, var2_vals = var2_vals, var2_dt = var2_dt, 
+                                   point = point, ercolor = ercolor, esize = esize, 
+                                   ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                                   txt_caption = NULL, ...)
+    } else {
+        names(coef) <- c(var2, "coef", "ub", "lb")
+        return(coef)
+    }
+}
+
+
 make_dummies <- function(df, col) {
   x <- df[[col]]
   mm <- model.matrix(~ x - 1)
@@ -377,6 +444,41 @@ make_dummies <- function(df, col) {
   bind_cols(df, mm)
 }
 
+get_coef <- function(iv, results_df = coef_data, type = "both", width = .95) {
+  result_var <- results_df %>% 
+    filter(.width == width) %>% 
+    pull(.variable) %>% 
+    str_subset(iv)
+  
+  if (!type=="both") {
+    res <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull({{type}})
+  } else {
+    sc <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull(std_coef)
+    
+    ci <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull(ci)
+    
+    res <- paste0(sc, " (95% c.i.: ", ci, ")")
+  }
+  
+  return(res)
+}
+
+by2sd <- function(var) {
+  dich <- stats::na.omit(unique(var)) %>% 
+    sort() %>% identical(c(0, 1))
+  if (dich) 
+    sd <- 1
+  else 
+    sd <- 2 * stats::sd(var, na.rm = TRUE)
+  
+  return(sd)
+}
 
 set.seed(324)
 ```
@@ -996,7 +1098,7 @@ The next two models test for interactions of public gender egalitarianism with q
 and then with party lists.  Both of these estimates are very close to exactly zero.
 Looking across these results, I see support for the bottom-up theory as a complement to the top-down processes that we've developed a really good understanding of over the past two-three decades.
 
-```{r wr_models}
+```{r wr_models, eval=FALSE}
 sim_and_tidy <- function(m) {
   m_sims <- m %>%
     map(. %>% arm::sim(n.sims = 100)) %>%
@@ -1284,156 +1386,94 @@ m04_wr_fe <- bind_rows(m0_wr_fe %>%
 
 ```
 
-```{r wr_b, eval=FALSE}
-by_country2 <- by_country %>% 
-  group_by(country) %>% 
-  transmute(year,
-            women_rep,
-            pge_mean = mean(summary_pge_lag),
-            pge_mean_se = sqrt(sum(summary_pge_se_lag^2))/
-              length(summary_pge_lag),
-            pge_diff = summary_pge_lag - pge_mean,
-            pge_diff_se = sqrt(summary_pge_se_lag^2 + pge_mean_se^2)/2,
-            national_quota_mean = mean(national_quota),
-            national_quota_diff = national_quota - national_quota_mean,
-            list_mean = mean(list),
-            list_diff = list - list_mean)
-
-m0_wr_b <- brm(formula = bf(women_rep ~
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              (1 | country) + (1 | year)),
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 500,
-               iter = 1000,
-               chains = 4,
-               cores = 4,
-               seed = 324)
-
-m1_wr_b <- brm(formula = bf(women_rep ~
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              national_quota_mean +
-                              national_quota_diff +
-                              (1 | country) + (1 | year)),
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 500,
-               iter = 1000,
-               chains = 4,
-               cores = 4,
-               seed = 324)
-
-m1_wr_b1 <- brm(formula = bf(women_rep ~
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              list_mean +
-                              list_diff +
-                              (1 | country) + (1 | year)),
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 500,
-               iter = 1000,
-               chains = 4,
-               cores = 4,
-               seed = 324)
-
-m2_wr_b <- brm(formula = bf(women_rep ~ 
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              national_quota_mean + 
-                              national_quota_diff +
-                              list_mean +
-                              list_diff +
-                              (1 | country) + (1 | year)),  
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 500, 
-               iter = 1000, 
-               chains = 4, 
-               cores = 4,
-               seed = 324)
-
-save(by_country2, file = file.path(descrep_path, "data", "by_country2.rda"))
-save(m0_wr_b, file = file.path(descrep_path, "data", "m0_wr_b.rda"))
-save(m2_wr_b, file = file.path(descrep_path, "data", "m2_wr_b.rda"))
-```
-
-```{r wr_b_interactions, eval=FALSE}
-m3_wr_b <- brm(formula = bf(women_rep ~
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              national_quota_mean +
-                              national_quota_diff +
-                              list_mean +
-                              list_diff +
-                              me(pge_diff, pge_diff_se)*national_quota_mean +
-                              (1 | country) + (1 | year)),
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 1000,
-               iter = 2000,
-               chains = 4,
-               cores = 4,
-               seed = 324,
-               control=list(max_treedepth = 15))
-
-m3_wr_b1 <- brm(formula = bf(women_rep ~
-                              me(pge_mean, pge_mean_se) +
-                              me(pge_diff, pge_diff_se) +
-                              national_quota_mean +
-                              national_quota_diff +
-                              list_mean +
-                              list_diff +
-                              me(pge_diff, pge_diff_se)*national_quota_diff +
-                              me(pge_diff, pge_diff_se)*national_quota_mean +
-                              (1 | country) + (1 | year)),
-               data = by_country2,
-               backend = "cmdstanr",
-               warmup = 1000,
-               iter = 2000,
-               chains = 4,
-               cores = 4,
-               seed = 324,
-               control=list(max_treedepth = 15))
-
-# m4_wr_b <- brm(formula = bf(women_rep ~
-#                               me(pge_mean, pge_mean_se) +
-#                               me(pge_diff, pge_diff_se) +
-#                               national_quota_mean +
-#                               national_quota_diff +
-#                               list_mean +
-#                               list_diff +
-#                               me(pge_diff, pge_diff_se)*list_mean +
-#                               (1 | country) + (1 | year)),
-#                data = by_country2,
-#                backend = "cmdstanr",
-#                warmup = 500,
-#                iter = 1000,
-#                chains = 4,
-#                cores = 4,
-#                seed = 324)
-# 
-# m4_wr_b1 <- brm(formula = bf(women_rep ~
-#                               me(pge_mean, pge_mean_se) +
-#                               me(pge_diff, pge_diff_se) +
-#                               national_quota_mean +
-#                               national_quota_diff +
-#                               list_mean +
-#                               list_diff +
-#                               me(pge_diff, pge_diff_se)*list_mean +
-#                               me(pge_diff, pge_diff_se)*list_diff +
-#                               (1 | country) + (1 | year)),
-#                data = by_country2,
-#                backend = "cmdstanr",
-#                warmup = 500,
-#                iter = 1000,
-#                chains = 4,
-#                cores = 4,
-#                seed = 324)
-
-doubled_sd <- m2_wr_b$data %>% 
+```{r wr_b}
+if (!file.exists(file.path(descrep_path, "wr_b_results.rda"))) {
+  
+  by_country2 <- by_country %>% 
+    group_by(country) %>% 
+    transmute(year,
+              women_rep,
+              pge_mean = mean(summary_pge_lag),
+              pge_mean_se = sqrt(sum(summary_pge_se_lag^2))/
+                length(summary_pge_lag),
+              pge_diff = summary_pge_lag - pge_mean,
+              pge_diff_se = sqrt(summary_pge_se_lag^2 + pge_mean_se^2)/2,
+              national_quota_mean = mean(national_quota),
+              national_quota_diff = national_quota - national_quota_mean,
+              list_mean = mean(list),
+              list_diff = list - list_mean)
+  
+  m0_wr_b <- brm(formula = bf(women_rep ~
+                                me(pge_mean, pge_mean_se) +
+                                me(pge_diff, pge_diff_se) +
+                                (1 | country) + (1 | year)),
+                 data = by_country2,
+                 backend = "cmdstanr",
+                 warmup = 500,
+                 iter = 1000,
+                 chains = 4,
+                 cores = 4,
+                 seed = 324)
+  
+  m1_wr_b <- brm(formula = bf(women_rep ~
+                                me(pge_mean, pge_mean_se) +
+                                me(pge_diff, pge_diff_se) +
+                                national_quota_mean +
+                                national_quota_diff +
+                                (1 | country) + (1 | year)),
+                 data = by_country2,
+                 backend = "cmdstanr",
+                 warmup = 500,
+                 iter = 1000,
+                 chains = 4,
+                 cores = 4,
+                 seed = 324)
+  
+  m1_wr_b1 <- brm(formula = bf(women_rep ~
+                                 me(pge_mean, pge_mean_se) +
+                                 me(pge_diff, pge_diff_se) +
+                                 list_mean +
+                                 list_diff +
+                                 (1 | country) + (1 | year)),
+                  data = by_country2,
+                  backend = "cmdstanr",
+                  warmup = 500,
+                  iter = 1000,
+                  chains = 4,
+                  cores = 4,
+                  seed = 324)
+  
+  m2_wr_b <- brm(formula = bf(women_rep ~ 
+                                me(pge_mean, pge_mean_se) +
+                                me(pge_diff, pge_diff_se) +
+                                national_quota_mean + 
+                                national_quota_diff +
+                                list_mean +
+                                list_diff +
+                                (1 | country) + (1 | year)),  
+                 data = by_country2,
+                 backend = "cmdstanr",
+                 warmup = 500, 
+                 iter = 1000, 
+                 chains = 4, 
+                 cores = 4,
+                 seed = 324)
+  
+  m0_data_2sd <- m0_wr_b$data %>% 
+    select(-`women_rep`,
+           -country, -year, -ends_with("_se")) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    transmute(`.variable` = case_when(name == "pge_mean" ~ 
+                                        "bsp_mepge_meanpge_mean_se",
+                                      name == "pge_diff" ~
+                                        "bsp_mepge_diffpge_diff_se",
+                                      TRUE ~ paste0("b_", name)),
+              var_names = c("Public Gender Egalitarianism, Mean",
+                            "Public Gender Egalitarianism, Difference"),
+              sd2 = value)
+  
+  m2_data_2sd <- m2_wr_b$data %>% 
     select(-`women_rep`,
            -country, -year, -ends_with("_se")) %>% 
     summarize(across(everything(), by2sd)) %>% 
@@ -1451,23 +1491,31 @@ doubled_sd <- m2_wr_b$data %>%
                             "Public Gender Egalitarianism, Difference"),
               sd2 = value)
   
-coef_data0 <- m2_wr_b %>% 
-  tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
-  filter(!`.variable`=="b_Intercept") %>% 
-    left_join(doubled_sd, by = join_by(.variable))
+  coef_data0_m0 <- m0_wr_b %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!`.variable`=="b_Intercept") %>% 
+    left_join(m0_data_2sd, by = join_by(.variable)) %>% 
+    mutate(std_coef = .value * sd2,
+           term = factor(var_names, 
+                         levels = c("National Quota, Mean",
+                                    "National Quota, Difference")))
   
-cy_summary <- m2_wr_b$data %>%
-  count(country) %>%
-  pull(n) %>%
-  summary()
+  coef_data0 <- m2_wr_b %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!`.variable`=="b_Intercept") %>% 
+    left_join(m2_data_2sd, by = join_by(.variable))
   
-save(doubled_sd, coef_data0, cy_summary, file = file.path(descrep_path,
-                                                          "c_results.rda"))
+  cy_summary <- m2_wr_b$data %>%
+    count(country) %>%
+    pull(n) %>%
+    summary()
+  
+  save(m2_data_2sd, coef_data0, cy_summary, file = file.path(descrep_path,
+                                                          "wr_results.rda"))
 } else {
-  load(file = file.path(descrep_path, "c_results.rda"))
+  load(file = file.path(descrep_path, "wr_results.rda"))
 }
 ```
-
 
 ```{r resplot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democracies \\label{model}", fig.height = 5.5, fig.width = 7.5}
 ordered <- c("Public Gender Egalitarianism, Mean", 
@@ -1483,13 +1531,14 @@ coef_data <- coef_data0 %>%
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9, .95)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  left_join(doubled_sd, ., by = join_by(.variable))
+  left_join(m2_data_2sd, ., by = join_by(.variable))
 
 coef_data0 %>% 
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered)) %>% 
   ggplot(aes(y = term, x = std_coef)) +
-  ggdist::stat_halfeye(.width = c(.8, .9, .95)) +
+  ggdist::stat_halfeye(.width = c(.8, .9, .95),
+                       fill = "grey60") +
   geom_vline(xintercept = 0, linetype = "dashed") +
   coord_cartesian(xlim = c(-10, 20)) +
   theme_light() +
@@ -1499,33 +1548,102 @@ coef_data0 %>%
 ```
 
 
+```{r wr_b_interactions, eval=FALSE}
+# m3_wr_b <- brm(formula = bf(women_rep ~
+#                               me(pge_mean, pge_mean_se) +
+#                               me(pge_diff, pge_diff_se) +
+#                               national_quota_mean +
+#                               national_quota_diff +
+#                               list_mean +
+#                               list_diff +
+#                               me(pge_diff, pge_diff_se)*national_quota_diff +
+#                               (1 | country) + (1 | year)),
+#                data = by_country2,
+#                backend = "cmdstanr",
+#                warmup = 1000,
+#                iter = 2000,
+#                chains = 4,
+#                cores = 4,
+#                seed = 324,
+#                control=list(max_treedepth = 15))
+# 
+# m3_data_2sd <- m3_wr_b1$data %>% 
+#     select(-`women_rep`,
+#            -country, -year, -ends_with("_se")) %>% 
+#     summarize(across(everything(), by2sd)) %>% 
+#     pivot_longer(everything()) %>% 
+#     transmute(`.variable` = case_when(name == "pge_mean" ~ 
+#                                         "bsp_mepge_meanpge_mean_se",
+#                                       name == "pge_diff" ~
+#                                         "bsp_mepge_diffpge_diff_se",
+#                                       TRUE ~ paste0("b_", name)),
+#               var_names = c("National Quota, Mean",
+#                             "National Quota, Difference",
+#                             "Party List, Mean",
+#                             "Party List, Difference",
+#                             "Public Gender Egalitarianism, Mean",
+#                             "Public Gender Egalitarianism, Difference"),
+#               sd2 = value)
+#   
+# coef_data0_m3 <- m3_wr_b1 %>% 
+#   tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+#   filter(!`.variable`=="b_Intercept") %>% 
+#     left_join(m3_data_2sd, by = join_by(.variable))
+#   
+# save(m3_data_2sd, coef_data0_m3, file = file.path(descrep_path,
+#                                                   "m3_results.rda"))
+# } else {
+#   load(file = file.path(descrep_path, "m3_results.rda"))
+# }
+```
+
+```{m3_interaction_plot}
+# interplot_b(m3_wr_b, "national_quota_diff", "pge_diff")
+
+
+
+
+```
+
 ## Party Map
 ```{r party_maps}
-parties <- map_data("world") %>% 
-  filter(! long > 180) %>% 
-  distinct(region) %>% 
-  mutate(country = countrycode::countrycode(region, "country.name", "country.name"),
-         oecd = as.factor(as.numeric(country %in% oecd_countries))) %>% 
-  filter(!region=="Antarctica") %>% 
+world_geom <- world1 %>% 
+  mutate(country = countrycode::countrycode(admin,
+                                            "country.name",
+                                            "country.name"),
+         oecd = country %in% oecd_countries) %>% 
+  filter(!admin == "Antarctica") %>% 
+  left_join(by_country %>%
+              filter(!is.na(women_rep) & !is.na(summary_pge_lag)) %>% 
+              group_by(countryname) %>% 
+              count(name = "elections") %>% 
+              mutate(elections = ifelse(elections >=13, 13, elections)),
+            by = c("country" = "countryname"))
+
+parties <- world1 %>% 
+  mutate(country = countrycode::countrycode(admin,
+                                            "country.name",
+                                            "country.name"),
+         oecd = country %in% oecd_countries) %>% 
+  filter(!admin == "Antarctica") %>% 
   left_join(by_party %>%
               filter(!is.na(pfem) & !is.na(summary_pge_lag)) %>% 
               group_by(countryname) %>% 
               count(name = "party_elections"),
             by = c("country" = "countryname"))
 
-parties %>% 
-  ggplot(aes(fill = party_elections, map_id = region)) +
-  geom_map(map = world_map) +
-  expand_limits(x = world_map$long, y = world_map$lat) +
-  coord_map("moll") +
-  theme_map() +
-  scale_fill_distiller(na.value = "gray90", 
-                       palette = "Blues",
+ggplot() +
+  geom_sf(data = world1) +
+  geom_sf(data = parties,
+          aes(fill = party_elections)) +
+  coord_sf(crs = sf::st_crs("ESRI:53035")) +
+  scale_fill_distiller(na.value = "white", 
+                       palette = "Greys",
                        direction = 1) +
   theme(legend.position="none")
+
 ggsave(file.path(descrep_path, "map_oecd_party_elections.jpg"),
        width = 7, height = 3.5)
-
 ```
 
 
@@ -1685,31 +1803,7 @@ m04 <- bind_rows(m0%>%
                       mutate(model = "Model 4")) %>% 
   filter(!term=="(Intercept)")
 
-walk(1:5, function(mod) {
-  m04 %>% 
-    mutate(estimate = if_else(as.numeric(as_factor(model)) > mod,
-                              NA_real_,
-                              estimate),
-           std.error = if_else(as.numeric(as_factor(model)) > mod,
-                               NA_real_,
-                               std.error)) %>% 
-    dwplot() +
-    scale_y_discrete(labels=do.call(expression, rev(vars_proper))) +
-    theme_bw() +
-    theme(legend.position="none",
-          plot.title.position = "plot",
-          axis.text  = element_text(size=12)) +
-    geom_vline(xintercept = 0, colour = "grey60", linetype = 2) +
-    coord_cartesian(xlim = c(min(m04$estimate - 1.96*m04$std.error), 
-                             max(m04$estimate + 1.96*m04$std.error))) +
-    scale_color_viridis_d(direction = -1,
-                          end = .8) +
-    xlab("Standardized Coefficients") +
-    ggtitle("Multilevel Models of Women's Share of Parties' Legislative Seats")
-  ggsave(here::here("paper",
-                    "descriptive_representation",
-                    paste0("m04_", mod, ".jpg")))
-})
+
 
 m04 %>% 
   dwplot() +
