@@ -12,6 +12,7 @@ book:
     - /measuring_egalitarianism/measuring_egalitarianism.qmd
     - /descriptive_representation/descriptive_representation.qmd
     - /policy_adoption/policy_adoption.qmd
+    - /mexico/mexico.qmd
     - /korea/korea.qmd
     - conclusion.qmd
     - references.qmd
@@ -22,8 +23,5 @@ format:
   html:
     theme: cosmo
   pdf:
-    documentclass: scrreprt
-    linestretch: "2"
-
-
-
+    documentclass: scrbook
+    linestretch: "1.5"
