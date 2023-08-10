@@ -5,7 +5,47 @@ Family leave
 Anti-violence against women
 Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl 
 
-```{r quotas}
+## Quotas
+
+
+```{r quota_plot, eval=FALSE}
+party_quota_cor <- map(party_pge,
+                ~ with(.x, cor(pge_lag, party_quota,
+                               use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+party_quota_label <- tibble(summary_pge_lag = .3, party_quota = 51, label = party_quota_cor)
+
+ggplot(by_party,
+       aes(x = summary_pge_lag,
+           y = party_quota)) +
+  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
+                   y = party_quota, yend = party_quota),
+               na.rm = TRUE,
+               alpha = .05) +
+  geom_point(alpha = .05) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  scale_x_continuous(limits=c(0.25, 1),
+                     breaks=seq(.25, 1, by = .25)) +
+  scale_y_continuous(limits=c(0, 51)) +
+  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Party Quota") +
+  geom_label(data = party_quota_label, aes(label = label))
+
+ggsave(file.path(descrep_path,
+                  "party_quota_plot.jpg"))
+```
+
+
+
+```{r quotas, eval=FALSE}
 m0_party_quota <- party_pge %>%
   map(~ lmer(party_quota ~ pge_lag_by2sd +
                (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
