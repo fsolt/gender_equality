@@ -53,8 +53,7 @@ p_install(janitor, force = FALSE)
 
 p_load(
   # analysis
-  lme4,
-  lmerTest,
+  brms,
   
   # presentation
   gridExtra,
@@ -65,6 +64,7 @@ p_load(
   RColorBrewer,
   colorRamps,
   directlabels,
+  patchwork,
   
   # data wrangling
   broom,
@@ -486,12 +486,26 @@ by2sd <- function(var) {
 }
 
 set.seed(324)
+descrep_path <- here("paper", "descriptive_representation")
+
+oecd_countries <- c("Australia", "Austria", "Belgium",
+                    "Canada", "Chile", "Colombia",
+                    "Costa Rica", "Czechia", "Denmark",
+                    "Estonia", "Finland", "France", 
+                    "Germany", "Greece", "Hungary",
+                    "Iceland", "Ireland", "Israel",
+                    "Italy", "Japan", "South Korea",
+                    "Latvia", "Lithuania", "Luxembourg",
+                    "Mexico", "Netherlands", "New Zealand",
+                    "Norway", "Poland", "Portugal", 
+                    "Slovakia", "Slovenia", "Spain",
+                    "Sweden", "Switzerland", "Turkey", 
+                    "United Kingdom", "United States")
 ```
 
 
 ## Data
 ```{r load_party_data, eval=FALSE}
-descrep_path <- here("paper", "descriptive_representation")
 
 # Party-level
 # Manifesto Project: parties and election results
@@ -852,21 +866,6 @@ pge_summary <- rio::import(here("data",
                 .names = "summary_{.col}_lag")) %>% 
   ungroup()
 
-# OECD countries
-oecd_countries <- c("Australia", "Austria", "Belgium",
-                    "Canada", "Chile", "Colombia",
-                    "Costa Rica", "Czechia", "Denmark",
-                    "Estonia", "Finland", "France", 
-                    "Germany", "Greece", "Hungary",
-                    "Iceland", "Ireland", "Israel",
-                    "Italy", "Japan", "South Korea",
-                    "Latvia", "Lithuania", "Luxembourg",
-                    "Mexico", "Netherlands", "New Zealand",
-                    "Norway", "Poland", "Portugal", 
-                    "Slovakia", "Slovenia", "Spain",
-                    "Sweden", "Switzerland", "Turkey", 
-                    "United Kingdom", "United States")
-
 # Party data
 interleave <- function(data, var) {
   val <- deparse(substitute(var))
@@ -1032,7 +1031,7 @@ I could probably bump up that number of observations quite a bit by collecting d
 Party list: open list not effective @Jones1999
 
 
-```{r oecdmap, fig.cap="The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}}
+```{r oecdmap, fig.cap="The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}
 by_country <- rio::import(file.path(descrep_path, "data", "by_country.rda"))
 country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
 by_party <- rio::import(file.path(descrep_path, "data", "by_party.rda"))
@@ -1067,7 +1066,7 @@ ggsave(file.path(descrep_path, "map_oecd.jpg"),
 ```
 
 ## Method
-Our dataset, then, comprises the thirty-seven OECD democracies, each observed in twenty-one (Mexico) to forty (Ireland, Italy, the United Kingdom, and the United States) consecutive years (mean: `r cy_summary %>% nth(4) %>% round(1)` years, median: `r cy_summary %>% nth(3)` years).
+Our dataset, then, comprises the thirty-eight OECD democracies, each observed in twenty-one (Mexico) to forty (Ireland, Italy, the United Kingdom, and the United States) consecutive years.
 @Shor2007 demonstrates that such pooled time series are best analyzed using a Bayesian multilevel model including varying intercepts for each country and each year. 
 The former help account for heteroskedasticity across space due to, e.g., omitted variable bias, while permitting the inclusion of time-invariant predictors such as, in this dataset, parliamentarism and federalism.
 The latter take into account 'time shocks' that operate on all countries simultaneously [@Shor2007, 171-172].
@@ -1076,7 +1075,7 @@ The time-varying difference variables capture the short-term effects of the pred
 The measurement uncertainty in the data for both macrointerest and income inequality was incorporated into the analysis as well [see @Tai2022].
 The model was estimated using the `brms` R package [@Burkner2017].
 
-```{r electionsmap, fig.cap="Observed Democratic Elections in the OECD \\label{electionsmap}", fig.height = 5.5, fig.width = 7.5}}
+```{r electionsmap, fig.cap="Observed Democratic Elections in the OECD \\label{electionsmap}", fig.height = 5.5, fig.width = 7.5}
 ggplot() +
   geom_sf(data = world1) +
   geom_sf(data = world_geom,
@@ -1099,7 +1098,7 @@ And the PGE is estimated with uncertainty; that is why we see those horizontal w
 On our y-axis here, we have descriptive representation, measured as the percentage of seats won by women in each election to the lower house of the national legislature.
 The positive relationship between the two is pretty easy to see, I think.
 
-```{r wrplot fig.cap="Public Gender Egalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 5.5, fig.width = 7.5}
+```{r wrplot, fig.cap="Public Gender Egalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 5.5, fig.width = 7.5}
 wr_cor <- map(country_pge,
               ~ with(.x, cor(pge_lag, women_rep,
                              use = "pairwise.complete.obs"))) %>% 
@@ -1151,7 +1150,7 @@ and then with party lists.  Both of these estimates are very close to exactly ze
 Looking across these results, I see support for the bottom-up theory as a complement to the top-down processes that we've developed a really good understanding of over the past two-three decades.
 
 ```{r wr_b}
-if (!file.exists(file.path(descrep_path, "wr_results.rda"))) {
+if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
   
   by_country2 <- by_country %>% 
     group_by(country) %>% 
@@ -1256,14 +1255,14 @@ if (!file.exists(file.path(descrep_path, "wr_results.rda"))) {
                             "Public Gender Egalitarianism, Difference"),
               sd2 = value)
   
-  coef_data0_m0 <- m0_wr_b %>% 
-    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
-    filter(!`.variable`=="b_Intercept") %>% 
-    left_join(m0_data_2sd, by = join_by(.variable)) %>% 
-    mutate(std_coef = .value * sd2,
-           term = factor(var_names, 
-                         levels = c("National Quota, Mean",
-                                    "National Quota, Difference")))
+  # coef_data0_m0 <- m0_wr_b %>% 
+  #   tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+  #   filter(!`.variable`=="b_Intercept") %>% 
+  #   left_join(m0_data_2sd, by = join_by(.variable)) %>% 
+  #   mutate(std_coef = .value * sd2,
+  #          term = factor(var_names, 
+  #                        levels = c("National Quota, Mean",
+  #                                   "National Quota, Difference")))
   
   coef_data0 <- m2_wr_b %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
@@ -1572,7 +1571,7 @@ coef_data0_m2pf %>%
   xlab("Standardized Coefficients") +
   ylab(NULL) +
   plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers, from thickest to thinnest, describe 80%,\n90%, and 95% credible intervals; shading depicts the posterior probability density function.")
- ```
+```
 
 Looking across the rest of the models, 
 
@@ -1677,78 +1676,9 @@ if (!file.exists(file.path(descrep_path, "pfem_results_inter.rda"))) {
 #   rev()
 ```
 
-```{r m4_interplot}
-m4_mod_a <- party_pge %>%
-  map(~ lmer(pfem ~ pge_lag +
-               quota_by2sd +
-               list + list:pge_lag +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x))
-
-interplot2(m4_mod_a, "list", "pge_lag", hist = TRUE) +
-  theme_bw() +
-  theme(legend.position="none",
-        axis.text  = element_text(size=10),
-        axis.title = element_text(size=12)) +
-  ylab("Coefficient for List") +
-  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
-  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
-  ggtitle("Coefficients for Party-List Electoral Systems\nby Public Gender Egalitarianism")
-ggsave(file.path(descrep_path, "list_by_pge.jpg"))
-  
-# interplot2(m4_mod, "pge_lag_by2sd", "list") +
-#   theme_bw() +
-#   theme(legend.position="none",
-#         axis.text  = element_text(size=10),
-#         axis.title = element_text(size=12)) +
-#   ylab(TeX("Coefficient for Public Gender Egalitarianism$_{t-1}$")) +
-#   xlab("Party-List Electoral System") +
-#   geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
-#   ggtitle("Coefficients for Public Gender Egalitarianism\nby Party-List Electoral System")
-# ggsave(file.path(descrep_path, "pge_by_list.jpg"))
-```
-
-## Quotas
-```{r quota_plot}
-party_quota_cor <- map(party_pge,
-                ~ with(.x, cor(pge_lag, party_quota,
-                               use = "pairwise.complete.obs"))) %>% 
-  unlist() %>% 
-  mean() %>% 
-  round(2) %>% 
-  sprintf("%.2f", .) %>% 
-  paste0("R = ", .)
-
-party_quota_label <- tibble(summary_pge_lag = .3, party_quota = 51, label = party_quota_cor)
-
-ggplot(by_party,
-       aes(x = summary_pge_lag,
-           y = party_quota)) +
-  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
-                   y = party_quota, yend = party_quota),
-               na.rm = TRUE,
-               alpha = .05) +
-  geom_point(alpha = .05) +
-  geom_smooth(method = 'lm', se = FALSE) +
-  theme_bw() +
-  theme(legend.position="none",
-        axis.text  = element_text(size=10),
-        axis.title = element_text(size=12)) +
-  scale_x_continuous(limits=c(0.25, 1),
-                     breaks=seq(.25, 1, by = .25)) +
-  scale_y_continuous(limits=c(0, 51)) +
-  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Party Quota") +
-  geom_label(data = party_quota_label, aes(label = label))
-
-ggsave(file.path(descrep_path,
-                  "party_quota_plot.jpg"))
-```
 
 
-
-
-
-```{r}
+```{r leader, eval=FALSE}
 m1_leader <- party_pge %>%
   map(~ glmer(leader ~ pge_lag_by2sd +
                (1 | party ) + (1 | cyear) + (1 | country),
@@ -1775,7 +1705,7 @@ m3_leader <- party_pge %>%
 ```
 
 
-```{r pfem_plot_by_partyfam}
+```{r pfem_plot_by_partyfam, eval=FALSE}
 pfem_by_party_cor <- map(c("green", "left",
                            "center", "right",
                            "extreme right", "other"), function(pf3) {
