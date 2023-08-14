@@ -19,17 +19,40 @@ The bottom-up story is straightforward: when the electorate holds a more gender-
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, and fewer women gain office.
 Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krause’s 1974 APSR article, people in this literature sometimes talk about these attitudes as ideology or culture; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.
 
-In addition, there’s a third possibility that I personally think makes a lot of sense.
-This interactive theory says that public attitudes will shape the extent to which the institutions featured in the top-down theory yield more women in office.
-There's been a lot of really detailed work across a wide range of cases that shows that a party's mere adoption of a quota isn't sufficient to get women in office.
-A patriarchical party leadership can have it both ways: it can mollify, at least in the short run, the feminist activists it confronts by making a commitment to run more women, but then put female candidates only in unwinnable districts or in uncompetitive slots on the party's list.
-And to the extent that the electorate holds traditional views, the old male party leadership can point to these public attitudes as justification for its half-hearted efforts.
-As the public becomes more egalitarian, however, this patriarchical argument is undercut, and so not only will activists succeed in getting more women on the ballot, but these female candidates will be placed in more winnable positions. [see Ruedin 2012]
-Put another way, as public demand for more women candidates grows, the supply provided by parties will respond.
-Now, that's the argument for positive interactions.
+## The Scope of the Theory
+But first we need to define the universe for the study.
+As always, there are competing concerns.  
+On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
+The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work.
+But, on the other hand, we always need to avoid including cases to which the theory just doesn't apply.
+The theories I outlined above, at least those beyond the top-down theory, the ones that have to do with public opinion, presuppose a certain minimum level of democracy--at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.
+And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism of the sort we heard about last week and earlier this summer, for example, is thought to work to exclude women from politics at every level.
+So in light of these considerations, we are looking at advanced democracies.
+It's important, though, to be sure to not interpret "advanced democracies" as simply "western Europe and the British offshoots."
+And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking the countries.
+So we settled on the 38 countries of the current OECD.
+Yes, it's the usual suspects of most of Europe plus the United States and 
+Canada-Australia-New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
+Or, you know, about one China's worth of people; it's easy to see that there's still a lot of pale gray out there to work on too.
+But these theories I just outlined apply to these pretty blue countries, so we're starting with them.
 
-There is another theory that suggests negative interactions.
-Remember, interactions are always reciprocal, so if public opinion affects the effect of quotas, for example, that also implies that quotas affect the effect of public opinion.
-And this effect may not be the positive, reinforcing, one that I outlined a moment ago.
-If activists' success in winning the agreement of party leaders to adopt a quota or to place more women on the party list, if that success comes down to intraparty negotiations that are unrelated to public opinion as the top-down theory would lead us to expect, then these moves may increase supply well beyond the public's demand.
-In that case, and I thank Aina for helpfully pointing this out to me, the interaction of gender quotas and lists with public opinion will be *negative*: that an effect of public opinion on women's descriptive representation may exist when there is not a quota or list, but this effect will be dampened, or even completely blotted out, when a quota is adopted or where there is a list.
+```{r oecdmap, fig.cap="The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}
+world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
+    filter(!admin == "Antarctica")
+
+world_geom <- world1 %>% 
+  mutate(country = countrycode::countrycode(admin,
+                                            "country.name",
+                                            "country.name"),
+         oecd = country %in% oecd_countries) %>% 
+  filter(!admin == "Antarctica")
+
+ggplot() +
+  geom_sf(data = world1) +
+  geom_sf(data = world_geom,
+          aes(fill = oecd)) +
+  coord_sf(crs = sf::st_crs("ESRI:53035")) +
+  scale_fill_manual(name = "OECD Members", 
+                    values = c("white", "grey50")) +
+  theme(legend.position="none")
+```
