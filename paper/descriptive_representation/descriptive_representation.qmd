@@ -994,11 +994,10 @@ party_pge <- pge %>%
   group_split() %>% 
   map(. %>% 
         mutate(pge_lag = lag(pge)*100) %>%
-        inner_join(by_party, by = c("country" = "countryname", "year")) %>% 
-        group_by(draw, party) %>% 
-        mutate(cyear = paste0(country, year),
-               cy_code = as.numeric(as.factor(cyear))) %>% 
-        ungroup())
+        inner_join(by_party %>% 
+                     select(-pge),
+                   by = c("country" = "countryname", "year")) %>% 
+        select(country, year, party, pfem, pge))
       
 # Country data
 by_country0 <- qarot %>% 
@@ -1054,7 +1053,8 @@ country_pge <- pge %>%
                      ungroup() %>% 
                      filter(!is.na(pge_lag) & !is.na(pge)) %>% 
                      select(-pge),
-                   by = c("country" = "countryname", "year")))
+                   by = c("country" = "countryname", "year")) %>% 
+        select(country, year, women_rep, pge))
 
 save(by_country0, file = file.path(descrep_path, "data", "by_country0.rda"))
 save(country_pge, file = file.path(descrep_path, "data", "country_pge.rda"))
@@ -1472,7 +1472,7 @@ parties <- world1 %>%
          oecd = country %in% oecd_countries) %>% 
   filter(!admin == "Antarctica") %>% 
   left_join(by_party %>%
-              filter(!is.na(pfem) & !is.na(summary_pge_lag)) %>% 
+              filter(!is.na(pfem) & !is.na(pge)) %>% 
               group_by(countryname) %>% 
               count(name = "party_elections"),
             by = c("country" = "countryname"))
@@ -1488,7 +1488,7 @@ party_map <- ggplot() +
   theme(legend.position="none")
 
 party_bar <- by_party %>%
-  filter(!is.na(pfem) & !is.na(summary_pge_lag)) %>% 
+  filter(!is.na(pfem) & !is.na(pge)) %>% 
   group_by(countryname) %>% 
   count(name = "party_elections") %>%
   ggplot(aes(forcats::fct_reorder(countryname, party_elections, .desc = TRUE), 
@@ -1530,7 +1530,7 @@ And to be upfront, I feel like these are together a really hard test, because in
 
 ```{r pfem_plot}
 pfem_cor <- map(party_pge,
-                ~ with(.x, cor(pge_lag, pfem,
+                ~ with(.x, cor(pge, pfem,
                                use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
