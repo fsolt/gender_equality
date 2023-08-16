@@ -499,9 +499,10 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 ## Comparing Countries Over Time {.unnumbered}
 
-### Data {.unnumbered}
-```{r load_party_data, eval=FALSE}
+We start 
 
+
+```{r load_party_data, eval=FALSE}
 # Party-level
 # Manifesto Project: parties and election results
 if (!file.exists(file.path(descrep_path,
@@ -806,6 +807,16 @@ qarot <- read_csv(file.path(descrep_path,
                              women_rep.y)) %>% 
   select(-women_rep.x, -women_rep.y)
 
+# Early Eastern Europe (Varnegy2013: https://library.fes.de/pdf-files/bueros/budapest/10827.pdf)
+eee <- tribble(~countryname, ~year, ~women_rep, ~list, ~defacto_threshold,
+               "Czechia", 1990, 10, 1, 0,
+               "Estonia", 1990, 5.7, 1, 0,
+               "Hungary", 1990, 7.3, 1, 0,
+               "Latvia", 1990, 15, 1, 0,
+               "Lithuania", 1990, 9.9, 1, 0,
+               "Poland", 1991, 9.1, 1, 0,
+               "Slovakia", 1992, 15.3, 1, 0,
+               "Slovenia", 1990, 13.3, 1, 0)
 
 # Party Quotas (compilation)
 party_quotas <- read_csv(file.path(descrep_path,
@@ -848,14 +859,26 @@ des <- rio::import(file.path(descrep_path,
             list_pr = as.numeric(elecrule == 9),
             mmp = as.numeric(elecrule == 11),
             mmm = as.numeric(elecrule == 12),
-            list = pmax(list_pr, mmp, mmm),
-            tier1_avemag = tier1_avemag)
+            list = pmax(list_pr, mmp, mmm)) %>% 
+  select(countryname, year, list)
 
 if (!file.exists(file.path(descrep_path, "data-raw", "gdppc.rda"))) {
-  gdppc <- wbstats::wb_data(indicator = "NY.GDP.PCAP.CD") %>% 
-    transmute(iso2c, 
-              gdppc = value, 
-              year = as.numeric(date))
+  download.file("https://unstats.un.org/unsd/amaapi/api/file/12",
+                file.path(descrep_path, "data-raw", "ungdppc.xlsx"))
+  gdppc <- readxl::read_excel(file.path(descrep_path,
+                                         "data-raw",
+                                         "ungdppc.xlsx"),
+                               skip = 2) %>% 
+    pivot_longer(matches("\\d{4}"), 
+                 names_to = "year",
+                 values_to = "gdppc") %>% 
+    transmute(country = countrycode(Country, "country.name", "country.name",
+                                 warn = FALSE),
+              year = as.numeric(year),
+              gdppc) %>% 
+    filter(country %in% oecd_countries) %>% 
+    bind_rows(tribble(~country, ~year, ~gdppc,
+                      "United States", 2022, 62866.71)) # WB NY.GDP.PCAP.KD
   save(gdppc, file = file.path(descrep_path, "data-raw", "gdppc.rda"))
 } else {
   load(file.path(descrep_path, "data-raw", "gdppc.rda"))
@@ -869,19 +892,9 @@ pge <- rio::import(here("data",
 
 pge_summary <- rio::import(here("data",
                                 "pge_summary.rda")) %>% 
-  group_by(country) %>% 
   mutate(across(starts_with("p"),
-                ~ lag(.x) * 100,
-                .names = "summary_{.col}_lag"),
-         summary_pge_lag = if_else(is.na(summary_pge_lag), # extrapolate one yr
-                                   lead(summary_pge_lag),
-                                   summary_pge_lag),
-         summary_pge_se_lag = if_else(is.na(summary_pge_se_lag),
-                                   lead(summary_pge_se_lag)*1.1,
-                                   summary_pge_se_lag),
-         pge = pge * 100,
-         pge_se = pge_se * 100) %>% 
-  ungroup()
+                ~ .x * 100,
+                .names = "{.col}"))
 
 # Party data
 interleave <- function(data, var) {
@@ -974,7 +987,7 @@ by_party <- mp_parties %>%
   distinct(country, year, party, pfem, .keep_all = TRUE) %>% 
   filter(countryname %in% oecd_countries &
            !is.na(pfem) &
-           !is.na(summary_pge_lag))
+           !is.na(pge))
 
 party_pge <- pge %>% 
   group_by(draw) %>% 
@@ -991,10 +1004,7 @@ party_pge <- pge %>%
 by_country <- qarot %>% 
   left_join(des,
             by = c("countryname", "year")) %>% 
-  bind_rows(tibble(countryname = "Slovakia", # not yet independent, but okay
-                   year = 1992,
-                   women_rep = 15.3,
-                   list = 1))  %>% 
+  bind_rows(eee) %>% 
   left_join(pge_summary,
             by = c("countryname" = "country", "year")) %>% 
   mutate(country = countryname,
@@ -1012,29 +1022,39 @@ by_country <- qarot %>%
                             year == 2022 ~ 0,
                           TRUE ~ list),
          women_rep = case_when(countryname == "Germany" &
+                                 year == 1980 ~ 8.3,
+                               countryname == "Germany" &
                                  year == 1983 ~ 9.8, #https://www.bpb.de/themen/gender-diversitaet/frauen-in-deutschland/49418/frauenanteil-im-deutschen-bundestag/
                                countryname == "Germany" &
                                  year == 1987 ~ 15.4,
                                TRUE ~ women_rep),
-         women_rep_lag = lag(women_rep),
-         women_rep_included = ifelse(!is.na(summary_pge_lag),
-                                     women_rep,
-                                     NA_real_),
          national_quota = if_else(is.na(defacto_threshold), 0,
                                   defacto_threshold)) %>% 
   filter(countryname %in% oecd_countries) %>%
-  left_join(gdppc, by = c("iso2c", "year")) %>% 
+  left_join(gdppc, by = c("country", "year")) %>% 
   mutate(gdppc = gdppc/10000) %>% 
-  arrange(country, year)
+  arrange(country, year) %>%
+  filter(!is.na(list)) %>% 
+  group_by(country) %>% 
+  mutate(women_rep_lag = lag(women_rep),
+         pge_lag = lag(pge),
+         pge_se_lag = lag(pge_se),
+         women_rep_included = ifelse(!is.na(pge_lag),
+                                     women_rep,
+                                     NA_real_)) %>% 
+  ungroup() %>% 
+  filter(!is.na(pge_lag) & !is.na(pge))
 
 country_pge <- pge %>% 
   group_by(draw) %>% 
   group_split() %>% 
   map(. %>% 
         group_by(country) %>% 
-        mutate(pge_lag = lag(pge)*100) %>%
+        mutate(pge = pge*100) %>%
         ungroup() %>% 
-        inner_join(by_country, by = c("country" = "countryname", "year")))
+        inner_join(by_country %>%
+                     select(-pge),
+                   by = c("country" = "countryname", "year")))
 
 save(by_country, file = file.path(descrep_path, "data", "by_country.rda"))
 save(country_pge, file = file.path(descrep_path, "data", "country_pge.rda"))
@@ -1043,6 +1063,11 @@ save(party_pge, file = file.path(descrep_path, "data", "party_pge.rda"))
 ```    
 
 ```{r wrts, fig.cap="Women's Descriptive Representation in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
+by_country <- rio::import(file.path(descrep_path, "data", "by_country.rda"))
+country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
+by_party <- rio::import(file.path(descrep_path, "data", "by_party.rda"))
+party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
+
 ggplot(data = by_country, aes(x = year, y = women_rep)) +
     theme_bw() +
     theme(legend.position = "none") +
@@ -1072,44 +1097,7 @@ I could probably bump up that number of observations quite a bit by collecting d
 
 Party list: open list not effective @Jones1999 (des does not distinguish so maybe unimportant)
 
-
-
-### Method {.unnumbered}
-Our dataset, then, includes a series of time points from each of the thirty-eight OECD member states.
-Pooling these time series and analyzing them together has two long-appreciated advantages [see, e.g., @Stimson1985, 916].
-On the one hand, examining changes over time can provide strong evidence of causality for even questions involving concepts like public opinion and women in office that are not subject to manipulation by researchers and so are ill-suited to experimental research.
-On the other, examining many countries can provide strong evidence that our conclusions are general and not specific to a particular, possibly exceptional, context.
-But certain statistical difficulties associated with these analyses have been long recognized as well [see, again, among others, @Stimson1985].
-
-@Shor2007 demonstrates that two of the difficulties with pooled time series are best addressed using a Bayesian multilevel model including varying intercepts for both space and time.
-Such models take into account the distinctive structure of our data as comprised of observations of a particular country in a particular year.
-They incorporate the fact that what we see in an observation is influenced by _where_ we are looking.
-All observations of Spain or South Korea, for example, may share distinctively Spanish or Korean traits.
-If these distinctive traits are unknown and ignored, our model will consistently under- or over-estimate women's descriptive representation for all of our Spanish or Korean observations over time.^[
-This problem is a form of _heteroscadisticity_, a violation of the assumption of regression analyses that error variances are equal.]
-But these distinctive traits can be modeled by including a varying intercept for each country, a parameter that shifts our prediction of the outcome for all observations from that country by the same amount.
-Together, the country parameters avoid the problems caused from those national traits for which we do not have data or otherwise exclude from our analysis.
-These models also recognize that what we observe is also influenced by _when_ we are looking; to give an instance, all observations from 2020 may share peculiarities as a result of the COVID-19 pandemic and other events felt around the globe that year.^[
-Such contemporaneous correlation violates the regression assumption that, conditional on the model, the errors in our predictions are independent.]
-These distinctive temporal characteristics are similarly modeled with a varying intercept for each year.
-The year parameters shift our predictions for all observations from a particular year equally to account for whatever 'time shocks' operated on all countries simultaneously at that point in time [@Shor2007, 171-172].
-
-One recurring issue is how to capture _dynamic_ effects, to incorporate such theoretical expectations as that women's success in gaining office now will lead to similar or greater success in the future as female officeholders enjoy the benefits of incumbency and their example inspires more women to run (and more parties to either seek or at least accept their candidacies).
-
-As is often the case, we have a additional concerns.
-Further, the 'within-between random effects' specification is employed, meaning each of the time-varying predictors is decomposed into its time-invariant country mean and the difference between each country-year value and this country mean; this specification has been shown superior to fixed effects and other commonly used TSCS specifications for addressing omitted variable bias and endogeneity more generally [see @Bell2015].
-The time-varying difference variables capture the short-term effects of the predictors, while the time-invariant country-mean variables reflect their---often different---long-run, "historical" effects [@Bell2015, 137].
-
-The measurement uncertainty in the data for both macrointerest and income inequality was incorporated into the analysis as well [see @Tai2022].
-
-
-The model was estimated using the `brms` R package [@Burkner2017].
-
 ```{r electionsmap, fig.cap="Observed Democratic Elections in the OECD \\label{electionsmap}", fig.height = 6, fig.width = 7.5}
-by_country <- rio::import(file.path(descrep_path, "data", "by_country.rda"))
-country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
-by_party <- rio::import(file.path(descrep_path, "data", "by_party.rda"))
-party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
 
 world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
     filter(!admin == "Antarctica")
@@ -1121,7 +1109,6 @@ world_geom <- world1 %>%
          oecd = country %in% oecd_countries) %>% 
   filter(!admin == "Antarctica") %>% 
   left_join(by_country %>%
-              filter(!is.na(women_rep) & !is.na(summary_pge_lag)) %>% 
               group_by(countryname) %>% 
               count(name = "elections") %>% 
               mutate(elections = ifelse(elections >=18, 18, elections)),
@@ -1138,7 +1125,6 @@ country_map <- ggplot() +
   theme(legend.position="none")
 
 country_bar <- by_country %>%
-  filter(!is.na(women_rep) & !is.na(summary_pge_lag)) %>% 
   group_by(countryname) %>% 
   count(name = "elections") %>% 
   ggplot(aes(forcats::fct_reorder(countryname, elections, .desc = TRUE), 
@@ -1156,14 +1142,13 @@ country_map +
   plot_layout(ncol = 1, widths = c(1, 1), heights = c(5, 2))
 ```
 
-## Country-Elections {.unnumbered}
 Our dataset comprises the thirty-eight OECD democracies, each observed in five (Switzerland) to twenty-six (the United States) consecutive elections.
 A solid majority of our countries, twenty-six of the thirty-eight, have been observed in at least eight elections, giving us some confidence that we have adequate data to capture not only the differences between the countries in which many women are elected and those with much smaller numbers of women in office but also and perhaps more importantly the dynamics of change over time.
 We will start, though, by looking at the raw bivariate data.
 
 ```{r wrplot, fig.cap="Public Gender Egalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 5.5, fig.width = 7.5}
 wr_cor <- map(country_pge,
-              ~ with(.x, cor(pge_lag, women_rep,
+              ~ with(.x, cor(pge, women_rep,
                              use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
@@ -1171,12 +1156,12 @@ wr_cor <- map(country_pge,
   sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
-wr_label <- tibble(summary_pge_lag = .3, women_rep = 48, label = wr_cor)
+wr_label <- tibble(pge = 25, women_rep = 50, label = wr_cor)
 
 ggplot(by_country,
-       aes(x = summary_pge_lag,
+       aes(x = pge,
            y = women_rep)) +
-  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
+  geom_segment(aes(x = p10, xend = p90,
                    y = women_rep, yend = women_rep),
                na.rm = TRUE,
                alpha = .2) +
@@ -1186,21 +1171,69 @@ ggplot(by_country,
   theme(legend.position="none",
         axis.text  = element_text(size=10),
         axis.title = element_text(size=12)) +
-  scale_x_continuous(limits=c(min(by_country$summary_p10_lag), 1),
-                     breaks=seq(.25, 1, by = .25)) +
-  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Women's Share of Legislative Seats") +
+  scale_x_continuous(limits=c(20, 100),
+                     breaks=seq(20, 100, by = 20)) +
+  scale_y_continuous(limits=c(0, 50),
+                     breaks=seq(0, 50, by = 10)) +
+  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Legislative Seats") +
   geom_label(data = wr_label, aes(label = label))
 ```
 
 Each point in Figure&nbsp;\ref{wrplot} represents an election in a particular country, and they are labeled with the countries' two-character iso2c codes.
-The figure's x-axis presents the country's Public Gender Egalitarianism score, measured in the year before the election was held.
+The figure's x-axis presents the country's Public Gender Egalitarianism score, measured in the year the election was held.
 And because the PGE scores are estimated with uncertainty, each point is shown with a horizontal whiskers.
-Its y-axis depicts the extent of women's descriptive representation, measured as the percentage of seats won by women in each election to the lower house of the national legislature.
+Its y-axis depicts the extent of women's descriptive representation, measured as the percentage of seats won by women in each election to the lower house of the national legislature in that election.
 There is a strong positive relationship between the two.
 Taking the uncertainty in the PGE scores into account, the bivariate correlation is `r wr_cor %>% str_extract("\\.\\d{2}")`.
 This is promising, but there are many potential explanations for a strong correlation besides the theory that more egalitarian views among the public cause more women to win office.
 
-The first of these is that there may be other factors that influence 
+### Method {.unnumbered}
+Our dataset, then, includes a series of time points from each of the thirty-eight OECD member states.
+Pooling these time series and analyzing them together has two long-appreciated advantages [see, e.g., @Stimson1985, 916].
+On the one hand, examining changes over time can provide strong evidence of causality for even questions involving concepts like public opinion and women in office that are not subject to manipulation by researchers and so are ill-suited to experimental research.
+On the other, examining many countries can provide strong evidence that our conclusions are general and not specific to a particular, possibly exceptional, context.
+But certain statistical difficulties associated with these analyses have been long recognized as well [see, again, among others, @Stimson1985].
+
+@Shor2007 demonstrates that two of these difficulties with pooled time series are best addressed using a Bayesian multilevel model that includes varying intercepts for both space and time.
+Such models take into account the distinctive structure of our data as comprised of observations of a particular country in a particular year.
+They incorporate the fact that what we see in an observation is influenced by _where_ we are looking.
+All observations of Spain, for example, may share distinctively Spanish traits.
+If these distinctive traits are unknown and ignored, our model will consistently under- or over-estimate women's descriptive representation for all of our Spanish or Korean observations over time.^[
+This problem is a form of _heteroscadisticity_, a violation of the assumption of regression analyses that error variances are equal.]
+But these distinctive traits can be modeled by including a varying intercept for each country, a parameter that shifts our prediction of the outcome for all observations from that country by the same amount.
+Together, the country parameters avoid the problems caused from those national traits for which we do not have data or otherwise exclude from our analysis.
+These models also recognize that what we observe is also influenced by _when_ we are looking; to give an instance, all observations from 2020 may share peculiarities as a result of the COVID-19 pandemic and other events felt around the globe that year.^[
+Such contemporaneous correlation violates the regression assumption that, conditional on the model, the errors in our predictions are independent.]
+These distinctive temporal characteristics are similarly modeled with a varying intercept for each year.
+The year parameters shift our predictions for all observations from a particular year equally to account for whatever 'time shocks' operated on all countries simultaneously at that point in time [@Shor2007, 171-172].
+
+Another persistent concern with in the analysis of pooled time-series data is that cross-country differences can be confused with over-time changes.
+Change in our explanatory variable followed in time by change in what we seek to explain provides strong evidence of causation.
+That our proposed cause and effect covary across countries, on the other hand, _may_ reflect potentially different long-running and historical causal processes, but it may also reflect other, unmodeled cross-national differences.
+We follow @Bell2015 and employ the 'within-between random effects' specification to take into account the difference between change over time and differences across countries.
+To do this, we separate each time-varying predictor into its mean value for each country, which does not vary over time, and the difference between its value in a given year in a country and this country mean.
+The latter, time-varying difference variables capture the short-term causal effects of the predictors.
+The former, time-invariant country-mean variables reflect their often different long-run, historical effects as well as any country differences that would otherwise cause omitted-variable bias [@Bell2015, 137].
+
+An additional consideration arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
+The reverse theory, that more descriptive representation yields more gender egalitarian public opinion, is very plausible.
+Indeed, it has been found to have empirical support in previous research.
+Working with data from twenty-five countries included in two waves of the World Values Survey conducted a decade apart, @Alexander2012 found that increases in women's presence in parliaments predicted greater belief that men are no better political leaders than women.
+We therefore model these potentially reciprocal relationships using multivariate simultaneous equations, meaning that descriptive representation and gender equality each used to predict the other and that the varying intercepts for each country and year are modeled as correlated across the two equations.
+
+Yet another complication occurs when the processes observed are dynamic.
+That is, empirically, that past values predict current values and, theoretically, that there reasons to think that the past matters to the present.
+As in most time series data, that is true in this case.
+Here, in the present election, women serving in office in the just concluded legislative term may on the one hand enjoy the benefits of incumbency, but on the other they may be held to higher standards of conduct than their male peers.
+In either event, the extent of women's descriptive representation in the preceding term can be expected to influence the extent of representation in this one.
+And public opinion, such as with regard to gender equality in the public sphere, is often theorized similarly, with present attitudes thought to be a function of past attitudes as updated with new information.
+Given these circumstances, we include as a predictor the lag of the variable to be predicted, that is, its value at the time of the last election, and we calculate the total effects of our time-varying difference values over the medium term [see @Keele2006].
+
+One last source of problems is measurement uncertainty.
+As described in the previous chapter, our measure of public gender egalitarianism, the PGE scores, are estimated with uncertainty as a result of the sparsity and incomparability of surveys addressing the topic.
+Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2022].
+We therefore incorporated the measurement uncertainty in the PGE scores into our analysis.
+The model was estimated using the `brms` R package [@Burkner2017].
 
 Anyway, so first we basically replicate the scatterplot, but including varying intercepts by country that puts the focus on over-time variation.
 The estimate here is that increasing PGE in the year before the election from one standard deviation below its mean to one standard deviation above the mean is associated with an increase in women's share of the legislature of about twelve-and-a-half plus or minus two-and-a-half percentage points.  
@@ -1218,68 +1251,38 @@ Looking across these results, I see support for the bottom-up theory as a comple
 
 ```{r wr_b}
 if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
-  
   by_country2 <- by_country %>% 
-    filter(!is.na(list) & !is.na(summary_pge_lag)) %>% 
     group_by(country) %>% 
     transmute(year,
               women_rep,
-              women_rep_lag,
+              women_rep_lag, # from previous election
               women_rep_mean = mean(women_rep_lag, na.rm = TRUE),
               women_rep_diff = women_rep_lag - women_rep_mean,
               pge,
-              summary_pge_lag,
-              pge_mean = mean(summary_pge_lag, na.rm = TRUE),
-              pge_mean_se = sqrt(sum(summary_pge_se_lag^2, na.rm = TRUE))/
-                  length(summary_pge_lag),
-              pge_diff = summary_pge_lag - pge_mean,
-              pge_diff_se = sqrt(summary_pge_se_lag^2 + pge_mean_se^2)/2,
+              pge_se,
+              pge_lag,      # from previous election
+              pge_se_lag,
+              pge_mean = mean(pge, na.rm = TRUE),
+              pge_mean_se = sqrt(sum(pge_se^2, na.rm = TRUE))/
+                  length(pge),
+              pge_diff = pge - pge_mean,
+              pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
               national_quota,
               national_quota_mean = mean(national_quota),
               national_quota_diff = national_quota - national_quota_mean,
               visible_quota = as.numeric(national_quota >= 10),
+              visible_quota_mean = mean(visible_quota),
+              visible_quota_diff = visible_quota - visible_quota_mean,
               list,
               list_mean = mean(list, na.rm = TRUE),
               list_diff = list - list_mean,
               gdppc,
               gdppc_mean = mean(gdppc, na.rm = TRUE),
               gdppc_diff = gdppc - gdppc_mean) %>% 
-    ungroup() %>% 
-    mutate(time_trend = year - min(year))
+    ungroup()
   
-  bf_wr3 <- bf(women_rep ~ 
-                 me(pge_diff, pge_diff_se) +
-                 me(pge_mean, pge_mean_se) +
-                 national_quota_diff +
-                 national_quota_mean + 
-                 list_diff +
-                 list_mean +
-                 (1|c|country) + (1|t|year))
-  
-  bf_pge3 <- bf(pge ~ 
-                  women_rep_diff +
-                  women_rep_mean +
-                  gdppc_diff +
-                  gdppc_mean +
-                  list_diff +
-                  list_mean +
-                  (1|c|country) + (1|t|year))
-  
-  m3_wr_b <- brm(formula = bf_wr3 + 
-                   bf_pge3 + 
-                   set_rescor(TRUE),  
-                 data = by_country2,
-                 backend = "cmdstanr",
-                 control=list(adapt_delta = 0.99, 
-                              max_treedepth = 15),
-                 warmup = 500, 
-                 iter = 1000, 
-                 chains = 4, 
-                 cores = 4,
-                 seed = 324)
-
-  bf_wr4 <- bf(diff_women_rep ~ 
-                me(diff_pge, diff_pge_se) +
+  bf_wr <- bf(women_rep ~ 
+                me(pge_diff, pge_diff_se) +
                 me(pge_mean, pge_mean_se) +
                 national_quota_diff +
                 national_quota_mean + 
@@ -1287,82 +1290,101 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                 list_mean +
                 women_rep_lag +
                 (1|c|country) + (1|t|year))
-  
-  bf_pge <- bf(diff_pge ~ 
+
+  bf_pge <- bf(pge ~ 
                  women_rep_diff +
                  women_rep_mean +
                  gdppc_diff +
                  gdppc_mean +
+                 national_quota_diff +
+                 national_quota_mean + 
                  list_diff +
                  list_mean +
-                 summary_pge_lag +
+                 pge_lag +
                  (1|c|country) + (1|t|year))
   
-  m3_wr_b <- brm(formula = bf_wr + 
+  m1_wr_b <- brm(formula = bf_wr + 
                    bf_pge + 
                    set_rescor(TRUE),  
                  data = by_country2,
                  backend = "cmdstanr",
                  control=list(adapt_delta = 0.99, 
-                              max_treedepth = 15),
+                              max_treedepth = 12),
                  warmup = 500, 
                  iter = 1000, 
                  chains = 4, 
                  cores = 4,
                  seed = 324)
-  
-  # m0_data_2sd <- m0_wr_b$data %>% 
-  #   select(-`women_rep`,
-  #          -country, -year, -ends_with("_se")) %>% 
-  #   summarize(across(everything(), by2sd)) %>% 
-  #   pivot_longer(everything()) %>% 
-  #   transmute(`.variable` = case_when(name == "pge_mean" ~ 
-  #                                       "bsp_mepge_meanpge_mean_se",
-  #                                     name == "pge_diff" ~
-  #                                       "bsp_mepge_diffpge_diff_se",
-  #                                     TRUE ~ paste0("b_", name)),
-  #             var_names = c("Public Gender Egalitarianism, Mean",
-  #                           "Public Gender Egalitarianism, Difference"),
-  #             sd2 = value)
-  
-  m2_data_2sd <- m2_wr_b$data %>% 
-    select(-`women_rep`,
-           -country, -year, -ends_with("_se")) %>% 
+
+  m1_data_2sd <- m1_wr_b$data %>% 
+    select(pge_diff,
+           pge_mean, 
+           national_quota_diff,
+           national_quota_mean,
+           list_diff,
+           list_mean, 
+           women_rep_lag) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
-    transmute(`.variable` = case_when(name == "pge_mean" ~ 
-                                        "bsp_mepge_meanpge_mean_se",
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                        "bsp_womenrep_mepge_meanpge_mean_se",
                                       name == "pge_diff" ~
-                                        "bsp_mepge_diffpge_diff_se",
-                                      TRUE ~ paste0("b_", name)),
-              var_names = c("National Quota, Mean",
-                            "National Quota, Difference",
-                            "Party List, Mean",
-                            "Party List, Difference",
+                                        "bsp_womenrep_mepge_diffpge_diff_se",
+                                      TRUE ~ paste0("b_womenrep_", name)),
+              var_names = c("Public Gender Egalitarianism, Difference",
                             "Public Gender Egalitarianism, Mean",
-                            "Public Gender Egalitarianism, Difference"),
-              sd2 = value)
+                            "National Quota, Difference",
+                            "National Quota, Mean",
+                            "Electoral List, Difference",
+                            "Electoral List, Mean",
+                            "Lagged Descriptive Representation"
+                            ),
+              sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                           1,
+                           value),
+           dv = "Women's Descriptive Representation") %>% 
+    bind_rows(m1_wr_b$data %>% 
+    select(women_rep_diff,
+           women_rep_mean,
+           gdppc_diff,
+           gdppc_mean,
+           national_quota_diff,
+           national_quota_mean,
+           list_diff,
+           list_mean,
+           pge_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+      pivot_longer(everything()) %>% 
+      mutate(`.variable` = paste0("b_pge_", name),
+             var_names = c("Descriptive Representation, Difference",
+                           "Descriptive Representation, Mean",
+                           "GDP per Capita, Difference",
+                           "GDP per Capita, Mean",
+                           "National Quota, Difference",
+                           "National Quota, Mean",
+                           "Electoral List, Difference",
+                           "Electoral List, Mean",
+                           "Lagged Public Gender Egalitarianism"
+             ),
+             sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                          1,
+                          value),
+             dv = "Public Gender Egalitarianism")) %>% 
+    mutate(dv = factor(dv, levels = c("Women's Descriptive Representation",
+                                      "Public Gender Egalitarianism")))
   
-  # coef_data0_m0 <- m0_wr_b %>% 
-  #   tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
-  #   filter(!`.variable`=="b_Intercept") %>% 
-  #   left_join(m0_data_2sd, by = join_by(.variable)) %>% 
-  #   mutate(std_coef = .value * sd2,
-  #          term = factor(var_names, 
-  #                        levels = c("National Quota, Mean",
-  #                                   "National Quota, Difference")))
-  
-  coef_data0 <- m2_wr_b %>% 
+  coef_data0 <- m1_wr_b %>% 
+    as_draws_df() %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
-    filter(!`.variable`=="b_Intercept") %>% 
-    left_join(m2_data_2sd, by = join_by(.variable))
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m1_data_2sd, by = join_by(.variable))
   
-  cy_summary <- m2_wr_b$data %>%
+  cy_summary <- m1_wr_b$data %>%
     count(country) %>%
     pull(n) %>%
     summary()
   
-  save(m2_data_2sd, coef_data0, cy_summary, 
+  save(m1_data_2sd, coef_data0, cy_summary, 
        file = file.path(descrep_path,
                         "data",
                         "wr_results.rda"))
@@ -1371,33 +1393,62 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
 }
 ```
 
-```{r resplot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{model}", fig.height = 5.5, fig.width = 7.5}
-ordered <- c("Public Gender Egalitarianism, Mean", 
-             "Public Gender Egalitarianism, Difference",
-             "National Quota, Mean",
+```{r resplot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{model}", fig.height = 9, fig.width = 7.5}
+ordered <- c("Public Gender Egalitarianism, Difference",
+             "Public Gender Egalitarianism, Mean", 
+             "Descriptive Representation, Difference",
+             "Descriptive Representation, Mean",
              "National Quota, Difference",
-             "Party List, Mean", 
-             "Party List, Difference") %>% 
+             "National Quota, Mean",
+             "Electoral List, Difference",
+             "Electoral List, Mean", 
+             "GDP per Capita, Difference",
+             "GDP per Capita, Mean",
+             "Lagged Descriptive Representation",
+             "Lagged Public Gender Egalitarianism") %>% 
   rev()
 
 coef_data <- coef_data0 %>% 
-  mutate(std_coef = round(.value * sd2, 1),
+  mutate(std_coef = round(.value * sd2, 2),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9, .95)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  left_join(m2_data_2sd, ., by = join_by(.variable))
+  left_join(m1_data_2sd, ., by = join_by(.variable))
 
-coef_data0 %>% 
+coef_plots <- coef_data0 %>% 
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
   ggplot(aes(y = term, x = std_coef)) +
   ggdist::stat_halfeye(.width = c(.8, .9, .95),
                        fill = "grey60") +
   geom_vline(xintercept = 0, linetype = "dashed") +
-  coord_cartesian(xlim = c(-10, 20)) +
+  facet_grid(~ dv) +
+  coord_cartesian(xlim = c(-10, 10)) +
   theme_light() +
+  theme(strip.text.x = element_text(size = 10, color = "black"),
+        strip.background = element_rect(fill = "white", colour = "white")) +
   xlab("Standardized Coefficients") +
-  ylab(NULL) +
+  ylab(NULL) 
+
+lag_plots <- coef_data0 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Response Variable") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = c(.8, .9, .95),
+                       fill = "grey60") +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_grid(~ dv) +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficients") +
+  ylab(NULL) 
+
+coef_plots + lag_plots +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(9, 1)) +
   plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers, from thickest to thinnest, describe 80%,\n90%, and 95% credible intervals; shading depicts the posterior probability density function.")
 ```
 
