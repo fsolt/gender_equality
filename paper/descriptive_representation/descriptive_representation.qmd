@@ -1001,7 +1001,7 @@ party_pge <- pge %>%
         ungroup())
       
 # Country data
-by_country <- qarot %>% 
+by_country0 <- qarot %>% 
   left_join(des,
             by = c("countryname", "year")) %>% 
   bind_rows(eee) %>% 
@@ -1028,22 +1028,15 @@ by_country <- qarot %>%
                                countryname == "Germany" &
                                  year == 1987 ~ 15.4,
                                TRUE ~ women_rep),
+         women_rep_included = ifelse(!is.na(lag(pge)),
+                                     women_rep,
+                                     NA_real_),
          national_quota = if_else(is.na(defacto_threshold), 0,
                                   defacto_threshold)) %>% 
   filter(countryname %in% oecd_countries) %>%
   left_join(gdppc, by = c("country", "year")) %>% 
   mutate(gdppc = gdppc/10000) %>% 
-  arrange(country, year) %>%
-  filter(!is.na(list)) %>% 
-  group_by(country) %>% 
-  mutate(women_rep_lag = lag(women_rep),
-         pge_lag = lag(pge),
-         pge_se_lag = lag(pge_se),
-         women_rep_included = ifelse(!is.na(pge_lag),
-                                     women_rep,
-                                     NA_real_)) %>% 
-  ungroup() %>% 
-  filter(!is.na(pge_lag) & !is.na(pge))
+  arrange(country, year) 
 
 country_pge <- pge %>% 
   group_by(draw) %>% 
@@ -1052,23 +1045,39 @@ country_pge <- pge %>%
         group_by(country) %>% 
         mutate(pge = pge*100) %>%
         ungroup() %>% 
-        inner_join(by_country %>%
+        inner_join(by_country0 %>%
+                     filter(!is.na(list)) %>% 
+                     group_by(country) %>% 
+                     mutate(women_rep_lag = lag(women_rep),
+                            pge_lag = lag(pge),
+                            pge_se_lag = lag(pge_se)) %>% 
+                     ungroup() %>% 
+                     filter(!is.na(pge_lag) & !is.na(pge)) %>% 
                      select(-pge),
                    by = c("country" = "countryname", "year")))
 
-save(by_country, file = file.path(descrep_path, "data", "by_country.rda"))
+save(by_country0, file = file.path(descrep_path, "data", "by_country0.rda"))
 save(country_pge, file = file.path(descrep_path, "data", "country_pge.rda"))
 save(by_party, file = file.path(descrep_path, "data", "by_party.rda"))
 save(party_pge, file = file.path(descrep_path, "data", "party_pge.rda"))
 ```    
 
 ```{r wrts, fig.cap="Women's Descriptive Representation in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
-by_country <- rio::import(file.path(descrep_path, "data", "by_country.rda"))
+by_country0 <- rio::import(file.path(descrep_path, "data", "by_country0.rda"))
 country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
 by_party <- rio::import(file.path(descrep_path, "data", "by_party.rda"))
 party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
 
-ggplot(data = by_country, aes(x = year, y = women_rep)) +
+by_country <- by_country0 %>%
+  filter(!is.na(list)) %>% 
+  group_by(country) %>% 
+  mutate(women_rep_lag = lag(women_rep),
+         pge_lag = lag(pge),
+         pge_se_lag = lag(pge_se)) %>% 
+  ungroup() %>% 
+  filter(!is.na(pge_lag) & !is.na(pge))
+
+ggplot(data = by_country0, aes(x = year, y = women_rep)) +
     theme_bw() +
     theme(legend.position = "none") +
     coord_cartesian(xlim = c(1980, 2022)) +
