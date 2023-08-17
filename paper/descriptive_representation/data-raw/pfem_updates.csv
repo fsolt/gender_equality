@@ -52,9 +52,10 @@ Belgium,1985,,21112,Live Differently,40,https://en.wikipedia.org/wiki/Groen_(pol
 Belgium,1987,,21112,Live Differently,16.67,https://en.wikipedia.org/wiki/Groen_(political_party),,
 Belgium,2003,,21112,Live Differently,NA,https://en.wikipedia.org/wiki/Groen_(political_party),,
 Belgium,2007,,21330,"Social,Progressive,International,Regionalist,IntegrallyDemocarticandForward-Lkng",NA,no seats,0,
-Belgium,2014,,21522,Humanist Democratic Centre,33.3,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,0
-Belgium,2014,,21426,Reform Movement,33,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,0
-Belgium,2014,,21322,Socialist Party,30.4,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,0
+Belgium,2007,,21321,Socialist Party Different,,,7,
+Belgium,2014,,21522,Humanist Democratic Centre,33.3,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,9,0
+Belgium,2014,,21426,Reform Movement,33,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,20,0
+Belgium,2014,,21322,Socialist Party,30.4,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,23,0
 Belgium,2019,,21521,Christian Democratic and Flemish,33.3,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,0
 Belgium,2019,,21917,Flemish Interest,38.9,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,0
 Belgium,2019,,21112,Green!,37.5,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12303,,1
@@ -378,6 +379,7 @@ Hungary,1994,,86421,Federation of Young Democrats,,,,
 Hungary,1994,,86320,Hungarian Social Democratic Party,,,,
 Hungary,1998,,86522,CDPÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÂ¢Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÂ¢Â¬Ã…Â¾ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÂ¢Â¬ÃƒÃƒÃƒÃƒÃƒ,NA,no seats,,
 Hungary,2002,,86810,ISÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÂ¢Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÂ¢Â¬Ã…Â¾ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÂ¢ÃƒÃƒÃƒÃƒÃƒ,NA,no seats,,
+Hungary,2002,,86521,Hungarian�Democratic�Forum,,,67,0
 Hungary,2006,,86320,Hungarian Social Democratic Party,,,,
 Hungary,2010,,86320,Hungarian Social Democratic Party,,,,
 Hungary,2014,,86221,Democratic Coalition,,25,4,0
@@ -447,6 +449,7 @@ Ireland,1989,198906,53110,Green Party,0,https://en.wikipedia.org/wiki/Members_of
 Ireland,1992,,53110,Green Party,0,https://en.wikipedia.org/wiki/Members_of_the_27th_D�il,1,
 Ireland,2011,,53110,Green Party,NA,,,
 Ireland,2011,,53951,We Ourselves,14.28571429,https://en.wikipedia.org/wiki/2011_Irish_general_election,14,0
+Ireland,2011,,53230,Socialist Party,,https://en.wikipedia.org/wiki/2011_Irish_general_election,2,0
 Ireland,2016,,53981,Independent Alliance,50,https://en.wikipedia.org/wiki/2016_Irish_general_election,4,0
 Ireland,2016,,53951,We Ourselves,26.08695652,https://en.wikipedia.org/wiki/2016_Irish_general_election,23,0
 Ireland,2016,,53250,Workers and Unemployment Action,0,https://en.wikipedia.org/wiki/S�amus_Healy,1,0
@@ -462,13 +465,16 @@ Italy,1987,198706,32310,Radical Party,23.1,https://it.wikipedia.org/wiki/Deputat
 Italy,1992,199204,32720,Northern League,9.1,https://it.wikipedia.org/wiki/Deputati_dell%27XI_legislatura_della_Repubblica_Italiana,55,
 Italy,1992,199204,32951,The Network/Movement for Democracy,8.3,https://it.wikipedia.org/wiki/La_Rete_(partito_politico)#Assemblee_Nazionali,12,
 Italy,1994,,32528,Pact for Italy,,,,
+Italy,1994,,32520,Italian Popular Party,7.5,https://it.wikipedia.org/wiki/Deputati_della_XII_legislatura_della_Repubblica_Italiana,33,
 Italy,1996,,32529,Democratic Alliance,0,https://it.wikipedia.org/wiki/Alleanza_Democratica_(Italia),3,
 Italy,1996,,32520,Italian Popular Party,7.5,https://it.wikipedia.org/wiki/Deputati_della_XIII_legislatura_della_Repubblica_Italiana,67,
 Italy,1996,,32310,Pannella-Sgarbi List,NA,no seats,,
+Italy,1996,,32521,Christian�Democratic�Centre,,https://it.wikipedia.org/wiki/Deputati_della_XIII_legislatura_della_Repubblica_Italiana,30,
 Italy,2001,,32629,House of Freedom,NA,no seats,,
 Italy,2001,,32902,List Di Pietro - Italy of Values,NA,no seats,,
 Italy,2001,,32611,New Italian Socialist Party,33.3,https://it.wikipedia.org/wiki/Deputati_della_XIV_legislatura_della_Repubblica_Italiana,3,
 Italy,2001,,32522,White Flower,7.5,https://it.wikipedia.org/wiki/Deputati_della_XIV_legislatura_della_Repubblica_Italiana,40,0
+Italy,2001,,32329,Olive Tree,,https://it.wikipedia.org/wiki/Deputati_della_XIV_legislatura_della_Repubblica_Italiana,216,
 Italy,2006,200604,32904,South Tyrolean People’s Party,0,https://it.wikipedia.org/wiki/Deputati_della_XV_legislatura_della_Repubblica_Italiana,4,0
 Italy,2006,200604,32953,Popular Democratic Union for Europe,10,https://it.wikipedia.org/wiki/Deputati_della_XV_legislatura_della_Repubblica_Italiana,10,0
 Italy,2006,,32903,Autonomy Liberty Democracy (Aosta Valley),0,https://it.wikipedia.org/wiki/Deputati_della_XV_legislatura_della_Repubblica_Italiana,1,0
@@ -746,12 +752,12 @@ New Zealand,2017,,64901,Māori Party,NA,https://ejpr.onlinelibrary.wiley.com/doi
 New Zealand,2017,,64621,New Zealand First Party,22.22222222,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12229,9,0
 New Zealand,2017,,64320,New Zealand Labour Party,43.47826087,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12229,46,1
 New Zealand,2017,,64620,New Zealand National Party,32.14285714,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12229,56,0
-New Zealand,2020,,64420,ACT New Zealand,40,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,0
-New Zealand,2020,,64110,Green Party of Aotearoa New Zealand,70,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,0
-New Zealand,2020,,64901,Māori Party,50,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,0
-New Zealand,2020,,64621,New Zealand First Party,NA,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,0
-New Zealand,2020,,64320,New Zealand Labour Party,55.38461538,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,1
-New Zealand,2020,,64620,New Zealand National Party,30.3030303,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,,1
+New Zealand,2020,,64420,ACT New Zealand,40,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,10,0
+New Zealand,2020,,64110,Green Party of Aotearoa New Zealand,70,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,10,0
+New Zealand,2020,,64901,Māori Party,50,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,2,0
+New Zealand,2020,,64621,New Zealand First Party,NA,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,0,0
+New Zealand,2020,,64320,New Zealand Labour Party,55.38461538,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,65,1
+New Zealand,2020,,64620,New Zealand National Party,30.3030303,https://ejpr.onlinelibrary.wiley.com/doi/10.1111/2047-8852.12318,33,1
 Norway,1981,,12951,Progress Party,,,,
 Norway,1985,,12420,Liberal Party,NA,https://en.wikipedia.org/wiki/Liberal_Party_(Norway),,
 Norway,1989,,12420,Liberal Party,NA,https://en.wikipedia.org/wiki/Liberal_Party_(Norway),,
@@ -831,7 +837,12 @@ Portugal,1987,,35110,EPÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â�
 Portugal,1987,,35520,Social Democratic Center Party,0,https://en.wikipedia.org/wiki/1985_Portuguese_legislative_election; https://en.wikipedia.org/wiki/Category:Women_members_of_the_Assembly_of_the_Republic_(Portugal),,
 Portugal,1987,198707,35312,Democratic Renewal Party,14.3,https://www.cne.pt/sites/default/files/dl/resultados_ar_1987.pdf,7,
 Portugal,1991,199110,35951,National Solidarity Party,0,https://en.wikipedia.org/wiki/National_Solidarity_Party_(Portugal),1,
+Portugal,1991,199110,35220,Portuguese Communist Party,,https://en.wikipedia.org/wiki/1991_Portuguese_legislative_election,17,
+Portugal,1995,,35220,Portuguese Communist Party,,https://en.wikipedia.org/wiki/1995_Portuguese_legislative_election,15,
+Portugal,1999,,35220,Portuguese Communist Party,,https://en.wikipedia.org/wiki/1999_Portuguese_legislative_election,17,
 Portugal,2002,,35110,EPÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÂ¢Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÂ¢Â¬Ã…Â¾ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÃ‚Â¢ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’ÃƒÃ‚Â¬ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’ÃƒÃƒÃƒ,100,https://en.wikipedia.org/wiki/Ecologist_Party_%22The_Greens%22; https://en.wikipedia.org/wiki/Maria_Am�lia_Santos; https://en.wikipedia.org/wiki/Helo%C3%ADsa_Apol�nia,2,
+Portugal,2002,,35229,Unified Democratic Coalition,,https://en.wikipedia.org/wiki/2002_Portuguese_legislative_election,12,
+Portugal,2005,,35229,Unified Democratic Coalition,,https://en.wikipedia.org/wiki/2002_Portuguese_legislative_election,14,
 Portugal,2009,,35110,EPÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÂ¢Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÂ¢Â¬Ã…Â¾ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÃ‚Â¢ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’ÃƒÃ‚Â¬ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’ÃƒÃƒÃƒ,50,https://en.wikipedia.org/wiki/Ecologist_Party_%22The_Greens%22; https://en.wikipedia.org/wiki/Helo%C3%ADsa_Apol�nia; https://en.wikipedia.org/wiki/Category:Women_members_of_the_Assembly_of_the_Republic_(Portugal),2,
 Portugal,2011,,35110,EPÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÂ¢Ã‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÂ¢Â¬Ã…Â¾ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÂ¢Â¬Ã…Â¡ÃƒÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÃ‚Â¢ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’ÃƒÃ‚Â¬ÃƒÂ¢Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’ÃƒÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ÃƒÆ’ÃƒÂ¢Â¬Â¢ÃƒÆ’Ã†â€™ÃƒÂ¢Â¬Ã‚ÃƒÂ¢Ã‚Â¬ÃƒÂ¢Å¾Ã‚Â¢ÃƒÆ’ÃƒÃƒÃƒ,50,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12143,2,
 Portugal,2011,,35220,Portuguese Communist Party,75,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12143,,
@@ -927,26 +938,26 @@ Slovenia,2018,,97230,The Left,22.2,https://ejpr.onlinelibrary.wiley.com/doi/10.1
 South Korea,1992,,113441,Democratic Liberal Party,2.013,https://open.assembly.go.kr/,,0
 South Korea,1992,,113621,National Unification Party,3.226,https://open.assembly.go.kr/,,0
 South Korea,1996,,113441,Democratic Party,6.667,https://open.assembly.go.kr/,,0
-South Korea,1996,,113421,National Congress for New Politics,5.063,https://open.assembly.go.kr/,,0
+South Korea,1996,,113421,National Congress for New Politics,5.063,https://open.assembly.go.kr/,79,0
 South Korea,1996,,113622,New Korea Party,2.113,https://open.assembly.go.kr/,,0
 South Korea,1996,,113650,United Liberal Party,2.083,https://open.assembly.go.kr/,,0
-South Korea,2000,,113320,"Democratic Labour Party (It is needed to be changed to ""Democratic People's Party"")",50,https://open.assembly.go.kr/,,0
+South Korea,2000,,113320,"Democratic Labour Party (It is needed to be changed to ""Democratic People's Party"")",50,https://open.assembly.go.kr/,2,0
 South Korea,2000,,113630,Grand National Party,5.263,https://open.assembly.go.kr/,,0
-South Korea,2000,,113441,Millenium Democratic Party,12.174,https://open.assembly.go.kr/,,0
+South Korea,2000,,113441,Millenium Democratic Party,12.174,https://open.assembly.go.kr/,115,0
 South Korea,2000,,113650,United Liberal Party,0,https://open.assembly.go.kr/,,0
-South Korea,2004,,113320,Democratic Labour Party,40,https://open.assembly.go.kr/,,0
+South Korea,2004,,113320,Democratic Labour Party,40,https://open.assembly.go.kr/,10,0
 South Korea,2004,,113630,Grand National Party,14.05,https://open.assembly.go.kr/,,1
 South Korea,2004,,113441,Millenium Democratic Party,22.222,https://open.assembly.go.kr/,,0
 South Korea,2004,,113650,United Liberal Party,0,https://open.assembly.go.kr/,,0
 South Korea,2004,,113422,Uri Party,12.5,https://open.assembly.go.kr/,,0
-South Korea,2008,,113320,Democratic Labour Party,40,https://open.assembly.go.kr/,,0
+South Korea,2008,,113320,Democratic Labour Party,40,https://open.assembly.go.kr/,5,0
 South Korea,2008,,113630,Grand National Party,15.686,https://open.assembly.go.kr/,,0
 South Korea,2008,,113651,Liberty Forward Party,11.111,https://open.assembly.go.kr/,,0
 South Korea,2008,,113441,United Democratic Party,14.815,https://open.assembly.go.kr/,,0
 South Korea,2012,,113441,Democratic Party,18.898,https://open.assembly.go.kr/,,0
 South Korea,2012,,113651,Liberty Forward Party,20,https://open.assembly.go.kr/,,0
 South Korea,2012,,113630,New Frontier Party,15.132,https://open.assembly.go.kr/,,0
-South Korea,2012,,113321,United Progressive Party,38.462,https://open.assembly.go.kr/,,1
+South Korea,2012,,113321,United Progressive Party,38.462,https://open.assembly.go.kr/,13,1
 South Korea,2016,,113441,Democratic Party,19.512,https://open.assembly.go.kr/,,0
 South Korea,2016,,113322,Justice Party,50,https://open.assembly.go.kr/,,1
 South Korea,2016,,113630,New Frontier Party,12.295,https://open.assembly.go.kr/,,0
@@ -1007,7 +1018,7 @@ Spain,2015,,33099,Democracy and Freedom,37.5,https://ejpr.onlinelibrary.wiley.co
 Spain,2015,,33096,In Common We Can,NA,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2015,,33097,In Tide,NA,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2015,,33020,Popular Unity,50,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
-Spain,2015,,33210,We can,53.65853659,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
+Spain,2015,,33210,We can,50.8,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,65,
 Spain,2016,,33095,Basque Country Unite,50,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2016,,33420,Citizens,18.75,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2016,,33911,Democratic Convergence of Catalonia,25,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
@@ -1015,7 +1026,7 @@ Spain,2016,,33096,In Common We Can,41.66666667,https://ejpr.onlinelibrary.wiley.
 Spain,2016,,33097,In Tide,NA,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2016,,33025,United We Can,NA,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
 Spain,2016,,33098,Valencian style,NA,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
-Spain,2016,,33210,We can,53.65853659,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,,
+Spain,2016,,33210,We can,49.3,https://ejpr.onlinelibrary.wiley.com/doi/full/10.1111/2047-8852.12188,67,
 Spain,2019,201911,33095,Basque Country Unite,25,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12337,4,
 Spain,2019,201911,33902,Basque Nationalist Party,33.3,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12337,6,
 Spain,2019,201911,33907,Canarian Coalition–New Canaries,100,https://ejpr-onlinelibrary-wiley-com.proxy.lib.uiowa.edu/doi/10.1111/2047-8852.12337,1,
@@ -1062,7 +1073,7 @@ Switzerland,2019,,43020,Together on the Left,,https://ejpr.onlinelibrary.wiley.c
 Turkey,2002,,74325,Peace and Democracy Party,NA,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
 Turkey,2002,,74321,Republican People’s Party,6.2,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
 Turkey,2002,,74628,Justice and Development Party,5.6,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
-Turkey,2007,,74325,Peace and Democracy Party,36.3,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
+Turkey,2007,,74325,Peace and Democracy Party,36.3,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,22,
 Turkey,2007,,74321,Republican People’s Party,8,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
 Turkey,2007,,74628,Justice and Development Party,8.7,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,,
 Turkey,2011,,74325,Peace and Democracy Party,34.3,Aslan Akman (2022): https://link.springer.com/chapter/10.1007/978-3-031-08931-2,35,
