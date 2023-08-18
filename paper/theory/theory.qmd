@@ -14,12 +14,63 @@ In this telling, the public, the voters, are basically ambivalent with regard to
 Now, there's a *ton* of evidence--qualitative and quantitative--for the hypotheses implied by the top-down account, decades' worth of work on this topic, really, that show that quotas and party lists yield more women's descriptive representation.
 It is, by now, super-well established stuff.
 
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300,
+  fig.width=7
+)
+
+if (!require(pacman))
+  install.packages("pacman")
+library(pacman)
+
+p_install(janitor, force = FALSE)
+
+p_load(
+  # presentation
+  RColorBrewer,
+  colorRamps,
+  directlabels,
+  patchwork,
+  naturalearth,
+  
+  # data wrangling
+  broom,
+  countrycode,
+  DCPOtools,
+  glue,
+  here,
+  janitor,
+  tidyverse)
+
+set.seed(324)
+
+oecd_countries <- c("Australia", "Austria", "Belgium",
+                    "Canada", "Chile", "Colombia",
+                    "Costa Rica", "Czechia", "Denmark",
+                    "Estonia", "Finland", "France", 
+                    "Germany", "Greece", "Hungary",
+                    "Iceland", "Ireland", "Israel",
+                    "Italy", "Japan", "South Korea",
+                    "Latvia", "Lithuania", "Luxembourg",
+                    "Mexico", "Netherlands", "New Zealand",
+                    "Norway", "Poland", "Portugal", 
+                    "Slovakia", "Slovenia", "Spain",
+                    "Sweden", "Switzerland", "Turkey", 
+                    "United Kingdom", "United States")
+```
+
 Yet there is a second theory, one that I'm going to label "bottom up," that contends that public attitudes cannot be dismissed as readily as they are in the purest top-down accounts.
 The bottom-up story is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties run more women, and more women win election.
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, and fewer women gain office.
 Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krause’s 1974 APSR article, people in this literature sometimes talk about these attitudes as ideology or culture; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.
 
-## The Scope of the Theory
+## The Scope of the Theory {.unnumbered}
 But first we need to define the universe for the study.
 As always, there are competing concerns.  
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
