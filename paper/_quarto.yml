@@ -4,11 +4,12 @@ project:
 book:
   title: "Gender Egalitarianism and Gender Equality:\nHow Public Opinion Shapes Politics and Policy in Global Perspective"
   author: "Byung-Deuk Woo and Frederick Solt"
-  date: "7/29/2022"
+  date: today
+  date-format: long
   chapters:
     - index.qmd
     - introduction.qmd
-    - theory.qmd
+    - /theory/theory.qmd
     - /measuring_egalitarianism/measuring_egalitarianism.qmd
     - /descriptive_representation/descriptive_representation.qmd
     - /policy_adoption/policy_adoption.qmd
