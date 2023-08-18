@@ -847,7 +847,10 @@ qarot <- read_csv(file.path(descrep_path,
 eee <- tribble(~countryname, ~year, ~women_rep, ~list, ~defacto_threshold,
                "Czechia", 1990, 10, 1, 0,
                "Estonia", 1990, 5.7, 1, 0,
+               "Hungary", 1990, 7.3, 1, 0,
                "Latvia", 1990, 15, 1, 0,
+               "Lithuania", 1990, 9.9, 1, 0,
+               "Poland", 1991, 9.1, 1, 0,
                "Slovakia", 1992, 15.3, 1, 0,
                "Slovenia", 1990, 13.3, 1, 0)
 
@@ -1068,14 +1071,34 @@ by_country0 <- qarot %>%
                                  year == 1987 ~ 15.4,
                                TRUE ~ women_rep),
          pge = case_when(is.na(pge) &
+                           country == "Australia" ~ lead(pge),
+                         is.na(pge) & 
                            country == "France" ~ lead(pge, 2),
                          is.na(pge) &
+                           country == "Ireland" ~ lead(pge),
+                         is.na(pge) &
+                           country == "Netherlands" ~ lead(pge),
+                         is.na(pge) &
                            country == "New Zealand" ~ lead(pge),
+                         is.na(pge) &
+                           country == "Spain" ~ lead(pge),
+                         is.na(pge) &
+                           country == "Turkey" ~ lead(pge),
                          TRUE ~ pge),
          pge_se = case_when(is.na(pge_se) &
-                              country == "France" ~ lead(pge_se, 2) * 1.1,
+                           country == "Australia" ~ lead(pge)*1.1,
+                         is.na(pge_se) & 
+                           country == "France" ~ lead(pge, 2)*1.1,
                          is.na(pge_se) &
-                           country == "New Zealand" ~ lead(pge_se) * 1.1,
+                           country == "Ireland" ~ lead(pge)*1.1,
+                         is.na(pge_se) &
+                           country == "Netherlands" ~ lead(pge)*1.1,
+                         is.na(pge_se) &
+                           country == "New Zealand" ~ lead(pge)*1.1,
+                         is.na(pge_se) &
+                           country == "Spain" ~ lead(pge)*1.1,
+                         is.na(pge_se) &
+                           country == "Turkey" ~ lead(pge)*1.1,
                          TRUE ~ pge_se),
          women_rep_included = ifelse(!is.na(lag(pge)),
                                      women_rep,
@@ -1112,20 +1135,129 @@ save(by_party, file = file.path(descrep_path, "data", "by_party.rda"))
 save(party_pge, file = file.path(descrep_path, "data", "party_pge.rda"))
 ```    
 
-```{r wrts, fig.cap="Women's Descriptive Representation in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
-by_country0 <- rio::import(file.path(descrep_path, "data", "by_country0.rda"))
-country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
-by_party <- rio::import(file.path(descrep_path, "data", "by_party.rda"))
-party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
+```{r wr_b}
+if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
+  by_country0 <- rio::import(file.path(descrep_path, "data", "by_country0.rda"))
+  
+  by_country <- by_country0 %>%
+    filter(!is.na(list)) %>% 
+    group_by(country) %>% 
+    mutate(women_rep_lag = lag(women_rep),
+           pge_lag = lag(pge),
+           pge_se_lag = lag(pge_se)) %>% 
+    ungroup() %>% 
+    filter(!is.na(pge) & !is.na(pge_lag))
+  
+  by_country2 <- by_country %>% 
+    group_by(country) %>% 
+    transmute(year,
+              women_rep,
+              women_rep_lag, # from previous election
+              women_rep_mean = mean(women_rep_lag, na.rm = TRUE),
+              women_rep_diff = women_rep_lag - women_rep_mean,
+              pge,
+              pge_se,
+              pge_lag,      # from previous election
+              pge_se_lag,
+              pge_mean = mean(pge, na.rm = TRUE),
+              pge_mean_se = sqrt(sum(pge_se^2, na.rm = TRUE))/
+                  length(pge),
+              pge_diff = pge - pge_mean,
+              pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
+              national_quota,
+              national_quota_mean = mean(national_quota),
+              national_quota_diff = national_quota - national_quota_mean,
+              list,
+              list_mean = mean(list, na.rm = TRUE),
+              list_diff = list - list_mean,
+              gdppc,
+              gdppc_mean = mean(gdppc, na.rm = TRUE),
+              gdppc_diff = gdppc - gdppc_mean) %>% 
+    ungroup()
+  
+  bf_wr <- bf(women_rep ~ 
+                me(pge_diff, pge_diff_se) +
+                me(pge_mean, pge_mean_se) +
+                national_quota_diff +
+                national_quota_mean + 
+                list_diff +
+                list_mean +
+                women_rep_lag +
+                (1|c|country) + (1|t|year))
+  
+  m1_wr_b <- brm(formula = bf_wr,  
+                 data = by_country2,
+                 backend = "cmdstanr",
+                 control=list(adapt_delta = 0.99, 
+                              max_treedepth = 12),
+                 warmup = 500, 
+                 iter = 1000, 
+                 chains = 4, 
+                 cores = 4,
+                 seed = 324)
 
-by_country <- by_country0 %>%
-  filter(!is.na(list)) %>% 
-  group_by(country) %>% 
-  mutate(women_rep_lag = lag(women_rep),
-         pge_lag = lag(pge),
-         pge_se_lag = lag(pge_se)) %>% 
-  ungroup() %>% 
-  filter(!is.na(pge_lag) & !is.na(pge))
+  m1_data <- m1_wr_b$data
+  
+  m1_data_2sd <- m1_data %>% 
+    select(pge_diff,
+           pge_mean, 
+           national_quota_diff,
+           national_quota_mean,
+           list_diff,
+           list_mean, 
+           women_rep_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                        "bsp_mepge_meanpge_mean_se",
+                                      name == "pge_diff" ~
+                                        "bsp_mepge_diffpge_diff_se",
+                                      TRUE ~ paste0("b_", name)),
+              var_names = c("Public Gender Egalitarianism, Difference",
+                            "Public Gender Egalitarianism, Mean",
+                            "National Quota, Difference",
+                            "National Quota, Mean",
+                            "Electoral List, Difference",
+                            "Electoral List, Mean",
+                            "Lagged Descriptive Representation"
+                            ),
+              sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                           1,
+                           value))
+  
+  coef_data0_m1 <- m1_wr_b %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m1_data_2sd, by = join_by(.variable))
+  
+  cy_summary_m1 <- m1_wr_b$data %>%
+    count(country) %>%
+    pull(n) %>%
+    summary()
+  
+  save(m1_data, m1_data_2sd, coef_data0_m1, cy_summary_m1, 
+       file = file.path(descrep_path,
+                        "data",
+                        "wr_results.rda"))
+} else {
+  by_country0 <- rio::import(file.path(descrep_path, "data", "by_country0.rda"))
+  by_country <- by_country0 %>%
+    filter(!is.na(list)) %>% 
+    group_by(country) %>% 
+    mutate(women_rep_lag = lag(women_rep),
+           pge_lag = lag(pge),
+           pge_se_lag = lag(pge_se)) %>% 
+    ungroup() %>% 
+    filter(!is.na(pge_lag) & !is.na(pge))
+  
+  load(file = file.path(descrep_path, "data", "wr_results.rda"))
+}
+```
+
+
+```{r wrts, fig.cap="Women's Descriptive Representation in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
+party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
 
 ggplot(data = by_country0, aes(x = year, y = women_rep)) +
     theme_bw() +
@@ -1206,6 +1338,8 @@ A solid majority of our countries, twenty-six of the thirty-eight, have been obs
 We will start, though, by looking at the raw bivariate data.
 
 ```{r wrplot, fig.cap="Public Gender Egalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 5.5, fig.width = 7.5}
+country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
+
 wr_cor <- map(country_pge,
               ~ with(.x, cor(pge, women_rep,
                              use = "pairwise.complete.obs"))) %>% 
@@ -1298,8 +1432,368 @@ Anyway, so first we basically replicate the scatterplot, but including varying i
 The estimate here is that increasing PGE in the year before the election from one standard deviation below its mean to one standard deviation above the mean is associated with an increase in women's share of the legislature of about twelve-and-a-half plus or minus two-and-a-half percentage points.  
 Granted, the median change in PGE from one election to the next within a country is only a little more than a sixth of that, yielding an estimate of a typical short-run change in women's descriptive representation of somewhat more than two percentage points.
 
-```{r wr_b}
-if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
+```{r m1plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
+ordered <- c("Public Gender Egalitarianism, Difference",
+             "Public Gender Egalitarianism, Mean", 
+             "Descriptive Representation, Difference",
+             "Descriptive Representation, Mean",
+             "National Quota, Difference",
+             "National Quota, Mean",
+             "Electoral List, Difference",
+             "Electoral List, Mean",
+             "Lagged Descriptive Representation") %>% 
+  rev()
+
+coef_data_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_data_2sd, ., by = join_by(.variable))
+
+coef_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  xlab("Standardized Coefficients") +
+  ylab(NULL) 
+
+lag_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Women's Descriptive Representation") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficient") +
+  ylab(NULL) 
+
+coef_plot_m1 + lag_plot_m1 +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(7, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers describe 80%\ncredible intervals; shading depicts the posterior probability density function.")
+```
+
+
+## Party-Elections {.unnumbered}
+
+```{r pfem_model}
+if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
+  load(file = file.path(descrep_path, "data", "by_party.rda"))
+  
+  by_party2 <- by_party %>% 
+    group_by(party) %>% 
+    mutate(seats = ifelse(is.na(seats), 0, seats),
+           pfem_lag = ifelse(lag(seats) == 0, 0, pfem_lag),
+           ttt = 1) %>% 
+    filter(!is.na(pfem_lag)) %>% 
+    inner_join(by_country0 %>%
+                 filter(!is.na(list) & !is.na(pge)) %>% 
+                 group_by(country) %>% 
+                 transmute(country,
+                           year,
+                           women_rep,
+                           women_rep_lag = lag(women_rep),
+                           women_rep_mean = mean(women_rep_lag, na.rm = TRUE),
+                           women_rep_diff = women_rep_lag - women_rep_mean,
+                           pge,
+                           pge_se,
+                           p10, p90,
+                           pge_lag = lag(pge),      # from previous election
+                           pge_se_lag = lag(pge_se),
+                           pge_mean = mean(pge, na.rm = TRUE),
+                           pge_mean_se = sqrt(sum(pge_se^2, na.rm = TRUE))/
+                             length(pge),
+                           pge_diff = pge - pge_mean,
+                           pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
+                           national_quota,
+                           national_quota_mean = mean(national_quota),
+                           national_quota_diff = national_quota -
+                             national_quota_mean,
+                           list,
+                           list_mean = mean(list, na.rm = TRUE),
+                           list_diff = list - list_mean,
+                           gdppc,
+                           gdppc_mean = mean(gdppc, na.rm = TRUE),
+                           gdppc_diff = gdppc - gdppc_mean),
+               by = c("countryname" = "country", "year")) %>% 
+    arrange(countryname, party, year) %>% 
+    mutate(country = countryname,
+              cyear = paste0(countryname, year),
+              pfem_mean = mean(pfem, na.rm = TRUE),
+              pfem_diff = pfem - pfem_mean,
+              party_quota_mean = mean(party_quota, na.rm = TRUE),
+              party_quota_diff = party_quota - party_quota_mean,
+              pseat_mean = mean(seat_percent, na.rm = TRUE),
+              pseat_diff = seat_percent - pseat_mean) %>% 
+    ungroup() %>% 
+    group_by(country, year) %>% 
+    filter(!is.na(pfem) & !is.na(pge_lag)) %>% 
+    mutate(sum_pq = mean(party_quota)) %>% 
+    ungroup() %>% 
+    group_by(country) %>% 
+    mutate(sum_pq_mean = mean(sum_pq),
+           sum_pq_diff = sum_pq - sum_pq_mean) %>% 
+    ungroup()
+  
+  bf_pfem <- bf(pfem ~
+                  me(pge_diff, pge_diff_se) +
+                  me(pge_mean, pge_mean_se) +
+                  national_quota_diff +
+                  national_quota_mean +
+                  party_quota_diff +
+                  party_quota_mean +
+                  list_diff +
+                  list_mean +
+                  pseat_diff +
+                  pseat_mean +
+                  left +
+                  green +
+                  center +
+                  extreme_right +
+                  pfem_lag +
+                  (1|p|party) + (1|cy|cyear) + (1|c|country) + (1|t|year))
+  
+  m2_pfem_b <- brm(formula = bf_pfem,
+                   data = by_party2,
+                   backend = "cmdstanr",
+                   control=list(adapt_delta = 0.99, 
+                                max_treedepth = 15),
+                   warmup = 500,
+                   iter = 1000,
+                   chains = 4,
+                   cores = 4,
+                   seed = 324)
+  
+  m2pf_data <- m2_pfem_b$data
+  
+  m2pf_data_2sd <- m2pf_data %>% 
+    select(-`pfem`,
+           -country, -year, -cyear, -party, -ends_with("_se")) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    transmute(`.variable` = case_when(name == "pge_mean" ~ 
+                                        "bsp_mepge_meanpge_mean_se",
+                                      name == "pge_diff" ~
+                                        "bsp_mepge_diffpge_diff_se",
+                                      TRUE ~ paste0("b_", name)),
+              var_names = c("National Quota, Difference",
+                            "National Quota, Country Mean",
+                            "Party Quota, Difference",
+                            "Party Quota, Party Mean",
+                            "Electoral List, Difference",
+                            "Electoral List, Country Mean", 
+                            "Seat Share, Difference",
+                            "Seat Share, Party Mean",
+                            "Left Party",
+                            "Green Party",
+                            "Center Party",
+                            "Extreme Right Party",
+                            "Lagged Women's Share of Party Seats",
+                            "Public Gender Egalitarianism, Difference",
+                            "Public Gender Egalitarianism, Country Mean"),
+              sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                           1,
+                           value))
+  
+  coef_data0_m2pf <- m2_pfem_b %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!`.variable`=="b_Intercept") %>% 
+    left_join(m2pf_data_2sd, by = join_by(.variable))
+  
+  cyp_summary <- m2_pfem_b$data %>%
+    count(party) %>%
+    pull(n) %>%
+    summary()
+
+  save(by_party2,
+       file = file.path(descrep_path, "data",  "by_party2.rda"))
+  save(m2pf_data, m2pf_data_2sd, coef_data0_m2pf, cyp_summary,
+       file = file.path(descrep_path, "data",  "pfem_results.rda"))
+} else {
+  load(file = file.path(descrep_path, "data",  "by_party2.rda"))
+  load(file = file.path(descrep_path, "data",  "pfem_results.rda"))
+}
+```
+
+```{r partymap, fig.cap="Party-Election Observations in OECD Democracies \\label{partymap}", fig.height = 6, fig.width = 7.5}
+parties <- world1 %>% 
+  mutate(country = countrycode::countrycode(admin,
+                                            "country.name",
+                                            "country.name"),
+         oecd = country %in% oecd_countries) %>% 
+  filter(!admin == "Antarctica") %>% 
+  left_join(m2pf_data %>% 
+              group_by(country) %>% 
+              count(name = "party_elections"),
+            by = c("country"))
+
+party_map <- ggplot() +
+  geom_sf(data = world1) +
+  geom_sf(data = parties,
+          aes(fill = party_elections)) +
+  coord_sf(crs = sf::st_crs("ESRI:53035")) +
+  scale_fill_distiller(na.value = "white", 
+                       palette = "Greys",
+                       direction = 1) +
+  theme(legend.position="none")
+
+party_bar <- m2pf_data %>%
+  group_by(country) %>% 
+  count(name = "party_elections") %>%
+  ggplot(aes(forcats::fct_reorder(country, party_elections, .desc = TRUE), 
+             party_elections)) +
+  geom_bar(stat = "identity") +
+  theme_bw() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
+        axis.title.y = element_text(size = 9),
+        plot.title = element_text(hjust = 0.5, size = 11)) +
+  ylab("Party-Elections Observed")
+
+party_map +
+  party_bar +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(5, 2))
+```
+
+
+BUT: I'm betting at least some of you have spotted a disconnect between the theories as I laid them out and this evidence.
+The theories were all about things going on at the party level, right?  
+*Parties* respond to internal activist pressure and adopt quotas, *parties* react to an increasingly egalitarian public by running more women candidates who can get elected, and so on.
+But the unit of analysis here is the country-election. 
+We can't really see what going on within the parties, really not at all.
+
+So let's shift to the *party*-election level.
+I compiled data on women's share of each party's legislative representation after each election from a couple of great articles that became available FirstView in the APSR just this spring.
+Weeks, Meguid, Kittilson, and Coffé 2022 on when Europe's extreme right parties elect more women, and--
+Adams, Bracken, Gidron, Horne, O'Brien, and Senk 2022 on the moderating effect of elected women on outparty evaluations.
+I recommend both of these pieces to you, btw, if you haven't seen them yet: each of them is a fantastic work with an all-star cast of authors.
+Anyway, I raided those articles' replication materials for data, and then Byung-Deuk and I collected a bunch more, especially for the South Korean and the Latin American cases, which neither of those works had included at all.
+With party-elections as the unit of analysis, we have almost two thousand observations across our 38 OECD countries.
+
+So, what do we see now? 
+Well, as one might have expected, the bivariate relationship is a lot noisier.
+For the purposes of presentation, I faded the points in this plot by the parties' share of the legislature: the biggest parties are darkest and the tiniest parties are very light.
+But, for the time being at least, I'm following the existing literature and doing nothing with weighting, which means, in effect, weighting each party-election observation equally.
+And to be upfront, I feel like these are together a really hard test, because in this literature almost nothing predicts when women will make up a larger share of a party's members of the legislature—sometimes not even national quotas.
+
+```{r pfemplot, fig.cap="Public Gender Egalitarianism and Women’s Share of Party Legislative Seats in OECD Democracies \\label{pfemplot}", fig.height = 6, fig.width = 7.5}
+
+pfem_cor <- map(party_pge,
+                ~ with(.x, cor(pge, pfem,
+                               use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+pfem_label <- tibble(pge = 30, pfem = 100, seat_percent=100, label = pfem_cor)
+
+ggplot(by_party2,
+       aes(x = pge,
+           y = pfem)) +
+  geom_segment(aes(x = p10, xend = p90,
+                   y = pfem, yend = pfem),
+               na.rm = TRUE,
+               alpha = .1) +
+  geom_point(aes(alpha = seat_percent/100)) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  scale_x_continuous(limits=c(25, 100),
+                     breaks=seq(25, 100, by = 25)) +
+  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Party Legislative Seats") +
+  geom_label(data = pfem_label, aes(label = label))
+```
+
+These are, again, multilevel models, but now they are cross-classified: party-elections are nested in parties and in country-elections which are both nested in countries.
+In other words, we have varying intercepts for each party, for each election in a country, and for each country.
+
+Yeah, enough stalling: here's what we get.
+A little surprisingly, I think, we get pretty much exactly the same results.
+A two-standard-deviation rise in public gender egalitarianism in the year before an election is associated with almost a twelve percentage point increase, plus-or-minus two-and-a-half points, in women's share of a party's seats in the legislature in the bivariate model.
+
+This estimate drops to ten points plus-or-minus two when quotas are added--and now quotas are measured to include voluntary party quotas as well as statutory national quotas.
+The quota estimate is seven-and-a-half points plus or minus one--a bit larger than in the models at the country-election level.
+I put that down to the better measurement.
+
+```{r m2plot, fig.cap="Predicting Women's Share of Parties' Legislative Seats in OECD Democracies \\label{m2plot}", fig.height = 9, fig.width = 7.5}
+ordered_pfem <- c("Public Gender Egalitarianism, Difference",
+                  "Public Gender Egalitarianism, Country Mean", 
+                  "National Quota, Difference",
+                  "National Quota, Country Mean",
+                  "Party Quota, Difference",
+                  "Party Quota, Party Mean",
+                  "Electoral List, Difference",
+                  "Electoral List, Country Mean", 
+                  "Seat Share, Difference",
+                  "Seat Share, Party Mean",
+                  "Left Party",
+                  "Green Party",
+                  "Center Party",
+                  "Extreme Right Party",
+                  "Lagged Women's Share of Party Seats") %>% 
+  rev()
+
+coef_data_m2pf <- coef_data0_m2pf %>% 
+  mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered_pfem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m2pf_data_2sd, ., by = join_by(.variable))
+
+coef_plot_m2pf <- coef_data0_m2pf %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered_pfem)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  xlab("Standardized Coefficients") +
+  ylab(NULL) 
+
+lag_plot_m2pf <- coef_data0_m2pf %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Response Variable") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficient") +
+  ylab(NULL) 
+
+coef_plot_m2pf + lag_plot_m2pf +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(13, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers describe 80%\ncredible intervals; shading depicts the posterior probability density function.")
+```
+
+
+## Reciprocal {.unnumbered}
+```{r wrsem_b}
+if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
   by_country2 <- by_country %>% 
     group_by(country) %>% 
     transmute(year,
@@ -1349,20 +1843,22 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                  pge_lag +
                  (1|c|country) + (1|t|year))
   
-  m1_wr_b <- brm(formula = bf_wr + 
-                   bf_pge + 
-                   set_rescor(TRUE),  
-                 data = by_country2,
-                 backend = "cmdstanr",
-                 control=list(adapt_delta = 0.99, 
-                              max_treedepth = 12),
-                 warmup = 500, 
-                 iter = 1000, 
-                 chains = 4, 
-                 cores = 4,
-                 seed = 324)
-
-  m1_data_2sd <- m1_wr_b$data %>% 
+  m3_wrsem_b <- brm(formula = bf_wr + 
+                      bf_pge + 
+                      set_rescor(TRUE),  
+                    data = by_country2,
+                    backend = "cmdstanr",
+                    control=list(adapt_delta = 0.99, 
+                                 max_treedepth = 12),
+                    warmup = 500, 
+                    iter = 1000, 
+                    chains = 4, 
+                    cores = 4,
+                    seed = 324)
+  
+  m3_data <- m3_wrsem_b$data
+  
+  m3_data_2sd <- m3_data %>% 
     select(pge_diff,
            pge_mean, 
            national_quota_diff,
@@ -1389,7 +1885,7 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                            1,
                            value),
            dv = "Women's Descriptive Representation") %>% 
-    bind_rows(m1_wr_b$data %>% 
+    bind_rows(m3_data %>% 
     select(women_rep_diff,
            women_rep_mean,
            gdppc_diff,
@@ -1419,55 +1915,51 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
     mutate(dv = factor(dv, levels = c("Women's Descriptive Representation",
                                       "Public Gender Egalitarianism")))
   
-  coef_data0 <- m1_wr_b %>% 
+  coef_data0_wrsem <- m3_wrsem_b %>% 
     as_draws_df() %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
     filter(!str_detect(`.variable`, "_Intercept")) %>% 
-    left_join(m1_data_2sd, by = join_by(.variable))
+    left_join(m3_data_2sd, by = join_by(.variable))
   
-  cy_summary <- m1_wr_b$data %>%
-    count(country) %>%
-    pull(n) %>%
-    summary()
-  
-  save(m1_data_2sd, coef_data0, cy_summary, 
+  save(m3_data, m3_data_2sd, coef_data0_wrsem, 
        file = file.path(descrep_path,
                         "data",
-                        "wr_results.rda"))
+                        "wrsem_results.rda"))
 } else {
-  load(file = file.path(descrep_path, "data", "wr_results.rda"))
+  load(file = file.path(descrep_path, "data", "wrsem_results.rda"))
 }
 ```
 
-```{r resplot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{model}", fig.height = 9, fig.width = 7.5}
-ordered <- c("Public Gender Egalitarianism, Difference",
-             "Public Gender Egalitarianism, Mean", 
-             "Descriptive Representation, Difference",
-             "Descriptive Representation, Mean",
-             "National Quota, Difference",
-             "National Quota, Mean",
-             "Electoral List, Difference",
-             "Electoral List, Mean", 
-             "GDP per Capita, Difference",
-             "GDP per Capita, Mean",
-             "Lagged Descriptive Representation",
-             "Lagged Public Gender Egalitarianism") %>% 
+```{r m3plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{m3plot}", fig.height = 9, fig.width = 7.5}
+ordered_wrsem <- c("Public Gender Egalitarianism, Difference",
+                   "Public Gender Egalitarianism, Mean", 
+                   "Descriptive Representation, Difference",
+                   "Descriptive Representation, Mean",
+                   "National Quota, Difference",
+                   "National Quota, Mean",
+                   "Electoral List, Difference",
+                   "Electoral List, Mean", 
+                   "GDP per Capita, Difference",
+                   "GDP per Capita, Mean",
+                   "Lagged Descriptive Representation",
+                   "Lagged Public Gender Egalitarianism") %>% 
   rev()
 
-coef_data <- coef_data0 %>% 
+coef_data_wrsem <- coef_data0_wrsem %>% 
   mutate(std_coef = round(.value * sd2, 2),
-         term = factor(var_names, levels = ordered)) %>%
-  ggdist::median_qi(std_coef, .width = c(.8, .9, .95)) %>%
+         term = factor(var_names, levels = ordered_wrsem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  left_join(m1_data_2sd, ., by = join_by(.variable))
+  left_join(m3_data_2sd, ., by = join_by(.variable))
 
-coef_plots <- coef_data0 %>% 
+coef_plots_wrsem <- coef_data0_wrsem %>% 
   mutate(std_coef = .value * sd2,
-         term = factor(var_names, levels = ordered)) %>% 
+         term = factor(var_names, levels = ordered_wrsem)) %>% 
   filter(!str_detect(var_names, "Lagged")) %>% 
   ggplot(aes(y = term, x = std_coef)) +
-  ggdist::stat_halfeye(.width = c(.8, .9, .95),
-                       fill = "grey60") +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   facet_grid(~ dv) +
   coord_cartesian(xlim = c(-6, 6)) +
@@ -1475,16 +1967,17 @@ coef_plots <- coef_data0 %>%
   theme(strip.text.x = element_text(size = 10, color = "black"),
         strip.background = element_rect(fill = "white", colour = "white")) +
   xlab("Standardized Coefficients") +
-  ylab(NULL) 
+  ylab(NULL)
 
-lag_plots <- coef_data0 %>% 
+lag_plots_wrsem <- coef_data0_wrsem %>% 
   mutate(std_coef = .value * sd2,
-         term = factor(var_names, levels = ordered)) %>% 
+         term = factor(var_names, levels = ordered_wrsem)) %>% 
   filter(str_detect(var_names, "Lagged")) %>% 
   mutate(term = "Lagged Response Variable") %>% 
   ggplot(aes(y = term, x = std_coef)) +
-  ggdist::stat_halfeye(.width = c(.8, .9, .95),
-                       fill = "grey60") +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   facet_grid(~ dv) +
   theme_light() +
@@ -1493,353 +1986,11 @@ lag_plots <- coef_data0 %>%
   xlab("Unstandardized Coefficients") +
   ylab(NULL) 
 
-coef_plots + lag_plots +
+coef_plots_wrsem + lag_plots_wrsem +
   plot_layout(ncol = 1, widths = c(1, 1), heights = c(9, 1)) +
-  plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers, from thickest to thinnest, describe 80%,\n90%, and 95% credible intervals; shading depicts the posterior probability density function.")
+  plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers describe 80%\ncredible intervals; shading depicts the posterior probability density function.")
 ```
 
-
-## Party-Elections {.unnumbered}
-
-```{r partymap, fig.cap="Party-Election Observations in OECD Democracies \\label{partymap}", fig.height = 6, fig.width = 7.5}
-parties <- world1 %>% 
-  mutate(country = countrycode::countrycode(admin,
-                                            "country.name",
-                                            "country.name"),
-         oecd = country %in% oecd_countries) %>% 
-  filter(!admin == "Antarctica") %>% 
-  left_join(by_party %>%
-              filter(!is.na(pfem) & !is.na(pge)) %>% 
-              group_by(countryname) %>% 
-              count(name = "party_elections"),
-            by = c("country" = "countryname"))
-
-party_map <- ggplot() +
-  geom_sf(data = world1) +
-  geom_sf(data = parties,
-          aes(fill = party_elections)) +
-  coord_sf(crs = sf::st_crs("ESRI:53035")) +
-  scale_fill_distiller(na.value = "white", 
-                       palette = "Greys",
-                       direction = 1) +
-  theme(legend.position="none")
-
-party_bar <- by_party %>%
-  filter(!is.na(pfem) & !is.na(pge)) %>% 
-  group_by(countryname) %>% 
-  count(name = "party_elections") %>%
-  ggplot(aes(forcats::fct_reorder(countryname, party_elections, .desc = TRUE), 
-             party_elections)) +
-  geom_bar(stat = "identity") +
-  theme_bw() +
-  theme(axis.title.x = element_blank(),
-        axis.text.x  = element_text(angle = 90, vjust = .45, hjust = .95),
-        axis.title.y = element_text(size = 9),
-        plot.title = element_text(hjust = 0.5, size = 11)) +
-  ylab("Party-Elections Observed")
-
-party_map +
-  party_bar +
-  plot_layout(ncol = 1, widths = c(1, 1), heights = c(5, 2))
-
-```
-
-
-BUT: I'm betting at least some of you have spotted a disconnect between the theories as I laid them out and this evidence.
-The theories were all about things going on at the party level, right?  
-*Parties* respond to internal activist pressure and adopt quotas, *parties* react to an increasingly egalitarian public by running more women candidates who can get elected, and so on.
-But the unit of analysis here is the country-election. 
-We can't really see what going on within the parties, really not at all.
-
-So let's shift to the *party*-election level.
-I compiled data on women's share of each party's legislative representation after each election from a couple of great articles that became available FirstView in the APSR just this spring.
-Weeks, Meguid, Kittilson, and Coffé 2022 on when Europe's extreme right parties elect more women, and--
-Adams, Bracken, Gidron, Horne, O'Brien, and Senk 2022 on the moderating effect of elected women on outparty evaluations.
-I recommend both of these pieces to you, btw, if you haven't seen them yet: each of them is a fantastic work with an all-star cast of authors.
-Anyway, I raided those articles' replication materials for data, and then Byung-Deuk and I collected a bunch more, especially for the South Korean and the Latin American cases, which neither of those works had included at all.
-With party-elections as the unit of analysis, we have almost two thousand observations across our 38 OECD countries.
-
-So, what do we see now? 
-Well, as one might have expected, the bivariate relationship is a lot noisier.
-For the purposes of presentation, I faded the points in this plot by the parties' share of the legislature: the biggest parties are darkest and the tiniest parties are very light.
-But, for the time being at least, I'm following the existing literature and doing nothing with weighting, which means, in effect, weighting each party-election observation equally.
-And to be upfront, I feel like these are together a really hard test, because in this literature almost nothing predicts when women will make up a larger share of a party's members of the legislature—sometimes not even national quotas.
-
-```{r pfem_plot}
-pfem_cor <- map(party_pge,
-                ~ with(.x, cor(pge, pfem,
-                               use = "pairwise.complete.obs"))) %>% 
-  unlist() %>% 
-  mean() %>% 
-  round(2) %>% 
-  sprintf("%.2f", .) %>% 
-  paste0("R = ", .)
-
-pfem_label <- tibble(pge = 30, pfem = 100, label = pfem_cor)
-
-ggplot(by_party,
-       aes(x = pge,
-           y = pfem)) +
-  geom_segment(aes(x = p10, xend = p90,
-                   y = pfem, yend = pfem),
-               na.rm = TRUE,
-               alpha = .1) +
-  geom_point(alpha = by_party$seat_percent/100) +
-  geom_smooth(method = 'lm', se = FALSE) +
-  theme_bw() +
-  theme(legend.position="none",
-        axis.text  = element_text(size=10),
-        axis.title = element_text(size=12)) +
-  scale_x_continuous(limits=c(25, 100),
-                     breaks=seq(25, 100, by = 25)) +
-  labs(x = TeX("Public Gender Egalitarianism"), y = "Women's Share of Party Legislative Seats") +
-  geom_label(data = pfem_label, aes(label = label))
-```
-
-These are, again, multilevel models, but now they are cross-classified: party-elections are nested in parties and in country-elections which are both nested in countries.
-In other words, we have varying intercepts for each party, for each election in a country, and for each country.
-
-Yeah, enough stalling: here's what we get.
-A little surprisingly, I think, we get pretty much exactly the same results.
-A two-standard-deviation rise in public gender egalitarianism in the year before an election is associated with almost a twelve percentage point increase, plus-or-minus two-and-a-half points, in women's share of a party's seats in the legislature in the bivariate model.
-
-This estimate drops to ten points plus-or-minus two when quotas are added--and now quotas are measured to include voluntary party quotas as well as statutory national quotas.
-The quota estimate is seven-and-a-half points plus or minus one--a bit larger than in the models at the country-election level.
-I put that down to the better measurement.
-
-```{r pfem_models}
-if (!file.exists(file.path(descrep_path, "pfem_results.rda"))) {
-by_party2 <- by_party %>% 
-  group_by(party) %>% 
-  mutate(seats = ifelse(is.na(seats), 0, seats),
-         pfem_lag = ifelse(lag(seats) == 0, 0, pfem_lag),
-         ttt = 1) %>% 
-  filter(!is.na(pfem_lag)) %>% 
-  inner_join(by_country0 %>%
-               filter(!is.na(list) & !is.na(pge)) %>% 
-               group_by(country) %>% 
-               transmute(country,
-                         year,
-                         women_rep,
-                         women_rep_lag = lag(women_rep),
-                         women_rep_mean = mean(women_rep_lag, na.rm = TRUE),
-                         women_rep_diff = women_rep_lag - women_rep_mean,
-                         pge,
-                         pge_se,
-                         pge_lag = lag(pge),      # from previous election
-                         pge_se_lag = lag(pge_se),
-                         pge_mean = mean(pge, na.rm = TRUE),
-                         pge_mean_se = sqrt(sum(pge_se^2, na.rm = TRUE))/
-                           length(pge),
-                         pge_diff = pge - pge_mean,
-                         pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
-                         national_quota,
-                         national_quota_mean = mean(national_quota),
-                         national_quota_diff = national_quota -
-                           national_quota_mean,
-                         list,
-                         list_mean = mean(list, na.rm = TRUE),
-                         list_diff = list - list_mean,
-                         gdppc,
-                         gdppc_mean = mean(gdppc, na.rm = TRUE),
-                         gdppc_diff = gdppc - gdppc_mean),
-             by = c("countryname" = "country", "year")) %>% 
-  arrange(countryname, party, year) %>% 
-  mutate(country = countryname,
-         year,
-         cyear = paste0(countryname, year),
-         partyname,
-         pfem,
-         pfem_lag,
-         pfem_mean = mean(pfem, na.rm = TRUE),
-         pfem_diff = pfem - pfem_mean,
-         pge, 
-         pge_lag,
-         pge_diff, pge_diff_se,
-         pge_mean, pge_mean_se,
-         women_rep_mean, women_rep_diff,
-         national_quota_diff,
-         national_quota_mean,
-         party_quota_mean = mean(party_quota, na.rm = TRUE),
-         party_quota_diff = party_quota - party_quota_mean,
-         list,
-         list_diff,
-         list_mean,
-         gdppc_mean,
-         gdppc_diff,
-         seat_percent,
-         pseat_mean = mean(seat_percent, na.rm = TRUE),
-         pseat_diff = seat_percent - pseat_mean,
-         left,
-         green,
-         center,
-         extreme_right) %>% 
-  ungroup() %>% 
-  group_by(country, year) %>% 
-  filter(!is.na(pfem) & !is.na(pge_lag)) %>% 
-  mutate(sum_pq = mean(party_quota)) %>% 
-  ungroup() %>% 
-  group_by(country) %>% 
-  mutate(sum_pq_mean = mean(sum_pq),
-         sum_pq_diff = sum_pq - sum_pq_mean)
-
-bf_pfem <- bf(pfem ~
-                me(pge_diff, pge_diff_se) +
-                me(pge_mean, pge_mean_se) +
-                national_quota_diff +
-                national_quota_mean +
-                party_quota_diff +
-                party_quota_mean +
-                list_diff +
-                list_mean +
-                pseat_diff +
-                pseat_mean +
-                left +
-                green +
-                center +
-                extreme_right +
-                pfem_lag +
-                (1|p|party) + (1|cy|cyear) + (1|c|country) + (1|t|year))
-
-bfp_pge <- bf(pge ~
-                pfem_diff +
-                pfem_mean +
-                gdppc_diff +
-                gdppc_mean +
-                national_quota_diff +
-                national_quota_mean +
-                sum_pq_diff +
-                sum_pq_mean +
-                list_diff +
-                list_mean +
-                pge_lag +
-                (1|c|country) + (1|t|year))
-
-m1_pfem_b <- brm(formula = bf_pfem +
-                   bfp_pge +
-                   set_rescor(TRUE),
-                 data = by_party2,
-                 backend = "cmdstanr",
-                 control=list(adapt_delta = 0.99,
-                              max_treedepth = 15),
-                 warmup = 500,
-                 iter = 1000,
-                 chains = 4,
-                 cores = 4,
-                 seed = 324)
-
-m2_pfem_b <- brm(formula = bf_pfem,
-                 data = by_party2,
-                 backend = "cmdstanr",
-                 control=list(adapt_delta = 0.99, 
-                              max_treedepth = 15),
-                 warmup = 500,
-                 iter = 1000,
-                 chains = 4,
-                 cores = 4,
-                 seed = 324)
-
-  m2pf_data_2sd <- m2_pfem_b$data %>% 
-    select(-`pfem`,
-           -country, -year, -cyear, -party, -ends_with("_se")) %>% 
-    summarize(across(everything(), by2sd)) %>% 
-    pivot_longer(everything()) %>% 
-    transmute(`.variable` = case_when(name == "pge_mean" ~ 
-                                        "bsp_mepge_meanpge_mean_se",
-                                      name == "pge_diff" ~
-                                        "bsp_mepge_diffpge_diff_se",
-                                      TRUE ~ paste0("b_", name)),
-              var_names = c("National Quota, Difference",
-                            "National Quota, Country Mean",
-                            "Party Quota, Difference",
-                            "Party Quota, Party Mean",
-                            "Electoral List, Difference",
-                            "Electoral List, Country Mean", 
-                            "Seat Share, Difference",
-                            "Seat Share, Party Mean",
-                            "Left Party",
-                            "Green Party",
-                            "Center Party",
-                            "Extreme Right Party",
-                            "Lagged Women's Share of Party Seats",
-                            "Public Gender Egalitarianism, Difference",
-                            "Public Gender Egalitarianism, Country Mean"),
-              sd2 = ifelse(str_detect(.variable, "list_|_lag"),
-                          1,
-                          value))
-  
-  coef_data0_m2pf <- m2_pfem_b %>% 
-    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
-    filter(!`.variable`=="b_Intercept") %>% 
-    left_join(m2pf_data_2sd, by = join_by(.variable))
-  
-  cyp_summary <- m2_pfem_b$data %>%
-    count(party) %>%
-    pull(n) %>%
-    summary()
-
-  save(m2pf_data_2sd, coef_data0_m2pf, cyp_summary,
-       file = file.path(descrep_path, "pfem_results.rda"))
-} else {
-  load(file = file.path(descrep_path, "pfem_results.rda"))
-}
-```
-```{r resplot-pfem, fig.cap="Predicting Women's Share of Parties' Legislative Seats in OECD Democracies \\label{resplot-pfem}", fig.height = 5.5, fig.width = 7.5}
-ordered_pfem <- c("Public Gender Egalitarianism, Difference",
-                  "Public Gender Egalitarianism, Country Mean", 
-                  "National Quota, Difference",
-                  "National Quota, Country Mean",
-                  "Party Quota, Difference",
-                  "Party Quota, Party Mean",
-                  "Electoral List, Difference",
-                  "Electoral List, Country Mean", 
-                  "Seat Share, Difference",
-                  "Seat Share, Party Mean",
-                  "Left Party",
-                  "Green Party",
-                  "Center Party",
-                  "Extreme Right Party",
-                  "Lagged Women's Share of Party Seats") %>% 
-  rev()
-
-coef_data_m2pf <- coef_data0_m2pf %>% 
-  mutate(std_coef = round(.value * sd2, 1),
-         term = factor(var_names, levels = ordered_pfem)) %>%
-  ggdist::median_qi(std_coef, .width = c(.8, .9, .95)) %>%
-  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  left_join(m2pf_data_2sd, ., by = join_by(.variable))
-
-coef_plot_m2pf <- coef_data0_m2pf %>% 
-  mutate(std_coef = .value * sd2,
-         term = factor(var_names, levels = ordered_pfem)) %>% 
-  filter(!str_detect(var_names, "Lagged")) %>% 
-  ggplot(aes(y = term, x = std_coef)) +
-  ggdist::stat_halfeye(.width = c(.8, .9, .95),
-                       fill = "grey60") +
-  geom_vline(xintercept = 0, linetype = "dashed") +
-  theme_light() +
-  xlab("Standardized Coefficients") +
-  ylab(NULL) 
-
-lag_plot_m2pf <- coef_data0_m2pf %>% 
-  mutate(std_coef = .value * sd2,
-         term = factor(var_names, levels = ordered)) %>% 
-  filter(str_detect(var_names, "Lagged")) %>% 
-  mutate(term = "Lagged Response Variable") %>% 
-  ggplot(aes(y = term, x = std_coef)) +
-  ggdist::stat_halfeye(.width = c(.8, .9, .95),
-                       fill = "grey60") +
-  geom_vline(xintercept = 0, linetype = "dashed") +
-  theme_light() +
-  theme(strip.text.x = element_blank(),
-        strip.background = element_blank()) +
-  xlab("Unstandardized Coefficient") +
-  ylab(NULL) 
-
-coef_plot_m2pf + lag_plot_m2pf +
-  plot_layout(ncol = 1, widths = c(1, 1), heights = c(13, 1)) +
-  plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers, from thickest to thinnest, describe 80%,\n90%, and 95% credible intervals; shading depicts the posterior probability density function.")
-```
 
 Looking across the rest of the models, 
 
@@ -1913,7 +2064,7 @@ if (!file.exists(file.path(descrep_path, "pfem_results_inter.rda"))) {
 
   coef_data0_m3pf <- m3_pfem_b %>%
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>%
-  ggdist::median_qi(std_coef, .width = c(.8, .9, .95)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m3pf_data_2sd, ., by = join_by(.variable))
 #   
