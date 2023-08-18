@@ -11,7 +11,7 @@
 *.nav
 *.snm
 *.toc
-dev/*
+*/dev/*
 */data-raw/~*
 AdamsBracken*
 WeeksMeguid*
@@ -26,3 +26,8 @@ paper/*cache/
 paper/*/*cache/
 paper/*/*files/
 sources/*
+paper/.quarto/
+paper/*/slides/*
+data/*
+proposal/*
+paper/measuring_egalitarianism/data/1000_political/*
