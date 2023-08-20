@@ -1491,9 +1491,15 @@ One last source of problems is measurement uncertainty.
 As described in the previous chapter, our measure of public gender egalitarianism, the PGE scores, are estimated with uncertainty as a result of the sparsity and incomparability of surveys addressing the topic.
 Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2022].
 We therefore incorporated the measurement uncertainty in the PGE scores into our analysis.
-The model was estimated using the `brms` R package [@Burkner2017].
+The model was estimated using the `brms` R package [@Burkner2017] with noninformative priors.^[
+By default, `brms` assigns linear regression coefficients improper flat priors over the real numbers.
+That means that, before considering the data and model, the probability that a coefficient takes on any value, from negative infinity to positive infinity, is assumed to be equal.
+Weakly informative priors---for example, normal(0, 2)---yield substantively similar results for all analyses.]
 
 Figure&nbsp;\ref{m1plot} presents the results.
+The shaded regions represent the posterior probability distributions; the higher the shading, the more likely that what each region depicts---here, one regression coefficient---takes on that value conditional on these data and this model.
+The dots mark the mean values of these distributions.
+The whiskers trace the 80% credible intervals; that is, there is an 80% probability that the regression coefficient falls within that range, again, conditional on these data and this model.
 The bottom panel shows, as expected, that descriptive representation is dynamic: the share of legislators who are women after the previous election strongly predicts the share of legislators who are women after this one.
 Incumbency matters.
 But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation declines rather than grows over time.
@@ -1551,6 +1557,10 @@ coef_plot_m1 + lag_plot_m1 +
   plot_layout(ncol = 1, widths = c(1, 1), heights = c(7, 1)) +
   plot_annotation(caption = "Notes: Dots indicate posterior means; whiskers describe 80% credible\nintervals; shading depicts the posterior probability density function.")
 ```
+
+The regression coefficients for the variables suggested by the elite-led and public opinion theories appear in the top panel of the figure.
+For the variables regarding electoral lists, these coefficients are scaled to the values of zero (the electoral system does not include party lists) and one (the system does have party lists).
+The coefficients of the other variables are multiplied by a factor of two times the variable's standard deviation; this puts all of the coefficients on the same scale for easy comparison [see @Gelman2008a].
 
 
 
