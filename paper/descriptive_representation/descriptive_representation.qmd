@@ -1448,7 +1448,7 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
 Italy was the pioneering among these countries, but its small quota was abolished a few years later.
 In later years, those quotas that have been adopted have been more robust, and many countries that adopted quotas strengthened them over time.
-Belgium and Mexico, which, along with Costa Rica, now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
+Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
 With these data in hand, we can turn to how best to use them to test our theories.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
@@ -1497,6 +1497,7 @@ Figure&nbsp;\ref{m1plot} presents the results.
 The bottom panel shows, as expected, that descriptive representation is dynamic: the share of legislators who are women after the previous election strongly predicts the share of legislators who are women after this one.
 Incumbency matters.
 But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation declines rather than grows over time.
+This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
 ```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
 ordered <- c("Public Gender Egalitarianism, Difference",
@@ -1584,7 +1585,6 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                              length(pge),
                            pge_diff = pge - pge_mean,
                            pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
-                           national_quota,
                            national_quota_mean = mean(national_quota),
                            national_quota_diff = national_quota -
                              national_quota_mean,
@@ -1597,34 +1597,25 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                by = c("countryname" = "country", "year")) %>% 
     arrange(countryname, party, year) %>% 
     mutate(country = countryname,
-              cyear = paste0(countryname, year),
-              pfem_mean = mean(pfem, na.rm = TRUE),
-              pfem_diff = pfem - pfem_mean,
-              party_quota_mean = mean(party_quota, na.rm = TRUE),
-              party_quota_diff = party_quota - party_quota_mean,
-              pseat_mean = mean(seat_percent, na.rm = TRUE),
-              pseat_diff = seat_percent - pseat_mean) %>% 
+           cyear = paste0(countryname, year),
+           pfem_mean = mean(pfem, na.rm = TRUE),
+           pfem_diff = pfem - pfem_mean,
+           party_quota_mean = mean(party_quota, na.rm = TRUE),
+           party_quota_diff = party_quota - party_quota_mean,
+           quota = pmax(national_quota, party_quota),
+           quota_mean = mean(quota, na.rm = TRUE),
+           quota_diff = quota - quota_mean) %>% 
     ungroup() %>% 
     group_by(country, year) %>% 
-    filter(!is.na(pfem) & !is.na(pge_lag)) %>% 
-    mutate(sum_pq = mean(party_quota)) %>% 
-    ungroup() %>% 
-    group_by(country) %>% 
-    mutate(sum_pq_mean = mean(sum_pq),
-           sum_pq_diff = sum_pq - sum_pq_mean) %>% 
-    ungroup()
+    filter(!is.na(pfem) & !is.na(pge_lag))
   
   bf_pfem <- bf(pfem ~
                   me(pge_diff, pge_diff_se) +
                   me(pge_mean, pge_mean_se) +
-                  national_quota_diff +
-                  national_quota_mean +
-                  party_quota_diff +
-                  party_quota_mean +
+                  quota_diff +
+                  quota_mean +
                   list_diff +
                   list_mean +
-                  pseat_diff +
-                  pseat_mean +
                   left +
                   green +
                   center +
@@ -1655,14 +1646,10 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                                       name == "pge_diff" ~
                                         "bsp_mepge_diffpge_diff_se",
                                       TRUE ~ paste0("b_", name)),
-              var_names = c("National Quota, Difference",
-                            "National Quota, Country Mean",
-                            "Party Quota, Difference",
-                            "Party Quota, Party Mean",
+              var_names = c("Gender Quota, Difference",
+                            "Gender Quota, Party Mean",
                             "Electoral List, Difference",
-                            "Electoral List, Country Mean", 
-                            "Seat Share, Difference",
-                            "Seat Share, Party Mean",
+                            "Electoral List, Country Mean",
                             "Left Party",
                             "Green Party",
                             "Center Party",
