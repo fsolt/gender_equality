@@ -9,9 +9,9 @@ In this account, activists of the women's movement do the truly heroic work of c
 On the one hand, this involves demanding--and getting--commitments that the party will have women make up a specific share of its slate of candidates, that is, that the party will adopt a gender quota.
 
 On the other hand, whether or not a party makes a formal commitment in the form of a quota, activists push for parties to run more female candidates--and the push to overcome the biases of the existing male party leadership has proven easier when and where the electoral system consists of, or includes, a party-list component rather than only highly personalized races within small districts.
-In the purest forms of the top-down theory, that's it: The activists' hard work within political parties to get more women on the ballot is the whole story.
+In the purest forms of the elite-led political theory, that's it: The activists' hard work within political parties to get more women on the ballot is the whole story.
 In this telling, the public, the voters, are basically ambivalent with regard to electing men or women--and there *are* various experimental studies that provide evidence that this is true in some contexts--so it is the *supply* of female candidates that determines how many women win elected office.
-Now, there's a *ton* of evidence--qualitative and quantitative--for the hypotheses implied by the top-down account, decades' worth of work on this topic, really, that show that quotas and party lists yield more women's descriptive representation.
+Now, there's a *ton* of evidence--qualitative and quantitative--for the hypotheses implied by the elite-led account, decades' worth of work on this topic, really, that show that quotas and party lists yield more women's descriptive representation.
 It is, by now, super-well established stuff.
 
 ```{r setup, include=FALSE}
@@ -65,7 +65,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "United Kingdom", "United States")
 ```
 
-Yet there is a second theory, one that I'm going to label "bottom up," that contends that public attitudes cannot be dismissed as readily as they are in the purest top-down accounts.
+Yet there is a second theory, one that I'm going to label "bottom up," that contends that public attitudes cannot be dismissed as readily as they are in the purest elite-led accounts.
 The bottom-up story is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties run more women, and more women win election.
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, and fewer women gain office.
 Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krause’s 1974 APSR article, people in this literature sometimes talk about these attitudes as ideology or culture; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.
@@ -76,18 +76,18 @@ As always, there are competing concerns.
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
 The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work.
 But, on the other hand, we always need to avoid including cases to which the theory just doesn't apply.
-The theories I outlined above, at least those beyond the top-down theory, the ones that have to do with public opinion, presuppose a certain minimum level of democracy--at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.
-And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism of the sort we heard about last week and earlier this summer, for example, is thought to work to exclude women from politics at every level.
+The theories outlined above, at least those beyond the elite-led theory, the ones that have to do with public opinion, presuppose a certain minimum level of democracy--at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.
+And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2016; @Paxton2021, 156-157].
 So in light of these considerations, we are looking at advanced democracies.
 It's important, though, to be sure to not interpret "advanced democracies" as simply "western Europe and the British offshoots."
 And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking the countries.
 So we settled on the 38 countries of the current OECD.
 Yes, it's the usual suspects of most of Europe plus the United States and 
 Canada-Australia-New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
-Or, you know, about one China's worth of people; it's easy to see that there's still a lot of pale gray out there to work on too.
-But these theories I just outlined apply to these pretty blue countries, so we're starting with them.
+Or, you know, about one China's worth of people; it's easy to see that there's still a lot of white countries to better understand also.
+But the theories outlined in this chapter apply to these darker shaded countries, so they will be the subject of this book.
 
-```{r oecdmap, fig.cap="The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}
+```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}
 world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
     filter(!admin == "Antarctica")
 
