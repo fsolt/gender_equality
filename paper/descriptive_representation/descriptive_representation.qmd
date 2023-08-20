@@ -1446,13 +1446,13 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
 ```
 
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
-Italy was pioneering here, but its small quota was abolished a few years later.
+Italy was the pioneering among these countries, but its small quota was abolished a few years later.
 In later years, those quotas that have been adopted have been more robust, and many countries that adopted quotas strengthened them over time.
 Belgium and Mexico, which, along with Costa Rica, now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
-With these data in hand, we can turn to how best to use them to make inferences.
+With these data in hand, we can turn to how best to use them to test our theories.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
-Pooling these time series and analyzing them together has two long-appreciated advantages [see, e.g., @Stimson1985, 916].
+Pooling these time series and analyzing them together has two long-appreciated benefits [see, e.g., @Stimson1985, 916].
 On the one hand, examining changes over time can provide strong evidence of causality for even questions involving concepts like public opinion and women in office that are not subject to manipulation by researchers and so are ill-suited to experimental research.
 On the other, examining many countries can provide strong evidence that our conclusions are general and not specific to a particular, possibly exceptional, context.
 These are powerful advantages.
@@ -1462,7 +1462,7 @@ But certain statistical difficulties associated with pooling time series have be
 Such models take into account the distinctive structure of our data as comprised of observations of a particular country in a particular year.
 They incorporate the fact that what we see in an observation is influenced by _where_ we are looking.
 All observations of Spain, for example, may share distinctively Spanish traits.
-If these distinctive traits are unknown and ignored, our model will consistently under- or over-estimate women's descriptive representation for all of our Spanish or Korean observations over time.^[
+If these distinctive traits are unknown and ignored, our model will consistently under- or over-estimate women's descriptive representation for all of our Spanish observations over time.^[
 This problem is a form of _heteroscadisticity_, a violation of the assumption of regression analyses that error variances are equal.]
 But these distinctive traits can be modeled by including a varying intercept for each country, a parameter that shifts our prediction of the outcome for all observations from that country by the same amount.
 Together, the country parameters avoid the problems caused from those national traits for which we do not have data or otherwise exclude from our analysis.
@@ -1492,10 +1492,6 @@ As described in the previous chapter, our measure of public gender egalitarianis
 Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2022].
 We therefore incorporated the measurement uncertainty in the PGE scores into our analysis.
 The model was estimated using the `brms` R package [@Burkner2017].
-
-Anyway, so first we basically replicate the scatterplot, but including varying intercepts by country that puts the focus on over-time variation.
-The estimate here is that increasing PGE in the year before the election from one standard deviation below its mean to one standard deviation above the mean is associated with an increase in women's share of the legislature of about twelve-and-a-half plus or minus two-and-a-half percentage points.  
-Granted, the median change in PGE from one election to the next within a country is only a little more than a sixth of that, yielding an estimate of a typical short-run change in women's descriptive representation of somewhat more than two percentage points.
 
 Figure&nbsp;\ref{m1plot} presents the results.
 The bottom panel shows, as expected, that descriptive representation is dynamic: the share of legislators who are women after the previous election strongly predicts the share of legislators who are women after this one.
