@@ -91,9 +91,10 @@ region_country_trends <- function(region) {
 
 ```
 
-As noted in the previous chapter, collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for women's exclusion from the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
-Yet even a half century after @RuleKrauss1974 [, 1719] called for more and better data on these collective attitudes, what we have available to us remains inadequate for fully examining their causes and consequences.
-In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
+As outlined in the previous chapter, public opinion toward gender roles constitutes one of the primary explanations for women's exclusion from the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
+Despite its theoretical importance, the extent to which gender egalitarian public opinion matters for these outcomes has drawn little sustained attention.
+The reason for this disconnect between explanation and evidence is that, despite a half century of calls for more and better data on these collective attitudes [see @RuleKrauss1974, 1719], what we have available to us remains inadequate for fully examining their causes and consequences.
+Although national and cross-national surveys have included a plethora of relevant questions, but their concentration has been sporadic and the variety of these survey items renders the resulting data incomparable.
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2020] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
 Cross-national and longitudinal investigation of, for example, the argument that such "attitudes influence both the supply of, and demand for, female candidates" has remained persistently a topic for future research [@Paxton2010, 47].
 
@@ -1253,7 +1254,8 @@ Both correlations are strong.
 Together, this evidence of construct validation and convergent validation attests to the validity of the PGE scores as measures of public opinion towards gender equality in the public sphere.
 
 ## Public Gender Egalitarianism Around the World {.unnumbered}
-Figure&nbsp;\ref{cs_mry} and Figure&nbsp;\ref{world_map} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
+Attitudes toward gender equality in the public sphere vary greatly across countries.
+Figure&nbsp;\ref{world_map} and Figure&nbsp;\ref{cs_mry} display the most recent available PGE score for each of the `r res_c` countries and territories in the dataset.
 Together, they underscore the geographic breadth of the PGE dataset, which allows the study of countries and regions too often neglected in political science research [see @Wilson2021].
 
 ```{r world_map, fig.cap="PGE Scores Around the World \\label{world_map}", fig.height = 6}
