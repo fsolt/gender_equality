@@ -13,7 +13,7 @@ In the traditional view, politics is a man's game.
 From this perspective, the public sphere, both politics and the workplace, is unsuited to the participation of women, and elected office is considered to be a position for men only.
 Nonetheless, around the world in rich democratic countries of the OECD, women have succeeded in winning election to seats in the national legislature.
 Such successes were once rare.
-In ten of the OECD countries, no more than one in twenty members of the lower house of the national legislature were women into the 1980s or even later.
+In ten of these rich democracies, no more than one in twenty members of the lower house of the national legislature were women into the 1980s or even later.
 And success in gaining office remains uneven.
 At this writing, gender parity---equal numbers of men and women---has been achieved in the lower legislative houses of only two of these countries, Mexico and New Zealand.
 But women continue to number fewer than one in five legislators in twice as many of these rich democratic countries.
@@ -1275,10 +1275,10 @@ Along with Mexico, the Latin American countries of Costa Rica, Chile, and Colomb
 On the other hand, any movement toward gender equality in legislative officeholding has been slow and halting in a number of countries, from Ireland and Greece to South Korea and Japan. 
 
 These differences across countries in women's descriptive representation have been closely studied.
-Case studies and cross-national work alike have found support for the elite-led political theory described in Chapter 2.
+Case studies and cross-national work alike have found support for the elite-led theory described in Chapter 2.
 Both ways in which this theory suggests the supply of women candidates may be increased appear to work.
 Countries that employ electoral systems that include party lists have been found to elect more women than those without, evidence that party lists provide better opportunities for feminist activists to convince party leaders to run more female candidates---or indeed to supplant those leaders and do it themselves [see, e.g., @Matland2005; @Paxton2021, 164-169].
-And the national quota laws advocated by these activists that, when adopted, require all parties to put forward a minimum share of women as candidates, likewise have been found generally to increase the share of women elected, if not typically by the amount their mandated candidate shares would perhaps lead one to expect [see, e.g., @Schwindt-Bayer2009; @Hughes2015].
+And the national quota laws advocated by these activists that, when adopted, require all parties to put forward a minimum share of women as candidates, likewise have been found generally to increase the share of women elected, if not typically by the amount their mandated candidate shares would perhaps lead one to expect [see, e.g., @Schwindt-Bayer2009; @Paxton2015].
 
 The role in this process of public opinion has attracted much less attention.
 Again, this is not because scholars do not think that the public is important.
@@ -1406,7 +1406,19 @@ Data on whether a country's electoral system contains at least a party-list comp
 Elections held under list proportional representation, mixed-member proportional, and mixed-member majoritarian electoral rules are coded one for this variable, while all other elections are coded zero.
 Some `r {mean(by_country$list)*100} %>% round()`% of the elections in our sample were held with such rules.
 
-```{r qarot, fig.cap="De Facto Threshold Adoption and Reform in OECD Democracies \\label{qarot}", fig.height = 4.5, fig.width = 7.5}
+Data on national quotas are drawn from the QAROT database and updated with information from the Gender Quotas Database maintained by the @IDEA2023.
+@Hughes2019, which presents the QAROT data, provides an exceptionally good measure of quotas, the de facto threshold.
+The de facto threshold is based on "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
+It is the combination of these two factors that determine the mandated minimum share of women on the ballot.
+For example, South Korea requires 50% of candidates on each party's list to be women.
+However, this quota applies exclusively to the proportion of the legislature that is elected from party lists, which, under the country's mixed-member electoral system, is only about a sixth of the National Assembly.
+For the remaining roughly five-sixths of the seats that are elected from single-member districts, only 30% of the candidates are required to be women.
+Taking these quota levels and their respective breadths of application together, the de facto threshold in Korea is about one-third of each party's candidates.
+There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified.
+Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national legislative gender quotas here.
+
+
+```{r qarot, fig.cap="Adoption and Reform of National Legislative Gender Quotas in OECD Democracies \\label{qarot}", fig.height = 4.5, fig.width = 7.5}
 dft_data <- by_country %>% 
   group_by(country) %>% 
   mutate(dft = if_else(defacto_threshold==lag(defacto_threshold),
@@ -1429,21 +1441,14 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
   scale_x_continuous(limits=c(1980, 2020)) +
   scale_y_continuous(limits=c(0, 50),
                      breaks=seq(0, 50, by = 10)) +
-  labs(y = "De Facto Threshold") +
+  labs(x = NULL, y = "National Quota, De Facto Threshold") +
   plot_annotation(caption = "Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).")
 ```
 
-Data on national quotas are drawn from the QAROT database and updated with information from the Gender Quotas Database maintained by the @IDEA2023.
-@Hughes2019, which presents the QAROT data, provides an exceptionally good measure of quotas, the de facto threshold.
-The de facto threshold is based on "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
-It is the combination of these two factors that determine the mandated minimum share of women on the ballot.
-For example, South Korea requires 50% of candidates on each party's list to be women.
-However, this quota applies exclusively to the proportion of the legislature that is elected from party lists, which, under the country's mixed-member electoral system, is only about a sixth of the National Assembly.
-For the remaining roughly five-sixths of the seats that are elected from single-member districts, only 30% of the candidates are required to be women.
-Taking these quota levels and their respective breadths of application together, the de facto threshold in Korea is about one-third of each party's candidates.
-There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified.
-Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national legislative gender quotas here.
-Figure&nbsp;\ref{qarot} shows the adoption of national legislative gender quotas over time in the rich democratic countries of our study.
+Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
+Italy was pioneering here, but its small quota was abolished a few years later.
+In later years, those quotas that have been adopted have been more robust, and many countries that adopted quotas strengthened them over time.
+Belgium and Mexico, which, along with Costa Rica, now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
 With these data in hand, we can turn to how best to use them to make inferences.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
