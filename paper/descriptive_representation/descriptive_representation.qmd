@@ -1398,10 +1398,9 @@ This is promising evidence for the bottom-up theory, but there are many potentia
 
 ## Analyzing Descriptive Representation in National Legislatures {.unnumbered}
 To better assess whether gender egalitarian public opinion influences women's descriptive representation, we need a more sophisticated analysis.
-To start, we will need to take into account other potential explanations for when more women are elected to office, in particular, those offered by the political theory.
-
-public opinion may simply reflect cues provided by the activists who play a central role in the political theory.
-If that is the case, both public opinion (through these cues) and descriptive representation (through their successes in getting national quotas enacted and women candidates on party lists) would be consequences of the strength of feminist activists.
+To start, we will need to take into account other potential explanations for when more women are elected to office, in particular, those offered by the elite-led theory.
+After all, public opinion may simply reflect cues provided by the activists and party leaders who play a central role in the elite-led theory.
+If that is the case, the strong relationship seen in Figure&nbsp;\ref{wrplot} would result from both public opinion (through these cues) and descriptive representation (through their successes in getting national quotas enacted and women candidates on party lists) being consequences of the strength of feminist activists.
 To rule out this potential source of spurious association, we control for the strength of any national legislative quotas for women and the presence of an electoral system that includes party lists.
 Data on whether a country's electoral system contains at least a party-list component comes from the Democratic Electoral Systems Around the World [@Bormann2022].
 Elections held under list proportional representation, mixed-member proportional, and mixed-member majoritarian electoral rules are coded one for this variable, while all other elections are coded zero.
@@ -2089,9 +2088,9 @@ m3_leader <- party_pge %>%
 
 
 All right, it's time to wrap up.
-To review the findings, we found plenty of support for the well established political theory that feminist activists working within political parties are a major force for getting women elected.
+To review the findings, we found plenty of support for the well established elite-led theory that feminist activists working within political parties are a major force for getting women elected.
 Gender quotas and party lists, the key institutional features associated with this argument, are robustly associated with more female candidates winning office at both the country and the party level.
-But there's strong support, too, for the bottom-up theory, which complicates the purest versions of the political theory: the activists working hard within parties to build space for women are not the entire story.
+But there's strong support, too, for the bottom-up theory, which complicates the purest versions of the elite-led political theory: the activists working hard within parties to build space for women are not the entire story.
 More women gain office when the public's views on the role of women in the workplace and in politics are more egalitarian.
 The two are complements.
 It does not appear, though, that they interact in the sense that parties do not seem to respond to greater public demand for gender equality by making their gender quotas more effective or placing women in better spots on their party list.
