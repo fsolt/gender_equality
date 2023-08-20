@@ -1429,19 +1429,21 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
   scale_x_continuous(limits=c(1980, 2020)) +
   scale_y_continuous(limits=c(0, 50),
                      breaks=seq(0, 50, by = 10)) +
-  labs(y = "De Facto Quota") +
+  labs(y = "De Facto Threshold") +
   plot_annotation(caption = "Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).")
 ```
 
 Data on national quotas are drawn from the QAROT database and updated with information from the Gender Quotas Database maintained by the @IDEA2023.
-That dataset defines the de facto legislative threshold on the basis of "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
+@Hughes2019, which presents the QAROT data, provides an exceptionally good measure of quotas, the de facto threshold.
+The de facto threshold is based on "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
 It is the combination of these two factors that determine the mandated minimum share of women on the ballot.
 For example, South Korea requires 50% of candidates on each party's list to be women.
-However, this quota applies only to the proportion that is elected from these party lists, about a sixth of the National Assembly under the country's mixed-member electoral system.
+However, this quota applies exclusively to the proportion of the legislature that is elected from party lists, which, under the country's mixed-member electoral system, is only about a sixth of the National Assembly.
 For the remaining roughly five-sixths of the seats that are elected from single-member districts, only 30% of the candidates are required to be women.
-Taking these quota thresholds and their respective breadths of application together, the de facto quota in Korea is about one-third of each party's candidates.
+Taking these quota levels and their respective breadths of application together, the de facto threshold in Korea is about one-third of each party's candidates.
 There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified.
-Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national quotas here.
+Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national legislative gender quotas here.
+Figure&nbsp;\ref{qarot} shows the adoption of national legislative gender quotas over time in the rich democratic countries of our study.
 
 With data in hand, we can turn to how best to use it to make inferences.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
