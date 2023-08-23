@@ -1624,10 +1624,11 @@ At that level, we cannot really see what going on within political parties, not 
 And if rising public gender egalitarianism coincides with, for example, the greater success of the green and left parties committed to equality, then the results just described may be the consequence of aggregation bias.
 If it is the ideology of the parties elected to the legislature that actually drive women's descriptive representation, looking across all parties at once as we just did may generate mistaken conclusions.
 
-The second problem is that there is ample theory and evidence across many fields of public opinion that the public responds to elite opinion leadership.
+The second problem is that there is ample theory and evidence across many fields of public opinion that the public responds to cues provided by elites.
 This analysis does control for the cues presented to the public by the factors identified in the elite-led theory, the adoption of legislative gender quotas and the presence of electoral lists, and through including the lagged value of women's descriptive representation it also seeks to control for how women in office provide examples of their fitness to lead.
 These remedies, though, are arguably somewhat indirect.
-Given the strength of the arguments and evidence that causation can run in the direction opposite to that specified by the public-opinion theory, they are potentially insufficient.
+There remains the possibility that the associations underlying our findings are the consequence of the cues provided by the share of legislators who are women influencing gender egalitarian public opinion rather than the public's gender egalitarianism influencing the share of women elected to the legislature.
+If so, the remedies we employed above are insufficient.
 
 In the following sections, we address each of these two problems directly.
 First, to ensure that our findings are not clouded by aggregation bias, we collect and analyze data at the party level.
@@ -1887,11 +1888,12 @@ coef_data_m2pf <- coef_data0_m2 %>%
 
 coef_data_m2pf_total <- coef_data0_m2 %>% 
   group_by(.chain, .iteration, .draw) %>% 
-  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+  mutate(alpha = mean(ifelse(name=="pfem_lag", .value, NA_real_),
                       na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(.variable) %>% 
-  mutate(std_coef = round(.value * sd2, 1),
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
@@ -1914,7 +1916,7 @@ lag_plot_m2pf <- coef_data0_m2 %>%
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered)) %>% 
   filter(str_detect(var_names, "Lagged")) %>% 
-  mutate(term = "Lagged Response Variable") %>% 
+  mutate(term = "Lagged Women's Share of Party Seats") %>% 
   ggplot(aes(y = term, x = std_coef)) +
   ggdist::stat_halfeye(.width = .8,
                        fill = "grey60",
@@ -1931,32 +1933,50 @@ coef_plot_m2pf + lag_plot_m2pf +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m2plot} shows the results of this model of women's share of seats within parties' parliamentary parties.
+Figure&nbsp;\ref{m2plot} shows the results of this model of women's share of seats within parties' legislative delegations.
 They reinforce the conclusions reached when looking only at the legislature as a whole.
 There is consistent divergence, estimated to be `r get_coef("list_mean", coef_data_m2pf, type = "std_coef")` percentage points (with an 80% credible interval of `r get_coef("list_mean", coef_data_m2pf, type = "ci")` points), between countries with and without party lists in their electoral systems.
-Given the dynamics of 
+Given the dynamics of descriptive representation, the long-run estimate of this divergence is `r get_coef("list_mean", coef_data_m2pf_total)`.
 The few episodes of electoral-system differences over time in our data, however, again fail to support the conclusion that changes in the presence of lists have immediate effects.
 Gender quotas, both parties' mean de facto thresholds (by an estimated `r get_coef("quota_mean", coef_data_m2pf, type = "std_coef")` points with an 80% credible interval of `r get_coef("quota_mean", coef_data_m2pf, type = "ci")` over two standard deviations of that variable) and the differences from these means over time (`r get_coef("quota_diff", coef_data_m2pf, type = "std_coef")` points; 80% c.i. `r get_coef("quota_diff", coef_data_m2pf, type = "ci")`), are found to increase the share of women in parties' legislative delegations.
+The estimates grow to `r get_coef("quota_mean", coef_data_m2pf_total)` points and `r get_coef("quota_diff", coef_data_m2pf_total)` points, respectively, over time as current values of descriptive representation influence future values.
 
 In line with previous findings, the posterior probability distributions for the variables representing green and left parties are large and positive.
 Compared to in right-wing parties, women's share of elected representatives is `r get_coef("green", coef_data_m2pf)` points higher in green parties and `r get_coef("left", coef_data_m2pf)` points higher in parties of the left.
 Women's shares of parliamentary delegations of parties of the ideological center were found to be  `r get_coef("green", coef_data_m2pf)` points larger as well, but extreme right parties are no different from other parties of the right.
 
-Most importantly for our purposes, focusing in on parties within elections and taking into account party ideology do not change our findings with regard to public opinion.
+Most importantly for present purposes, training our focus on parties within elections and taking into account party ideology do not change our findings with regard to public opinion.
 Here, too, there is strong support for the theory suggesting more gender egalitarian public opinion causes more women's descriptive representation.
 Consider first the cross-country findings.
-Parties of a country where public opinion is a standard deviation above the sample mean elect `r get_coef("pge_mean", coef_data_m2pf)` points more women representatives within their delegations than those in a country where public opinion is a standard deviation below.
-And over time _within_ a country, a two-standard deviation increase in public gender egalitarianism yields a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
-The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation.
+Parties in a country where public opinion is a standard deviation above the sample mean elect `r get_coef("pge_mean", coef_data_m2pf)` points more women representatives within their delegations than those in a country where public opinion is a standard deviation below.
+And over time _within_ a country, a two-standard deviation increase in public gender egalitarianism is found to yield on average a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
+Taking the dynamics into account, the estimated effect of country-mean differences grows to `r get_coef("pge_mean", coef_data_m2pf_total)` and that for over-time differences from these means to `r get_coef("pge_diff", coef_data_m2pf_total)` points.
+The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining descriptive representation.
 
 
-## Addressing Reciprocity: Accounting for Representation's Effects on Opinion {.unnumbered}
+## Addressing Reverse Causation: Incorporating Representation's Effects on Opinion {.unnumbered}
 
-An additional consideration arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
-The reverse theory, that more descriptive representation yields more gender egalitarian public opinion, is very plausible.
-Indeed, it has been found to have empirical support in previous research.
-Working with data from twenty-five countries included in two waves of the World Values Survey conducted a decade apart, @Alexander2012 found that increases in women's presence in parliaments predicted greater belief that men are no better political leaders than women.
-We therefore model these potentially reciprocal relationships using multivariate simultaneous equations, meaning that descriptive representation and gender equality each used to predict the other and that the varying intercepts for each country and year are modeled as correlated across the two equations.
+As mentioned above, the other concern with our analysis of elections across the rich democracies is the potential that its results are driven by reverse causation.
+This problem arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
+Often public opinion is influenced by elite cues, and one such cue may be how many women are in the national legislature.
+If opinion is the consequence of elite cues, then, despite the model's inclusion of controls for some of these cues as well as for the previous share of women in the legislature, the association observed between public opinion and descriptive representation that underlies our conclusions may not evince opinion's effect on representation.
+It may instead reflect causation that runs only in the opposite direction, from representation to opinion.
+
+That when the public sees more women in office it adopts more gender egalitarian opinions is indeed plausible.
+It has in fact been found in previous research to have empirical support.
+@Alexander2012 employs a seemingly unrelated regression model and aggregate data of a cross-section of twenty-five countries included in two waves of the World Values Survey.
+It finds that increases in women's presence in parliaments over the decade between WVS waves predicted greater belief that men are not better political leaders than women in the second wave, even when beliefs in the first wave were taken into account.
+@Kim2023 examines four waves of the WVS in 87 countries for a total of 187 observed country-years.
+In multilevel models of individuals with varying intercepts for country-years and countries, that work finds strong evidence that women's descriptive representation influences attitudes toward women in politics.
+
+The larger evidentiary base in @Kim2023 provides more confidence than the very small sample used in @Alexander2012.
+In terms of modeling strategy, though, @Kim2023 represents the converse of the analyses presented in this chapter so far: it looks only at one side of this potentially reciprocal relationship and concludes that all of the association observed to remain after controlling for other observed variables flows on this side.
+As @Kim2023 [, 17] notes, "Perhaps the biggest concern is that preexisting egalitarianism skews results," a concern the study could not address in its model due to the limited observations available in the WVS data.
+The combination of building a single model that explicitly incorporates both hypotheses, as in @Alexander2012, and estimating its parameters with a large dataset, as in @Kim2023, would be the "ideal" approach to disentangling these relationships [@Kim2023, 22 at endnote 21].
+
+Fortunately, the dataset used in this chapter, built around the extensive PGE data on gender egalitarianism, allows us to proceed along exactly these lines.
+We model the potentially reciprocal relationships using a multivariate simultaneous equations model.
+This means that gender egalitarianism and descriptive representation are each used to predict the other and that the varying intercepts for each country and year are modeled as correlated across the two equations.
 
 
 
@@ -2162,31 +2182,6 @@ coef_plots_wrsem + lag_plots_wrsem +
 
 
 
-```{r leader, eval=FALSE}
-m1_leader <- party_pge %>%
-  map(~ glmer(leader ~ pge_lag_by2sd +
-               (1 | party ) + (1 | cyear) + (1 | country),
-              family = "binomial",
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m2_leader <- party_pge %>%
-  map(~ glmer(leader ~ pge_lag_by2sd +
-               quota +
-               (1 | party ) + (1 | cyear) + (1 | country),
-              family = "binomial",
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m3_leader <- party_pge %>%
-  map(~ glmer(leader ~ pge_lag_by2sd +
-               quota +
-               list +
-               (1 | party ) + (1 | cyear) + (1 | country),
-              family = "binomial",
-             data = .x)) %>% 
-  sim_and_tidy()
-```
 
 
 All right, it's time to wrap up.
