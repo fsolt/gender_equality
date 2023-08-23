@@ -1004,14 +1004,10 @@ by_party <- mp_parties %>%
                             str_extract("\\d(?=\\d{2}$)") %>%
                             as.numeric() * 10,
                           parfam),
-         parfam = case_when(parfam == 0 ~ 60,
-                            parfam == 11 ~ 10,
-                            parfam == 98 ~ 60,
-                            TRUE ~ parfam),
          parfam2 = case_when(between(parfam, 10, 30) ~ "left",
                              (parfam == 40 | parfam == 80) ~ "center",
                              between(parfam, 50, 60) ~ "right",
-                             parfam == 70 ~ "extreme right",
+                             parfam == 70 ~ "extreme_right",
                              TRUE ~ "other"),
          parfam3 = if_else(parfam == 10, "green", parfam2),
          leftwing = if_else(parfam2 == "left", 1, 0)) %>% 
@@ -1620,12 +1616,13 @@ Compared to an election held when egalitarian public opinion is a standard devia
 This result provides strong evidence that the public's views on gender equality in the public sphere of politics and work actually does shape the extent to which women gain an equal share of descriptive representation.
 But it suffers two problems.
 The first problem is that there is a disconnect between the elite-led and mass-public theories and this evidence.
-Both of those theories concerned processes that largely or entirely take place within political parties.  
+Both of those theories concerned processes that largely or entirely take place within political parties.
 In the elite-led theory, it is _political parties_ that respond to pressure from women's organizations and internal activists to adopt gender quotas or to run more women as candidates on their electoral lists.
 In the mass-public theory, it is _political parties_ that react to an increasingly egalitarian public by running more women candidates in races they can win.
-But the observations in the foregoing analysis are country-elections. 
+But the observations in the foregoing analysis are of country's entire legislatures. 
 At that level, we cannot really see what going on within political parties, not really at all.
-The results just described therefore may be the consequence of aggregation bias, leading to mistaken conclusions due to all of each country's parties being combined at every election.
+And if rising public gender egalitarianism coincides with, for example, the greater success of the green and left parties committed to equality, then the results just described may be the consequence of aggregation bias.
+If it is the ideology of the parties elected to the legislature that actually drive women's descriptive representation, looking across all parties at once as we just did may generate mistaken conclusions.
 
 The second problem is that there is ample theory and evidence across many fields of public opinion that the public responds to elite opinion leadership.
 This analysis does control for the cues presented to the public by the factors identified in the elite-led theory, the adoption of legislative gender quotas and the presence of electoral lists, and through including the lagged value of women's descriptive representation it also seeks to control for how women in office provide examples of their fitness to lead.
@@ -1723,12 +1720,12 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
   
   m2pf_data <- m2_pfem_b$data
   
-  m2pf_data_2sd <- m2_data %>% 
+  m2pf_data_2sd <- m2pf_data %>% 
     select(-`pfem`,
            -country, -year, -cyear, -party, -ends_with("_se")) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
-    transmute(`.variable` = case_when(name == "pge_mean" ~ 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
                                         "bsp_mepge_meanpge_mean_se",
                                       name == "pge_diff" ~
                                         "bsp_mepge_diffpge_diff_se",
@@ -1751,7 +1748,7 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
   coef_data0_m2 <- m2_pfem_b %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
     filter(!`.variable`=="b_Intercept") %>% 
-    left_join(m2_data_2sd, by = join_by(.variable))
+    left_join(m2pf_data_2sd, by = join_by(.variable))
 
   save(by_party2,
        file = file.path(descrep_path, "data",  "by_party2.rda"))
@@ -1810,7 +1807,7 @@ The United States, although observed over many more elections than other countri
 Because some political parties in a country have many elected women among those who sit in the legislature and others have few or none, the bivariate relationship between national public opinion on gender equality and women's descriptive representation within parties is fairly noisy, as Figure&nbsp;\ref{pfemplot} reveals.
 Compared to when both concepts are measured at the country-year level, as in Figure&nbsp;\ref{wrplot}, the correlation falls by nearly half.
 The points in this plot are faded by the parties' share of the legislature: the largest parties appear darkest and the smallest are very light.
-(Parties whose delegations in the lower house of the national legislature are mostly women tend to be smaller, but otherwise there is little apparent relationship between party size and descriptive representation (across all observations, $R$ = `r with(by_party2, cor(pfem, seat_percent)) %>% round(2)`.)
+(Parties whose delegations in the lower house of the national legislature are mostly women tend to be smaller, but otherwise there is little apparent relationship between party size and descriptive representation; across all observations, the bivariate correlation $R$ is just `r with(by_party2, cor(pfem, seat_percent)) %>% round(2)`.)
 In any event, the much looser relationship between public opinion and descriptive representation seen here reinforces the concern that difference between the units observed in the analysis first presented and those at which the theories are thought to operate may influence our conclusions.
 
 ```{r pfemplot, fig.cap="Public Gender Egalitarianism and Women’s Share of Party Legislative Seats in OECD Democracies \\label{pfemplot}", fig.height = 9, fig.width = 7.5}
@@ -1857,7 +1854,7 @@ Regardless, as in the previous analysis, we include information about the countr
 We refine our measure of gender quotas to incorporate information regarding parties' voluntary quotas.
 The gender quota variables for a party are based highest quota applicable to a party's legislative candidates, whether set by national legislation or by its own internal rules.
 The "within-between" specification of the model here employs the mean value of this variable for each party and the difference from that mean.
-It also includes with varying intercepts the unobserved distinctive traits of each party, country-election, country, and year.
+The model also accounts for the complex hierarchical structure of these data. As our party-election observations are cross-classified in the histories of parties and in country-elections, both being of those levels nested in countries, and country-elections are nested in years, the model also includes varying intercepts for each party, country-election, country, and year.
 
 One factor supported in prior scholarship is party ideology.
 @Caul1999 [, 88] finds that, at three time points in the 1970s and 1980s, among parties in eleven European democracies and the United States, those with greener ideologies and those more to the left had larger shares of women among their elected legislators [see also, e.g., @OBrien2018].
@@ -1887,6 +1884,19 @@ coef_data_m2pf <- coef_data0_m2pf %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m2pf_data_2sd, ., by = join_by(.variable))
+
+coef_data_m2_total <- coef_data0_m2pf %>% 
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+                      na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  right_join(m2_data_2sd, by = join_by(.variable))
 
 coef_plot_m2pf <- coef_data0_m2pf %>% 
   mutate(std_coef = .value * sd2,
@@ -1922,10 +1932,26 @@ coef_plot_m2pf + lag_plot_m2pf +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m2plot} shows the results.
+Figure&nbsp;\ref{m2plot} shows the results of this model of women's share of seats within parties' parliamentary parties.
+They reinforce the conclusions reached when looking only at the legislature as a whole.
+There is consistent divergence, estimated to be `r get_coef("list_mean", coef_data_m2pf, type = "std_coef")` percentage points (with an 80% credible interval of `r get_coef("list_mean", coef_data_m2pf, type = "ci")` points), between countries with and without party lists in their electoral systems.
+The few episodes of electoral-system differences over time in our data, however, again fail to support the conclusion that changes in the presence of lists have immediate effects.
+Gender quotas, both parties' mean de facto thresholds (by an estimated `r get_coef("quota_mean", coef_data_m2pf, type = "std_coef")` points with an 80% credible interval of `r get_coef("quota_mean", coef_data_m2pf, type = "ci")` over two standard deviations of that variable) and the differences from these means over time (`r get_coef("quota_diff", coef_data_m2pf, type = "std_coef")` points; 80% c.i. `r get_coef("quota_diff", coef_data_m2pf, type = "ci")`), are found to increase the share of women in parties' legislative delegations.
+
+In line with previous findings, the posterior probability distributions for the variables representing green and left parties are large and positive.
+Compared to right-wing parties, women's share of elected representatives is `r get_coef("green", coef_data_m2pf)` points higher in green parties and `r get_coef("left", coef_data_m2pf)` points higher in parties of the left.
+Women's shares of parliamentary delegations of parties of the ideological center were found to be  `r get_coef("green", coef_data_m2pf)` points larger as well, but extreme right parties are no different from other parties of the right.
+
+Most importantly for our purposes, focusing in on parties within elections and taking into account party ideology do not change our findings with regard to public opinion.
+Here, too, there is strong support for the theory suggesting more gender egalitarian public opinion causes more women's descriptive representation.
+Consider first the cross-country findings.
+Parties of a country where public opinion is a standard deviation above the sample mean elect `r get_coef("pge_mean", coef_data_m2pf)` points more women representatives within their delegations than those in a country where public opinion is a standard deviation below.
+And over time _within_ a country, a two-standard deviation increase in public gender egalitarianism yields a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
+The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation.
 
 
-## Reciprocal {.unnumbered}
+## Addressing Reciprocity: Accounting for Representation's Effects on Opinion {.unnumbered}
+
 An additional consideration arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
 The reverse theory, that more descriptive representation yields more gender egalitarian public opinion, is very plausible.
 Indeed, it has been found to have empirical support in previous research.
