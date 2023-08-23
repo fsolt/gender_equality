@@ -1752,7 +1752,7 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
 
   save(by_party2,
        file = file.path(descrep_path, "data",  "by_party2.rda"))
-  save(m2_data, m2_data_2sd, coef_data0_m2, cyp_summary,
+  save(m2pf_data, m2pf_data_2sd, coef_data0_m2, cyp_summary,
        file = file.path(descrep_path, "data",  "pfem_results.rda"))
 } else {
   load(file = file.path(descrep_path, "data",  "by_party2.rda"))
@@ -1878,14 +1878,14 @@ ordered_pfem <- c("Public Gender Egalitarianism, Difference",
                   "Lagged Women's Share of Party Seats") %>% 
   rev()
 
-coef_data_m2pf <- coef_data0_m2pf %>% 
+coef_data_m2pf <- coef_data0_m2 %>% 
   mutate(std_coef = round(.value * sd2, 1),
          term = factor(var_names, levels = ordered_pfem)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m2pf_data_2sd, ., by = join_by(.variable))
 
-coef_data_m2_total <- coef_data0_m2pf %>% 
+coef_data_m2_total <- coef_data0_m2 %>% 
   group_by(.chain, .iteration, .draw) %>% 
   mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
                       na.rm = TRUE)) %>% 
@@ -1896,9 +1896,9 @@ coef_data_m2_total <- coef_data0_m2pf %>%
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  right_join(m2_data_2sd, by = join_by(.variable))
+  right_join(m2pf_data_2sd, by = join_by(.variable))
 
-coef_plot_m2pf <- coef_data0_m2pf %>% 
+coef_plot_m2pf <- coef_data0_m2 %>% 
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered_pfem)) %>% 
   filter(!str_detect(var_names, "Lagged")) %>% 
@@ -1911,7 +1911,7 @@ coef_plot_m2pf <- coef_data0_m2pf %>%
   xlab("Standardized Coefficients") +
   ylab(NULL) 
 
-lag_plot_m2pf <- coef_data0_m2pf %>% 
+lag_plot_m2pf <- coef_data0_m2 %>% 
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered)) %>% 
   filter(str_detect(var_names, "Lagged")) %>% 
