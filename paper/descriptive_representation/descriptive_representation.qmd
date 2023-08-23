@@ -1885,14 +1885,13 @@ coef_data_m2pf <- coef_data0_m2 %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m2pf_data_2sd, ., by = join_by(.variable))
 
-coef_data_m2_total <- coef_data0_m2 %>% 
+coef_data_m2pf_total <- coef_data0_m2 %>% 
   group_by(.chain, .iteration, .draw) %>% 
   mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
                       na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(.variable) %>% 
-  mutate(std_coef0 = round(.value * sd2, 1),
-         std_coef = round(std_coef0/(1 - alpha), 1),
+  mutate(std_coef = round(.value * sd2, 1),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
@@ -1935,11 +1934,12 @@ coef_plot_m2pf + lag_plot_m2pf +
 Figure&nbsp;\ref{m2plot} shows the results of this model of women's share of seats within parties' parliamentary parties.
 They reinforce the conclusions reached when looking only at the legislature as a whole.
 There is consistent divergence, estimated to be `r get_coef("list_mean", coef_data_m2pf, type = "std_coef")` percentage points (with an 80% credible interval of `r get_coef("list_mean", coef_data_m2pf, type = "ci")` points), between countries with and without party lists in their electoral systems.
+Given the dynamics of 
 The few episodes of electoral-system differences over time in our data, however, again fail to support the conclusion that changes in the presence of lists have immediate effects.
 Gender quotas, both parties' mean de facto thresholds (by an estimated `r get_coef("quota_mean", coef_data_m2pf, type = "std_coef")` points with an 80% credible interval of `r get_coef("quota_mean", coef_data_m2pf, type = "ci")` over two standard deviations of that variable) and the differences from these means over time (`r get_coef("quota_diff", coef_data_m2pf, type = "std_coef")` points; 80% c.i. `r get_coef("quota_diff", coef_data_m2pf, type = "ci")`), are found to increase the share of women in parties' legislative delegations.
 
 In line with previous findings, the posterior probability distributions for the variables representing green and left parties are large and positive.
-Compared to right-wing parties, women's share of elected representatives is `r get_coef("green", coef_data_m2pf)` points higher in green parties and `r get_coef("left", coef_data_m2pf)` points higher in parties of the left.
+Compared to in right-wing parties, women's share of elected representatives is `r get_coef("green", coef_data_m2pf)` points higher in green parties and `r get_coef("left", coef_data_m2pf)` points higher in parties of the left.
 Women's shares of parliamentary delegations of parties of the ideological center were found to be  `r get_coef("green", coef_data_m2pf)` points larger as well, but extreme right parties are no different from other parties of the right.
 
 Most importantly for our purposes, focusing in on parties within elections and taking into account party ideology do not change our findings with regard to public opinion.
