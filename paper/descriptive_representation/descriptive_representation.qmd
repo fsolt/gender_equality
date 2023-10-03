@@ -1129,13 +1129,21 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
   by_country0 <- rio::import(file.path(descrep_path, "data", "by_country0.rda"))
   
   by_country <- by_country0 %>%
-    filter(!is.na(list)) %>% 
-    group_by(country) %>% 
-    mutate(women_rep_lag = lag(women_rep),
-           pge_lag = lag(pge),
-           pge_se_lag = lag(pge_se)) %>% 
-    ungroup() %>% 
-    filter(!is.na(pge) & !is.na(pge_lag))
+      filter(!is.na(list)) %>% 
+      group_by(country) %>% 
+      mutate(women_rep_lag = lag(women_rep),
+             pge_lag = lag(pge),
+             pge_se_lag = lag(pge_se)) %>% 
+      ungroup() %>% 
+      filter(!is.na(pge) & !is.na(pge_lag)) %>% 
+      left_join(act_summary %>% 
+                    transmute(country, 
+                              year,
+                              act,
+                              act_lag = lag(act),
+                              act_se,
+                              act_se_lag = lag(act_se)),
+                by = join_by(year, country))
   
   by_country2 <- by_country %>% 
     group_by(country) %>% 
@@ -1153,6 +1161,15 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                   length(pge),
               pge_diff = pge - pge_mean,
               pge_diff_se = sqrt(pge_se^2 + pge_mean_se^2)/2,
+              act,
+              act_se,
+              act_lag,      # from previous year
+              act_se_lag,
+              act_mean = mean(act, na.rm = TRUE),
+              act_mean_se = sqrt(sum(act_se^2, na.rm = TRUE))/
+                  length(act),
+              act_diff = act - act_mean,
+              act_diff_se = sqrt(act_se^2 + act_mean_se^2)/2,
               national_quota,
               national_quota_mean = mean(national_quota),
               national_quota_diff = national_quota - national_quota_mean,
@@ -1165,14 +1182,16 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
     ungroup()
   
   bf_wr <- bf(women_rep ~ 
-                me(pge_diff, pge_diff_se) +
-                me(pge_mean, pge_mean_se) +
-                national_quota_diff +
-                national_quota_mean + 
-                list_diff +
-                list_mean +
-                women_rep_lag +
-                (1|c|country) + (1|t|year))
+                  me(pge_diff, pge_diff_se) +
+                  me(pge_mean, pge_mean_se) +
+                  me(act_diff, act_diff_se) +
+                  me(act_mean, act_mean_se) +
+                  national_quota_diff +
+                  national_quota_mean + 
+                  list_diff +
+                  list_mean +
+                  women_rep_lag +
+                  (1|c|country) + (1|t|year))
   
   m1_wr_b <- brm(formula = bf_wr,  
                  data = by_country2,
@@ -1189,7 +1208,9 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
   
   m1_data_2sd <- m1_data %>% 
     select(pge_diff,
-           pge_mean, 
+           pge_mean,
+           act_diff,
+           act_mean,
            national_quota_diff,
            national_quota_mean,
            list_diff,
@@ -1201,9 +1222,15 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                                         "bsp_mepge_meanpge_mean_se",
                                       name == "pge_diff" ~
                                         "bsp_mepge_diffpge_diff_se",
+                                   name == "act_mean" ~ 
+                                        "bsp_meact_meanact_mean_se",
+                                      name == "act_diff" ~
+                                        "bsp_meact_diffact_diff_se",
                                       TRUE ~ paste0("b_", name)),
               var_names = c("Public Gender Egalitarianism, Difference",
                             "Public Gender Egalitarianism, Mean",
+                            "Women's Activism, Difference",
+                            "Women's Activism, Mean",
                             "National Quota, Difference",
                             "National Quota, Mean",
                             "Electoral List, Difference",
@@ -1273,7 +1300,7 @@ The OECD countries appear in order of women's percentage of legislative seats in
 The differences are stark.
 Across much but not all of western Europe, women politicians have made rapid and substantial gains.
 These trends are perhaps most striking in Belgium and Spain.
-In the Nordics---Iceland, Sweden, Norway, Finland, and Denmark---parity has been relatively close, if yet unreached, for most or all of the twenty-first century.
+In the Nordics---Iceland, Sweden, Norway, Finland, and Denmark---parity has been relatively close, if yet unattained, for most or all of the twenty-first century.
 Along with Mexico, the Latin American countries of Costa Rica, Chile, and Colombia have seen sharp increases in the share of women in the legislature in their most recent elections, albeit from a range of previous values.
 On the other hand, any movement toward gender equality in legislative officeholding has been slow and halting in a number of countries, from Ireland and Greece to South Korea and Japan. 
 
@@ -1448,7 +1475,7 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
 ```
 
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
-Italy was the pioneering among these countries, but its small quota was abolished a few years later.
+Italy was the pioneer among these countries, but its small quota was abolished a few years later.
 In later years, those quotas that have been adopted have been more robust, and many countries that adopted quotas strengthened them over time.
 Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
@@ -1510,6 +1537,8 @@ This provides suggestive evidence that women in office are held to a higher stan
 ```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
 ordered <- c("Public Gender Egalitarianism, Difference",
              "Public Gender Egalitarianism, Mean", 
+             "Women's Activism, Difference",
+             "Women's Activism, Mean", 
              "Descriptive Representation, Difference",
              "Descriptive Representation, Mean",
              "National Quota, Difference",
