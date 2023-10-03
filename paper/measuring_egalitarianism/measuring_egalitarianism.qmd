@@ -562,7 +562,7 @@ dcpo_input_political <- dcpo_input_raw_pge1 %>%
   DCPOtools::format_dcpo(scale_q = "polileader4",
                          scale_cp = 2)
 
-dcpo_input_workplace <-  dcpo_input_raw_pge1 %>%
+dcpo_input_workplace <- dcpo_input_raw_pge1 %>%
   inner_join(public_items, by = "item") %>%
   filter(workplace==1) %>% 
   DCPOtools::format_dcpo(scale_q = "job3a",
@@ -809,6 +809,7 @@ internal_plot <- internal_dat %>%
   ggtitle("All Country-Years") +
   geom_label(data = internal_label, aes(label = label), size = 3)
 ```
+
 ```{r internal_cs_plot, cache=TRUE}
 ## Cross-sectional
 internal_poliequal <- dcpo_input$data %>% 
