@@ -1532,11 +1532,11 @@ In later years, those quotas that have been adopted have been more demanding, an
 Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
 Finally, the Feminist Movement Index (FMI), first presented by @Htun2012 and updated in @Forester2022, serves as our measure of the overall strength of the feminist movement.
-Among the advanced democracies, FMI scores range from one to three.
+Among the advanced democracies we consider here, FMI scores range from one to three.
 A score of one represents a feminist movement that is either weak or not independent from male-dominated organizations.
 Movements scored two are both stronger and autonomous from male-dominated organizations.
 The strongest autonomous feminist movements are scored three.
-How the FMI has changed over time across the OECD countries during the elections we consider here is shown in Figure&nbsp;\ref{fmiplot}.
+How the FMI has changed over time across the OECD countries during the elections included in our analyses is shown in Figure&nbsp;\ref{fmiplot}.
 
 ```{r fmiplot, fig.cap="The Feminist Movement Index in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
 by_country0 %>%
