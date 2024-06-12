@@ -1160,7 +1160,6 @@ by_country0 <- qarot %>%
                               country == "Turkey" ~ lead(pge_se)*1.1,
                             TRUE ~ pge_se),
          fmi = if_else(country == "United States" & year < 1975, 3, fmi),
-         fmi_se = if_else(country == "United States" & year < 1975, 0, fmi),
          women_rep_included = ifelse(!is.na(lag(pge)),
                                      women_rep,
                                      NA_real_),
@@ -1331,7 +1330,7 @@ by_country0 %>%
   theme_bw() +
   theme(legend.position = "none") +
   coord_cartesian(xlim = c(1980, 2022)) +
-  labs(x = NULL, y = "Desc Rep") +
+  labs(x = NULL, y = "Descriptive Representation") +
   geom_line(linetype = "dotted") +
   geom_line(aes(y = women_rep_included)) +
   facet_wrap(~reorder(country, -lwr), ncol = 6) +
@@ -1509,12 +1508,13 @@ dft_data <- by_country %>%
   ungroup() %>% 
   filter(!is.na(dft))
 
-ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
+ggplot(dft_data, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
   geom_text(data = dft_data %>% filter(!to_jitter),
             size = 2.5) +
   geom_text(data = dft_data %>% filter(to_jitter),
             size = 2.5,
             position = position_jitter(width = .5, height = .7)) +
+  geom_line(linetype = "dotted", alpha = .5) +
   theme_bw() +
   theme(legend.position="none",
         axis.text  = element_text(size=10),
@@ -1527,11 +1527,44 @@ ggplot(dft_data, aes(x = year, y = dft, label = iso2c)) +
 ```
 
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
-Italy was the pioneer among these countries, but its small quota was abolished a few years later.
-In later years, those quotas that have been adopted have been more robust, and many countries that adopted quotas strengthened them over time.
+Italy in 1994 was the pioneer among these countries, but its small quota was abolished just two years later.
+In later years, those quotas that have been adopted have been more demanding, and, as the dotted lines linking quotas and their subsequent reforms demonstrate, many countries that adopted quotas strengthened them over time.
 Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
 
-While the presence of party lists have been repeatedly shown to provide an institutional structure more conducive for activists to convince parties to increase descriptive representation, and gender quotas
+Finally, the Feminist Movement Index (FMI), first presented by @Htun2012 and updated in @Forester2022, serves as our measure of the overall strength of the feminist movement.
+Among the advanced democracies, FMI scores range from one to three.
+A score of one represents a feminist movement that is either weak or not independent from male-dominated organizations.
+Movements scored two are both stronger and autonomous from male-dominated organizations.
+The strongest autonomous feminist movements are scored three.
+How the FMI has changed over time across the OECD countries during the elections we consider here is shown in Figure&nbsp;\ref{fmiplot}.
+
+```{r fmiplot, fig.cap="The Feminist Movement Index in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
+by_country0 %>%
+  filter(!is.na(women_rep)) %>%
+  group_by(country) %>%
+  mutate(fmim = mean(fmi, na.rm = TRUE),
+         fmi_included = if_else(!is.na(women_rep_included),
+                                fmi,
+                                NA_integer_)) %>%
+  ggplot(aes(x = year, y = fmi)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_cartesian(xlim = c(1980, 2023)) +
+  labs(x = NULL, y = "Feminist Movement Index") +
+  geom_line(linetype = "dotted") +
+  geom_line(aes(y = fmi_included)) +
+  facet_wrap(~reorder(country, -fmim), ncol = 6) +
+  theme(axis.text.x  = element_text(size = 7,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        strip.text.x = element_text(size = 8),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        plot.title = element_text(size=8)) +
+  plot_annotation(caption = str_wrap("Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Source: Forester et al. (2022).", 85))
+```
+
+
 
 With these data in hand, we can turn to how best to use them to test our theories.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
@@ -1687,15 +1720,14 @@ We next turn to the direct effect of the strength of the feminist movement, net 
 Compared with countries with a mean feminist-movement index score one standard deviation lower than average, in countries whose feminist-movement index score was one standard deviation higher than average the share of the legislature held by women was `r get_coef("fmi_mean", coef_data_m1)` percentage points higher in one election and `r get_coef("fmi_mean", coef_data_m1_total)` points higher over time.
 Changes in the strength of the feminist movement over time, moreover, are less consistently associated with gains in women's descriptive representation.
 A one-point increase in the FMI index is estimated to yield a short-run `r get_coef("fmi_diff", coef_data_m1, type = "std_coef")` percentage-point increase in women's descriptive representation, but with an 80% confidence interval from `r get_coef("fmi_diff", coef_data_m1, type = "ci")` points, or `r get_coef("fmi_diff", coef_data_m1_total)` over time.
-It appears that, net of the other variables in the model, the strength of feminist movements has only a limited and inconsistent direct influence on women's descriptive representation.
+It appears that---net of the other variables in the model---the strength of feminist movements has only a limited and inconsistent direct influence on women's descriptive representation.
 
 At last, we reach the top rows of the plot, where we find the coefficients for Public Gender Egalitarianism.
 Once more, the country mean of this variable captures the differences between countries.
 Compared to a country like Czechia or Latvia with a mean PGE score of about 54, a standard deviation below the OECD average for this variable in our dataset, a country like Canada or Iceland with a mean PGE score of about 72, a standard deviation above, is estimated to elect women to `r get_coef("pge_mean", coef_data_m1)` percentage points greater share of the national legislature in a single election.
 Given that descriptive representation is dynamic, this difference grows to `r get_coef("pge_mean", coef_data_m1_total)` percentage points over time.
 As was the case with our other country-mean variables, this result may reflect historical processes over the long term; it may reflect some degree of reverse causation, in which women in office shape the public's views of gender equality; and it may also simply be due to other country-level factors correlated with public opinion that have yet to be identified, measured, and included in the model.
-This ambiguity is not actually a problem.
-This result's utility is not really in a causal interpretation.
+This ambiguity is not actually a problem, as this result's utility is not really in a causal interpretation.
 The true importance in this model of the result for the country-mean of Public Gender Egalitarianism is that it isolates the consequences of changes in egalitarian public opinion over time.
 
 And the topmost row of Figure&nbsp;\ref{m1plot} shows the posterior probability distribution for the difference in PGE over time within each country.
