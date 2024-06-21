@@ -1081,13 +1081,14 @@ by_party <- mp_parties %>%
 
 party_pge <- pge %>% 
   left_join(fmi, by = join_by(country, year)) %>%
-  mutate(fmi = if_else(country == "United States" & year < 1975, 3, fmi)) %>% 
+  mutate(fmi = if_else(country == "United States" & year < 1975, 3, fmi),
+         pge_lag = lag(pge)) %>% 
   group_by(draw) %>% 
   group_split() %>% 
   map(. %>% 
         inner_join(by_party,
                    by = c("country" = "countryname", "year")) %>% 
-        select(country, year, party, pfem, pge, fmi))
+        select(country, year, party, pfem, pge, pge_lag, fmi, party_quota))
 
 save(by_party, file = file.path(descrep_path, "data", "by_party.rda"))
 save(party_pge, file = file.path(descrep_path, "data", "party_pge.rda"))
@@ -1796,6 +1797,10 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                            national_quota_mean = mean(national_quota),
                            national_quota_diff = national_quota -
                              national_quota_mean,
+                           national_quota_lag = if_else(is.na(lag(national_quota)) &
+                                          national_quota==0,
+                                           national_quota,
+                                           lag(national_quota)),
                            list,
                            list_mean = mean(list, na.rm = TRUE),
                            list_diff = list - list_mean,
@@ -1810,9 +1815,13 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
            pfem_diff = pfem - pfem_mean,
            party_quota_mean = mean(party_quota, na.rm = TRUE),
            party_quota_diff = party_quota - party_quota_mean,
+           party_quota_lag = if_else(is.na(lag(party_quota)),
+                                           party_quota,
+                                           lag(party_quota)),
            quota = pmax(national_quota, party_quota),
            quota_mean = mean(quota, na.rm = TRUE),
-           quota_diff = quota - quota_mean) %>% 
+           quota_diff = quota - quota_mean,
+           quota_lag = pmax(national_quota_lag, party_quota_lag)) %>% 
     ungroup() %>% 
     group_by(country, year) %>% 
     filter(!is.na(pfem) & !is.na(pge_lag))
