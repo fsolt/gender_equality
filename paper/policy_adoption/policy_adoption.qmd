@@ -1,15 +1,4 @@
-# From Public Egalitarianism to Equality: Understanding Policy Adoption [Placeholder]
-
-## Gender Quotas {.unnumbered}
-
-## Policies Addressing Violence Against Women {.unnumbered}
-
-## Workplace Equality and Family Leave {.unnumbered}
-
-<!-- Gender quotas: Weeks2018 -->
-<!-- Family leave -->
-<!-- Anti-violence against women -->
-<!-- Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl  -->
+# From Public Egalitarianism to Equality: Understanding Policy Adoption
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -357,64 +346,64 @@ interplot_b <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95,
                          xmax = NA, ercolor = NA, esize = 0.5, ralpha = 0.5, rfill = "grey70", 
                          stats_cp = "none", txt_caption = NULL, facet_labs = NULL, 
                          ...) {
-    
-    m.sims <- brms::as_draws_df(m) %>% 
-        as_tibble()
-    
-    if (is.na(xmin)) 
-        xmin <- min(m$data[var2], na.rm = TRUE)
-    if (is.na(xmax)) 
-        xmax <- max(m$data[var2], na.rm = TRUE)
-    if (is.null(steps)) {
-        steps <- eval(parse(text = paste0("length(unique(na.omit(m$data$", 
-                                          var2, ")))")))
-    }
-    if (steps > 100) 
-        steps <- 100
-    
-    coef <- data.frame(fake = seq(xmin, xmax, length.out = steps), 
-                       coef1 = NA, ub = NA, lb = NA)
-    coef_df <- data.frame(fake = numeric(0), coef1 = numeric(0), 
-                          ub = numeric(0), lb = numeric(0), model = character(0))
-    
-    var1a <- str_subset(names(m.sims), var1)[1]
-    var2a <- str_subset(names(m.sims), var2)[1]
-    ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
-           var12 <- paste0(var2a, ":", var1))
-    if (!var12 %in% names(m.sims))
-        var12 <- paste0(var1a, ":", var2)
-    if (!var12 %in% names(m.sims)) 
-        stop(paste("Model does not include the interaction of", 
-                   var1, "and", var2, "."))
-    
-    multiplier <- ifelse(var1 == var2, 2, 1) 
-    
-    for (i in 1:steps) {
-        coef$coef1[i] <- mean({m.sims[, var1a] + {multiplier * 
-                coef$fake[i] * m.sims[, var12]}}[, 1])
-        coef$lb[i] <- quantile({m.sims[, var1a] + {multiplier * 
-                coef$fake[i] * m.sims[, var12]}}[, 1], (1 - ci)/2)
-        coef$ub[i] <- quantile({m.sims[, var1a] + {multiplier * 
-                coef$fake[i] * m.sims[, var12]}}[, 1], 1 - (1 - ci)/2)
-    }
-    
-    min_sim <- {m.sims[, var1a] + {multiplier * 
-            xmin * m.sims[, var12]}}[, 1]
-    max_sim <- {m.sims[, var1a] + {multiplier * 
-            xmax * m.sims[, var12]}}[, 1]
-    diff <- first(max_sim - min_sim)
-    ci_diff <- c(quantile(diff, (1 - ci)/2), quantile(diff, 
-                                                      1 - (1 - ci)/2))
-    if (plot == TRUE) {
-        interplot:::interplot.plot(m = coef, steps = steps, hist = hist, 
-                                   predPro = predPro, var2_vals = var2_vals, var2_dt = var2_dt, 
-                                   point = point, ercolor = ercolor, esize = esize, 
-                                   ralpha = ralpha, rfill = rfill, stats_cp = "none", 
-                                   txt_caption = NULL, ...)
-    } else {
-        names(coef) <- c(var2, "coef", "ub", "lb")
-        return(coef)
-    }
+  
+  m.sims <- brms::as_draws_df(m) %>% 
+    as_tibble()
+  
+  if (is.na(xmin)) 
+    xmin <- min(m$data[var2], na.rm = TRUE)
+  if (is.na(xmax)) 
+    xmax <- max(m$data[var2], na.rm = TRUE)
+  if (is.null(steps)) {
+    steps <- eval(parse(text = paste0("length(unique(na.omit(m$data$", 
+                                      var2, ")))")))
+  }
+  if (steps > 100) 
+    steps <- 100
+  
+  coef <- data.frame(fake = seq(xmin, xmax, length.out = steps), 
+                     coef1 = NA, ub = NA, lb = NA)
+  coef_df <- data.frame(fake = numeric(0), coef1 = numeric(0), 
+                        ub = numeric(0), lb = numeric(0), model = character(0))
+  
+  var1a <- str_subset(names(m.sims), var1)[1]
+  var2a <- str_subset(names(m.sims), var2)[1]
+  ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+         var12 <- paste0(var2a, ":", var1))
+  if (!var12 %in% names(m.sims))
+    var12 <- paste0(var1a, ":", var2)
+  if (!var12 %in% names(m.sims)) 
+    stop(paste("Model does not include the interaction of", 
+               var1, "and", var2, "."))
+  
+  multiplier <- ifelse(var1 == var2, 2, 1) 
+  
+  for (i in 1:steps) {
+    coef$coef1[i] <- mean({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1])
+    coef$lb[i] <- quantile({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1], (1 - ci)/2)
+    coef$ub[i] <- quantile({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1], 1 - (1 - ci)/2)
+  }
+  
+  min_sim <- {m.sims[, var1a] + {multiplier * 
+      xmin * m.sims[, var12]}}[, 1]
+  max_sim <- {m.sims[, var1a] + {multiplier * 
+      xmax * m.sims[, var12]}}[, 1]
+  diff <- first(max_sim - min_sim)
+  ci_diff <- c(quantile(diff, (1 - ci)/2), quantile(diff, 
+                                                    1 - (1 - ci)/2))
+  if (plot == TRUE) {
+    interplot:::interplot.plot(m = coef, steps = steps, hist = hist, 
+                               predPro = predPro, var2_vals = var2_vals, var2_dt = var2_dt, 
+                               point = point, ercolor = ercolor, esize = esize, 
+                               ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                               txt_caption = NULL, ...)
+  } else {
+    names(coef) <- c(var2, "coef", "ub", "lb")
+    return(coef)
+  }
 }
 
 make_dummies <- function(df, col) {
@@ -468,6 +457,7 @@ by2sd <- function(var) {
 
 set.seed(324)
 descrep_path <- here("paper", "descriptive_representation")
+policy_path <- here("paper", "policy_adoption")
 
 oecd_countries <- c("Australia", "Austria", "Belgium",
                     "Canada", "Chile", "Colombia",
@@ -485,25 +475,72 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 
 
-## Quotas
+## Gender Quotas {.unnumbered}
 
+<!-- Gender quotas: Weeks2018 -->
 
-```{r quota_plot, eval=FALSE}
-party_quota_cor <- map(party_pge,
-                ~ with(.x, cor(pge_lag, party_quota,
-                               use = "pairwise.complete.obs"))) %>% 
+```{r quota_plot}
+load(file = file.path(descrep_path, "data",  "by_country2.rda"))
+load(file = file.path(descrep_path, "data",  "by_party2.rda"))
+
+country_pge <- rio::import(file.path(descrep_path,
+                       "data",
+                       "country_pge.rda"))
+
+country_quota_cor <- map(country_pge,
+                         ~ with(.x, cor(pge_lag, national_quota,
+                                        use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
   round(2) %>% 
   sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
-party_quota_label <- tibble(summary_pge_lag = .3, party_quota = 51, label = party_quota_cor)
+country_quota_label <- tibble(pge_lag = 30,
+                              national_quota = 51,
+                              label = country_quota_cor)
 
-ggplot(by_party,
-       aes(x = summary_pge_lag,
-           y = party_quota)) +
-  geom_segment(aes(x = summary_p10_lag, xend = summary_p90_lag,
+country_quota_plot <- ggplot(by_country2,
+                             aes(x = pge_lag,
+                                 y = national_quota)) +
+  geom_segment(aes(x = pge_lag-2*pge_se_lag, xend = pge_lag+2*pge_se_lag,
+                   y = national_quota, yend = national_quota),
+               na.rm = TRUE,
+               alpha = .2) +
+  geom_point(alpha = .2) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  scale_x_continuous(limits=c(25, 100),
+                     breaks=seq(25, 100, by = 25)) +
+  scale_y_continuous(limits=c(0, 51)) +
+  labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "National Quota") +
+  geom_label(data = country_quota_label, aes(label = label))
+
+
+party_pge <- rio::import(file.path(descrep_path,
+                       "data",
+                       "party_pge.rda"))
+
+party_quota_cor <- map(party_pge,
+                       ~ with(.x, cor(pge_lag, party_quota,
+                                      use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+party_quota_label <- tibble(pge_lag = 30,
+                            party_quota = 51,
+                            label = party_quota_cor)
+
+party_quota_plot <- ggplot(by_party2,
+                           aes(x = pge_lag,
+                               y = party_quota)) +
+  geom_segment(aes(x = pge_lag-2*pge_se_lag, xend = pge_lag+2*pge_se_lag,
                    y = party_quota, yend = party_quota),
                na.rm = TRUE,
                alpha = .05) +
@@ -513,14 +550,13 @@ ggplot(by_party,
   theme(legend.position="none",
         axis.text  = element_text(size=10),
         axis.title = element_text(size=12)) +
-  scale_x_continuous(limits=c(0.25, 1),
-                     breaks=seq(.25, 1, by = .25)) +
+  scale_x_continuous(limits=c(25, 100),
+                     breaks=seq(25, 100, by = 25)) +
   scale_y_continuous(limits=c(0, 51)) +
   labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "Party Quota") +
   geom_label(data = party_quota_label, aes(label = label))
 
-ggsave(file.path(descrep_path,
-                  "party_quota_plot.jpg"))
+country_quota_plot + party_quota_plot
 ```
 
 
@@ -582,17 +618,17 @@ m3_party_quota_a <- party_pge %>%
              data = .x))
 
 m02_party_quota <- bind_rows(m0_party_quota %>% 
-                      mutate(model = "Model 0"),
-                    m1_party_quota %>% 
-                      mutate(model = "Model 1"),
-                    m2_party_quota %>% 
-                      mutate(model = "Model 2")) %>% 
+                               mutate(model = "Model 0"),
+                             m1_party_quota %>% 
+                               mutate(model = "Model 1"),
+                             m2_party_quota %>% 
+                               mutate(model = "Model 2")) %>% 
   filter(!term=="(Intercept)")
 
 quota_vars_proper <- c(bquote(PGE[t-1]),
-                 "Party List",
-                 "Leftwing Party",
-                 bquote(PGE[t-1] %*% Leftwing~Party))
+                       "Party List",
+                       "Leftwing Party",
+                       bquote(PGE[t-1] %*% Leftwing~Party))
 
 walk(1:3, function(mod) {
   m02_party_quota %>% 
@@ -633,6 +669,134 @@ interplot2(m2_party_quota_a, "leftwing", "pge_lag", hist = TRUE) +
   geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
   ggtitle("Coefficients for Leftwing Parties\nby Public Gender Egalitarianism")
 ggsave(file.path(descrep_path,
-                  "quota_leftwing_by_pge.jpg"))
+                 "quota_leftwing_by_pge.jpg"))
 
 ```
+
+```{r quota_m1}
+if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
+  bf_national_quota <- bf(national_quota ~
+                            me(pge_diff, pge_diff_se) +
+                            me(pge_mean, pge_mean_se) +
+                            fmi_diff +
+                            fmi_mean +
+                            list_diff +
+                            list_mean +
+                            (1|c|country) + (1|t|year))
+  
+  m1_national_quota_b <- brm(formula = bf_national_quota,
+                             data = by_country2,
+                             backend = "cmdstanr",
+                             control=list(adapt_delta = 0.99, 
+                                          max_treedepth = 15),
+                             warmup = 500,
+                             iter = 1000,
+                             chains = 4,
+                             cores = 4,
+                             seed = 324)
+  
+  m1_data <- m1_national_quota_b$data
+  
+  m1_data_2sd <- m1_data %>% 
+    select(-`national_quota`,
+           -country, -year, -cyear, -party, -ends_with("_se")) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_", name)),
+           var_names = c("Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Country Mean",
+                         "Electoral List, Difference",
+                         "Electoral List, Country Mean",
+                         "Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Country Mean"),
+           sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
+                        1,
+                        value))
+  
+  coef_data0_m1 <- m1_national_quota_b %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!`.variable`=="b_Intercept") %>% 
+    left_join(m1_data_2sd, by = join_by(.variable))
+  
+  save(m1_national_quota_b, m1_data_2sd, coef_data0_m1, 
+       file = file.path(policy_path, "data",  "quota_m1_results.rda"))
+} else {
+  load(file = file.path(policy_path, "data",  "quota_m1_results.rda"))
+}
+```
+
+```{r quota_m2}
+if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
+  bf_party_quota <- bf(party_quota ~
+                         me(pge_diff, pge_diff_se) +
+                         me(pge_mean, pge_mean_se) +
+                         fmi_diff +
+                         fmi_mean +
+                         list_diff +
+                         list_mean +
+                         left +
+                         green +
+                         center +
+                         extreme_right +
+                         (1|p|party) + (1|cy|cyear) + (1|c|country) + (1|t|year))
+  
+  m2_party_quota_b <- brm(formula = bf_party_quota,
+                          data = by_party2,
+                          backend = "cmdstanr",
+                          control=list(adapt_delta = 0.99, 
+                                       max_treedepth = 15),
+                          warmup = 500,
+                          iter = 1000,
+                          chains = 4,
+                          cores = 4,
+                          seed = 324)
+  
+  m2_data <- m2_party_quota_b$data
+  
+  m2_data_2sd <- m2_data %>% 
+    select(-`party_quota`,
+           -country, -year, -cyear, -party, -ends_with("_se")) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_", name)),
+           var_names = c("Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Country Mean",
+                         "Electoral List, Difference",
+                         "Electoral List, Country Mean",
+                         "Left Party",
+                         "Green Party",
+                         "Center Party",
+                         "Extreme Right Party",
+                         "Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Country Mean"),
+           sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
+                        1,
+                        value))
+  
+  coef_data0_m2 <- m2_party_quota_b %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!`.variable`=="b_Intercept") %>% 
+    left_join(m2pf_data_2sd, by = join_by(.variable))
+  
+  save(m2_party_quota_b, m2_data_2sd, coef_data0_m2, 
+       file = file.path(policy_path, "data",  "quota_m2_results.rda"))
+} else {
+  load(file = file.path(descrep_path, "data",  "by_party2.rda"))
+  load(file = file.path(policy_path, "data",  "quota_m2_results.rda"))
+}
+```
+
+## Policies Addressing Violence Against Women {.unnumbered}
+<!-- Anti-violence against women -->
+
+## Workplace Equality and Family Leave {.unnumbered}
+<!-- Family leave -->
+<!-- Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl  -->
