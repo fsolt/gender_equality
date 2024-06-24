@@ -77,7 +77,7 @@ On the one hand, we want to look as broadly as possible: we want to minimize sam
 The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work.
 But, on the other hand, we always need to avoid including cases to which the theory just doesn't apply.
 The theories outlined above, at least those beyond the elite-led theory, the ones that have to do with public opinion, presuppose a certain minimum level of democracy--at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.
-And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2016; @Paxton2021, 156-157].
+And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2015; @Paxton2021, 156-157].
 So in light of these considerations, we are looking at advanced democracies.
 It's important, though, to be sure to not interpret "advanced democracies" as simply "western Europe and the British offshoots."
 And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking the countries.
