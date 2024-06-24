@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "Gender Egalitarianism and Gender Equality:\nHow Public Opinion Shapes Politics and Policy in Global Perspective"
+  title: "Public Opinion and Gender Equality:\nHow Gender Egalitarianism Shapes Politics and Policy in Global Perspective"
   author: "Byung-Deuk Woo and Frederick Solt"
   date: today
   date-format: long
@@ -23,4 +23,4 @@ bibliography: gender-equality.bib
 format:
   pdf:
     documentclass: scrbook
-    linestretch: "1.5"
+    linestretch: "1"
