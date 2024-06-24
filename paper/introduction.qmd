@@ -3,15 +3,15 @@
 The extent of public support for gender egalitarianism has been an important issue in many countries around the world since at least the past half-century.
 The improvement of public gender egalitarianism over the globe makes scholars examine the causes and consequences of the improvement.
 A wide range of studies pay their attention on the determinants of public gender egalitarianism.
-For instance, according to the crucial study done by Norris and Inglehart (2001) which is consistent with the work from Reynolds (1999), the role of cultural rigidity, religion, and generational value is critical for the persistency and spread of gender egalitarianism.
-Some studies focus on the impacts of regime types such as democracy and autocracy as a focal determinant of gender equality (Beer, 2009), while other studies maintain that political elites play a key role in shaping public attitudes toward gender equality (Bulut & Yildirim, 2023).
+For instance, according to the crucial study done by @Norris2001 which is consistent with the work from @Reynolds1999, the role of cultural rigidity, religion, and generational value is critical for the persistency and spread of gender egalitarianism.
+Some studies focus on the impacts of regime types such as democracy and autocracy as a focal determinant of gender equality @Beer2009, while other studies maintain that political elites play a key role in shaping public attitudes toward gender equality @Bulut2023.
 
 How do societal attitudes toward gender roles influence women's political success and policy influence?
 Taking advantage of a comprehensive collection of survey data and recent advances in latent variable modeling of public opinion, this book provides new evidence of how and when public gender egalitarianism is translated into gender equality in countries around the world.
 
 The influence of public support for gender equality on various social and political phenomena has received wide attention from scholars (Cannavale et al., 2022; Cavero-Rubio et al., 2019; Concha, 2023; Kanas & Steinmetz, 2021; Kaufman et al., 2023; McThomas & Tesler, 2016; Mustafa & Almazrouei, 2020).
-For instance, Winter (2008) showed that U.S. voters' support for Hilary Clinton depended on their attitudes toward the women's movement and gender equality.
-More recently, Bergqvist et al. (2013) examines both successful and unsuccessful cases and emphasizes the close association between public gender egalitarianism and gender equality policy adoption.
+For instance, @Winter2008 showed that U.S. voters' support for Hilary Clinton depended on their attitudes toward the women's movement and gender equality.
+More recently, @Bergqvist2013 examines both successful and unsuccessful cases and emphasizes the close association between public gender egalitarianism and gender equality policy adoption.
 
 Despite the above-mentioned previous literature on the importance of public support for gender equality, the lack of time-series cross-national data on public opinion prevents us from fully understand its influence [@RuleKrauss1974].
 Especially, the causal influence of public gender egalitarianism on policy outcomes is still under a veil due to the lack of such data.
