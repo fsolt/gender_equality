@@ -11,7 +11,7 @@ format:
 
 In the traditional view, politics is a man's game.
 From this perspective, the public sphere, both politics and the workplace, is unsuited to the participation of women, and elected office is considered to be a position for men only.
-Nonetheless, around the world in rich democratic countries of the OECD, women have succeeded in winning election to seats in the national legislature.
+Nonetheless, around the world in the rich democratic countries of the OECD, women have succeeded in winning election to seats in the national legislature.
 Such successes were once rare.
 In ten of these rich democracies, no more than one in twenty members of the lower house of the national legislature were women into the 1980s or even later.
 And success in gaining office remains uneven.
@@ -1329,7 +1329,9 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
 }
 ```
 
-```{r wrts, fig.cap="Women's Descriptive Representation in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
+```{r wrts, fig.cap="Women's Descriptive Representation in the OECD", fig.height = 9, fig.width = 7.5}
+#| label: fig-wrts
+
 by_country0 %>%
   filter(!is.na(women_rep)) %>%
   group_by(country) %>%
@@ -1352,7 +1354,7 @@ by_country0 %>%
   plot_annotation(caption = "Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Sources: Hughes et al. (2019); Inter-Parliamentary Union (2023).")
 ```
 
-Trends in the share of women elected to the lower houses of the legislature, the most commonly studied measure of women's descriptive representation, across the OECD countries over more than forty years can be found in Figure&nbsp;\ref{wrts}.
+Trends in the share of women elected to the lower houses of the legislature, the most commonly studied measure of women's descriptive representation, across the OECD countries over more than forty years can be found in @fig-wrts.
 The data are drawn from the Quota Adoption and Reform Over Time (QAROT) dataset [@Hughes2019], supplemented with information provided by the @IPU2023.
 The OECD countries appear in order of women's percentage of legislative seats in the most recent available year.
 The differences are stark.
@@ -1382,7 +1384,7 @@ In other words, more egalitarianism should be expected to increase both demand a
 
 Although women's share of the legislature does vary somewhat in the course of most legislative terms---officeholders retire and are replaced, for example---those fluctuations are not really relevant to the explanations for descriptive representation that we have discussed, all of which focus on what happens in elections.
 Therefore, we examine only election years.
-Combining the data presented in Figure&nbsp;\ref{wrts} with the PGE database gives a substantial number of elections to study.
+Combining the data on women legislators presented in @fig-wrts with the PGE database gives a substantial number of elections to study.
 In fact, across the 38 countries, there are `r nrow(m1_data)` elections, for an average of more than eight elections per country.
 The sample is unbalanced, however: some countries hold elections more often than others, of course, but there are also longer series of PGE data for some countries than others.
 
@@ -1546,7 +1548,7 @@ Movements scored two are both stronger and autonomous from male-dominated organi
 The strongest autonomous feminist movements are scored three.
 How the FMI has changed over time across the OECD countries during the elections included in our analyses is shown in Figure&nbsp;\ref{fmiplot}.
 
-```{r fmiplot, fig.cap="The Feminist Movement Index in the OECD \\label{wrts}", fig.height = 9, fig.width = 7.5}
+```{r fmiplot, fig.cap="The Feminist Movement Index in the OECD \\label{fmiplot}", fig.height = 9, fig.width = 7.5}
 by_country0 %>%
   filter(!is.na(women_rep)) %>%
   group_by(country) %>%
