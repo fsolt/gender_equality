@@ -69,13 +69,25 @@ Yet there is a second theory that contends that public attitudes cannot be dismi
 This public-opinion story is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties run more women, and more women win election.
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, and fewer women gain office.
 @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion "seems to be a very good measure of gender equality."
-Here we should talk about why it _isn't_ tautological: belief vs behavior; institutions, including parties, that prevent preferences from being translated into outcomes [for example, @Araujo2022, "As Powell Jr. (2004) describes, one of the obstacles to examining whether electorates' preferences translate into equivalent policy adoption is that 'a multidimensional preference configuration can yield almost any configuration of outcomes' (p. 291)"]; maybe additional reasons?
+
+Here we should talk about why it _isn't_ tautological: belief vs behavior; institutions, including parties, that prevent preferences from being translated into outcomes* [for example, @Araujo2022, "As Powell Jr. (2004) describes, one of the obstacles to examining whether electorates' preferences translate into equivalent policy adoption is that 'a multidimensional preference configuration can yield almost any configuration of outcomes' (p. 291)" @Powell2004]; maybe additional reasons?
+
+However, public opinion or preference is not always translated into policy outcomes. As @Monroe1998 mentioned in terms of policy consistency, policy changes or outcomes are not identical to a prior public preference. Policy consistency refers to the levels of match between public preferences for change and policy change.
+In addition to the policy consistency, there are many reasons why public opinion or preference is not matched to policy outcomes. For instance, policy consistency can be determined by policy responsiveness. Previous studies have argued that policy responsiveness is a core democratic value for citizens and democratic countries rather than non-democratic countries tend to have higher policy responsiveness [@Bowler2017; @Miller2015]. Furthermore, a non-neglectable number of studies have demonstrated that there are variations concerning policy responsiveness in non-democratic countries according to their electoral systems or other socio-economic situations [@Dassonneville2021a; @Erikson2015; @Lueders2022; @Schakel2021]. Those studies are on the line with the argument that public opinion or preference is not always identical to policy outcomes. 
+Also, there are many ways to explain the incongruency between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
+
+
+*Note that the usual difference between outputs vs outcomes is not so easily disentangled here. In a sense, quotas are an output and representation is the outcome.  But increasing representation to gain quotas also happens.  Part of why Beer thinks egalitarianism to equality is tautological is likely that she thinks egalitarianism itself is a desirable _outcome_.
 
 
 
 ### Public Opinion vs Ideology vs Culture
 Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krauss’s -@RuleKrauss1974 _APSR_ article, people in this literature sometimes talk about these attitudes as ideology [@RuleKrauss1974, find more] or culture [@Inglehart2003, find more]; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.
 
+### Dimensions of Political Equality
+@Beer2009 [, 217]: "there is some scholarly consensus that gender equality should be assessed in terms of three domains: capabilities, opportunities, and empowerment/agency"
+
+@Bericat2011: "education, work and power"
 
 
 ## The Scope of the Theory {.unnumbered}
