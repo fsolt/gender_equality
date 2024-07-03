@@ -496,8 +496,8 @@ country_quota_cor <- map(country_pge,
   sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
-country_quota_label <- tibble(pge_lag = 30,
-                              national_quota = 51,
+country_quota_label <- tibble(pge_lag = 90,
+                              national_quota = 4,
                               label = country_quota_cor)
 
 country_quota_plot <- ggplot(by_country2,
@@ -533,8 +533,8 @@ party_quota_cor <- map(party_pge,
   sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
-party_quota_label <- tibble(pge_lag = 30,
-                            party_quota = 51,
+party_quota_label <- tibble(pge_lag = 90,
+                            party_quota = 4,
                             label = party_quota_cor)
 
 party_quota_plot <- ggplot(by_party2,
@@ -558,8 +558,6 @@ party_quota_plot <- ggplot(by_party2,
 
 country_quota_plot + party_quota_plot
 ```
-
-
 
 ```{r quotas, eval=FALSE}
 m0_party_quota <- party_pge %>%
