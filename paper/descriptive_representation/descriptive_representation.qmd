@@ -1948,7 +1948,7 @@ party_map +
 
 Figure&nbsp;\ref{partymap} shows the distribution of these party-election observations across countries.
 Spain, Denmark, and the Netherlands have the most party-elections observed, while Israel and Latvia have the fewest.
-The United States, although observed over many more elections than other countries as shown in Figure&nbsp\ref{electionsmap}, has only two parties represented in Congress, so it is no longer an outlier in terms of the number of observations when party-elections are the unit of analysis.
+The United States, although observed over many more elections than other countries as shown in Figure&nbsp;\ref{electionsmap}, has only two parties represented in Congress, so it is no longer an outlier in terms of the number of observations when party-elections are the unit of analysis.
 
 Because some political parties in a country have many elected women among those who sit in the legislature and others have few or none, the bivariate relationship between national public opinion on gender equality and women's descriptive representation within parties is fairly noisy, as Figure&nbsp;\ref{pfemplot} reveals.
 Compared to when both concepts are measured at the country-year level, as in Figure&nbsp;\ref{wrplot}, the correlation falls by nearly half.
