@@ -1,7 +1,5 @@
 ---
 format:
-  html:
-    theme: cosmo
   pdf:
     documentclass: scrbook
     linestretch: "1.5"
@@ -815,13 +813,15 @@ qarot <- read_csv(file.path(descrep_path,
                          year = 2016:2023)) %>% 
   fill(defacto_threshold) %>% 
   mutate(defacto_threshold = case_when(countryname == "Colombia" &
-                                         defacto_threshold == 30 ~ 37,
+                                         year >= 1999 ~ 37,
                                        countryname == "France" &
                                          defacto_threshold == 50 ~ 48,
                                        countryname == "Hungary" &
                                          year >= 2011 ~ 35,
                                        countryname == "Ireland" &
                                          year >= 2023 ~ 40,
+                                       countryname == "Italy" &
+                                         year >= 2019 ~ 46.25,
                                        countryname == "Luxembourg" &
                                          year >= 2016 ~ 40,
                                        countryname == "Portugal" &
@@ -1509,37 +1509,41 @@ There are other important aspects of national legislative quotas, such as whethe
 Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national legislative gender quotas here.
 
 ```{r qarot, fig.cap="Adoption and Reform of National Legislative Gender Quotas in OECD Democracies \\label{qarot}", fig.height = 4.5, fig.width = 7.5}
-dft_data <- by_country %>% 
-  group_by(country) %>% 
-  mutate(dft = if_else(defacto_threshold==lag(defacto_threshold),
-                       NA,
-                       defacto_threshold),
-         to_jitter = (year == 2011)) %>%
+dft_data1 <- qarot %>% 
+  filter(countryname %in% oecd_countries) %>% 
+  group_by(countryname) %>% 
+  transmute(iso2c = countrycode::countrycode(countryname,
+                                             "country.name", "iso2c"),
+            year,
+            dft = if_else(defacto_threshold==lag(defacto_threshold),
+                          NA,
+                          defacto_threshold),
+            to_jitter = (year == 2011)) %>%
   ungroup() %>% 
   filter(!is.na(dft))
 
-ggplot(dft_data, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
-  geom_text(data = dft_data %>% filter(!to_jitter),
+ggplot(dft_data1, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
+  geom_text(data = dft_data1 %>% filter(!to_jitter),
             size = 2.5) +
-  geom_text(data = dft_data %>% filter(to_jitter),
+  geom_text(data = dft_data1 %>% filter(to_jitter),
             size = 2.5,
             position = position_jitter(width = .5, height = .7)) +
-  geom_line(linetype = "dotted", alpha = .5) +
+  geom_line(linetype = "dotted", alpha = .3) +
   theme_bw() +
   theme(legend.position="none",
         axis.text  = element_text(size=10),
         axis.title = element_text(size=12)) +
-  scale_x_continuous(limits=c(1980, 2020)) +
+  scale_x_continuous(limits=c(1980, 2023)) +
   scale_y_continuous(limits=c(0, 50),
                      breaks=seq(0, 50, by = 10)) +
   labs(x = NULL, y = "National Quota, De Facto Threshold") +
-  plot_annotation(caption = "Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).")
+  plot_annotation(caption = "To facilitate identifying developments within countries, adopted quotas and their subsequent reforms are joined by dotted lines.  Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).")
 ```
 
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
 Italy in 1994 was the pioneer among these countries, but its small quota was abolished just two years later.
 In later years, those quotas that have been adopted have been more demanding, and, as the dotted lines linking quotas and their subsequent reforms demonstrate, many countries that adopted quotas strengthened them over time.
-Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas.
+Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas, and when Italy adopted a quota for the second time in 2019, its de facto threshold was nearly as strong at 46.25%.
 
 Finally, the Feminist Movement Index (FMI), first presented by @Htun2012 and updated in @Forester2022, serves as our measure of the overall strength of the feminist movement.
 Among the advanced democracies we consider here, FMI scores range from one to three.
@@ -1735,7 +1739,7 @@ It appears that---net of the other variables in the model---the strength of femi
 At last, we reach the top rows of the plot, where we find the coefficients for Public Gender Egalitarianism.
 Once more, the country mean of this variable captures the differences between countries.
 Compared to a country like Czechia or Latvia with a mean PGE score of about 54, a standard deviation below the OECD average for this variable in our dataset, a country like Canada or Iceland with a mean PGE score of about 72, a standard deviation above, is estimated to elect women to `r get_coef("pge_mean", coef_data_m1)` percentage points greater share of the national legislature in a single election.
-Given that descriptive representation is dynamic, this difference grows to `r get_coef("pge_mean", coef_data_m1_total)` percentage points over time.
+Given that descriptive representation is dynamic, with gains in one election persisting in future elections, this difference grows to `r get_coef("pge_mean", coef_data_m1_total)` percentage points over time.
 As was the case with our other country-mean variables, this result may reflect historical processes over the long term; it may reflect some degree of reverse causation, in which women in office shape the public's views of gender equality; and it may also simply be due to other country-level factors correlated with public opinion that have yet to be identified, measured, and included in the model.
 This ambiguity is not actually a problem, as this result's utility is not really in a causal interpretation.
 The true importance in this model of the result for the country-mean of Public Gender Egalitarianism is that it isolates the consequences of changes in egalitarian public opinion over time.
@@ -1750,8 +1754,8 @@ The first problem is that there is a disconnect between the elite-led and mass-p
 Both of those theories concerned processes that largely or entirely take place within political parties.
 In the elite-led theory, it is _political parties_ that respond to pressure from women's organizations and internal activists to adopt gender quotas or to run more women as candidates on their electoral lists.
 In the mass-public theory, it is _political parties_ that react to an increasingly egalitarian public by running more women candidates in races they can win.
-But the observations in the foregoing analysis are of country's entire legislatures. 
-At that level, we cannot really see what going on within political parties, not really at all.
+But the observations in the foregoing analysis are of countries' entire legislatures. 
+At that level, we cannot really see what going on within political parties, really not at all.
 And if rising public gender egalitarianism coincides with, for example, greater success of green and left parties that are committed to equality, then the results just described may be the consequence of aggregation bias.
 If it is the ideology of the parties elected to the legislature that actually drive women's descriptive representation, looking across all parties at once as we just did may generate mistaken conclusions.
 
@@ -2362,7 +2366,7 @@ coef_plots_wrsem + lag_plots_wrsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m3plot} presents the results, with the equation predicting women's descriptive representation in the left-hand panels and the equation predicting public gender egalitarianism in the right-hand panels.
+Figure&nbsp;\ref{m3plot} presents the results, with the equation predicting women's descriptive representation in the left-hand panel and the equation predicting public gender egalitarianism in the right-hand panel.
 Both the conclusion reached earlier in this chapter that opinion affects representation and the finding of @Kim2023 that representation affects opinion are supported, reinforcing our confidence in each.
 The evidence for the relationship we are most interested in here, from gender egalitarian public opinion to women's descriptive representation in national legislatures, is if anything strengthened by controlling for the potential for reverse causation.
 The posterior probability that increasing PGE over time within a country leads to an increasing percentage of women legislators, conditional on these data and this model, is `r {{coef_data0_wrsem %>% filter(name == "pge_diff" & .value > 0) %>% nrow()}/20} %>% round()`%.

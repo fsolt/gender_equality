@@ -475,9 +475,15 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 
 
-## Gender Quotas {.unnumbered}
+## Legislative Candidate Gender Quotas {.unnumbered}
 
 <!-- Gender quotas: Weeks2018 -->
+One of the most studied policies relating to gender equality is the adoption of gender quotas for candidates running for legislative seats.
+National gender quotas---that is, quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates. 
+Party quotas, on the other hand, are adopted voluntarily by parties: they constitute a promise by the adopting party that women will represent at least the specified share of the candidates the party puts forward for office.
+As we saw in the previous chapter, both legislated national quotas and voluntary party quotas have proven effective policies for increasing the share of women in office.
+Given our theory that public opinion matters not 
+
 
 ```{r quota_plot}
 load(file = file.path(descrep_path, "data",  "by_country2.rda"))
@@ -676,6 +682,8 @@ if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
   bf_national_quota <- bf(national_quota ~
                             me(pge_diff, pge_diff_se) +
                             me(pge_mean, pge_mean_se) +
+                            women_rep_diff +
+                            women_rep_mean +
                             fmi_diff +
                             fmi_mean +
                             list_diff +
@@ -693,11 +701,11 @@ if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
                              cores = 4,
                              seed = 324)
   
-  m1_data <- m1_national_quota_b$data
+  m1_nq_data <- m1_national_quota_b$data
   
-  m1_data_2sd <- m1_data %>% 
+  m1_nq_data_2sd <- m1_nq_data %>% 
     select(-`national_quota`,
-           -country, -year, -cyear, -party, -ends_with("_se")) %>% 
+           -country, -year, -ends_with("_se")) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
     mutate(`.variable` = case_when(name == "pge_mean" ~ 
@@ -705,22 +713,24 @@ if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
                                    name == "pge_diff" ~
                                      "bsp_mepge_diffpge_diff_se",
                                    TRUE ~ paste0("b_", name)),
-           var_names = c("Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Country Mean",
+           var_names = c("Descriptive Representation, Difference",
+                         "Descriptive Representation, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
                          "Electoral List, Difference",
-                         "Electoral List, Country Mean",
+                         "Electoral List, Mean",
                          "Public Gender Egalitarianism, Difference",
-                         "Public Gender Egalitarianism, Country Mean"),
+                         "Public Gender Egalitarianism, Mean"),
            sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
                         1,
                         value))
   
-  coef_data0_m1 <- m1_national_quota_b %>% 
+  coef_data0_m1_nq <- m1_national_quota_b %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
     filter(!`.variable`=="b_Intercept") %>% 
-    left_join(m1_data_2sd, by = join_by(.variable))
+    left_join(m1_nq_data_2sd, by = join_by(.variable))
   
-  save(m1_national_quota_b, m1_data_2sd, coef_data0_m1, 
+  save(m1_national_quota_b, m1_nq_data_2sd, coef_data0_m1_nq, 
        file = file.path(policy_path, "data",  "quota_m1_results.rda"))
 } else {
   load(file = file.path(policy_path, "data",  "quota_m1_results.rda"))
@@ -728,7 +738,7 @@ if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
 ```
 
 ```{r quota_m2}
-if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
+if (!file.exists(file.path(policy_path,  "data", "quota_m2_results.rda"))) {
   bf_party_quota <- bf(party_quota ~
                          me(pge_diff, pge_diff_se) +
                          me(pge_mean, pge_mean_se) +
@@ -790,6 +800,56 @@ if (!file.exists(file.path(policy_path,  "data", "quota_m1_results.rda"))) {
   load(file = file.path(descrep_path, "data",  "by_party2.rda"))
   load(file = file.path(policy_path, "data",  "quota_m2_results.rda"))
 }
+```
+
+```{r m1_q_plot, fig.cap="Predicting Gender Quotas in the OECD \\label{m1_q_plot}", fig.height = 7, fig.width = 7.5}
+ordered <- c("Public Gender Egalitarianism, Difference",
+             "Public Gender Egalitarianism, Mean", 
+             "Descriptive Representation, Difference",
+             "Descriptive Representation, Mean",
+             "Feminist Movement Index, Difference",
+             "Feminist Movement Index, Mean", 
+             "National Quota, Difference",
+             "National Quota, Mean",
+             "Electoral List, Difference",
+             "Electoral List, Mean") %>% 
+  rev()
+
+coef_data_m1_nq <- coef_data0_m1_nq %>% 
+  mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_nq_data_2sd, ., by = join_by(.variable))
+
+coef_data_m1_nq_total <- coef_data0_m1_nq %>% 
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+                      na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_nq_data_2sd, ., by = join_by(.variable))
+
+coef_plot_m1_nq <- coef_data0_m1_nq %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  xlab("Standardized Coefficients") +
+  ylab(NULL)
+
+coef_plot_m1_nq +
+  plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
 ## Policies Addressing Violence Against Women {.unnumbered}
