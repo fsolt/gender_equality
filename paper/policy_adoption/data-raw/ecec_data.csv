@@ -1,0 +1,710 @@
+country,year,ecec_exp,ecec_enrollment
+Australia,2000,1791.2,NA
+Australia,2001,2036.1,NA
+Australia,2002,2108.1,NA
+Australia,2003,2117,NA
+Australia,2004,2140.3,NA
+Australia,2005,2111.9,NA
+Australia,2006,1945.6,NA
+Australia,2007,2234.9,NA
+Australia,2008,2661.3,NA
+Australia,2009,2793.5,NA
+Australia,2010,2940.4,38
+Australia,2011,3153.5,NA
+Australia,2012,3374.3,NA
+Australia,2013,3565.8,NA
+Australia,2014,3958.8,NA
+Australia,2015,4030.8,NA
+Australia,2016,3946.5,NA
+Australia,2017,2636.3,39.2
+Australia,2018,NA,39.8
+Austria,2000,1816.7,NA
+Austria,2001,1904.8,NA
+Austria,2002,1984.9,NA
+Austria,2003,2148.5,NA
+Austria,2004,2213.9,NA
+Austria,2005,2254.9,NA
+Austria,2006,2359.1,NA
+Austria,2007,2481.4,NA
+Austria,2008,2695.4,NA
+Austria,2009,3211.9,NA
+Austria,2010,3899.3,12.5
+Austria,2011,3967.9,NA
+Austria,2012,4160,NA
+Austria,2013,4259.5,NA
+Austria,2014,4446.5,NA
+Austria,2015,4512.5,NA
+Austria,2016,4648.3,NA
+Austria,2017,4593.6,20.2
+Austria,2018,NA,20.9
+Belgium,2000,2919.9,NA
+Belgium,2001,3517.1,NA
+Belgium,2002,3681.4,NA
+Belgium,2003,3837.8,NA
+Belgium,2004,3963.9,NA
+Belgium,2005,4012.2,44.5
+Belgium,2006,4090.7,42.4
+Belgium,2007,4166.6,45.2
+Belgium,2008,4303.2,46.8
+Belgium,2009,4209.8,36.9
+Belgium,2010,4375.9,39.2
+Belgium,2011,4362,41.3
+Belgium,2012,4777,51.4
+Belgium,2013,4966.2,47.8
+Belgium,2014,5369.3,54.7
+Belgium,2015,5393.1,54.4
+Belgium,2016,5590.6,48
+Belgium,2017,5664.5,56.6
+Belgium,2018,NA,56.8
+Belgium,2019,NA,58.1
+Brazil,2012,NA,9.7
+Brazil,2017,NA,23.1
+Brazil,2018,NA,24.4
+Bulgaria,2007,NA,8.7
+Bulgaria,2008,NA,13
+Bulgaria,2009,NA,8.6
+Bulgaria,2010,NA,7.5
+Bulgaria,2011,NA,7.1
+Bulgaria,2012,NA,8
+Bulgaria,2013,NA,10.8
+Bulgaria,2014,NA,11.2
+Bulgaria,2015,NA,9
+Bulgaria,2016,NA,12.5
+Bulgaria,2017,NA,9.4
+Bulgaria,2018,NA,16.2
+Bulgaria,2019,NA,20
+Chile,2000,346.1,NA
+Chile,2001,357.3,NA
+Chile,2002,374.2,NA
+Chile,2003,415.6,NA
+Chile,2004,495.5,NA
+Chile,2005,512.1,NA
+Chile,2006,525.8,NA
+Chile,2007,650.3,NA
+Chile,2008,814.2,NA
+Chile,2009,994.3,NA
+Chile,2010,990.1,NA
+Chile,2011,968.1,NA
+Chile,2012,1029.8,NA
+Chile,2013,1172.6,NA
+Chile,2014,1243.9,NA
+Chile,2015,1494.6,NA
+Chile,2016,1692.6,NA
+Chile,2017,1816.3,21.8
+Chile,2018,1908.4,22.5
+Chile,2019,1871.3,NA
+Colombia,2010,475.2,NA
+Colombia,2011,433.3,NA
+Colombia,2012,665.6,NA
+Colombia,2013,493.9,NA
+Colombia,2014,538.1,NA
+Colombia,2015,538,NA
+Colombia,2016,496.7,NA
+Colombia,2017,446.9,38.1
+Colombia,2018,430.7,30.9
+Costa Rica,2011,0,NA
+Costa Rica,2012,0,NA
+Costa Rica,2013,0,NA
+Costa Rica,2014,13.7,NA
+Costa Rica,2015,19,NA
+Costa Rica,2016,178.7,7
+Costa Rica,2017,188.6,7
+Costa Rica,2018,233.5,7.2
+Croatia,2010,NA,8.4
+Croatia,2011,NA,13.4
+Croatia,2012,NA,11.1
+Croatia,2013,NA,11.3
+Croatia,2014,NA,16.9
+Croatia,2015,NA,13.3
+Croatia,2016,NA,16.6
+Croatia,2017,NA,19.4
+Croatia,2018,NA,20.1
+Croatia,2019,NA,16.7
+Czechia,2000,1307.3,NA
+Czechia,2001,1330.8,NA
+Czechia,2002,1468.5,NA
+Czechia,2003,1487.1,NA
+Czechia,2004,1514.4,NA
+Czechia,2005,1652.9,2.5
+Czechia,2006,1719.2,2.6
+Czechia,2007,1695.7,2.6
+Czechia,2008,1776.8,2.2
+Czechia,2009,1945.1,4.7
+Czechia,2010,1913.8,4
+Czechia,2011,1902.7,6.2
+Czechia,2012,2041.5,5
+Czechia,2013,2147.7,4.3
+Czechia,2014,2245.2,5.6
+Czechia,2015,2300.3,4.9
+Czechia,2016,2233.9,6
+Czechia,2017,2548.1,8.2
+Czechia,2018,NA,11
+Czechia,2019,NA,7.4
+Denmark,2000,8071.6,NA
+Denmark,2001,8236.6,NA
+Denmark,2002,8352,NA
+Denmark,2003,8514.9,NA
+Denmark,2004,8434.5,NA
+Denmark,2005,8650.2,NA
+Denmark,2006,9130.3,NA
+Denmark,2007,9519.5,NA
+Denmark,2008,9434.9,NA
+Denmark,2009,9424,NA
+Denmark,2010,9157.7,NA
+Denmark,2011,10315.8,NA
+Denmark,2012,10408.6,NA
+Denmark,2013,10397.4,NA
+Denmark,2014,10244.8,NA
+Denmark,2015,10179.8,NA
+Denmark,2016,10136.7,NA
+Denmark,2017,10246.5,56.1
+Denmark,2018,NA,56
+Estonia,2000,373.2,NA
+Estonia,2001,462.7,NA
+Estonia,2002,582.7,NA
+Estonia,2003,734.6,NA
+Estonia,2004,911,NA
+Estonia,2005,1101.1,NA
+Estonia,2006,1139.3,NA
+Estonia,2007,1237.3,NA
+Estonia,2008,1638.3,NA
+Estonia,2009,1251,NA
+Estonia,2010,1234.1,22.8
+Estonia,2011,1202.5,NA
+Estonia,2012,1318.8,NA
+Estonia,2013,1165.2,NA
+Estonia,2014,3212.4,NA
+Estonia,2015,3296.7,NA
+Estonia,2016,3533.6,NA
+Estonia,2017,3790.8,25.8
+Estonia,2018,NA,27.7
+Finland,2000,4987.4,NA
+Finland,2001,5002.1,NA
+Finland,2002,5174.1,NA
+Finland,2003,5359.2,NA
+Finland,2004,5556,NA
+Finland,2005,5807.2,24.6
+Finland,2006,5936.1,NA
+Finland,2007,6110.1,NA
+Finland,2008,6439.5,NA
+Finland,2009,6565.1,NA
+Finland,2010,6678.6,26.6
+Finland,2011,6914.3,NA
+Finland,2012,7034.3,NA
+Finland,2013,7052.5,NA
+Finland,2014,6954.1,NA
+Finland,2015,7170.5,NA
+Finland,2016,7385.8,NA
+Finland,2017,7522.2,31.2
+Finland,2018,NA,33.4
+France,2000,6410.6,NA
+France,2001,6161.4,NA
+France,2002,6063.7,NA
+France,2003,6255.9,NA
+France,2004,6594,NA
+France,2005,6335.5,43.9
+France,2006,5703.9,42.4
+France,2007,5992.1,40.9
+France,2008,6100.8,46.2
+France,2009,6381.4,49.4
+France,2010,6521.9,47.9
+France,2011,6624.9,51
+France,2012,6781.6,50.8
+France,2013,7201.9,50.6
+France,2014,7254.1,51.9
+France,2015,7424,52.3
+France,2016,7548.3,56.7
+France,2017,7879.4,56.3
+France,2018,8177.6,57.5
+France,2019,NA,60.4
+Germany,2000,2299.4,NA
+Germany,2001,2356.4,NA
+Germany,2002,2582,NA
+Germany,2003,2680.1,NA
+Germany,2004,2724.9,NA
+Germany,2005,2845.2,16.8
+Germany,2006,3009.5,NA
+Germany,2007,3154.5,NA
+Germany,2008,3242.9,NA
+Germany,2009,3605.5,NA
+Germany,2010,3988.5,26.8
+Germany,2011,4290.6,NA
+Germany,2012,4827.3,NA
+Germany,2013,5287.8,NA
+Germany,2014,5485,NA
+Germany,2015,5629.9,NA
+Germany,2016,5788.3,NA
+Germany,2017,6094,37.2
+Germany,2018,NA,37.7
+Greece,2005,NA,14
+Greece,2006,NA,18.2
+Greece,2007,NA,14.2
+Greece,2008,NA,15.6
+Greece,2009,46.7,15.7
+Greece,2010,181.1,11.3
+Greece,2011,205.5,21.3
+Greece,2012,1419,22.9
+Greece,2013,1527.8,16.9
+Greece,2014,1605.4,13.8
+Greece,2015,1604.1,14.1
+Greece,2016,1566.4,11.5
+Greece,2017,1520.5,23.4
+Greece,2018,NA,44
+Greece,2019,NA,35.3
+Hungary,2000,1848.2,NA
+Hungary,2001,1950,NA
+Hungary,2002,2207.4,NA
+Hungary,2003,2634.2,NA
+Hungary,2004,2690.1,NA
+Hungary,2005,2836.1,6.6
+Hungary,2006,2876.3,NA
+Hungary,2007,2666.6,NA
+Hungary,2008,2725.7,NA
+Hungary,2009,2579.3,NA
+Hungary,2010,2631.1,9.6
+Hungary,2011,2591.7,NA
+Hungary,2012,2586.3,8.9
+Hungary,2013,2692,14.1
+Hungary,2014,3421.3,14.5
+Hungary,2015,3362.1,NA
+Hungary,2016,3548.4,19.1
+Hungary,2017,3480.4,15.1
+Hungary,2018,3376.9,16.5
+Hungary,2019,NA,19.9
+Iceland,2000,3389,NA
+Iceland,2001,3969.4,NA
+Iceland,2002,4392.1,NA
+Iceland,2003,4922,NA
+Iceland,2004,5327.1,NA
+Iceland,2005,5990.2,52.6
+Iceland,2006,7206.4,NA
+Iceland,2007,8657.3,NA
+Iceland,2008,8880.3,NA
+Iceland,2009,8440.1,NA
+Iceland,2010,7810.2,54.8
+Iceland,2011,7808.7,NA
+Iceland,2012,8968.4,NA
+Iceland,2013,9348.7,NA
+Iceland,2014,10159.3,NA
+Iceland,2015,10277.4,NA
+Iceland,2016,11087.7,NA
+Iceland,2017,12498.8,59.7
+Iceland,2018,NA,58.9
+Indonesia,2018,NA,6.5
+Ireland,2000,1206.6,NA
+Ireland,2001,1304.6,NA
+Ireland,2002,1428,NA
+Ireland,2003,1591.9,NA
+Ireland,2004,1740.8,NA
+Ireland,2005,1794.9,26.1
+Ireland,2006,1883.2,25.2
+Ireland,2007,2090.9,28.8
+Ireland,2008,2293.9,31.8
+Ireland,2009,2613.1,23.7
+Ireland,2010,2741,29.7
+Ireland,2011,2586.6,22.9
+Ireland,2012,2728.1,30.4
+Ireland,2013,2610.6,32.9
+Ireland,2014,2628.4,35
+Ireland,2015,2593.4,35.5
+Ireland,2016,2745.3,39.4
+Ireland,2017,3136.7,32.1
+Ireland,2018,NA,41.3
+Ireland,2019,NA,42.9
+Israel,2000,1345,NA
+Israel,2001,1405,NA
+Israel,2002,1475,NA
+Israel,2003,1377.3,NA
+Israel,2004,1450.2,NA
+Israel,2005,1456.3,NA
+Israel,2006,1532.3,NA
+Israel,2007,1527.9,NA
+Israel,2008,1610,NA
+Israel,2009,1725.7,NA
+Israel,2010,1938.1,NA
+Israel,2011,1681,NA
+Israel,2012,1747.4,NA
+Israel,2013,2125.1,NA
+Israel,2014,2149.7,NA
+Israel,2015,2163.6,NA
+Israel,2016,2286.3,NA
+Israel,2017,2442.5,56
+Israel,2018,2476.3,57.7
+Israel,2019,2477.2,NA
+Italy,2000,3446.2,NA
+Italy,2001,3691.9,NA
+Italy,2002,3163.2,NA
+Italy,2003,3526.3,NA
+Italy,2004,3610.6,NA
+Italy,2005,3636.2,27.3
+Italy,2006,4031,28.6
+Italy,2007,3830.5,25.8
+Italy,2008,3980.6,28.9
+Italy,2009,3703.1,25.9
+Italy,2010,3606.4,23.3
+Italy,2011,3563.6,27.4
+Italy,2012,3643.2,21.9
+Italy,2013,3664,23.1
+Italy,2014,3644.6,24.2
+Italy,2015,3871.2,29.5
+Italy,2016,3789.4,35.5
+Italy,2017,4161.1,29.7
+Italy,2018,NA,26.1
+Italy,2019,NA,27.8
+Japan,2000,1864.5,NA
+Japan,2001,1988.6,NA
+Japan,2002,2083,NA
+Japan,2003,2159.9,NA
+Japan,2004,2197.3,NA
+Japan,2005,2167.5,16.2
+Japan,2006,2275.3,NA
+Japan,2007,2345.9,NA
+Japan,2008,2098.6,NA
+Japan,2009,2264.3,NA
+Japan,2010,2608.7,18.9
+Japan,2011,2841.8,NA
+Japan,2012,2958.8,NA
+Japan,2013,3022.6,NA
+Japan,2014,3265.7,NA
+Japan,2015,4579.8,NA
+Japan,2016,5243.2,NA
+Japan,2017,6006.9,29.6
+Japan,2018,NA,32.6
+Latvia,2000,189.5,NA
+Latvia,2001,238.1,NA
+Latvia,2002,267.3,NA
+Latvia,2003,288.2,NA
+Latvia,2004,308.4,NA
+Latvia,2005,322.8,18.2
+Latvia,2006,340.3,17.8
+Latvia,2007,384.8,15.9
+Latvia,2008,2722.9,15.4
+Latvia,2009,2775.9,17
+Latvia,2010,2386.4,18.7
+Latvia,2011,2520.5,18
+Latvia,2012,2570.1,26.4
+Latvia,2013,2821.8,23.3
+Latvia,2014,3112.8,24
+Latvia,2015,3169.7,20.9
+Latvia,2016,3115.3,26.4
+Latvia,2017,3208.8,31.3
+Latvia,2018,NA,25.9
+Latvia,2019,NA,28.5
+Lithuania,2000,182.5,NA
+Lithuania,2001,199.7,NA
+Lithuania,2002,220,NA
+Lithuania,2003,246.7,NA
+Lithuania,2004,267.2,NA
+Lithuania,2005,2377.8,13.2
+Lithuania,2006,2629.7,NA
+Lithuania,2007,2781.6,NA
+Lithuania,2008,2858.4,NA
+Lithuania,2009,3315.1,NA
+Lithuania,2010,3141,15.6
+Lithuania,2011,3391,NA
+Lithuania,2012,3162,NA
+Lithuania,2013,3246.2,NA
+Lithuania,2014,3339.5,NA
+Lithuania,2015,3659.1,NA
+Lithuania,2016,3592,NA
+Lithuania,2017,3793.2,24.8
+Lithuania,2018,NA,28.3
+Luxembourg,2000,4665.3,NA
+Luxembourg,2001,4113.9,NA
+Luxembourg,2002,4692.4,NA
+Luxembourg,2003,4742.4,NA
+Luxembourg,2004,4965.3,NA
+Luxembourg,2005,5296.6,34.8
+Luxembourg,2006,5629.4,43.4
+Luxembourg,2007,5540.3,38.4
+Luxembourg,2008,8440.6,38.6
+Luxembourg,2009,5947.9,46.3
+Luxembourg,2010,7798.8,45.8
+Luxembourg,2011,7683.8,51
+Luxembourg,2012,9601.2,56.3
+Luxembourg,2013,11572.2,53.6
+Luxembourg,2014,11100,55.1
+Luxembourg,2015,11564.1,56
+Luxembourg,2016,12347.9,53.1
+Luxembourg,2017,13558.4,63.3
+Luxembourg,2018,NA,63.6
+Luxembourg,2019,NA,60.7
+Mexico,2000,487.6,NA
+Mexico,2001,490.4,NA
+Mexico,2002,559.7,NA
+Mexico,2003,747.6,NA
+Mexico,2004,624.2,NA
+Mexico,2005,686.8,1.9
+Mexico,2006,747.2,NA
+Mexico,2007,743.6,NA
+Mexico,2008,868.4,NA
+Mexico,2009,758.1,NA
+Mexico,2010,803.5,2.5
+Mexico,2011,837.2,NA
+Mexico,2012,838.8,NA
+Mexico,2013,876.2,NA
+Mexico,2014,886.3,NA
+Mexico,2015,938.8,NA
+Mexico,2016,938.4,NA
+Mexico,2017,913.2,3.7
+Mexico,2018,907.5,4
+Mexico,2019,895.8,NA
+Netherlands,2000,1970.6,NA
+Netherlands,2001,2125.5,NA
+Netherlands,2002,2255.7,NA
+Netherlands,2003,2413.1,NA
+Netherlands,2004,2401.6,NA
+Netherlands,2005,2688.1,NA
+Netherlands,2006,3433.1,NA
+Netherlands,2007,4683.4,NA
+Netherlands,2008,5642,NA
+Netherlands,2009,6084.2,NA
+Netherlands,2010,6097.7,NA
+Netherlands,2011,6100.3,NA
+Netherlands,2012,5458.2,61.3
+Netherlands,2013,5069.9,54.6
+Netherlands,2014,4789.5,57.8
+Netherlands,2015,4679.4,55.9
+Netherlands,2016,5147.9,55.3
+Netherlands,2017,5468.8,63
+Netherlands,2018,NA,58.4
+Netherlands,2019,NA,65.5
+New Zealand,2005,2303.4,NA
+New Zealand,2006,2355.8,NA
+New Zealand,2007,2697,NA
+New Zealand,2008,3109.4,NA
+New Zealand,2009,3598.9,NA
+New Zealand,2010,3729.2,NA
+New Zealand,2011,3837.7,NA
+New Zealand,2012,3858.8,NA
+New Zealand,2013,4010.9,NA
+New Zealand,2014,4146.7,NA
+New Zealand,2015,4410.8,NA
+New Zealand,2016,4509.6,NA
+New Zealand,2017,4510.8,50.1
+New Zealand,2018,4656.2,47.6
+Norway,2000,4657.9,NA
+Norway,2001,5025.6,NA
+Norway,2002,4369.6,NA
+Norway,2003,5003.6,NA
+Norway,2004,5682.3,NA
+Norway,2005,5924.3,32.7
+Norway,2006,6741.2,NA
+Norway,2007,7708.6,NA
+Norway,2008,8114.2,NA
+Norway,2009,9537.8,NA
+Norway,2010,9553.3,52.6
+Norway,2011,9610.2,NA
+Norway,2012,9670.9,NA
+Norway,2013,10061.3,NA
+Norway,2014,10607.3,NA
+Norway,2015,11152,NA
+Norway,2016,11881.9,NA
+Norway,2017,12008,56.3
+Norway,2018,NA,57.3
+Poland,2000,548.5,NA
+Poland,2001,515.5,NA
+Poland,2002,549.4,NA
+Poland,2003,671.1,NA
+Poland,2004,839.9,NA
+Poland,2005,910.3,2.8
+Poland,2006,986.2,NA
+Poland,2007,1037.7,NA
+Poland,2008,1631.7,NA
+Poland,2009,1774.7,NA
+Poland,2010,1798.7,3.8
+Poland,2011,1956.4,NA
+Poland,2012,2099.1,10.9
+Poland,2013,2269.2,9.3
+Poland,2014,2493.3,11
+Poland,2015,2513.6,7.4
+Poland,2016,2735.2,10.7
+Poland,2017,2212.3,15.8
+Poland,2018,NA,13.5
+Poland,2019,NA,11.6
+Portugal,2000,1251.9,NA
+Portugal,2001,1390.8,NA
+Portugal,2002,1429,NA
+Portugal,2003,1702.5,NA
+Portugal,2004,1701.7,NA
+Portugal,2005,1731.5,20.5
+Portugal,2006,1708,NA
+Portugal,2007,1713.5,NA
+Portugal,2008,1779.7,NA
+Portugal,2009,1867.7,NA
+Portugal,2010,2004.7,27.1
+Portugal,2011,1935.3,NA
+Portugal,2012,1927,NA
+Portugal,2013,2099.7,NA
+Portugal,2014,2222.8,NA
+Portugal,2015,2159,NA
+Portugal,2016,2173.2,NA
+Portugal,2017,2368.4,39.6
+Portugal,2018,NA,39.7
+Romania,2007,NA,8.7
+Romania,2008,NA,14.3
+Romania,2009,NA,6.9
+Romania,2010,NA,9.7
+Romania,2011,NA,4.6
+Romania,2012,NA,15
+Romania,2013,NA,11.7
+Romania,2014,NA,12.4
+Romania,2015,NA,11
+Romania,2016,NA,17.8
+Romania,2017,NA,16.8
+Romania,2018,NA,14.4
+Romania,2019,NA,16.1
+Slovakia,2000,1038.3,NA
+Slovakia,2001,1151.1,NA
+Slovakia,2002,1288.8,NA
+Slovakia,2003,1436.1,NA
+Slovakia,2004,1327.2,NA
+Slovakia,2005,1376.1,2.9
+Slovakia,2006,1457.1,4.9
+Slovakia,2007,1603.5,3
+Slovakia,2008,1686.4,3
+Slovakia,2009,1746.1,2.8
+Slovakia,2010,1703.9,3
+Slovakia,2011,1796.6,4.6
+Slovakia,2012,1888.6,4.7
+Slovakia,2013,2033.5,3.1
+Slovakia,2014,2221.7,6.4
+Slovakia,2015,2305.8,1
+Slovakia,2016,2517.7,1.3
+Slovakia,2017,2811.6,1.2
+Slovakia,2018,NA,6.6
+Slovenia,2000,2646.1,NA
+Slovenia,2001,2719.1,NA
+Slovenia,2002,2732.1,NA
+Slovenia,2003,2774.5,NA
+Slovenia,2004,2804.9,NA
+Slovenia,2005,2886.9,24.8
+Slovenia,2006,2873.1,NA
+Slovenia,2007,2834.3,NA
+Slovenia,2008,2823.2,NA
+Slovenia,2009,2631.2,NA
+Slovenia,2010,2596.4,34
+Slovenia,2011,2524.1,NA
+Slovenia,2012,2501.4,NA
+Slovenia,2013,2450.4,NA
+Slovenia,2014,2430.6,NA
+Slovenia,2015,2415.2,NA
+Slovenia,2016,2428.8,NA
+Slovenia,2017,3535.6,41.1
+Slovenia,2018,NA,42.6
+South Korea,2000,208.3,NA
+South Korea,2001,303,NA
+South Korea,2002,331,NA
+South Korea,2003,431.8,NA
+South Korea,2004,400.5,NA
+South Korea,2005,599.2,NA
+South Korea,2006,1083.7,NA
+South Korea,2007,1427.6,NA
+South Korea,2008,2554.5,NA
+South Korea,2009,3157,NA
+South Korea,2010,3640,38.2
+South Korea,2011,3676.4,NA
+South Korea,2012,4588.4,NA
+South Korea,2013,5944,NA
+South Korea,2014,6116.5,NA
+South Korea,2015,6363.3,NA
+South Korea,2016,6465.6,NA
+South Korea,2017,6720.3,57
+South Korea,2018,7636.2,62.7
+Spain,2000,2545.5,NA
+Spain,2001,2390.9,NA
+Spain,2002,2401.6,NA
+Spain,2003,2381.8,NA
+Spain,2004,2454.1,NA
+Spain,2005,2545.4,14.9
+Spain,2006,2644.1,NA
+Spain,2007,2730.1,NA
+Spain,2008,2880.6,NA
+Spain,2009,2976.9,NA
+Spain,2010,2969.8,26.3
+Spain,2011,2914.9,NA
+Spain,2012,2778.9,NA
+Spain,2013,2784.2,NA
+Spain,2014,2828.8,NA
+Spain,2015,2935.5,NA
+Spain,2016,2849.7,NA
+Spain,2017,2950.7,36.4
+Spain,2018,NA,38.2
+Sweden,2000,5922.9,NA
+Sweden,2001,6312.9,NA
+Sweden,2002,7298.3,NA
+Sweden,2003,7664.1,NA
+Sweden,2004,7954.5,NA
+Sweden,2005,8356.4,NA
+Sweden,2006,9131.1,NA
+Sweden,2007,9252.8,NA
+Sweden,2008,9628.6,NA
+Sweden,2009,9525.1,NA
+Sweden,2010,9692.3,46.5
+Sweden,2011,9885.2,NA
+Sweden,2012,10194.2,NA
+Sweden,2013,10408,NA
+Sweden,2014,10575.7,NA
+Sweden,2015,10716.7,NA
+Sweden,2016,11005.4,NA
+Sweden,2017,11136.2,45.4
+Sweden,2018,NA,46.3
+Switzerland,2008,NA,16.3
+Switzerland,2009,NA,35.1
+Switzerland,2010,NA,33.5
+Switzerland,2011,NA,33.2
+Switzerland,2012,NA,39.1
+Switzerland,2013,NA,41
+Switzerland,2014,NA,38
+Turkey,2005,217,NA
+Turkey,2006,117.3,NA
+Turkey,2007,224.6,NA
+Turkey,2008,280.9,NA
+Turkey,2009,291.8,NA
+Turkey,2010,286,NA
+Turkey,2011,289.5,NA
+Turkey,2012,317.1,NA
+Turkey,2013,366.6,NA
+Turkey,2014,373.2,NA
+Turkey,2015,396.3,NA
+Turkey,2016,570.9,NA
+Turkey,2017,643.2,0.3
+Turkey,2018,NA,0.2
+United Kingdom,2000,3169.9,NA
+United Kingdom,2001,3592.4,NA
+United Kingdom,2002,3917.6,NA
+United Kingdom,2003,3910.5,NA
+United Kingdom,2004,4428.5,NA
+United Kingdom,2005,4507,37
+United Kingdom,2006,4824.3,39.7
+United Kingdom,2007,4425.6,44.8
+United Kingdom,2008,4182.6,40.8
+United Kingdom,2009,4289.7,41.3
+United Kingdom,2010,4192.2,40.1
+United Kingdom,2011,4251.6,39.1
+United Kingdom,2012,4179.5,31
+United Kingdom,2013,4071.2,34.4
+United Kingdom,2014,3332.7,33.6
+United Kingdom,2015,3693.8,34.4
+United Kingdom,2016,3226.5,31.5
+United Kingdom,2017,3381.8,37.7
+United Kingdom,2018,NA,45.1
+United States,2000,2302,NA
+United States,2001,2408.4,NA
+United States,2002,2518.4,NA
+United States,2003,2262.7,NA
+United States,2004,2210,NA
+United States,2005,2181.6,NA
+United States,2006,2348.6,27.4
+United States,2007,2481.6,NA
+United States,2008,2416.3,NA
+United States,2009,2436,NA
+United States,2010,2536,25.8
+United States,2011,2502,28
+United States,2012,2416.2,NA
+United States,2013,2352.6,NA
+United States,2014,2414.1,NA
+United States,2015,2482,NA
+United States,2016,2542,NA
+United States,2017,2575.1,NA
+United States,2018,2603,NA
