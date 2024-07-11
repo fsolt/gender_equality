@@ -800,42 +800,47 @@ if (!file.exists(file.path(descrep_path, "data-raw", "parline.rda"))) {
 }
 
 # QAROT: national quotas and women's representation (plus Parline updates)
-qarot <- read_csv(file.path(descrep_path,
-                            "data-raw", 
-                            "qarot",
-                            "QAROTdata_HughesPaxtonClaytonZetterberg_CountryYear_V1_August2017.csv"),
-                  show_col_types = FALSE) %>%  # http://doi.org/10.3886/E100918V1
-  mutate(countryname = countrycode::countrycode(country,
-                                                origin = "country.name",
-                                                destination = "country.name")) %>% 
-  janitor::clean_names() %>% 
-  select(countryname, year, defacto_threshold, women_rep) %>% 
-  mutate(defacto_threshold = if_else(is.na(defacto_threshold), 0, defacto_threshold)) %>% 
-  group_by(countryname) %>% 
-  group_modify(~ add_row(.x,
-                         year = 2016:2023)) %>% 
-  fill(defacto_threshold) %>% 
-  mutate(defacto_threshold = case_when(countryname == "Colombia" &
-                                         year >= 1999 ~ 37,
-                                       countryname == "France" &
-                                         defacto_threshold == 50 ~ 48,
-                                       countryname == "Hungary" &
-                                         year >= 2011 ~ 35,
-                                       countryname == "Ireland" &
-                                         year >= 2023 ~ 40,
-                                       countryname == "Italy" &
-                                         year >= 2019 ~ 46.25,
-                                       countryname == "Luxembourg" &
-                                         year >= 2016 ~ 40,
-                                       countryname == "Portugal" &
-                                         year >= 2019 ~ 40,
-                                       TRUE ~ defacto_threshold)) %>% 
-  left_join(parline, by = c("countryname" = "country", "year")) %>% 
-  mutate(women_rep = if_else(!is.na(women_rep.x),
-                             women_rep.x,
-                             women_rep.y)) %>% 
-  select(-women_rep.x, -women_rep.y) %>% 
-  ungroup()
+if (!file.exists(file.path(descrep_path, "data-raw", "qarot.rda"))) {
+  qarot <- read_csv(file.path(descrep_path,
+                              "data-raw", 
+                              "qarot",
+                              "QAROTdata_HughesPaxtonClaytonZetterberg_CountryYear_V1_August2017.csv"),
+                    show_col_types = FALSE) %>%  # http://doi.org/10.3886/E100918V1
+    mutate(countryname = countrycode::countrycode(country,
+                                                  origin = "country.name",
+                                                  destination = "country.name")) %>% 
+    janitor::clean_names() %>% 
+    select(countryname, year, defacto_threshold, women_rep) %>% 
+    mutate(defacto_threshold = if_else(is.na(defacto_threshold), 0, defacto_threshold)) %>% 
+    group_by(countryname) %>% 
+    group_modify(~ add_row(.x,
+                           year = 2016:2023)) %>% 
+    fill(defacto_threshold) %>% 
+    mutate(defacto_threshold = case_when(countryname == "Colombia" &
+                                           year >= 1999 ~ 37,
+                                         countryname == "France" &
+                                           defacto_threshold == 50 ~ 48,
+                                         countryname == "Hungary" &
+                                           year >= 2011 ~ 35,
+                                         countryname == "Ireland" &
+                                           year >= 2023 ~ 40,
+                                         countryname == "Italy" &
+                                           year >= 2019 ~ 46.25,
+                                         countryname == "Luxembourg" &
+                                           year >= 2016 ~ 40,
+                                         countryname == "Portugal" &
+                                           year >= 2019 ~ 40,
+                                         TRUE ~ defacto_threshold)) %>% 
+    left_join(parline, by = c("countryname" = "country", "year")) %>% 
+    mutate(women_rep = if_else(!is.na(women_rep.x),
+                               women_rep.x,
+                               women_rep.y)) %>% 
+    select(-women_rep.x, -women_rep.y) %>% 
+    ungroup()
+  save(qarot, file = file.path(descrep_path, "data-raw", "qarot.rda"))
+} else {
+  load(file.path(descrep_path, "data-raw", "qarot.rda"))
+}
 
 # Early Eastern Europe (Varnegy2013: https://library.fes.de/pdf-files/bueros/budapest/10827.pdf)
 eee <- tribble(~countryname, ~year, ~women_rep, ~list, ~defacto_threshold,
@@ -873,24 +878,29 @@ party_quotas <- read_csv(file.path(descrep_path,
   select(-adoption_year)
 
 # Borman and Golder: electoral systems
-des <- rio::import(file.path(descrep_path,
-                             "data-raw",
-                             "des",
-                             "es_data-v4_1.csv")) %>% 
-  filter(presidential == 0) %>% 
-  mutate(date = mdy(date)) %>% 
-  arrange(country, desc(date)) %>% 
-  distinct(country, year, .keep_all = TRUE) %>% 
-  transmute(countryname = countrycode::countrycode(country,
-                                                   "country.name",
-                                                   "country.name",
-                                                   warn = FALSE),
-            year = year,
-            list_pr = as.numeric(elecrule == 9),
-            mmp = as.numeric(elecrule == 11),
-            mmm = as.numeric(elecrule == 12),
-            list = pmax(list_pr, mmp, mmm)) %>% 
-  select(countryname, year, list)
+if (!file.exists(file.path(descrep_path, "data-raw", "des.rda"))) {
+  des <- rio::import(file.path(descrep_path,
+                               "data-raw",
+                               "des",
+                               "es_data-v4_1.csv")) %>% 
+    filter(presidential == 0) %>% 
+    mutate(date = mdy(date)) %>% 
+    arrange(country, desc(date)) %>% 
+    distinct(country, year, .keep_all = TRUE) %>% 
+    transmute(countryname = countrycode::countrycode(country,
+                                                     "country.name",
+                                                     "country.name",
+                                                     warn = FALSE),
+              year = year,
+              list_pr = as.numeric(elecrule == 9),
+              mmp = as.numeric(elecrule == 11),
+              mmm = as.numeric(elecrule == 12),
+              list = pmax(list_pr, mmp, mmm)) %>% 
+    select(countryname, year, list)
+  save(des, file = file.path(descrep_path, "data-raw", "des.rda"))
+} else {
+  load(file.path(descrep_path, "data-raw", "des.rda"))
+}
 
 if (!file.exists(file.path(descrep_path, "data-raw", "gdppc.rda"))) {
   download.file("https://unstats.un.org/unsd/amaapi/api/file/12",
@@ -1354,7 +1364,7 @@ by_country0 %>%
         strip.text.x = element_text(size = 8),
         strip.background = element_rect(fill = "white", colour = "white"),
         plot.title = element_text(size=8)) +
-  plot_annotation(caption = "Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Sources: Hughes et al. (2019); Inter-Parliamentary Union (2023).")
+  plot_annotation(caption = str_wrap("Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Sources: Hughes et al. (2019); Inter-Parliamentary Union (2023).", 80))
 ```
 
 Trends in the share of women elected to the lower houses of the legislature, the most commonly studied measure of women's descriptive representation, across the OECD countries over more than forty years can be found in @fig-wrts.
@@ -1512,6 +1522,8 @@ There are other important aspects of national legislative quotas, such as whethe
 Still, the de facto threshold provides a straightforward measure of the share of women candidates that is required to appear on the ballot, and we use it as our measure of national legislative gender quotas here.
 
 ```{r qarot, fig.cap="Adoption and Reform of National Legislative Gender Quotas in OECD Democracies \\label{qarot}", fig.height = 4.5, fig.width = 7.5}
+load(file.path(descrep_path, "data-raw", "qarot.rda"))
+
 dft_data1 <- qarot %>% 
   filter(countryname %in% oecd_countries) %>% 
   group_by(countryname) %>% 
@@ -1622,19 +1634,19 @@ Given these circumstances, we include as a predictor the lag of the variable to 
 
 One last source of problems is measurement uncertainty.
 As described in the previous chapter, our measure of public gender egalitarianism, the PGE scores, are estimated with uncertainty as a result of the sparsity and incomparability of surveys addressing the topic.
-Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2022].
+Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2024].
 We therefore incorporated the measurement uncertainty in the PGE scores into our analysis.
 The model was estimated using the `brms` R package [@Burkner2017] with noninformative priors.^[
 By default, `brms` assigns linear regression coefficients improper flat priors over the real numbers.
 That means that, before considering the data and model, the probability that a coefficient takes on any value, from negative infinity to positive infinity, is assumed to be equal.
-Weakly informative priors---for example, normal(0, 2)---yield substantively similar results for all analyses.]
+Weakly informative priors---for example, normal(0, 2)---yield substantively similar results for all of these analyses.]
 
 Figure&nbsp;\ref{m1plot} presents the results.
 The shaded regions represent the posterior probability distributions; the higher the shading, the more likely that what each region depicts---here, one regression coefficient---takes on that value conditional on these data and this model.
 The dots mark the median values of these distributions, so half of the probability falls to either side.
 The whiskers trace the 80% credible intervals; that is, there is an 80% probability that the regression coefficient falls within that range, again, conditional on these data and this model.
 The bottom panel shows, as expected, that descriptive representation is dynamic: the percentage of legislators who are women after the previous election strongly predicts the percentage of legislators who are women after this one.
-Incumbency matters.
+In other words, incumbency matters.
 But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation declines rather than grows over time.
 This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
