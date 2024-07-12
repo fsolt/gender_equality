@@ -481,23 +481,49 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ## Legislative Candidate Gender Quotas {.unnumbered}
 
 <!-- Gender quotas: Weeks2018 -->
-One of the most-studied policies relating to gender equality is the adoption of gender quotas for candidates running for legislative seats.
+One of the most-studied policies advancing gender equality is the adoption of gender quotas for candidates running for legislative seats.
 National gender quotas---that is, quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates.
 As we saw in the previous chapter, legislated national quotas have proven to be effective policies for increasing the share of women in office.
 
+Our approach to modeling the adoption of gender quotas is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
+As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
+And also as in those analyses, we separate each of our time-varying predictors into into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
+Another commonality with the models used in the last chapter is that we are sure to incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [again, see @Tai2024].
 
-```{r nqplot, fig.cap="National Quotas in the OECD \\label{nq_plot}", fig.height = 7, fig.width = 7.5}
+The fact that we are now seeking to explain policy adoption---and in particular the adoption of a gender quota---does, however, require a few differences in our modeling strategy.
+The standard approach to modeling policy adoption is event history analysis (EHA) of pooled time series, popularized in political science by @Berry1990.
+Event history analysis, in this context, typically involves a logistic regression of a dichotomous dependent variable observed annually in each country as a series of zeros followed by a one at the time the policy of interest is adopted.
+Once a country adopts the policy, it is no longer part of the 'risk set'---that is, the country is not 'at risk' of adopting the policy a second time---and observations for that country in years subsequent to adoption are then dropped from the dataset [see @Berry1990, 398].
+
+However, the general EHA approach is flexible [see @Boehmke2009].
+This is fortunate, because national legislative gender quotas are not simply present or absent.
+Some countries, such as Belgium, Costa Rica, and Mexico, now have quotas that require parity in the number of women and men each party puts forward as candidates (see again Figure 4.4 in the previous chapter).^[
+The terms of France's trailblazing "parity" quota, adopted in 1999, permits parties to deviate from the quota by up to 2% without penalty
+]
+Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
+Still other countries, many in fact, have no legislated and mandatory gender quota at all.
+We therefore treat quota adoption as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
+We also consider the adoption of a parity quota, one that requires 50% of a party's candidates to be women, to be a fully gender egalitarian policy adoption.
+This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in the model as the log of the difference between 50% and the current quota [see @Boehmke2009, 238].
+Our treatment of parity as the maximum quota also means that a country leaves the risk set entirely---further observations of the country are excluded from the data---after it has adopted a parity quota.
+
+```{r nqplot, fig.cap="Public Gender Egalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
+#| label: fig-nq-plot
+
 load(file = file.path(descrep_path, "data",  "by_country2.rda"))
 
 by_country3 <- by_country2 %>% 
-  
+  mutate(exposure = log1p(50-lag(national_quota)),
+         prev_quota = as.numeric(!lag(national_quota)==0)) %>% 
+  filter(lag(national_quota < 50))
 
 country_pge <- rio::import(file.path(descrep_path,
                        "data",
                        "country_pge.rda"))
 
 country_quota_cor <- map(country_pge,
-                         ~ with(.x, cor(pge_lag, national_quota,
+                         ~ with(.x %>% filter(lag(national_quota < 50)),
+                                cor(pge_lag, national_quota,
                                         use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
@@ -509,7 +535,7 @@ country_quota_label <- tibble(pge_lag = 90,
                               national_quota = 4,
                               label = country_quota_cor)
 
-country_quota_plot <- ggplot(by_country2,
+country_quota_plot <- ggplot(by_country3,
                              aes(x = pge_lag,
                                  y = national_quota)) +
   geom_segment(aes(x = pge_lag-2*pge_se_lag, xend = pge_lag+2*pge_se_lag,
@@ -531,117 +557,12 @@ country_quota_plot <- ggplot(by_country2,
 country_quota_plot
 ```
 
-```{r quotas, eval=FALSE}
-m0_party_quota <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag_by2sd +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
+The bivariate relationship between the PGE scores and national quotas among the observations within the risk set, depicted in @fig-nq-plot, is rather weak.
+Many countries, even those whose publics hold relatively egalitarian views regarding gender roles in the public sphere, have never adopted national gender quotas for legislative candidates.
+To better assess whether these attitudes make quota adoption more likely, however, we need to take into account other potential explanations.
 
-m1_party_quota <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag_by2sd +
-               list +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
 
-m2_party_quota <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag_by2sd +
-               list +
-               leftwing +
-               pge_lag_by2sd:leftwing +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
 
-m2_party_quota_a <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag +
-               list +
-               leftwing +
-               pge_lag:leftwing +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x))
-
-m3_party_quota <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag_by2sd +
-               list +
-               green +
-               left +
-               extreme_right +
-               pge_lag_by2sd:green +
-               pge_lag_by2sd:left +
-               pge_lag_by2sd:extreme_right +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x)) %>% 
-  sim_and_tidy()
-
-m3_party_quota_a <- party_pge %>%
-  map(~ lmer(party_quota ~ pge_lag +
-               list +
-               green +
-               left +
-               extreme_right +
-               pge_lag:green +
-               pge_lag:left +
-               pge_lag:extreme_right +
-               (1 | party) + (1 | cyear) + (1 | country), REML=FALSE,
-             data = .x))
-
-m02_party_quota <- bind_rows(m0_party_quota %>% 
-                               mutate(model = "Model 0"),
-                             m1_party_quota %>% 
-                               mutate(model = "Model 1"),
-                             m2_party_quota %>% 
-                               mutate(model = "Model 2")) %>% 
-  filter(!term=="(Intercept)")
-
-quota_vars_proper <- c(bquote(PGE[t-1]),
-                       "Party List",
-                       "Leftwing Party",
-                       bquote(PGE[t-1] %*% Leftwing~Party))
-
-walk(1:3, function(mod) {
-  m02_party_quota %>% 
-    mutate(estimate = if_else(as.numeric(as_factor(model)) > mod,
-                              NA_real_,
-                              estimate),
-           std.error = if_else(as.numeric(as_factor(model)) > mod,
-                               NA_real_,
-                               std.error)) %>% 
-    dwplot() +
-    scale_y_discrete(labels=do.call(expression, 
-                                    rev(quota_vars_proper))) +
-    theme_bw() +
-    theme(legend.position="none",
-          plot.title.position = "plot",
-          axis.text  = element_text(size=12)) +
-    geom_vline(xintercept = 0, colour = "grey60", linetype = 2) +
-    coord_cartesian(xlim = c(min(m02_party_quota$estimate -
-                                   1.96*m02_party_quota$std.error), 
-                             max(m02_party_quota$estimate +
-                                   1.96*m02_party_quota$std.error))) +
-    scale_color_viridis_d(direction = -1,
-                          end = .8) +
-    xlab("Standardized Coefficients") +
-    ggtitle("Multilevel Models of Gender Quotas")
-  ggsave(here::here("paper",
-                    "descriptive_representation",
-                    paste0("m02_party_quota_", mod, ".jpg")))
-})
-
-interplot2(m2_party_quota_a, "leftwing", "pge_lag", hist = TRUE) +
-  theme_bw() +
-  theme(legend.position="none",
-        axis.text  = element_text(size=10),
-        axis.title = element_text(size=12)) +
-  ylab("Coefficient for Leftwing Parties") +
-  xlab(TeX("Public Gender Egalitarianism$_{t-1}$")) +
-  geom_hline(yintercept = 0, colour = "grey60", linetype = 2) +
-  ggtitle("Coefficients for Leftwing Parties\nby Public Gender Egalitarianism")
-ggsave(file.path(descrep_path,
-                 "quota_leftwing_by_pge.jpg"))
-
-```
 
 ```{r m1_nq}
 if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
@@ -654,10 +575,12 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                             fmi_mean +
                             list_diff +
                             list_mean +
+                            exposure +
+                            prev_quota +
                             (1|c|country) + (1|t|year))
   
   m1_national_quota_b <- brm(formula = bf_national_quota,
-                             data = by_country2,
+                             data = by_country3,
                              backend = "cmdstanr",
                              control=list(adapt_delta = 0.99, 
                                           max_treedepth = 15),
@@ -685,6 +608,8 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                          "Feminist Movement Index, Mean",
                          "Electoral List, Difference",
                          "Electoral List, Mean",
+                         "Exposure",
+                         "Has Previously Adopted Any Quota",
                          "Public Gender Egalitarianism, Difference",
                          "Public Gender Egalitarianism, Mean"),
            sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
@@ -713,7 +638,9 @@ ordered <- c("Public Gender Egalitarianism, Difference",
              "National Quota, Difference",
              "National Quota, Mean",
              "Electoral List, Difference",
-             "Electoral List, Mean") %>% 
+             "Electoral List, Mean",
+             "Has Previously Adopted Any Quota",
+             "Exposure") %>% 
   rev()
 
 coef_data_m1_nq <- coef_data0_m1_nq %>% 
@@ -1364,9 +1291,20 @@ coef_plots_enrsem + lag_plots_enrsem +
 
 ## Family Leave {.unnumbered}
 
+<!-- From Weeks book talk: -->
+<!-- Growing consensus (Jaumotte 2003; Moss & Deven -->
+<!-- 2019): -->
+<!-- • Child care, shared parental leave, and paternity leave encourage women's employment (Attanasio et al. 2008; Bartel et al. 2018: Patnaik 2019). -->
+<!-- • Family allowances and long maternity-only leave do not encourage, and might hinder, women's employment (Blau Kahn 2013; Gornick, Meyers, Ross 1997). -->
+
 The impact of maternity leaves on gender equality in the workforce is complex and contentious [for a review of this literature, see @Ferragina2020, 1040-1042].
 <!-- Family leave -->
 <!-- Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl  -->
+
+<!-- From Weeks book talk: -->
+<!-- Gender equality leave = total weeks paid parental and paternity -->
+<!-- leave, minus the total weeks of maternity-only leave -->
+<!-- Analysis includes 23 countries from 1990 to 2016; Controls include GDP per capita, Women's Labor Force Participation, Left Government, Party Quota, Fertility Rate, EU Membership. -->
 
 ```{r wbl}
 if (!file.exists(file.path(policy_path,
