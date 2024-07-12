@@ -818,8 +818,6 @@ if (!file.exists(file.path(descrep_path, "data-raw", "qarot.rda"))) {
     fill(defacto_threshold) %>% 
     mutate(defacto_threshold = case_when(countryname == "Colombia" &
                                            year >= 1999 ~ 37,
-                                         countryname == "France" &
-                                           defacto_threshold == 50 ~ 48,
                                          countryname == "Hungary" &
                                            year >= 2011 ~ 35,
                                          countryname == "Ireland" &
@@ -1917,7 +1915,7 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
   
   save(by_party2,
        file = file.path(descrep_path, "data",  "by_party2.rda"))
-  save(m2pf_data, m2pf_data_2sd, coef_data0_m2, cyp_summary,
+  save(m2pf_data, m2pf_data_2sd, coef_data0_m2,
        file = file.path(descrep_path, "data",  "pfem_results.rda"))
 } else {
   load(file = file.path(descrep_path, "data",  "by_party2.rda"))
