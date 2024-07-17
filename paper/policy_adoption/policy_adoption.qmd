@@ -476,7 +476,9 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "Sweden", "Switzerland", "Turkey", 
                     "United Kingdom", "United States")
 ```
-@Bergqvist2013
+@Bergqvist2013, 284: despite the prevalence of case studies in the literature on gender equality policy adoption, these works look almost exclusively at successes; cross-national comparison avoids this problem 
+
+@Stimson1995: dynamic representation is when changes in public opinion are mirrored in policy
 
 ## Legislative Candidate Gender Quotas {.unnumbered}
 
@@ -485,40 +487,72 @@ One of the most-studied policies advancing gender equality is the adoption of ge
 National gender quotas---that is, quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates.
 As we saw in the previous chapter, legislated national quotas have proven to be effective policies for increasing the share of women in office.
 
-Our approach to modeling the adoption of gender quotas is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
-As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
-And also as in those analyses, we separate each of our time-varying predictors into into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
-Another commonality with the models used in the last chapter is that we are sure to incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [again, see @Tai2024].
+```{r by_country3}
+load(file = file.path(descrep_path, "data",  "by_country2.rda"))
 
-The fact that we are now seeking to explain policy adoption---and in particular the adoption of a gender quota---does, however, require a few differences in our modeling strategy.
-The standard approach to modeling policy adoption is event history analysis (EHA) of pooled time series, popularized in political science by @Berry1990.
-Event history analysis, in this context, typically involves a logistic regression of a dichotomous dependent variable observed annually in each country as a series of zeros followed by a one at the time the policy of interest is adopted.
-Once a country adopts the policy, it is no longer part of the 'risk set'---that is, the country is not 'at risk' of adopting the policy a second time---and observations for that country in years subsequent to adoption are then dropped from the dataset [see @Berry1990, 398].
+if (!file.exists(file.path(policy_path,
+                           "data-raw",
+                           "WINGOdata_HughesPaxtonQuinsaatReith_Mar2017.xlsx"))) {
+  download.file("https://www.openicpsr.org/openicpsr/project/100514/version/V1/view?path=/openicpsr/100514/fcr:versions/V1/WINGOdata_HughesPaxtonQuinsaatReith_Mar2017.xlsx&type=file",
+                file.path(policy_path,
+                           "data-raw",
+                           "WINGOdata_HughesPaxtonQuinsaatReith_Mar2017.xlsx"))
+}
 
-However, the general EHA approach is flexible [see @Boehmke2009].
-This is fortunate, because national legislative gender quotas are not simply present or absent.
-Some countries, such as Belgium, Costa Rica, and Mexico, now have quotas that require parity in the number of women and men each party puts forward as candidates (see again Figure 4.4 in the previous chapter).^[
-The terms of France's trailblazing "parity" quota, adopted in 1999, permits parties to deviate from the quota by up to 2% without penalty
-]
-Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
-Still other countries, many in fact, have no legislated and mandatory gender quota at all.
-We therefore treat quota adoption as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
-We also consider the adoption of a parity quota, one that requires 50% of a party's candidates to be women, to be a fully gender egalitarian policy adoption.
-This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in the model as the log of the difference between 50% and the current quota [see @Boehmke2009, 238].
-Our treatment of parity as the maximum quota also means that a country leaves the risk set entirely---further observations of the country are excluded from the data---after it has adopted a parity quota.
+wingo_countries <- read_excel(file.path(policy_path,
+                            "data-raw",
+                            "WINGOdata_HughesPaxtonQuinsaatReith_Mar2017.xlsx"),
+                            sheet = "country IDs") %>% 
+  janitor::clean_names()
+
+wingo <- read_excel(file.path(policy_path,
+                              "data-raw",
+                          "WINGOdata_HughesPaxtonQuinsaatReith_Mar2017.xlsx"),
+                    sheet = "WINGO counts") %>%
+  janitor::clean_names() %>% 
+  left_join(wingo_countries, by = "country_abbrev") %>% 
+  mutate(country = countrycode(iso, "iso3c", "country.name",
+                               warn = FALSE),
+         year,
+         wingo = wingo_imputed,
+         change_wingo = if_else(year == 2013,
+                                NA_integer_, lead(wingo) - wingo)) %>% 
+  filter(country %in% oecd_countries) %>% 
+  bind_rows(tibble(country = c("Iceland", "Luxembourg"))) %>% 
+  group_by(country) %>% 
+  complete(year = 1973:2022) %>% 
+  mutate(yr0 = if_else(!is.na(wingo), year, NA_integer_),
+         wingo0 = wingo) %>% 
+  fill(change_wingo, yr0, wingo0, .direction = "downup") %>% 
+  mutate(yr = year - yr0,
+         wingo = if_else(is.na(wingo),
+                         round(wingo0 + change_wingo*.2*yr),
+                         wingo0),
+         wingo = if_else(is.na(wingo), 1, wingo)) %>%
+  ungroup() %>% 
+  select(country, year, wingo)
+
+by_country3 <- by_country2 %>%
+  left_join(wingo, by = join_by(country, year)) %>% 
+  group_by(country) %>% 
+  mutate(wingo_mean = mean(wingo, na.rm = TRUE),
+         wingo_diff = wingo - wingo_mean,
+         wingo_log = log1p(wingo),
+         wingo_log_mean = mean(wingo_log, na.rm = TRUE),
+         wingo_log_diff = wingo_log - wingo_log_mean,
+         quota_lag = if_else(!is.na(lag(national_quota)), 
+                             lag(national_quota),
+                             national_quota),
+         exposure = log1p(50-quota_lag),
+         prev_quota = as.numeric(!quota_lag==0)) %>% 
+  ungroup() %>% 
+  filter(!quota_lag == 50)
+```
 
 ```{r nqplot, fig.cap="Public Gender Egalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-nq-plot
-
-load(file = file.path(descrep_path, "data",  "by_country2.rda"))
-
-by_country3 <- by_country2 %>% 
-  mutate(exposure = log1p(50-lag(national_quota)),
-         prev_quota = as.numeric(!lag(national_quota)==0)) %>% 
-  filter(lag(national_quota < 50))
-
 country_pge <- rio::import(file.path(descrep_path,
-                       "data",
+                                     "data",
                        "country_pge.rda"))
 
 country_quota_cor <- map(country_pge,
@@ -557,12 +591,90 @@ country_quota_plot <- ggplot(by_country3,
 country_quota_plot
 ```
 
-The bivariate relationship between the PGE scores and national quotas among the observations within the risk set, depicted in @fig-nq-plot, is rather weak.
-Many countries, even those whose publics hold relatively egalitarian views regarding gender roles in the public sphere, have never adopted national gender quotas for legislative candidates.
+The bivariate relationship between the PGE scores and national legislative quotas among the observations within the risk set, depicted in @fig-nq-plot, is weak.
+Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates.
 To better assess whether these attitudes make quota adoption more likely, however, we need to take into account other potential explanations.
 
 
+Our approach to modeling the adoption of gender quotas is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
+As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
+And also as in those analyses, we separate each of our time-varying predictors into into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
+Another commonality with the models used in the last chapter is that we are sure to incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [again, see @Tai2024].
 
+The fact that we are now seeking to explain policy adoption---and in particular the adoption of a gender quota---does, however, require a few differences in our modeling strategy.
+The standard approach to modeling policy adoption is event history analysis (EHA) of pooled time series, popularized in political science by @Berry1990.
+Event history analysis, in this context, typically involves a logistic regression of a dichotomous dependent variable observed annually in each country as a series of zeros followed by a one at the time the policy of interest is adopted.
+Once a country adopts the policy, it is no longer part of the 'risk set'---that is, the country is not 'at risk' of adopting the policy a second time---and observations for that country in years subsequent to adoption are then dropped from the dataset [see @Berry1990, 398].
+
+However, the general EHA approach is flexible [see @Boehmke2009].
+This is fortunate, because national legislative gender quotas are not simply present or absent.
+Some countries---France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
+Recall that our measure of national quotas is the de facto threshold provided by the excellent QAROT database [@Hughes2019] updated with information from @IDEA2023; see again Figure 4.4 in the previous chapter for a graphical depiction of trends in these data.^[
+Recall too that there are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this work.]
+Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
+Still other countries, many in fact, have no mandatory legislative gender quota at all.
+We therefore treat quota adoption as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
+We also consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality.
+This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in our model as the log of the difference between an 50% and the current quota [see @Boehmke2009, 238].
+Our treatment of parity as the quota that most advances gender equality also means that a country leaves the risk set entirely---and so further observations of the country are excluded from the data---after it has adopted a parity quota.
+
+
+
+A first factor often considered likely to influence the adoption of national legislative quotas in elite-led accounts is the extent of descriptive representation women have already achieved.
+There are conflicting arguments, however, regarding _how_ descriptive representation shapes quota adoption.
+From one perspective, as more women are elected to the legislature, they will be more likely to successfully push for quotas to be adopted and reformed [see, e.g., @Krook2009, 21-22; @Piscopo2024].
+An opposing view holds that more descriptive representation for women works instead to undermine the sense of urgency that underpins the adoption of gender quotas [see, e.g., @Dahlerup2005; @Hughes2015]. 
+To measure descriptive representation here, we use the same data from QAROT and the @IPU2023 on the percentage of legislative seats held by women that we employed in the previous chapter (see @fig-wrts).
+
+Two other potential influences on legislative quota adoption and reform are also familiar from our previous chapter: feminist movement strength and electoral lists.
+Feminist movements are frequently argued to be important to the success of the adoption and reform of national quotas [see @Paxton2021, 196].
+As before, we rely on the FMI [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
+And consistent with arguments that electoral systems with at least a party-list component are more "woman-friendly" [@Rule1994, 27] and provide better opportunity structures for feminist activists, such electoral systems may make quota adoption and subsequent strengthening more likely as well [@Paxton2021, 195-196].
+We again draw data on whether elections are held with a list component from the Democratic Electoral Systems Around the World dataset [@Bormann2022].
+
+<!-- International civil society is often put forward as an important motivator of quota adoption, albeit more often in developing countries than among the richer democracies we focus on in this book [see, e.g., @Bush2011; @Swiss2017]. -->
+
+<!-- Still, as recent research has re-emphasized the importance of transnational networks to the reform of quota laws [see, e.g., @Piscopo2024, 60-61], the log of the number of women's international non-governmental organizations (WINGOs) of which a country's citizens are members is included as a control. **SOURCE** -->
+
+<!-- ```{r wingoplot, fig.cap="Women's International NGOs in the OECD \\label{wingoplot}", fig.height = 9, fig.width = 7.5} -->
+
+<!-- years_spanned3 <- by_country3 %>% -->
+<!--   filter(., complete.cases(.)) %>%  -->
+<!--   group_by(country) %>%  -->
+<!--   summarize(first_year = first(year), -->
+<!--             last_year = last(year)) -->
+
+<!-- wingo %>% -->
+<!--   left_join(years_spanned3, by = "country") %>%  -->
+<!--   group_by(country) %>%  -->
+<!--   mutate(wingom = mean(wingo, na.rm = TRUE), -->
+<!--          wingo_included = if_else(year >= first_year & year <= last_year, -->
+<!--                                 wingo, -->
+<!--                                 NA_integer_)) %>% -->
+<!--   ggplot(aes(x = year, y = wingo)) + -->
+<!--   theme_bw() + -->
+<!--   theme(legend.position = "none") + -->
+<!--   coord_cartesian(xlim = c(1980, 2023)) + -->
+<!--   labs(x = NULL, y = "Log of Women's International NGOs") + -->
+<!--   geom_line(linetype = "dotted") + -->
+<!--   geom_line(aes(y = wingo_included)) + -->
+<!--   facet_wrap(~reorder(country, -wingom), ncol = 6) + -->
+<!--   theme(axis.text.x  = element_text(size = 7, -->
+<!--                                     angle = 90, -->
+<!--                                     vjust = .45, -->
+<!--                                     hjust = .95), -->
+<!--         strip.text.x = element_text(size = 8), -->
+<!--         strip.background = element_rect(fill = "white", colour = "white"), -->
+<!--         plot.title = element_text(size=8)) + -->
+<!--   scale_y_log10() + -->
+<!--   plot_annotation(caption = str_wrap("Note: Solid lines trace trends over the years covered in the analysis of national legislative quota adoption; dotted lines extend to years that were excluded.  Source: **SOURCE**.")) -->
+<!-- ``` -->
+
+Finally, we consider countries' past experience with legislative quotas.
+@Piscopo2024 observes that countries' experiences with legislative quotas are often iterative.
+That is, the influential typology presented by @Dahlerupf2005 is incomplete: legislative quotas are not simply adopted to provide a 'fast track' to women's descriptive representation or rejected as unnecessary and undesirable in an 'incremental track.'
+Instead, countries can follow a 'steady route,' in which the initial adoption of a quota both highlights its shortcomings---recall the finding of the previous chapter that national quotas increase women's descriptive representation by an average of only little better than half of the mandated share of women candidates---while simultaneously providing a foundation for the further advocacy of additional legislative action until parity is achieved.
+To capture this possibility, we include a dichotomous variable that indicates whether a country has previously adopted a quota.
 
 ```{r m1_nq}
 if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
@@ -608,6 +720,8 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                          "Feminist Movement Index, Mean",
                          "Electoral List, Difference",
                          "Electoral List, Mean",
+                         # "Women's International NGOs, Difference",
+                         # "Women's International NGOs, Mean",
                          "Exposure",
                          "Has Previously Adopted Any Quota",
                          "Public Gender Egalitarianism, Difference",
@@ -635,10 +749,10 @@ ordered <- c("Public Gender Egalitarianism, Difference",
              "Descriptive Representation, Mean",
              "Feminist Movement Index, Difference",
              "Feminist Movement Index, Mean", 
-             "National Quota, Difference",
-             "National Quota, Mean",
              "Electoral List, Difference",
              "Electoral List, Mean",
+             # "Women's International NGOs, Difference",
+             # "Women's International NGOs, Mean",
              "Has Previously Adopted Any Quota",
              "Exposure") %>% 
   rev()
@@ -679,6 +793,8 @@ coef_plot_m1_nq <- coef_data0_m1_nq %>%
 coef_plot_m1_nq +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
+
+
 
 
 
@@ -811,7 +927,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
 }
 ```
 
-```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care in the OECD \\label{fmiplot}", fig.height = 9, fig.width = 7.5}
+```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care in the OECD \\label{ececplot}", fig.height = 9, fig.width = 7.5}
 ecec_data1 %>%
   group_by(country) %>%
   mutate(last_enr = last(ecec_enrollment),
