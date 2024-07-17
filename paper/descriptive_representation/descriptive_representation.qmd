@@ -1378,8 +1378,8 @@ On the other hand, any movement toward gender equality in legislative officehold
 These differences across countries in women's descriptive representation have been closely studied.
 Case studies and cross-national work alike have found support for the elite-led theory described in Chapter 2.
 Both ways in which this theory suggests the supply of women candidates may be increased appear to work.
-Countries that employ electoral systems that include party lists have been found to elect more women than those without, evidence that party lists provide better opportunities for feminist activists to convince party leaders to run more female candidates---or indeed to supplant those leaders and do it themselves [see, e.g., @Matland2005; @Paxton2021, 164-169].
-And the national quota laws advocated by these activists that, when adopted, require all parties to put forward a minimum share of women as candidates, likewise have been found generally to increase the share of women elected, if not typically by the amount their mandated candidate shares would perhaps lead one to expect [see, e.g., @Schwindt-Bayer2009; @Paxton2015].
+Countries that employ electoral systems that include party lists have been found to elect more women than those without, evidence that party lists provide better opportunities for feminist activists to convince party leaders to run more female candidates---or indeed to supplant those leaders and do it themselves [see, e.g., @Rule1994a, 18; @Matland2005, 101-105; @Paxton2021, 164-169].
+And the national quota laws advocated by these activists that, when adopted, require all parties to put forward a minimum share of women as candidates, likewise have been found generally to increase the share of women elected, if not typically by the amount their mandated candidate shares would perhaps lead one to expect [see, e.g., @Dahlerup2005; @Schwindt-Bayer2009; @Paxton2015].
 
 The role in this process of public opinion has attracted much less attention.
 Again, this is not because scholars do not think that the public is important.
@@ -1391,7 +1391,7 @@ Equipped with the PGE data, this chapter takes up the question of the role of pu
 
 To quickly review, the theory connecting gender egalitarianism in the public sphere with women's descriptive representation is straightforward.
 Where the public holds more egalitarian views toward women in politics and the workforce, voters will be more willing to elect female candidates running for office, and party gatekeepers will be more willing to allow women to run.
-In other words, more egalitarianism should be expected to increase both demand and supply, with the consequence that more women will hold office.
+In other words, more egalitarianism should be expected to increase both demand for and supply of women candidates, with the consequence that more women will win office.
 
 Although women's share of the legislature does vary somewhat in the course of most legislative terms---officeholders retire and are replaced, for example---those fluctuations are not really relevant to the explanations for descriptive representation that we have discussed, all of which focus on what happens in elections.
 Therefore, we examine only election years.
@@ -1556,7 +1556,7 @@ ggplot(dft_data1, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
 Italy in 1994 was the pioneer among these countries, but its small quota was abolished just two years later.
 In later years, those quotas that have been adopted have been more demanding, and, as the dotted lines linking quotas and their subsequent reforms demonstrate, many countries that adopted quotas strengthened them over time.
-Belgium and Mexico, which along with Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas, and when Italy adopted a quota for the second time in 2019, its de facto threshold was nearly as strong at 46.25%.
+Belgium and Mexico, which along with France and Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas, and when Italy adopted a quota for the second time in 2019, its de facto threshold was nearly as strong at 46.25%.
 
 Finally, the Feminist Movement Index (FMI), first presented by @Htun2012 and updated in @Forester2022, serves as our measure of the overall strength of the feminist movement.
 Among the advanced democracies we consider here, FMI scores range from one to three.
