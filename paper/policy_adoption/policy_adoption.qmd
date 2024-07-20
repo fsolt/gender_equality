@@ -480,9 +480,14 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 @Stimson1995: dynamic representation is when changes in public opinion are mirrored in policy
 
-## Legislative Candidate Gender Quotas {.unnumbered}
 
-<!-- Gender quotas: Weeks2018 -->
+
+childcare advances equality in the workforce, the "dual-earner family"
+leave for fathers advances the "dual-carer family", while leave for mothers reinforces traditional gender roles
+
+
+## Advancing Political Equality: Legislative Candidate Gender Quotas {.unnumbered}
+
 One of the most-studied policies advancing gender equality is the adoption of gender quotas for candidates running for legislative seats.
 National gender quotas---that is, candidate quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates for the national legislature.
 As we saw in the previous chapter, legislated national quotas have proven to be effective policies for increasing the share of women in office.
@@ -495,6 +500,7 @@ by_country3 <- by_country2 %>%
   mutate(quota_lag = if_else(!is.na(lag(national_quota)), 
                              lag(national_quota),
                              national_quota),
+         quota_change = national_quota-quota_lag,
          exposure = log1p(50-quota_lag),
          prev_quota = as.numeric(!quota_lag==0)) %>% 
   ungroup() %>% 
@@ -559,16 +565,17 @@ As before, we rely on the FMI [@Forester2022] as our measure of the strength of 
 And consistent with arguments that electoral systems with at least a party-list component are more "woman-friendly" [@Rule1994, 27] and provide better opportunity structures for feminist activists, such electoral systems may make quota adoption and subsequent strengthening more likely as well [@Paxton2021, 195-196].
 We again draw data on whether elections are held with a list component from the Democratic Electoral Systems Around the World dataset [@Bormann2022].
 
-Finally, we consider countries' past experience with legislative quotas.
-@Piscopo2024 observes that countries' experiences with legislative quotas are often iterative.
-That is, the influential typology presented by @Dahlerupf2005 is incomplete: legislative quotas are not simply adopted to provide a 'fast track' to women's descriptive representation or rejected as unnecessary and undesirable in an 'incremental track.'
-Instead, countries can follow a 'steady route,' in which the initial adoption of a quota both highlights its shortcomings---recall the finding of the previous chapter that national quotas increase women's descriptive representation by an average of only little better than half of the mandated share of women candidates---while simultaneously providing a foundation for the further advocacy of additional legislative action until parity is achieved.
-To capture this possibility, we include a dichotomous variable that indicates whether a country has previously adopted a quota.
+<!-- Finally, we consider countries' past experience with legislative quotas. -->
+<!-- @Piscopo2024 observes that countries' experiences with legislative quotas are often iterative. -->
+<!-- That is, the influential typology presented by @Dahlerup2005 is incomplete: legislative quotas are not simply adopted to provide a 'fast track' to women's descriptive representation or rejected as unnecessary and undesirable in an 'incremental track.' -->
+<!-- Instead, countries can follow a 'steady route,' in which the initial adoption of a quota both highlights its shortcomings---recall the finding of the previous chapter that national quotas increase women's descriptive representation by an average of only little better than half of the mandated share of women candidates---while simultaneously providing a foundation for the further advocacy of additional legislative action until parity is achieved. -->
+<!-- To capture this possibility, we include a dichotomous variable that indicates whether a country has previously adopted a quota. -->
 
 Our approach to modeling the adoption of gender quotas here is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
-As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
-And also as in those analyses, we separate each of our time-varying predictors into into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
-Another commonality with the models used in the last chapter is that we are sure to incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [again, see @Tai2024].
+As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the idiosyncratic distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
+We use as our unit of analysis the country-term, as our predictors vary little from year to year between legislative elections; these variables are measured at the beginning of the term.
+And also as in those analyses, we separate each of our time-varying predictors into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
+Another commonality with the models used in the last chapter is that we again incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [see @Tai2024].
 
 The fact that we are now seeking to explain policy adoption---and in particular the adoption of a gender quota---does, however, require a few differences in our modeling strategy.
 The standard approach to modeling policy adoption is event history analysis (EHA) of pooled time series, popularized in political science by @Berry1990.
@@ -579,17 +586,33 @@ However, the general EHA approach is flexible [see @Boehmke2009].
 This is fortunate, because national legislative gender quotas are not simply present or absent.
 Some countries---France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
 Recall that our measure of national quotas is the de facto threshold provided by the excellent QAROT database [@Hughes2019] updated with information from @IDEA2023; see again Figure 4.4 in the previous chapter for a graphical depiction of trends in these data.^[
-Recall too that there are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this work.]
+Recall too that there are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this analysis.]
 Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
 Still other countries, many in fact, have no mandatory legislative gender quota at all.
-We therefore treat quota adoption as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
+We therefore treat quota adoption as a continuous rather than dichotomous variable [see @Boehmke2009, 237], measured as the additional percentage.
 We also consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality.
 This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in our model as the log of the difference between an 50% and the current quota [see @Boehmke2009, 238].
 Our treatment of parity as the quota that most advances gender equality also means that a country leaves the risk set entirely---and so further observations of the country are excluded from the data---after it has adopted a parity quota.
 
+However, the general EHA approach is flexible [see @Boehmke2009].
+This flexibility is important firstly, as @Piscopo2024 explains and as Figure 4.4 in the previous chapter illustrates, many countries have not simply adopted quotas requiring a specified share of the candidates each party puts forward to be women but have also raised this share, sometimes repeatedly, to reach or at least more closely approach parity.
+Removing a country from the analysis after its first quota adoption, as in the standard EHA approach described above, would prevent us from analyzing the 'steady path' by which quotas are sometimes reformed.
+We consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality.
+This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in our model as the log of the difference between an 50% and the current quota [see @Boehmke2009, 238].
+Our treatment of parity as the quota that most advances gender equality also means that a country leaves the risk set entirely---and so further observations of the country are excluded from the data---only after it has adopted a parity quota.
+
+This flexibility is important secondly because national legislative gender quotas and reforms are not all the same, either present or absent.
+Some countries---France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
+Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
+Still other countries, many in fact, have no mandatory legislative gender quota at all.
+We therefore treat the adoption or reform of a quota as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
+To measure the adoption and reform of quotas we again employ the data on the de facto threshold provided by the excellent QAROT database [@Hughes2019] updated with information from @IDEA2023, but now taking as our variable of interest the additional percentage of candidates who are mandated to be women after the policy's enactment, with reforms _reducing_ the number of women candidates parties are required to field represented as negative values.^[
+There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this analysis.]
+
+
 ```{r m1_nq}
 if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
-  bf_national_quota <- bf(national_quota ~
+  bf_national_quota <- bf(quota_change ~
                             me(pge_diff, pge_diff_se) +
                             me(pge_mean, pge_mean_se) +
                             women_rep_diff +
@@ -599,7 +622,8 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                             list_diff +
                             list_mean +
                             exposure +
-                            prev_quota +
+                            # prev_quota +
+                            # quota_lag +
                             (1|c|country) + (1|t|year))
   
   m1_national_quota_b <- brm(formula = bf_national_quota,
@@ -616,7 +640,7 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
   m1_nq_data <- m1_national_quota_b$data
   
   m1_nq_data_2sd <- m1_nq_data %>% 
-    select(-`national_quota`,
+    select(-quota_change,
            -country, -year, -ends_with("_se")) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -631,10 +655,9 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                          "Feminist Movement Index, Mean",
                          "Electoral List, Difference",
                          "Electoral List, Mean",
-                         # "Women's International NGOs, Difference",
-                         # "Women's International NGOs, Mean",
                          "Exposure",
-                         "Has Previously Adopted Any Quota",
+                         # "Has Previously Adopted Any Quota",
+                         # "Lagged Quota",
                          "Public Gender Egalitarianism, Difference",
                          "Public Gender Egalitarianism, Mean"),
            sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
@@ -662,27 +685,13 @@ ordered <- c("Public Gender Egalitarianism, Difference",
              "Feminist Movement Index, Mean", 
              "Electoral List, Difference",
              "Electoral List, Mean",
-             # "Women's International NGOs, Difference",
-             # "Women's International NGOs, Mean",
-             "Has Previously Adopted Any Quota",
+             # "Has Previously Adopted Any Quota",
              "Exposure") %>% 
+             # "Lagged Quota") %>% 
   rev()
 
 coef_data_m1_nq <- coef_data0_m1_nq %>% 
   mutate(std_coef = round(.value * sd2, 1),
-         term = factor(var_names, levels = ordered)) %>%
-  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
-  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
-  left_join(m1_nq_data_2sd, ., by = join_by(.variable))
-
-coef_data_m1_nq_total <- coef_data0_m1_nq %>% 
-  group_by(.chain, .iteration, .draw) %>% 
-  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
-                      na.rm = TRUE)) %>% 
-  ungroup() %>% 
-  group_by(.variable) %>% 
-  mutate(std_coef0 = round(.value * sd2, 1),
-         std_coef = round(std_coef0/(1 - alpha), 1),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
@@ -698,30 +707,222 @@ coef_plot_m1_nq <- coef_data0_m1_nq %>%
                        linewidth = 2) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   theme_light() +
+  coord_cartesian(xlim = c(-15, 15)) +
   xlab("Standardized Coefficients") +
   ylab(NULL)
 
-coef_plot_m1_nq +
+coef_plot_m1_nq + 
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
+Figure&nbsp;\ref{m1_nq_plot} presents the results.
+Starting from the bottom, we see that 'exposure,' the remaining difference between a country's gender quota policy and a parity quota, has little predictive power on quota adoption and reform.
+That is, countries that have yet to adopt any legislative candidate quota cannot be distinguished from those that already have a quota in their propensity to increase the share of women candidates each party is required put forward.
+
+Moving upward, we next see the estimated coefficients for differences between electoral systems with a party list component as compared to systems that include only personalized races run by candidates within districts.
+Countries in which all of the observed legislative terms were held with electoral systems with a list component enacted quota laws mandating that `r get_coef("list_mean", coef_data_m1_nq)` percentage points more candidates are women than those that have never held elections with party lists, with a posterior probability that---conditional on these data and this model---that this effect is positive of `r {{coef_data0_m1_nq %>% filter(name == "list_mean" & .value > 0) %>% nrow()}/20} %>% round()`%.
+While this result is suggestive of long-run effects, we cannot rule out unobserved confounding variables correlated with these mean scores.
+And the coefficient for the _difference_ in electoral lists within a country provides no evidence that adopting a party-list electoral system yields a higher quota of women candidates in the short run.
+A causal interpretation of the association between electoral lists and gender quota adoption remains unsupported.
+
+We turn then to the strength of the autonomous feminist movement.
+Countries that have experienced higher mean scores on the Feminist Movement Index are estimated to be little different from those with lower mean FMI scores.
+The best evidence for such an effect comes from the estimated coefficient for 
+changes in the strength of the feminist movement over time.
+A one-point increase in the FMI index over time within a country is estimated to yield a increase in the country's legislative quota of `r get_coef("fmi_diff", coef_data_m1_nq, type = "std_coef")` percentage points, but with an 80% confidence interval from `r get_coef("fmi_diff", coef_data_m1_nq, type = "ci")` points.
+Here again, `r {{coef_data0_m1_nq %>% filter(name == "fmi_diff" & .value > 0) %>% nrow()}/20} %>% round()`% of the posterior probability for this coefficient is positive.
+This is certainly suggestive evidence that when feminist movements grow stronger they are more successful in pushing for higher quotas.
+
+As to the debate regarding whether more women in office creates more or less pressure for legislative quotas, this evidence falls heavily on the latter side.
+A countries with a mean level of women's descriptive representation a standard deviation above the overall mean is estimated to have a mandated share of women candidates that is on average `r get_coef("women_rep_mean", coef_data_m1_nq) %>% str_replace_all("-", "")` points _lower_ than a country with mean women's descriptive representation a standard deviation below the overall mean.
+And over time within a country, a two-standard-deviation increase in the share of women holding office at the start of the legislative term is estimated to decrease the average legislated quota at the end of the term by `r get_coef("women_rep_diff", coef_data_m1_nq) %>% str_replace_all("-", "")` points.
+
+The top two rows of the panel display the evidence in support of the argument that public opinion shapes the extent of success in enacting parity legislative candidate gender quotas.
+This evidence is strong.
+A country with a mean public gender egalitarianism scores two standard deviations higher, for example New Zealand compared to Poland, is estimated to enact quotas requiring `r get_coef("pge_mean", coef_data_m1_nq)` percentage points more women candidates.
+As we have been careful to note previously, cross-country estimates like this one provides some evidence of an effect---in this case, of a more egalitarian public on legislative quota adoption---over the long term, but they could also reflect other differences among countries correlated with the predictor, here public opinion, that we are unable to measure and include in our model.
+That is, such estimates could be the result of omitted-variable bias.
+Therefore, although suggestive of causal effects, the real work of this estimate is to isolate the consequences of changes in public gender egalitarianism over time.
+
+This estimate, the coefficient for within-country changes in PGE over time, is shown in the top row of the figure.
+A two-standard-deviations increase in this variable---equivalent to about a twelve-point change in the PGE score from the start of one legislative term to the beginning of the next---is estimated to yield a `r get_coef("pge_diff", coef_data_m1_nq, type = "std_coef")` percentage-point increase in a country's legislative candidate quota, with an 80% confidence interval from `r get_coef("pge_diff", coef_data_m1_nq, type = "ci")` points.
+This is strong evidence that when the public of a country grows more gender egalitarian in its views with regard politics and the workplace, lawmakers respond by enacting higher legislative candidate quotas.
+Public gender egalitarianism matters to electoral policy adoption.
+
+As we saw in the previous chapter, when and where the public holds more gender egalitarian views, women are more successful in gaining elected office.
+By including descriptive representation, the share of women legislators in office, in our model we effectively partition off that potential causal path.
+In other words, the positive effect of public opinion on gender quota adoption just described does not work through the number of women in office.
+Instead, these results support the argument that---at least among the rich democracies of the OECD---both men and women legislators respond to growing public demand for gender equality with policies that increase the mandated share of women candidates for legislative office. 
+
+## Advancing Equality in Workplace: Work-Family Policies {.unnumbered}
+
+## Advancing Equality in Care: Family Leave {.unnumbered}
+
+@Kittilson2008: descriptive representation boosts maternity and childcare leave; results for other predictors are inconsistent
+<!-- From Weeks book talk: -->
+<!-- Growing consensus (Jaumotte 2003; Moss & Deven -->
+<!-- 2019): -->
+<!-- • Child care, shared parental leave, and paternity leave encourage women's employment (Attanasio et al. 2008; Bartel et al. 2018: Patnaik 2019). -->
+<!-- • Family allowances and long maternity-only leave do not encourage, and might hinder, women's employment (Blau Kahn 2013; Gornick, Meyers, Ross 1997). -->
+
+The impact of maternity leaves on gender equality in the workforce is complex and contentious [for a review of this literature, see @Ferragina2020, 1040-1042].
+<!-- Family leave -->
+<!-- Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl  -->
+
+<!-- From Weeks book talk: -->
+<!-- Gender equality leave = total weeks paid parental and paternity -->
+<!-- leave, minus the total weeks of maternity-only leave -->
+<!-- Analysis includes 23 countries from 1990 to 2016; Controls include GDP per capita, Women's Labor Force Participation, Left Government, Party Quota, Fertility Rate, EU Membership. -->
+
+```{r leave_data}
+if (!file.exists(file.path(policy_path,
+                           "data-raw",
+                           "oecd_pf2_5.xlsx"))) {
+  download.file("https://web.archive.org/web/20240718100341/http://www.oecd.org/els/family/PF2_5_Trends_in_leave_entitlements_around_childbirth.xlsx",
+              file.path(policy_path,
+                           "data-raw",
+                           "oecd_pf2_5.xlsx"))
+}
+
+  wbl <- read_excel(file.path(policy_path,
+                           "data-raw",
+                           "wbl2024_v1.xlsx"),
+                  sheet = "Parenthood") %>% 
+    janitor::clean_names() %>% 
+    mutate(country = countrycode(economy, "country.name", "country.name"),
+           year = as.numeric(report_year)) %>% 
+    filter(country %in% oecd_countries) %>% 
+    full_join(pge_summary, by = join_by(country, year))
+
+
+if (!file.exists(file.path(policy_path, "data-raw", "leave.rda"))) {
+  control_files <- c("qarot.rda", "des.rda", "fmi.rda", "gdppc.rda")
+  
+  walk(control_files, \(f) 
+       load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
+  
+  leave <- wbl %>% 
+    transmute(country = countrycode(economy, "country.name", "country.name"),
+              year = report_year - 1,
+              equality_leave = 
+              )
+   
+  # ecec_data1 <- pge_summary %>% 
+  #   filter(year >= 1999) %>% 
+  #   select(country, year, pge, pge_se) %>% 
+  #   full_join(ecec_data,
+  #             by = c("country", "year")) %>%
+  #   left_join(qarot,
+  #             by = c("country" = "countryname", "year")) %>% 
+  #   left_join(des,
+  #             by = c("country" ="countryname", "year")) %>%
+  #   left_join(fmi,
+  #             by = c("country", "year")) %>% 
+  #   group_by(country) %>% 
+  #   mutate(countryname = country,
+  #          iso2c = countrycode::countrycode(country, 
+  #                                           "country.name",
+  #                                           "iso2c",
+  #                                           warn = FALSE),
+  #          women_rep = case_when(countryname == "Lithuania" &
+  #                                  year == 1990 ~ 9.9,
+  #                                countryname == "Poland" &
+  #                                  year == 1991 ~ 9.1,
+  #                                TRUE ~ women_rep),
+  #          list = case_when(countryname == "Mexico" &
+  #                             year %in% c(1994, 1997, 2021) ~ 1,
+  #                           countryname == "Germany" &
+  #                             year == 2021 ~ 1,
+  #                           countryname == "Canada" &
+  #                             year == 2021 ~ 0,
+  #                           countryname == "United States" &
+  #                             year == 2022 ~ 0,
+  #                           TRUE ~ list),
+  #          women_rep = case_when(countryname == "Germany" &
+  #                                  year == 1980 ~ 8.3,
+  #                                countryname == "Germany" &
+  #                                  year == 1983 ~ 9.8, #https://www.bpb.de/themen/gender-diversitaet/frauen-in-deutschland/49418/frauenanteil-im-deutschen-bundestag/
+  #                                countryname == "Germany" &
+  #                                  year == 1987 ~ 15.4,
+  #                                TRUE ~ women_rep),
+  #          pge = case_when(is.na(pge) &
+  #                            country == "Australia" ~ lead(pge),
+  #                          is.na(pge) & 
+  #                            country == "France" ~ lead(pge, 2),
+  #                          is.na(pge) &
+  #                            country == "Ireland" ~ lead(pge),
+  #                          is.na(pge) &
+  #                            country == "Netherlands" ~ lead(pge),
+  #                          is.na(pge) &
+  #                            country == "New Zealand" ~ lead(pge),
+  #                          is.na(pge) &
+  #                            country == "Spain" ~ lead(pge),
+  #                          is.na(pge) &
+  #                            country == "Turkey" ~ lead(pge),
+  #                          TRUE ~ pge),
+  #          pge_se = case_when(is.na(pge_se) &
+  #                               country == "Australia" ~ lead(pge_se)*1.1,
+  #                             is.na(pge_se) & 
+  #                               country == "France" ~ lead(pge_se, 2)*1.1,
+  #                             is.na(pge_se) &
+  #                               country == "Ireland" ~ lead(pge_se)*1.1,
+  #                             is.na(pge_se) &
+  #                               country == "Netherlands" ~ lead(pge_se)*1.1,
+  #                             is.na(pge_se) &
+  #                               country == "New Zealand" ~ lead(pge_se)*1.1,
+  #                             is.na(pge_se) &
+  #                               country == "Spain" ~ lead(pge_se)*1.1,
+  #                             is.na(pge_se) &
+  #                               country == "Turkey" ~ lead(pge_se)*1.1,
+  #                             TRUE ~ pge_se),
+  #          pge_lag = lag(pge),
+  #          pge_se_lag = lag(pge_se),
+  #          ecec_enr = zoo::na.approx(ecec_enrollment, na.rm = FALSE),
+  #          ecec_enr_lag = lag(ecec_enr),
+  #          ecec_exp = zoo::na.approx(ecec_exp, na.rm = FALSE),
+  #          ecec_exp_lag = lag(ecec_exp),
+  #          fmi = if_else(country == "United States" & year < 1975, 3, fmi),
+  #          women_rep_included = ifelse(!is.na(lag(pge)),
+  #                                      women_rep,
+  #                                      NA_real_),
+  #          national_quota = if_else(is.na(defacto_threshold), 0,
+  #                                   defacto_threshold)) %>% 
+  #   ungroup() %>% 
+  #   filter(countryname %in% oecd_countries) %>%
+  #   left_join(gdppc, by = c("country", "year")) %>% 
+  #   mutate(gdppc = gdppc/10000) %>% 
+  #   fill(pge, pge_se, pge_lag, pge_se_lag, list, gdppc) %>% 
+  #   arrange(country, year)
+  # 
+  # save(ecec_data1, file = file.path(policy_path, "data-raw", "ecec_data1.rda"))
+} else {
+  # ecec_data1 <- rio::import(file.path(policy_path, "data-raw", "ecec_data1.rda"))
+}
+
+```
+
+World Bank's Women, Business, and Law database [@WorldBank2024]
 
 
 
-
-## Early Childhood Education and Care {.unnumbered}
 
 ```{r ecec_data}
 if (!file.exists(file.path(policy_path, "data-raw", "ecec_data.csv"))) {
-  ecec_data <- readSDMX("https://sdmx.oecd.org/public/rest/data/OECD.WISE.CWB,DSD_CWB@DF_CWB,1.0/.B2_1.?dimensionAtObservation=AllDimensions") %>% 
-    as.data.frame() %>% 
-    transmute(country = countrycode(REF_AREA, "iso3c", "country.name"),
-              year = as.numeric(TIME_PERIOD),
-              variable = "ecec_enrollment",
-              value = obsValue) %>% 
-    arrange(country, year) %>% 
-    pivot_wider(names_from = variable,
-                values_from = value)
+  download.file("https://web.archive.org/web/20240718100341/http://www.oecd.org/els/soc/PF3_2_Enrolment_childcare_preschool.xlsx",
+                file.path(policy_path, "data-raw", "oecd_pf3_2.xlsx"))
+  
+  ecec_data <- read_excel(file.path(policy_path, "data-raw", "oecd_pf3_2.xlsx"),
+                          sheet = "Enrolment_0-2-year-olds",
+                          skip = 5) %>% 
+    mutate(country = countrycode(...1, "iso3c", "country.name",
+                                 warn = FALSE)) %>% 
+    filter(!is.na(country)) %>% 
+    pivot_longer(cols = matches("\\d{4}"),
+                 names_to = "year",
+                 names_transform = list(year = as.integer),
+                 values_to = "ecec_enrollment",
+                 values_transform = list(ecec_enrollment = as.numeric)) %>% 
+    select(country, year, ecec_enrollment)
   
   write_csv(ecec_data, file.path(policy_path, "data-raw", "ecec_data.csv"))
 } else {
@@ -736,11 +937,11 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
        load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
  
   pge_summary <- rio::import(here("data",
-                                "pge_summary.rda")) %>% 
-  mutate(across(starts_with("p"),
-                ~ .x * 100,
-                .names = "{.col}"))
-   
+                                  "pge_summary.rda")) %>% 
+    mutate(across(starts_with("p"),
+                  ~ .x * 100,
+                  .names = "{.col}"))
+  
   ecec_data1 <- pge_summary %>% 
     filter(year >= 1999) %>% 
     select(country, year, pge, pge_se) %>% 
@@ -758,57 +959,6 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
                                             "country.name",
                                             "iso2c",
                                             warn = FALSE),
-           women_rep = case_when(countryname == "Lithuania" &
-                                   year == 1990 ~ 9.9,
-                                 countryname == "Poland" &
-                                   year == 1991 ~ 9.1,
-                                 TRUE ~ women_rep),
-           list = case_when(countryname == "Mexico" &
-                              year %in% c(1994, 1997, 2021) ~ 1,
-                            countryname == "Germany" &
-                              year == 2021 ~ 1,
-                            countryname == "Canada" &
-                              year == 2021 ~ 0,
-                            countryname == "United States" &
-                              year == 2022 ~ 0,
-                            TRUE ~ list),
-           women_rep = case_when(countryname == "Germany" &
-                                   year == 1980 ~ 8.3,
-                                 countryname == "Germany" &
-                                   year == 1983 ~ 9.8, #https://www.bpb.de/themen/gender-diversitaet/frauen-in-deutschland/49418/frauenanteil-im-deutschen-bundestag/
-                                 countryname == "Germany" &
-                                   year == 1987 ~ 15.4,
-                                 TRUE ~ women_rep),
-           pge = case_when(is.na(pge) &
-                             country == "Australia" ~ lead(pge),
-                           is.na(pge) & 
-                             country == "France" ~ lead(pge, 2),
-                           is.na(pge) &
-                             country == "Ireland" ~ lead(pge),
-                           is.na(pge) &
-                             country == "Netherlands" ~ lead(pge),
-                           is.na(pge) &
-                             country == "New Zealand" ~ lead(pge),
-                           is.na(pge) &
-                             country == "Spain" ~ lead(pge),
-                           is.na(pge) &
-                             country == "Turkey" ~ lead(pge),
-                           TRUE ~ pge),
-           pge_se = case_when(is.na(pge_se) &
-                                country == "Australia" ~ lead(pge_se)*1.1,
-                              is.na(pge_se) & 
-                                country == "France" ~ lead(pge_se, 2)*1.1,
-                              is.na(pge_se) &
-                                country == "Ireland" ~ lead(pge_se)*1.1,
-                              is.na(pge_se) &
-                                country == "Netherlands" ~ lead(pge_se)*1.1,
-                              is.na(pge_se) &
-                                country == "New Zealand" ~ lead(pge_se)*1.1,
-                              is.na(pge_se) &
-                                country == "Spain" ~ lead(pge_se)*1.1,
-                              is.na(pge_se) &
-                                country == "Turkey" ~ lead(pge_se)*1.1,
-                              TRUE ~ pge_se),
            pge_lag = lag(pge),
            pge_se_lag = lag(pge_se),
            ecec_enr = zoo::na.approx(ecec_enrollment, na.rm = FALSE),
@@ -819,29 +969,33 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
                                        NA_real_),
            national_quota = if_else(is.na(defacto_threshold), 0,
                                     defacto_threshold)) %>% 
-    ungroup() %>% 
     filter(countryname %in% oecd_countries) %>%
     left_join(gdppc, by = c("country", "year")) %>% 
     mutate(gdppc = gdppc/10000) %>% 
-    fill(pge, pge_se, pge_lag, pge_se_lag, list, gdppc) %>% 
+    fill(list) %>% 
+    ungroup() %>% 
     arrange(country, year)
   
   save(ecec_data1, file = file.path(policy_path, "data-raw", "ecec_data1.rda"))
 } else {
   pge_summary <- rio::import(here("data",
-                                "pge_summary.rda")) %>% 
-  mutate(across(starts_with("p"),
-                ~ .x * 100,
-                .names = "{.col}"))
+                                  "pge_summary.rda")) %>% 
+    mutate(across(starts_with("p"),
+                  ~ .x * 100,
+                  .names = "{.col}"))
   
-  ecec_data1 <- rio::import(file.path(policy_path, "data-raw", "ecec_data1.rda"))
+  ecec_data1 <- rio::import(file.path(policy_path,
+                                      "data-raw", 
+                                      "ecec_data1.rda"))
 }
 ```
 
-```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care in the OECD \\label{ececplot}", fig.height = 9, fig.width = 7.5}
+```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care in the OECD", fig.height = 9, fig.width = 7.5}
+#| label: fig-enrplot
+
 ecec_data1 %>%
   group_by(country) %>%
-  mutate(last_enr = last(ecec_enrollment),
+  mutate(last_enr = last(ecec_enrollment, na_rm = TRUE),
          enr_solo = if_else(is.na(lag(ecec_enrollment)) &
                                  is.na(lead(ecec_enrollment)) &
                                  !is.na(ecec_enrollment),
@@ -866,7 +1020,11 @@ ecec_data1 %>%
 ```
 
 
-```{r ececenrplot, fig.cap="Public Gender Egalitarianism and Enrollment in Early Childhood Education and Care in OECD Countries \\label{ecec_enr_plot}", fig.height = 9, fig.width = 7.5}
+
+
+```{r ececenrplot, fig.cap="Public Gender Egalitarianism and Enrollment in Early Childhood Education and Care in OECD Countries", fig.height = 9, fig.width = 7.5}
+#| label: fig-ecec-enrplot
+
 pge <- rio::import(here("data",
                         "pge.rda"))
 
@@ -915,7 +1073,26 @@ ecec_enr_plot <- ggplot(ecec_data1 %>% filter(!is.na(ecec_enrollment)),
 ecec_enr_plot
 ```
 
+@fig-ecec-enrplot shows the bivariate relationship between gender egalitarianism and early childhood enrollments.
+Each point represents a country-year and is labelled with the country's two-character ISO code. 
+Enrollment rates in education and care for children aged zero to two are plotted vertically on the y-axis, and PGE scores are plotted horizontally on the x-axis; the horizontal whiskers trace the 80% credible intervals of the PGE scores.
+The relationship between these two variables is positive and strong: the bivariate correlation, with the uncertainty in the PGE scores taken into account, is `r ecec_enr_cor %>% str_extract("\\.\\d{2}")`.
+Still, a strong correlation is famously insufficient to establish causation.
+A strong correlation may instead, for example, simply arise due to spuriousness; that is, egalitarian attitudes and early childhood care enrollments may both be driven by some third factor, such as levels of women's descriptive representation.
+We need a more sophisticated model to draw firmer conclusions. 
 
+First, we need to account for likely sources of spuriousness.
+Levels of descriptive representation and the strength of the feminist movement are two variables that plausibly could influence both the public's gender egalitarian attitudes and the constellation of policies that shape the rate of young children's enrollment in education and care.
+As described previously, we use data from QAROT and @IDEA2023 for the former and from @Forrester2022 for the latter.
+
+quota: @Weeks2022
+
+To model enrollment in early childhood education and care, we use some now-familiar tools. 
+We again use a Bayesian multilevel model that includes varying intercepts for 
+each country and each year that capture any distinctive differences across space and any shocks that occur over time and so minimize bias due to heteroskedasticity or from variables omitted from the model [see @Shor2007].
+We use the 'within-between specification' to separate time-varying predictors into their mean values for each country and the changes over time, with the latter providing the best evidence of causation [see @Bell2015].
+And we of course incorporate the measurement uncertainty in the PGE scores into our model [see @Tai2024].
+Finally, because past rates of early childcare enrollment should be expected to predict current values, we treat the process as dynamic and include the rate of enrollment in the previous year as a predictor.
 
 ```{r enr_b}
 if (!file.exists(file.path(policy_path,
@@ -1044,7 +1221,7 @@ if (!file.exists(file.path(policy_path,
 }
 ```
 
-```{r m1plot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m1plot}", fig.height = 7, fig.width = 7.5}
+```{r m1enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m1_enr_plot}", fig.height = 7, fig.width = 7.5}
 ordered <- c("Public Gender Egalitarianism, Difference",
              "Public Gender Egalitarianism, Mean", 
              "Descriptive Representation, Difference",
@@ -1233,7 +1410,7 @@ if (!file.exists(file.path(policy_path, "data", "enrsem_results.rda"))) {
 }
 ```
 
-```{r m2plot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m2plot}", fig.height = 9, fig.width = 7.5}
+```{r m2enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m2_enr_plot}", fig.height = 9, fig.width = 7.5}
 
 ordered_enrsem <- c("Public Gender Egalitarianism, Difference",
                     "Public Gender Egalitarianism, Mean", 
@@ -1315,151 +1492,3 @@ coef_plots_enrsem + lag_plots_enrsem +
 ```
 
 
-
-## Family Leave {.unnumbered}
-
-<!-- From Weeks book talk: -->
-<!-- Growing consensus (Jaumotte 2003; Moss & Deven -->
-<!-- 2019): -->
-<!-- • Child care, shared parental leave, and paternity leave encourage women's employment (Attanasio et al. 2008; Bartel et al. 2018: Patnaik 2019). -->
-<!-- • Family allowances and long maternity-only leave do not encourage, and might hinder, women's employment (Blau Kahn 2013; Gornick, Meyers, Ross 1997). -->
-
-The impact of maternity leaves on gender equality in the workforce is complex and contentious [for a review of this literature, see @Ferragina2020, 1040-1042].
-<!-- Family leave -->
-<!-- Gender equality of opportunity: see Kim2022 and https://wbl.worldbank.org/en/wbl  -->
-
-<!-- From Weeks book talk: -->
-<!-- Gender equality leave = total weeks paid parental and paternity -->
-<!-- leave, minus the total weeks of maternity-only leave -->
-<!-- Analysis includes 23 countries from 1990 to 2016; Controls include GDP per capita, Women's Labor Force Participation, Left Government, Party Quota, Fertility Rate, EU Membership. -->
-
-```{r wbl}
-if (!file.exists(file.path(policy_path,
-                           "data-raw",
-                           "wbl2024_v1.xlsx"))) {
-  download.file("https://wbl.worldbank.org/content/dam/sites/wbl/documents/2024/WBL2024-1-0-Historical-Panel-Data.xlsx",
-              file.path(policy_path,
-                           "data-raw",
-                           "wbl2024_v1.xlsx"))
-}
-
-wbl <- read_excel(file.path(policy_path,
-                           "data-raw",
-                           "wbl2024_v1.xlsx"),
-                  sheet = "Parenthood")
-
-
-if (!file.exists(file.path(policy_path, "data-raw", "leave.rda"))) {
-  control_files <- c("qarot.rda", "des.rda", "fmi.rda", "gdppc.rda")
-  
-  walk(control_files, \(f) 
-       load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
-  
-  wbl <- read_excel(file.path(policy_path,
-                           "data-raw",
-                           "wbl2024_v1.xlsx"),
-                  sheet = "Parenthood") %>% 
-    janitor::clean_names() %>% 
-    mutate(country = countrycode(economy, "country.name", "country.name"),
-           year = as.numeric(report_year)) %>% 
-    filter(country %in% oecd_countries) %>% 
-    full_join(pge_summary, by = join_by(country, year))
-   
-  # ecec_data1 <- pge_summary %>% 
-  #   filter(year >= 1999) %>% 
-  #   select(country, year, pge, pge_se) %>% 
-  #   full_join(ecec_data,
-  #             by = c("country", "year")) %>%
-  #   left_join(qarot,
-  #             by = c("country" = "countryname", "year")) %>% 
-  #   left_join(des,
-  #             by = c("country" ="countryname", "year")) %>%
-  #   left_join(fmi,
-  #             by = c("country", "year")) %>% 
-  #   group_by(country) %>% 
-  #   mutate(countryname = country,
-  #          iso2c = countrycode::countrycode(country, 
-  #                                           "country.name",
-  #                                           "iso2c",
-  #                                           warn = FALSE),
-  #          women_rep = case_when(countryname == "Lithuania" &
-  #                                  year == 1990 ~ 9.9,
-  #                                countryname == "Poland" &
-  #                                  year == 1991 ~ 9.1,
-  #                                TRUE ~ women_rep),
-  #          list = case_when(countryname == "Mexico" &
-  #                             year %in% c(1994, 1997, 2021) ~ 1,
-  #                           countryname == "Germany" &
-  #                             year == 2021 ~ 1,
-  #                           countryname == "Canada" &
-  #                             year == 2021 ~ 0,
-  #                           countryname == "United States" &
-  #                             year == 2022 ~ 0,
-  #                           TRUE ~ list),
-  #          women_rep = case_when(countryname == "Germany" &
-  #                                  year == 1980 ~ 8.3,
-  #                                countryname == "Germany" &
-  #                                  year == 1983 ~ 9.8, #https://www.bpb.de/themen/gender-diversitaet/frauen-in-deutschland/49418/frauenanteil-im-deutschen-bundestag/
-  #                                countryname == "Germany" &
-  #                                  year == 1987 ~ 15.4,
-  #                                TRUE ~ women_rep),
-  #          pge = case_when(is.na(pge) &
-  #                            country == "Australia" ~ lead(pge),
-  #                          is.na(pge) & 
-  #                            country == "France" ~ lead(pge, 2),
-  #                          is.na(pge) &
-  #                            country == "Ireland" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Netherlands" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "New Zealand" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Spain" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Turkey" ~ lead(pge),
-  #                          TRUE ~ pge),
-  #          pge_se = case_when(is.na(pge_se) &
-  #                               country == "Australia" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) & 
-  #                               country == "France" ~ lead(pge_se, 2)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Ireland" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Netherlands" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "New Zealand" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Spain" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Turkey" ~ lead(pge_se)*1.1,
-  #                             TRUE ~ pge_se),
-  #          pge_lag = lag(pge),
-  #          pge_se_lag = lag(pge_se),
-  #          ecec_enr = zoo::na.approx(ecec_enrollment, na.rm = FALSE),
-  #          ecec_enr_lag = lag(ecec_enr),
-  #          ecec_exp = zoo::na.approx(ecec_exp, na.rm = FALSE),
-  #          ecec_exp_lag = lag(ecec_exp),
-  #          fmi = if_else(country == "United States" & year < 1975, 3, fmi),
-  #          women_rep_included = ifelse(!is.na(lag(pge)),
-  #                                      women_rep,
-  #                                      NA_real_),
-  #          national_quota = if_else(is.na(defacto_threshold), 0,
-  #                                   defacto_threshold)) %>% 
-  #   ungroup() %>% 
-  #   filter(countryname %in% oecd_countries) %>%
-  #   left_join(gdppc, by = c("country", "year")) %>% 
-  #   mutate(gdppc = gdppc/10000) %>% 
-  #   fill(pge, pge_se, pge_lag, pge_se_lag, list, gdppc) %>% 
-  #   arrange(country, year)
-  # 
-  # save(ecec_data1, file = file.path(policy_path, "data-raw", "ecec_data1.rda"))
-} else {
-  # ecec_data1 <- rio::import(file.path(policy_path, "data-raw", "ecec_data1.rda"))
-}
-
-```
-
-
-
-
-## Corporate Board Gender Quotas {.unnumbered}
