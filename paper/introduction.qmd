@@ -2,6 +2,8 @@
 
 <!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
 
+<!-- @Weeks2022a [,16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic.  We focus instead on equality -->
+
 The extent of public support for gender egalitarianism has been an important issue in many countries around the world since at least the past half-century.
 The improvement of public gender egalitarianism over the globe makes scholars examine the causes and consequences of the improvement.
 A wide range of studies pay their attention on the determinants of public gender egalitarianism.
