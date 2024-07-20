@@ -1488,7 +1488,7 @@ ggplot(by_country,
 ```
 
 Are gender egalitarian public opinion and women's descriptive representation related?
-Every point in Figure&nbsp;\ref{wrplot} represents an election in a particular country, and each is labeled with that country's two-character codes assigned by the International Organization for Standardization.
+Every point in Figure&nbsp;\ref{wrplot} represents an election in a particular country, and each is labeled with that country's two-character codes assigned by the International Organization for Standardization (ISO).
 The figure's x-axis presents the country's Public Gender Egalitarianism score, measured in the year the election was held.
 And because the PGE scores are estimated with uncertainty, each point is shown with horizontal whiskers tracing its 80% credible interval.
 The plot's y-axis depicts the percentage of seats won by women in each election to the lower house of the national legislature in that election.
@@ -1608,7 +1608,7 @@ All observations of Spain, for example, may share distinctively Spanish traits.
 If these distinctive traits are unknown and ignored, our model will consistently under- or over-estimate women's descriptive representation for all of our Spanish observations over time.^[
 This problem is a form of _heteroscadisticity_, a violation of the assumption of regression analyses that error variances are equal.]
 But these distinctive traits can be modeled by including a varying intercept for each country, a parameter that shifts our prediction of the outcome for all observations from that country by the same amount.
-Together, the country parameters avoid the problems caused from those national traits for which we do not have data or otherwise exclude from our analysis.
+Together, the country parameters avoid the problems caused from those national traits for which we do not have data or otherwise omit from our analysis.
 These models also recognize that what we observe is also influenced by _when_ we are looking; to give an instance, all observations from 2020 may share peculiarities as a result of the COVID-19 pandemic and other events felt around the globe that year.^[
 Such contemporaneous correlation violates the regression assumption that, conditional on the model, the errors in our predictions are independent.]
 These distinctive temporal characteristics are similarly modeled with a varying intercept for each year.
@@ -1627,7 +1627,7 @@ That is, empirically, that past values predict current values and, theoretically
 As in most events that unfold over time, that is true in this case.
 Here, in the present election, women serving in office in the just concluded legislative term may on the one hand enjoy the benefits of incumbency, but on the other they may be held to higher standards of conduct than their male peers.
 Either way, the extent of women's descriptive representation in the preceding term can be expected to influence the extent of representation in this one.
-And public opinion, such as with regard to gender equality in the public sphere, is often theorized similarly, with present attitudes thought to be a function of past attitudes as updated with new information.
+<!-- And public opinion, such as with regard to gender equality in the public sphere, is often theorized similarly, with present attitudes thought to be a function of past attitudes as updated with new information. -->
 Given these circumstances, we include as a predictor the lag of the variable to be predicted, that is, its value at the time of the last election [see @Keele2006].
 
 One last source of problems is measurement uncertainty.
@@ -1645,7 +1645,7 @@ The dots mark the median values of these distributions, so half of the probabili
 The whiskers trace the 80% credible intervals; that is, there is an 80% probability that the regression coefficient falls within that range, again, conditional on these data and this model.
 The bottom panel shows, as expected, that descriptive representation is dynamic: the percentage of legislators who are women after the previous election strongly predicts the percentage of legislators who are women after this one.
 In other words, incumbency matters.
-But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation declines rather than grows over time.
+But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation would decline rather than grow over time.
 This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
 ```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
