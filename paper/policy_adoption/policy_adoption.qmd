@@ -1,4 +1,4 @@
-# From Public Egalitarianism to Equality: Explaining Policy Adoption
+# From Public Egalitarianism to Advancing Equality: Explaining Policy Adoption
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -486,7 +486,7 @@ childcare advances equality in the workforce, the "dual-earner family"
 leave for fathers advances the "dual-carer family", while leave for mothers reinforces traditional gender roles
 
 
-## Advancing Political Equality: Legislative Candidate Gender Quotas {.unnumbered}
+## Advancing Gender Equality in Politics {.unnumbered}
 
 One of the most-studied policies advancing gender equality is the adoption of gender quotas for candidates running for legislative seats.
 National gender quotas---that is, candidate quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates for the national legislature.
@@ -754,9 +754,531 @@ By including descriptive representation, the share of women legislators in offic
 In other words, the positive effect of public opinion on gender quota adoption just described does not work through the number of women in office.
 Instead, these results support the argument that---at least among the rich democracies of the OECD---both men and women legislators respond to growing public demand for gender equality with policies that increase the mandated share of women candidates for legislative office. 
 
-## Advancing Equality in Workplace: Work-Family Policies {.unnumbered}
+## Advancing Gender Equality in the Workplace {.unnumbered}
 
-## Advancing Equality in Care: Family Leave {.unnumbered}
+World Bank's Women, Business, and Law database [@WorldBank2024] 
+
+
+
+```{r wbl}
+if (!file.exists(file.path(policy_path,
+                           "data-raw",
+                           "wbl2024_v1.xlsx"))) {
+  download.file("https://wbl.worldbank.org/content/dam/sites/wbl/documents/2024/WBL2024-1-0-Historical-Panel-Data.xlsx",
+              file.path(policy_path,
+                           "data-raw",
+                           "wbl2024_v1.xlsx"))
+}
+
+if (!file.exists(file.path(policy_path, "data-raw", "wbl.rda"))) {
+  control_files <- c("qarot.rda", "des.rda", "fmi.rda", "gdppc.rda")
+  
+  walk(control_files, \(f) 
+       load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
+  
+  wbl_data <- read_excel(file.path(policy_path,
+                                   "data-raw",
+                                   "wbl2024_v1.xlsx"),
+                         sheet = "WBL Panel 2024") %>% 
+    janitor::clean_names() %>% 
+    mutate(country = countrycode(economy, "country.name", "country.name"),
+           year = as.numeric(report_year),
+           wbl = wbl_index) %>% 
+    full_join(pge_summary, by = join_by(country, year)) %>%
+    left_join(qarot,
+              by = c("country" = "countryname", "year")) %>% 
+    left_join(des,
+              by = c("country" ="countryname", "year")) %>%
+    left_join(fmi,
+              by = c("country", "year")) %>% 
+    group_by(country) %>% 
+    mutate(countryname = country,
+           iso2c = countrycode::countrycode(country, 
+                                            "country.name",
+                                            "iso2c",
+                                            warn = FALSE),
+           pge_lag = lag(pge),
+           pge_se_lag = lag(pge_se),
+           fmi = if_else(country == "United States" & year < 1975, 3, fmi),
+           wbl_included = ifelse(!is.na(lag(pge)),
+                                            wbl,
+                                            NA_real_),
+           wbl_lag = lag(wbl),
+           national_quota = if_else(is.na(defacto_threshold), 0,
+                                    defacto_threshold)) %>% 
+    left_join(gdppc, by = c("country", "year")) %>% 
+    mutate(gdppc = gdppc/10000) %>% 
+    fill(list) %>% 
+    ungroup() %>% 
+    arrange(country, year) %>% 
+    filter(country %in% oecd_countries)
+
+  
+  wbl_parent <- read_excel(file.path(policy_path,
+                                     "data-raw",
+                                     "wbl2024_v1.xlsx"),
+                           sheet = "Parenthood") %>% 
+    janitor::clean_names() %>% 
+    mutate(country = countrycode(economy, "country.name", "country.name"),
+           year = as.numeric(report_year),
+           wbl_parent = parenthood_score/20) %>% 
+    filter(country %in% oecd_countries) %>% 
+    full_join(pge_summary, by = join_by(country, year)) %>%
+    left_join(qarot,
+              by = c("country" = "countryname", "year")) %>% 
+    left_join(des,
+              by = c("country" ="countryname", "year")) %>%
+    left_join(fmi,
+              by = c("country", "year")) %>% 
+    group_by(country) %>% 
+    mutate(countryname = country,
+           iso2c = countrycode::countrycode(country, 
+                                            "country.name",
+                                            "iso2c",
+                                            warn = FALSE),
+           pge_lag = lag(pge),
+           pge_se_lag = lag(pge_se),
+           fmi = if_else(country == "United States" & year < 1975, 3, fmi),
+           wbl_parent_included = ifelse(!is.na(lag(pge)),
+                                            wbl,
+                                            NA_real_),
+           wbl_parent_reform = wbl_parent - lag(wbl_parent),
+           national_quota = if_else(is.na(defacto_threshold), 0,
+                                    defacto_threshold)) %>% 
+    left_join(gdppc, by = c("country", "year")) %>% 
+    mutate(gdppc = gdppc/10000) %>% 
+    fill(list) %>% 
+    ungroup() %>% 
+    arrange(country, year)
+  
+  save(wbl_data, wbl_parent, file = file.path(policy_path,
+                                              "data-raw",
+                                              "wbl.rda"))
+} else {
+  load(file.path(policy_path, "data-raw", "wbl.rda"))
+}
+```
+
+```{r wblplot, fig.cap="The WBL Policy Index in the OECD", fig.height = 9, fig.width = 7.5}
+#| label: fig-wblplot
+
+wbl_data %>%
+  group_by(country) %>%
+  mutate(last_wbl = last(wbl, na_rm = TRUE)) %>% 
+  ggplot(aes(x = year, y = wbl)) +
+  geom_line(linetype = "dotted") +
+  geom_line(aes(y = wbl_included)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_cartesian(ylim = c(40, 100)) +
+  labs(x = NULL, y = "WBL Policy Index") +
+  facet_wrap(~reorder(country, -last_wbl), ncol = 6) +
+  theme(axis.text.x  = element_text(size = 7,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        strip.text.x = element_text(size = 8),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        plot.title = element_text(size=8)) +
+  plot_annotation(caption = str_wrap("Source: World Bank (2024).", 85))
+```
+
+```{r wbl_b}
+if (!file.exists(file.path(policy_path,
+                           "data",
+                           "wbl_results.rda"))) {
+  
+  wbl_data2 <- wbl_data %>% 
+    filter(!is.na(wbl)) %>% 
+    group_by(country) %>% 
+    transmute(year,
+              wbl,
+              wbl_lag = lag(wbl), # previous year
+              wbl_mean = mean(wbl_lag, na.rm = TRUE),
+              wbl_diff = wbl_lag - wbl_mean,
+              women_rep,
+              women_rep_lag = lag(women_rep), # previous year
+              women_rep_mean = mean(women_rep, na.rm = TRUE),
+              women_rep_diff = women_rep - women_rep_mean,
+              pge,
+              pge_se,
+              pge_lag, # previous year
+              pge_se_lag, # previous year
+              pge_mean = mean(pge_lag, na.rm = TRUE),
+              pge_mean_se = sqrt(sum(pge_se_lag^2, na.rm = TRUE))/
+                length(pge),
+              pge_diff = pge_lag - pge_mean,
+              pge_diff_se = sqrt(pge_se_lag^2 + pge_mean_se^2)/2,
+              fmi,
+              fmi_mean = mean(fmi, na.rm = TRUE),
+              fmi_diff = fmi - fmi_mean,
+              national_quota,
+              national_quota_mean = mean(national_quota),
+              national_quota_diff = national_quota - national_quota_mean,
+              list,
+              list_mean = mean(list, na.rm = TRUE),
+              list_diff = list - list_mean,
+              gdppc,
+              gdppc_mean = mean(gdppc, na.rm = TRUE),
+              gdppc_diff = gdppc - gdppc_mean) %>% 
+    ungroup() %>% 
+    filter(., complete.cases(.))
+  
+  bf_wbl <- bf(wbl ~ 
+                 me(pge_diff, pge_diff_se) +
+                 me(pge_mean, pge_mean_se) +
+                 women_rep_diff +
+                 women_rep_mean +
+                 fmi_diff +
+                 fmi_mean +
+                 national_quota_diff +
+                 national_quota_mean +
+                 gdppc_diff +
+                 gdppc_mean +
+                 wbl_lag +
+                 (1|c|country) + (1|t|year))
+
+  m1_wbl_b <- brm(formula = bf_wbl,  
+                  data = wbl_data2,
+                  backend = "cmdstanr",
+                  control=list(adapt_delta = 0.99, 
+                               max_treedepth = 14),
+                  warmup = 500, 
+                  iter = 1000, 
+                  chains = 4, 
+                  cores = 4,
+                  seed = 324)
+  
+  m1_data <- m1_wbl_b$data
+  
+  m1_data_2sd <- m1_data %>% 
+    select(pge_diff,
+           pge_mean,
+           women_rep_diff,
+           women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           national_quota_mean,
+           national_quota_diff,
+           gdppc_mean,
+           gdppc_diff,
+           wbl_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_", name)),
+           var_names = c("Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Mean",
+                         "Descriptive Representation, Difference",
+                         "Descriptive Representation, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "National Quota, Difference",
+                         "National Quota, Mean",
+                         "GDP per Capita, Difference",
+                         "GDP per Capita, Mean",
+                         "Lagged WBL Policy Index"),
+           sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
+                        1,
+                        value))
+  
+  coef_data0_m1 <- m1_wbl_b %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m1_data_2sd, by = join_by(.variable))
+  
+  cy_summary_m1 <- m1_data %>%
+    count(country) %>%
+    pull(n) %>%
+    summary()
+  
+  save(wbl_data2, 
+       file = file.path(policy_path,
+                        "data",
+                        "wbl_data2.rda"))
+  
+  save(m1_data, m1_data_2sd, coef_data0_m1, cy_summary_m1, 
+       file = file.path(policy_path,
+                        "data",
+                        "wbl_results.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "wbl_data2.rda"))
+  load(file = file.path(policy_path, "data", "wbl_results.rda"))
+}
+```
+
+```{r m1wblplot, fig.cap="Predicting the WBL Policy Index in OECD Countries \\label{m1_wbl_plot}", fig.height = 7, fig.width = 7.5}
+ordered <- c("Public Gender Egalitarianism, Difference",
+             "Public Gender Egalitarianism, Mean", 
+             "Descriptive Representation, Difference",
+             "Descriptive Representation, Mean",
+             "Feminist Movement Index, Difference",
+             "Feminist Movement Index, Mean", 
+             "National Quota, Difference",
+             "National Quota, Mean",
+             "GDP per Capita, Difference",
+             "GDP per Capita, Mean",
+             "Lagged WBL Index") %>% 
+  rev()
+
+coef_data_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_data_2sd, ., by = join_by(.variable))
+
+coef_data_m1_total <- coef_data0_m1 %>% 
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+                      na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_data_2sd, ., by = join_by(.variable))
+
+coef_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  xlab("Standardized Coefficients") +
+  ylab(NULL) 
+
+lag_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Enrollment") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficient") +
+  ylab(NULL)
+
+coef_plot_m1 + lag_plot_m1 +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(7, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
+```
+
+
+
+
+
+```{r wblsem_results.rda}    
+if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {  
+  bf_pge <- bf(pge ~ 
+                 wbl_diff +
+                 wbl_mean +
+                 women_rep_diff +
+                 women_rep_mean +
+                 fmi_diff +
+                 fmi_mean +
+                 national_quota_diff +
+                 national_quota_mean +
+                 gdppc_diff +
+                 gdppc_mean +
+                 pge_lag +
+                 (1|c|country) + (1|t|year))
+
+  m2_wblsem_b <- brm(formula = bf_wbl + 
+                      bf_pge + 
+                      set_rescor(TRUE),  
+                    data = wbl_data2,
+                    backend = "cmdstanr",
+                    control=list(adapt_delta = 0.99, 
+                                 max_treedepth = 14),
+                    warmup = 500, 
+                    iter = 1000, 
+                    chains = 4, 
+                    cores = 4,
+                    seed = 324)
+  
+  m2_data <- m2_wblsem_b$data
+  
+  m2_data_2sd <- m2_data %>% 
+    select(pge_diff,
+           pge_mean,
+           women_rep_diff,
+           women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           national_quota_mean,
+           national_quota_diff,
+           gdppc_mean,
+           gdppc_diff,
+           wbl_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_wbl_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_wbl_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_wbl_", name)),
+           var_names = c("Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Mean",
+                         "Descriptive Representation, Difference",
+                         "Descriptive Representation, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "National Quota, Difference",
+                         "National Quota, Mean",
+                         "GDP per Capita, Difference",
+                         "GDP per Capita, Mean",
+                         "Lagged WBL Policy Index"
+           ),
+           sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                        1,
+                        value),
+           dv = "WBL Policy Index") %>% 
+    bind_rows(m2_data %>% 
+                select(wbl_diff,
+                       wbl_mean,
+                       women_rep_diff,
+                       women_rep_mean,
+                       fmi_diff,
+                       fmi_mean,
+                       national_quota_mean,
+                       national_quota_diff,
+                       gdppc_mean,
+                       gdppc_diff,
+                       pge_lag) %>% 
+                summarize(across(everything(), by2sd)) %>% 
+                pivot_longer(everything()) %>% 
+                mutate(`.variable` = paste0("b_pge_", name),
+                       var_names = c("WBL Policy Index, Difference",
+                                     "WBL Policy Index, Mean",
+                                     "Descriptive Representation, Difference",
+                                     "Descriptive Representation, Mean",
+                                     "Feminist Movement Index, Difference",
+                                     "Feminist Movement Index, Mean",
+                                     "National Quota, Difference",
+                                     "National Quota, Mean",
+                                     "GDP per Capita, Difference",
+                                     "GDP per Capita, Mean",
+                                     "Lagged Public Gender Egalitarianism"
+                       ),
+                       sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                                    1,
+                                    value),
+                       dv = "Public Gender Egalitarianism")) %>% 
+    mutate(dv = factor(dv, levels = c("WBL Policy Index",
+                                      "Public Gender Egalitarianism")))
+  
+  coef_data0_wblsem <- m2_wblsem_b %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m2_data_2sd, by = join_by(.variable))
+  
+  save(m2_data, m2_data_2sd, coef_data0_wblsem, 
+       file = file.path(policy_path,
+                        "data",
+                        "wblsem_results.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "wblsem_results.rda"))
+}
+```
+
+```{r m2wblplot, fig.cap="Predicting the WBL Policy Index and Public Gender Egalitarianism in OECD Countries \\label{m2_wbl_plot}", fig.height = 9, fig.width = 7.5}
+
+ordered_wblsem <- c("Public Gender Egalitarianism, Difference",
+                    "Public Gender Egalitarianism, Mean", 
+                    "WBL Policy Index, Difference",
+                    "WBL Policy Index, Mean",
+                    "Descriptive Representation, Difference",
+                    "Descriptive Representation, Mean",
+                    "Feminist Movement Index, Difference",
+                    "Feminist Movement Index, Mean",
+                    "National Quota, Difference",
+                    "National Quota, Mean",
+                    "GDP per Capita, Difference",
+                    "GDP per Capita, Mean",
+                    "Lagged WBL Policy Index",
+                    "Lagged Public Gender Egalitarianism") %>% 
+  rev()
+
+coef_data_wblsem <- coef_data0_wblsem %>% 
+  mutate(std_coef = round(.value * sd2, 2),
+         term = factor(var_names, levels = ordered_wblsem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m2_data_2sd, ., by = join_by(.variable))
+
+coef_data_wblsem_total <- coef_data0_wblsem %>%  
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha_wbl = mean(ifelse(name=="wbl_lag", .value, NA_real_),
+                         na.rm = TRUE),
+         alpha_pge = mean(ifelse(name=="pge_lag", .value, NA_real_),
+                          na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = if_else(dv == "WBL Policy Index",
+                            round(std_coef0/(1 - alpha_wbl), 1),
+                            round(std_coef0/(1 - alpha_pge), 1)),
+         term = factor(var_names, levels = ordered_wblsem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  right_join(m2_data_2sd, by = join_by(.variable))
+
+coef_plots_wblsem <- coef_data0_wblsem %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered_wblsem)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_grid(~ dv) +
+  theme_light() +
+  theme(strip.text.x = element_text(size = 10, color = "black"),
+        strip.background = element_rect(fill = "white", colour = "white")) +
+  xlab("Standardized Coefficients") +
+  ylab(NULL)
+
+lag_plots_wblsem <- coef_data0_wblsem %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered_wblsem)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Response Variable") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_grid(~ dv) +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficients") +
+  ylab(NULL) 
+
+coef_plots_wblsem + lag_plots_wblsem +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(9, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
+```
+
+
 
 @Kittilson2008: descriptive representation boosts maternity and childcare leave; results for other predictors are inconsistent
 <!-- From Weeks book talk: -->
@@ -774,25 +1296,31 @@ The impact of maternity leaves on gender equality in the workforce is complex an
 <!-- leave, minus the total weeks of maternity-only leave -->
 <!-- Analysis includes 23 countries from 1990 to 2016; Controls include GDP per capita, Women's Labor Force Participation, Left Government, Party Quota, Fertility Rate, EU Membership. -->
 
+
 ```{r leave_data}
-if (!file.exists(file.path(policy_path,
-                           "data-raw",
-                           "oecd_pf2_5.xlsx"))) {
+if (!file.exists(file.path(policy_path, "data-raw", "oecd_pf2_5.xlsx"))) {
   download.file("https://web.archive.org/web/20240718100341/http://www.oecd.org/els/family/PF2_5_Trends_in_leave_entitlements_around_childbirth.xlsx",
               file.path(policy_path,
                            "data-raw",
                            "oecd_pf2_5.xlsx"))
 }
 
-  wbl <- read_excel(file.path(policy_path,
-                           "data-raw",
-                           "wbl2024_v1.xlsx"),
-                  sheet = "Parenthood") %>% 
-    janitor::clean_names() %>% 
-    mutate(country = countrycode(economy, "country.name", "country.name"),
-           year = as.numeric(report_year)) %>% 
-    filter(country %in% oecd_countries) %>% 
-    full_join(pge_summary, by = join_by(country, year))
+leave_vars <- read_excel(file.path(policy_path, "data-raw", "oecd_pf2_5.xlsx"),
+                         sheet = "Time-Series") %>% 
+  names() %>% 
+  tolower() %>% 
+  str_subset("[a-z].*") %>% 
+  c("country", "year", .)
+
+leave_data <- read_excel(file.path(policy_path, "data-raw", "oecd_pf2_5.xlsx"),
+                         sheet = "Time-Series",
+                         skip = 8,
+                         col_names = leave_vars) %>% 
+  mutate(country = countrycode(country, "country.name", "country.name"),
+         across(-country, as.numeric), 
+         equality_leave = total_paid + 
+           total_father_specific_paid -
+           maternity_weeks)
 
 
 if (!file.exists(file.path(policy_path, "data-raw", "leave.rda"))) {
@@ -800,111 +1328,286 @@ if (!file.exists(file.path(policy_path, "data-raw", "leave.rda"))) {
   
   walk(control_files, \(f) 
        load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
+ 
+  pge_summary <- rio::import(here("data",
+                                  "pge_summary.rda")) %>% 
+    mutate(across(starts_with("p"),
+                  ~ .x * 100,
+                  .names = "{.col}"))
   
-  leave <- wbl %>% 
-    transmute(country = countrycode(economy, "country.name", "country.name"),
-              year = report_year - 1,
-              equality_leave = 
-              )
-   
-  # ecec_data1 <- pge_summary %>% 
-  #   filter(year >= 1999) %>% 
-  #   select(country, year, pge, pge_se) %>% 
-  #   full_join(ecec_data,
-  #             by = c("country", "year")) %>%
-  #   left_join(qarot,
-  #             by = c("country" = "countryname", "year")) %>% 
-  #   left_join(des,
-  #             by = c("country" ="countryname", "year")) %>%
-  #   left_join(fmi,
-  #             by = c("country", "year")) %>% 
-  #   group_by(country) %>% 
-  #   mutate(countryname = country,
-  #          iso2c = countrycode::countrycode(country, 
-  #                                           "country.name",
-  #                                           "iso2c",
-  #                                           warn = FALSE),
-  #          women_rep = case_when(countryname == "Lithuania" &
-  #                                  year == 1990 ~ 9.9,
-  #                                countryname == "Poland" &
-  #                                  year == 1991 ~ 9.1,
-  #                                TRUE ~ women_rep),
-  #          list = case_when(countryname == "Mexico" &
-  #                             year %in% c(1994, 1997, 2021) ~ 1,
-  #                           countryname == "Germany" &
-  #                             year == 2021 ~ 1,
-  #                           countryname == "Canada" &
-  #                             year == 2021 ~ 0,
-  #                           countryname == "United States" &
-  #                             year == 2022 ~ 0,
-  #                           TRUE ~ list),
-  #          women_rep = case_when(countryname == "Germany" &
-  #                                  year == 1980 ~ 8.3,
-  #                                countryname == "Germany" &
-  #                                  year == 1983 ~ 9.8, #https://www.bpb.de/themen/gender-diversitaet/frauen-in-deutschland/49418/frauenanteil-im-deutschen-bundestag/
-  #                                countryname == "Germany" &
-  #                                  year == 1987 ~ 15.4,
-  #                                TRUE ~ women_rep),
-  #          pge = case_when(is.na(pge) &
-  #                            country == "Australia" ~ lead(pge),
-  #                          is.na(pge) & 
-  #                            country == "France" ~ lead(pge, 2),
-  #                          is.na(pge) &
-  #                            country == "Ireland" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Netherlands" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "New Zealand" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Spain" ~ lead(pge),
-  #                          is.na(pge) &
-  #                            country == "Turkey" ~ lead(pge),
-  #                          TRUE ~ pge),
-  #          pge_se = case_when(is.na(pge_se) &
-  #                               country == "Australia" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) & 
-  #                               country == "France" ~ lead(pge_se, 2)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Ireland" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Netherlands" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "New Zealand" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Spain" ~ lead(pge_se)*1.1,
-  #                             is.na(pge_se) &
-  #                               country == "Turkey" ~ lead(pge_se)*1.1,
-  #                             TRUE ~ pge_se),
-  #          pge_lag = lag(pge),
-  #          pge_se_lag = lag(pge_se),
-  #          ecec_enr = zoo::na.approx(ecec_enrollment, na.rm = FALSE),
-  #          ecec_enr_lag = lag(ecec_enr),
-  #          ecec_exp = zoo::na.approx(ecec_exp, na.rm = FALSE),
-  #          ecec_exp_lag = lag(ecec_exp),
-  #          fmi = if_else(country == "United States" & year < 1975, 3, fmi),
-  #          women_rep_included = ifelse(!is.na(lag(pge)),
-  #                                      women_rep,
-  #                                      NA_real_),
-  #          national_quota = if_else(is.na(defacto_threshold), 0,
-  #                                   defacto_threshold)) %>% 
-  #   ungroup() %>% 
-  #   filter(countryname %in% oecd_countries) %>%
-  #   left_join(gdppc, by = c("country", "year")) %>% 
-  #   mutate(gdppc = gdppc/10000) %>% 
-  #   fill(pge, pge_se, pge_lag, pge_se_lag, list, gdppc) %>% 
-  #   arrange(country, year)
-  # 
-  # save(ecec_data1, file = file.path(policy_path, "data-raw", "ecec_data1.rda"))
+  leave_data1 <- pge_summary %>% 
+    select(country, year, pge, pge_se) %>% 
+    right_join(leave_data,
+              by = c("country", "year")) %>%
+    left_join(qarot,
+              by = c("country" = "countryname", "year")) %>% 
+    left_join(des,
+              by = c("country" ="countryname", "year")) %>%
+    left_join(fmi,
+              by = c("country", "year")) %>% 
+    group_by(country) %>% 
+    mutate(countryname = country,
+           iso2c = countrycode::countrycode(country, 
+                                            "country.name",
+                                            "iso2c",
+                                            warn = FALSE),
+           pge_lag = lag(pge),
+           pge_se_lag = lag(pge_se),
+           fmi = if_else(country == "United States" & year < 1975, 3, fmi),
+           equality_leave_included = ifelse(!is.na(lag(pge)),
+                                            equality_leave,
+                                            NA_real_),
+           equality_leave_reform = equality_leave - lag(equality_leave),
+           national_quota = if_else(is.na(defacto_threshold), 0,
+                                    defacto_threshold)) %>% 
+    left_join(gdppc, by = c("country", "year")) %>% 
+    mutate(gdppc = gdppc/10000) %>% 
+    fill(list) %>% 
+    ungroup() %>% 
+    arrange(country, year)
+  
+  save(leave_data1, file = file.path(policy_path, 
+                                     "data-raw",
+                                     "leave_data1.rda"))
 } else {
-  # ecec_data1 <- rio::import(file.path(policy_path, "data-raw", "ecec_data1.rda"))
+  pge_summary <- rio::import(here("data",
+                                  "pge_summary.rda")) %>% 
+    mutate(across(starts_with("p"),
+                  ~ .x * 100,
+                  .names = "{.col}"))
+  
+  leave_data1 <- rio::import(file.path(policy_path,
+                                       "data-raw", 
+                                       "leave_data1.rda"))
 }
-
 ```
 
-World Bank's Women, Business, and Law database [@WorldBank2024]
+```{r leaveplot, fig.cap="Gender Equality Leave in the OECD", fig.height = 9, fig.width = 7.5}
+#| label: fig-leaveplot
+
+leave_data1 %>%
+  group_by(country) %>%
+  mutate(last_leave = last(equality_leave, na_rm = TRUE)) %>% 
+  ggplot(aes(x = year, y = equality_leave)) +
+  geom_line(linetype = "dotted") +
+  geom_line(aes(y = equality_leave_included)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  # coord_cartesian(xlim = c(1999, 2022)) +
+  labs(x = NULL, y = "Gender Equality Leave") +
+  facet_wrap(~reorder(country, -last_leave), ncol = 6) +
+  theme(axis.text.x  = element_text(size = 7,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        strip.text.x = element_text(size = 8),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        plot.title = element_text(size=8)) +
+  plot_annotation(caption = str_wrap("Source: OECD (2024).", 85))
+```
+
+
+```{r leave_b}
+if (!file.exists(file.path(policy_path,
+                           "data",
+                           "leave_results.rda"))) {
+  
+  leave_data2 <- leave_data1 %>% 
+    filter(!is.na(equality_leave_reform)) %>% 
+    group_by(country) %>% 
+    transmute(year,
+              equality_leave_reform,
+              equality_leave_lag = lag(equality_leave), # previous year
+              equality_leave_mean = mean(equality_leave_lag, na.rm = TRUE),
+              equality_leave_diff = equality_leave_lag - equality_leave_mean,
+              equality_leave_reform_count = cumsum(!equality_leave_reform==0),
+              women_rep,
+              women_rep_lag = lag(women_rep), # previous year
+              women_rep_mean = mean(women_rep, na.rm = TRUE),
+              women_rep_diff = women_rep - women_rep_mean,
+              pge,
+              pge_se,
+              pge_lag, # previous year
+              pge_se_lag, # previous year
+              pge_mean = mean(pge_lag, na.rm = TRUE),
+              pge_mean_se = sqrt(sum(pge_se_lag^2, na.rm = TRUE))/
+                length(pge),
+              pge_diff = pge_lag - pge_mean,
+              pge_diff_se = sqrt(pge_se_lag^2 + pge_mean_se^2)/2,
+              fmi,
+              fmi_mean = mean(fmi, na.rm = TRUE),
+              fmi_diff = fmi - fmi_mean,
+              national_quota,
+              national_quota_mean = mean(national_quota),
+              national_quota_diff = national_quota - national_quota_mean,
+              list,
+              list_mean = mean(list, na.rm = TRUE),
+              list_diff = list - list_mean,
+              gdppc,
+              gdppc_mean = mean(gdppc, na.rm = TRUE),
+              gdppc_diff = gdppc - gdppc_mean) %>% 
+    ungroup() %>% 
+    filter(., complete.cases(.))
+  
+  bf_leave <- bf(equality_leave_reform ~ 
+                 me(pge_diff, pge_diff_se) +
+                 me(pge_mean, pge_mean_se) +
+                 women_rep_diff +
+                 women_rep_mean +
+                 fmi_diff +
+                 fmi_mean +
+                 national_quota_diff +
+                 national_quota_mean +
+                 gdppc_diff +
+                 gdppc_mean +
+                 equality_leave_reform_count +
+                 (1|c|country) + (1|t|year))
+
+  m1_leave_b <- brm(formula = bf_leave,  
+                  data = leave_data2,
+                  backend = "cmdstanr",
+                  control=list(adapt_delta = 0.99, 
+                               max_treedepth = 14),
+                  warmup = 500, 
+                  iter = 1000, 
+                  chains = 4, 
+                  cores = 4,
+                  seed = 324)
+  
+  m1_data <- m1_enr_b$data
+  
+  m1_data_2sd <- m1_data %>% 
+    select(pge_diff,
+           pge_mean,
+           women_rep_diff,
+           women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           national_quota_mean,
+           national_quota_diff,
+           gdppc_mean,
+           gdppc_diff,
+           ecec_enr_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_", name)),
+           var_names = c("Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Mean",
+                         "Descriptive Representation, Difference",
+                         "Descriptive Representation, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "National Quota, Difference",
+                         "National Quota, Mean",
+                         "GDP per Capita, Difference",
+                         "GDP per Capita, Mean",
+                         "Lagged Enrollment"),
+           sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
+                        1,
+                        value))
+  
+  coef_data0_m1 <- m1_enr_b %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m1_data_2sd, by = join_by(.variable))
+  
+  cy_summary_m1 <- m1_data %>%
+    count(country) %>%
+    pull(n) %>%
+    summary()
+  
+  save(ecec_enr_data2, 
+       file = file.path(policy_path,
+                        "data",
+                        "ecec_enr_data2.rda"))
+  
+  save(m1_data, m1_data_2sd, coef_data0_m1, cy_summary_m1, 
+       file = file.path(policy_path,
+                        "data",
+                        "enr_results.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "ecec_enr_data2.rda"))
+  load(file = file.path(policy_path, "data", "enr_results.rda"))
+}
+```
+
+```{r m1enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m1_enr_plot}", fig.height = 7, fig.width = 7.5}
+ordered <- c("Public Gender Egalitarianism, Difference",
+             "Public Gender Egalitarianism, Mean", 
+             "Descriptive Representation, Difference",
+             "Descriptive Representation, Mean",
+             "Feminist Movement Index, Difference",
+             "Feminist Movement Index, Mean", 
+             "National Quota, Difference",
+             "National Quota, Mean",
+             "GDP per Capita, Difference",
+             "GDP per Capita, Mean",
+             "Lagged Enrollment") %>% 
+  rev()
+
+coef_data_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_data_2sd, ., by = join_by(.variable))
+
+coef_data_m1_total <- coef_data0_m1 %>% 
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+                      na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_data_2sd, ., by = join_by(.variable))
+
+coef_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  xlab("Standardized Coefficients") +
+  ylab(NULL) 
+
+lag_plot_m1 <- coef_data0_m1 %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Enrollment") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficient") +
+  ylab(NULL)
+
+coef_plot_m1 + lag_plot_m1 +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(7, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
+```
 
 
 
+
+### Early Childhood Education and Care
 
 ```{r ecec_data}
 if (!file.exists(file.path(policy_path, "data-raw", "ecec_data.csv"))) {
@@ -990,7 +1693,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
 }
 ```
 
-```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care in the OECD", fig.height = 9, fig.width = 7.5}
+```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care, Ages 0-2, in the OECD", fig.height = 9, fig.width = 7.5}
 #| label: fig-enrplot
 
 ecec_data1 %>%
@@ -1019,10 +1722,7 @@ ecec_data1 %>%
   plot_annotation(caption = str_wrap("Source: OECD (2024).", 85))
 ```
 
-
-
-
-```{r ececenrplot, fig.cap="Public Gender Egalitarianism and Enrollment in Early Childhood Education and Care in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r ececenrplot, fig.cap="Public Gender Egalitarianism and Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-ecec-enrplot
 
 pge <- rio::import(here("data",
