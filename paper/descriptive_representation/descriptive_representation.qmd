@@ -8,7 +8,7 @@ format:
 <!-- Could be valuably expanded to roles in judiciary (see https://www.openicpsr.org/openicpsr/project/135801/version/V1/view) and executive (e.g., [@Goddard2021](https://journals.sagepub.com/doi/full/10.1177/1354068819878665); chapters in @Alexander2018). -->
 
 
-# Gender Egalitarianism and Women's Descriptive Representation
+# Gender Egalitarianism and Women's Dynamic Descriptive Representation
 
 In the traditional view, politics is a man's game.
 From this perspective, the public sphere, both politics and the workplace, is unsuited to the participation of women, and elected office is considered to be a position for men only.
@@ -1731,7 +1731,7 @@ Therefore, although this coefficient provides some evidence for the electoral-li
 Our best evidence for causation comes instead from the variable labeled as the _difference_ in the presence of an electoral list.
 This variable allows us to estimate the difference between having a list and not having a list over time _within_ the data for a single country.
 As looking within a country holds so many possible but unobserved alternate causes constant, the grounds for considering the estimated coefficient for this variable evidence of causation are considerably more solid.
-Unfortunately for the purposes of estimation, in this case only three countries in our dataset---France, Japan, and New Zealand---adopted electoral-system reforms that changed whether there was a party list over the elections we observe.
+Unfortunately for the purposes of estimation, in this case only three countries in our dataset---New Zealand, Japan, and France---adopted electoral-system reforms that changed whether there was a party list over the elections we observe.
 Further, in each of these countries, the reform came after only the first observed election.
 As a result, there is little leverage in these data to precisely estimate a causal effect, and indeed the range of credible values is very wide, from `r get_coef("list_diff", coef_data_m1, type = "ci")` percentage points.
 Because this range includes zero (marked in the figure with the dashed vertical line), these data and this model provide no support for a short-run effect on women's descriptive representation of party-list electoral systems at all.
