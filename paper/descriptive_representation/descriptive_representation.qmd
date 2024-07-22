@@ -1,14 +1,6 @@
----
-format:
-  pdf:
-    documentclass: scrbook
-    linestretch: "1.5"
----
+# Public Egalitarianism and Women's Dynamic Descriptive Representation
 
 <!-- Could be valuably expanded to roles in judiciary (see https://www.openicpsr.org/openicpsr/project/135801/version/V1/view) and executive (e.g., [@Goddard2021](https://journals.sagepub.com/doi/full/10.1177/1354068819878665); chapters in @Alexander2018). -->
-
-
-# Gender Egalitarianism and Women's Dynamic Descriptive Representation
 
 In the traditional view, politics is a man's game.
 From this perspective, the public sphere, both politics and the workplace, is unsuited to the participation of women, and elected office is considered to be a position for men only.

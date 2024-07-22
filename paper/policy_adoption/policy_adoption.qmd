@@ -1,4 +1,4 @@
-# From Public Egalitarianism to Advancing Equality: Explaining Policy Adoption
+# Public Egalitarianism and the Adoption of Equality-Advancing Policies
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)

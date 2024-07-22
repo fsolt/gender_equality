@@ -1,7 +1,5 @@
 ---
 format:
-  html:
-    theme: cosmo
   pdf:
     documentclass: scrbook
     linestretch: "1.5"
