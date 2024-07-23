@@ -1288,10 +1288,10 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
                                    name == "pge_diff" ~
                                      "bsp_mepge_diffpge_diff_se",
                                    TRUE ~ paste0("b_", name)),
-           var_names = c("Public Gender Egalitarianism, Difference",
-                         "Public Gender Egalitarianism, Mean",
-                         "Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Mean",
+           var_names = c("Macroegalitarianism, Difference",
+                         "Macroegalitarianism, Mean",
+                         "Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Mean",
                          "National Quota, Difference",
                          "National Quota, Mean",
                          "Electoral List, Difference",
@@ -1447,7 +1447,7 @@ Colombia and Costa Rica are observed in just five elections, and Switzerland in 
 Still, a solid majority of our countries, twenty-six of the thirty-eight, have been observed in at least eight elections, giving us some confidence that we have adequate data to capture not only the differences between the countries in which many women are elected and those with much smaller numbers of women in office but also and perhaps more importantly the dynamics of change over time.
 We will start, though, by looking at the raw bivariate data.
 
-```{r wrplot, fig.cap="Public Gender Egalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 9, fig.width = 7.5}
+```{r wrplot, fig.cap="Macroegalitarianism and Women's Share of Legislative Seats in OECD Democracies \\label{wrplot}", fig.height = 9, fig.width = 7.5}
 country_pge <- rio::import(file.path(descrep_path, "data", "country_pge.rda"))
 
 wr_cor <- map(country_pge,
@@ -1478,14 +1478,14 @@ ggplot(by_country,
                      breaks=seq(20, 100, by = 20)) +
   scale_y_continuous(limits=c(0, 50),
                      breaks=seq(0, 50, by = 10)) +
-  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Legislative Seats") +
+  labs(x = "Macroegalitarianism", y = "Women's Share of Legislative Seats") +
   geom_label(data = wr_label, aes(label = label)) +
   plot_annotation(caption = "Notes: Whiskers describe 80% credible\nintervals.")
 ```
 
 Are gender egalitarian public opinion and women's descriptive representation related?
 Every point in Figure&nbsp;\ref{wrplot} represents an election in a particular country, and each is labeled with that country's two-character codes assigned by the International Organization for Standardization (ISO).
-The figure's x-axis presents the country's Public Gender Egalitarianism score, measured in the year the election was held.
+The figure's x-axis presents the country's macroegalitarism, as measured by its PGE score, in the year the election was held.
 And because the PGE scores are estimated with uncertainty, each point is shown with horizontal whiskers tracing its 80% credible interval.
 The plot's y-axis depicts the percentage of seats won by women in each election to the lower house of the national legislature in that election.
 There is a strong positive relationship between the two.
@@ -1587,8 +1587,6 @@ by_country0 %>%
   plot_annotation(caption = str_wrap("Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Source: Forester et al. (2022).", 85))
 ```
 
-
-
 With these data in hand, we can turn to how best to use them to test our theories.
 The dataset includes a series of time points representing years with democratic elections for each of the thirty-eight OECD member states.
 Pooling these time series and analyzing them together has two long-appreciated benefits [see, e.g., @Stimson1985, 916].
@@ -1627,7 +1625,7 @@ Either way, the extent of women's descriptive representation in the preceding te
 Given these circumstances, we include as a predictor the lag of the variable to be predicted, that is, its value at the time of the last election [see @Keele2006].
 
 One last source of problems is measurement uncertainty.
-As described in the previous chapter, our measure of public gender egalitarianism, the PGE scores, are estimated with uncertainty as a result of the sparsity and incomparability of surveys addressing the topic.
+As described in the previous chapter, our measure of macroegalitarianism, the PGE scores, are estimated with uncertainty as a result of the sparsity and incomparability of surveys addressing the topic.
 Because measurement uncertainty in a latent variable like the PGE scores can bias our the results of our analyses, to ignore it is to run the risk of drawing incorrect conclusions from the data [see @Tai2024].
 We therefore incorporated the measurement uncertainty in the PGE scores into our analysis.
 The model was estimated using the `brms` R package [@Burkner2017] with noninformative priors.^[
@@ -1645,10 +1643,10 @@ But the unstandardized coefficient is less than one, which suggests that absent 
 This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
 ```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
-ordered <- c("Public Gender Egalitarianism, Difference",
-             "Public Gender Egalitarianism, Mean", 
-             "Feminist Movement Index, Difference",
-             "Feminist Movement Index, Mean", 
+ordered <- c("Macroegalitarianism, Difference",
+             "Macroegalitarianism, Mean", 
+             "Feminist Movement Strength, Difference",
+             "Feminist Movement Strength, Mean", 
              "Descriptive Representation, Difference",
              "Descriptive Representation, Mean",
              "National Quota, Difference",
@@ -1745,18 +1743,19 @@ Changes in the strength of the feminist movement over time, moreover, are less c
 A one-point increase in the FMI index is estimated to yield a short-run `r get_coef("fmi_diff", coef_data_m1, type = "std_coef")` percentage-point increase in women's descriptive representation, but with an 80% confidence interval from `r get_coef("fmi_diff", coef_data_m1, type = "ci")` points, or `r get_coef("fmi_diff", coef_data_m1_total)` over time.
 It appears that---net of the other variables in the model---the strength of feminist movements has only a limited and inconsistent direct influence on women's descriptive representation.
 
-At last, we reach the top rows of the plot, where we find the coefficients for Public Gender Egalitarianism.
+At last, we reach the top rows of the plot, where we find the coefficients for macroegalitarianism.
 Once more, the country mean of this variable captures the differences between countries.
 Compared to a country like Czechia or Latvia with a mean PGE score of about 54, a standard deviation below the OECD average for this variable in our dataset, a country like Canada or Iceland with a mean PGE score of about 72, a standard deviation above, is estimated to elect women to `r get_coef("pge_mean", coef_data_m1)` percentage points greater share of the national legislature in a single election.
 Given that descriptive representation is dynamic, with gains in one election persisting in future elections, this difference grows to `r get_coef("pge_mean", coef_data_m1_total)` percentage points over time.
 As was the case with our other country-mean variables, this result may reflect historical processes over the long term; it may reflect some degree of reverse causation, in which women in office shape the public's views of gender equality; and it may also simply be due to other country-level factors correlated with public opinion that have yet to be identified, measured, and included in the model.
 This ambiguity is not actually a problem, as this result's utility is not really in a causal interpretation.
-The true importance in this model of the result for the country-mean of Public Gender Egalitarianism is that it isolates the consequences of changes in egalitarian public opinion over time.
+The true importance in this model of the result for the country-mean of macroegalitarianism is that it isolates the consequences of changes in egalitarian public opinion over time.
 
 And the topmost row of Figure&nbsp;\ref{m1plot} shows the posterior probability distribution for the difference in PGE over time within each country.
 With this dataset and model, this distribution indicates that there is a `r {coef_data0_m1 %>% filter(name == "pge_diff" & .value > 0) %>% nrow()}/{coef_data0_m1 %>% filter(name == "pge_diff") %>% nrow()} * 100`% chance that this variable has a positive effect on women's descriptive representation.
 Compared to an election held when egalitarian public opinion is a standard deviation below the country's mean, an election held when egalitarian public opinion is a standard deviation above that value will yield `r get_coef("pge_diff", coef_data_m1)` percentage points more women in the national legislature, compounding over time to `r get_coef("pge_diff", coef_data_m1_total)` percentage points.
 
+<!-- V REVISE V -->
 This result provides strong evidence that the public's views on gender equality in the public sphere of politics and work actually does shape the extent to which women gain an equal share of descriptive representation.
 But it suffers two problems.
 The first problem is that there is a disconnect between the elite-led and mass-public theories and this evidence.
@@ -1765,7 +1764,7 @@ In the elite-led theory, it is _political parties_ that respond to pressure from
 In the mass-public theory, it is _political parties_ that react to an increasingly egalitarian public by running more women candidates in races they can win.
 But the observations in the foregoing analysis are of countries' entire legislatures. 
 At that level, we cannot really see what going on within political parties, really not at all.
-And if rising public gender egalitarianism coincides with, for example, greater success of green and left parties that are committed to equality, then the results just described may be the consequence of aggregation bias.
+And if rising macroegalitarianism coincides with, for example, greater success of green and left parties that are committed to gender equality, then the results just described may be the consequence of aggregation bias.
 If it is the ideology of the parties elected to the legislature that actually drive women's descriptive representation, looking across all parties at once as we just did may generate mistaken conclusions.
 
 The second problem is that there is ample theory and evidence across many fields of public opinion that the public responds to cues provided by elites.
@@ -1779,8 +1778,8 @@ First, to ensure that our findings are not clouded by aggregation bias, we colle
 And second, to confirm that we have adequately addressed the potential for reverse causation, we then explicitly incorporate the effect of the extent of women's descriptive representation achieved in an election on the public's subsequent gender egalitarianism.
 
 
-## Addressing Aggregation: Explaining Descriptive Representation Within Parties
-
+### Addressing Aggregation: Explaining Descriptive Representation Within Parties
+<!-- V REVISE V -->
 Because the theories outlined in Chapter 2 work through the actions of parties, they are most appropriately tested using data measured at the party level.
 We compiled data on women's share of each each party's legislative representation after each election, drawing on the datasets employed in @Weeks2023 and @Adams2023 and supplementing with national sources.
 The resulting data comprises over 1400 observations.
@@ -1887,8 +1886,8 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                                    name == "pge_diff" ~
                                      "bsp_mepge_diffpge_diff_se",
                                    TRUE ~ paste0("b_", name)),
-           var_names = c("Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Country Mean",
+           var_names = c("Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Country Mean",
                          "Gender Quota, Difference",
                          "Gender Quota, Party Mean",
                          "Electoral List, Difference",
@@ -1898,8 +1897,8 @@ if (!file.exists(file.path(descrep_path,  "data", "pfem_results.rda"))) {
                          "Center Party",
                          "Extreme Right Party",
                          "Lagged Women's Share of Party Seats",
-                         "Public Gender Egalitarianism, Difference",
-                         "Public Gender Egalitarianism, Country Mean"),
+                         "Macroegalitarianism, Difference",
+                         "Macroegalitarianism, Country Mean"),
            sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
                         1,
                         value))
@@ -1969,7 +1968,7 @@ The points in this plot are faded by the parties' share of the legislature: the 
 (Parties whose delegations in the lower house of the national legislature are mostly women tend to be smaller, but otherwise there is little apparent relationship between party size and descriptive representation; across all observations, the bivariate correlation $R$ is just `r with(by_party2, cor(pfem, seat_percent)) %>% round(2)`.)
 In any event, the much looser relationship between public opinion and descriptive representation seen here reinforces the concern that difference between the units observed in the analysis first presented and those at which the theories are thought to operate may influence our conclusions.
 
-```{r pfemplot, fig.cap="Public Gender Egalitarianism and Women’s Share of Party Legislative Seats in OECD Democracies \\label{pfemplot}", fig.height = 9, fig.width = 7.5}
+```{r pfemplot, fig.cap="Macroegalitarianism and Women’s Share of Party Legislative Seats in OECD Democracies \\label{pfemplot}", fig.height = 9, fig.width = 7.5}
 party_pge <- rio::import(file.path(descrep_path, "data", "party_pge.rda"))
 
 pfem_cor <- map(party_pge,
@@ -1998,7 +1997,7 @@ ggplot(by_party2,
         axis.title = element_text(size=12)) +
   scale_x_continuous(limits=c(25, 100),
                      breaks=seq(25, 100, by = 25)) +
-  labs(x = "Public Gender Egalitarianism", y = "Women's Share of Party Legislative Seats") +
+  labs(x = "Macroegalitarianism", y = "Women's Share of Party Legislative Seats") +
   geom_label(data = pfem_label, aes(label = label)) +
   plot_annotation(caption = "Notes: Whiskers describe 80% credible intervals.")
 ```
@@ -2022,10 +2021,10 @@ That research finds that socialist and social democratic parties on the left---a
 We therefore also control for parties' memberships in these ideological groupings.
 
 ```{r m2plot, fig.cap="Predicting Women's Share of Parties' Legislative Seats in OECD Democracies \\label{m2plot}", fig.height = 9, fig.width = 7.5}
-ordered_pfem <- c("Public Gender Egalitarianism, Difference",
-                  "Public Gender Egalitarianism, Country Mean", 
-                  "Feminist Movement Index, Difference",
-                  "Feminist Movement Index, Country Mean",
+ordered_pfem <- c("Macroegalitarianism, Difference",
+                  "Macroegalitarianism, Country Mean", 
+                  "Feminist Movement Strength, Difference",
+                  "Feminist Movement Strength, Country Mean",
                   "Gender Quota, Difference",
                   "Gender Quota, Party Mean",
                   "Electoral List, Difference",
@@ -2108,15 +2107,16 @@ Compared to in right-wing parties, women's share of elected representatives is `
 Women's shares of parliamentary delegations of parties of the ideological center were found to be  `r get_coef("center", coef_data_m2pf)` points larger as well, but extreme right parties are no different from other parties of the right.
 
 Most importantly for present purposes, training our focus on parties within elections and taking into account party ideology do not change our findings with regard to public opinion.
-Here, too, there is strong support for the theory suggesting more gender egalitarian public opinion causes more women's descriptive representation.
+Here, too, there is strong support for the theory suggesting greater macroegalitarianism causes more women's descriptive representation.
 Consider first the cross-country findings.
 Parties in a country where public opinion is a standard deviation above the sample mean elect `r get_coef("pge_mean", coef_data_m2pf)` points more women representatives within their delegations than those in a country where public opinion is a standard deviation below.
-And over time _within_ a country, a two-standard deviation increase in public gender egalitarianism is found to yield on average a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
+And over time _within_ a country, a two-standard deviation increase in macroegalitarianism is found to yield on average a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
 Taking the dynamics into account, the estimated effect of country-mean differences grows to `r get_coef("pge_mean", coef_data_m2pf_total)` and that for over-time differences from these means to `r get_coef("pge_diff", coef_data_m2pf_total)` points.
 The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining descriptive representation.
 
 
-## Addressing Reverse Causation: Incorporating Representation's Effects on Opinion
+## Public Responsiveness to Descriptive Representation
+<!-- V REVISE V -->
 
 As mentioned above, the other concern with our analysis of elections across the rich democracies is the potential that its results are driven by reverse causation.
 This problem arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
@@ -2139,7 +2139,7 @@ The combination of building a single model that explicitly incorporates both hyp
 Fortunately, the dataset used in this chapter, built around the extensive PGE dataset on gender egalitarian public opinion, allows us to proceed along exactly these lines.
 We return to examining country-elections to match the level at which both public opinion and descriptive representation can be measured.
 As before, we estimate the within-between specification of a Bayesian multilevel model with varying intercepts for each country and year.
-What is new is that we model the potentially reciprocal relationships using a pair of equations, one for women's descriptive representation and one for public gender egalitarianism, within a multivariate simultaneous equations model.
+What is new is that we model the potentially reciprocal relationships using a pair of equations, one for women's descriptive representation and one for macroegalitarianism, within a multivariate simultaneous equations model.
 That means that gender egalitarianism and descriptive representation are each used to predict the other and that the varying intercepts for each country and year are correlated across the two equations.
 
 ```{r wrsem_b}
@@ -2232,10 +2232,10 @@ if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
                                    name == "pge_diff" ~
                                      "bsp_womenrep_mepge_diffpge_diff_se",
                                    TRUE ~ paste0("b_womenrep_", name)),
-           var_names = c("Public Gender Egalitarianism, Difference",
-                         "Public Gender Egalitarianism, Mean",
-                         "Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Mean",
+           var_names = c("Macroegalitarianism, Difference",
+                         "Macroegalitarianism, Mean",
+                         "Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Mean",
                          "National Quota, Difference",
                          "National Quota, Mean",
                          "Electoral List, Difference",
@@ -2263,22 +2263,22 @@ if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
                 mutate(`.variable` = paste0("b_pge_", name),
                        var_names = c("Descriptive Representation, Difference",
                                      "Descriptive Representation, Mean",
-                                     "Feminist Movement Index, Difference",
-                                     "Feminist Movement Index, Mean",
+                                     "Feminist Movement Strength, Difference",
+                                     "Feminist Movement Strength, Mean",
                                      "GDP per Capita, Difference",
                                      "GDP per Capita, Mean",
                                      "National Quota, Difference",
                                      "National Quota, Mean",
                                      "Electoral List, Difference",
                                      "Electoral List, Mean",
-                                     "Lagged Public Gender Egalitarianism"
+                                     "Lagged Macroegalitarianism"
                        ),
                        sd2 = ifelse(str_detect(.variable, "list_|_lag"),
                                     1,
                                     value),
-                       dv = "Public Gender Egalitarianism")) %>% 
+                       dv = "Macroegalitarianism")) %>% 
     mutate(dv = factor(dv, levels = c("Women's Descriptive Representation",
-                                      "Public Gender Egalitarianism")))
+                                      "Macroegalitarianism")))
   
   coef_data0_wrsem <- m3_wrsem_b %>% 
     as_draws_df() %>% 
@@ -2296,12 +2296,12 @@ if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
 ```
 
 ```{r m3plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{m3plot}", fig.height = 9, fig.width = 7.5}
-ordered_wrsem <- c("Public Gender Egalitarianism, Difference",
-                   "Public Gender Egalitarianism, Mean", 
+ordered_wrsem <- c("Macroegalitarianism, Difference",
+                   "Macroegalitarianism, Mean", 
                    "Descriptive Representation, Difference",
                    "Descriptive Representation, Mean",
-                   "Feminist Movement Index, Difference",
-                   "Feminist Movement Index, Mean",
+                   "Feminist Movement Strength, Difference",
+                   "Feminist Movement Strength, Mean",
                    "National Quota, Difference",
                    "National Quota, Mean",
                    "Electoral List, Difference",
@@ -2309,7 +2309,7 @@ ordered_wrsem <- c("Public Gender Egalitarianism, Difference",
                    "GDP per Capita, Difference",
                    "GDP per Capita, Mean",
                    "Lagged Descriptive Representation",
-                   "Lagged Public Gender Egalitarianism") %>% 
+                   "Lagged Macroegalitarianism") %>% 
   rev()
 
 coef_data_wrsem <- coef_data0_wrsem %>% 
@@ -2375,7 +2375,7 @@ coef_plots_wrsem + lag_plots_wrsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m3plot} presents the results, with the equation predicting women's descriptive representation in the left-hand panel and the equation predicting public gender egalitarianism in the right-hand panel.
+Figure&nbsp;\ref{m3plot} presents the results, with the equation predicting women's descriptive representation in the left-hand panel and the equation predicting macroegalitarianism in the right-hand panel.
 Both the conclusion reached earlier in this chapter that opinion affects representation and the finding of @Kim2023 that representation affects opinion are supported, reinforcing our confidence in each.
 The evidence for the relationship we are most interested in here, from gender egalitarian public opinion to women's descriptive representation in national legislatures, is if anything strengthened by controlling for the potential for reverse causation.
 The posterior probability that increasing PGE over time within a country leads to an increasing percentage of women legislators, conditional on these data and this model, is `r {{coef_data0_wrsem %>% filter(name == "pge_diff" & .value > 0) %>% nrow()}/20} %>% round()`%.
@@ -2394,5 +2394,5 @@ Elite negotiations such as those between activists and party gatekeepers determi
 This chapter presents strong evidence that the public does in fact matter to the extent to which women gain office. 
 When public opinion towards gender roles in the public sphere of politics and the workplace shift toward egalitarianism, more women are elected.
 And, although these public attitudes do respond to the extent to which women hold positions of power, the importance of the public is still clear when taking this reverse causation is also considered.
-Taking public gender egalitarianism into account is a valuable complement to the elite-led theory of women's descriptive representation.
+Taking macroegalitarianism into account is a valuable complement to the elite-led theory of women's descriptive representation.
 In the next chapter, we examine whether public opinion also shapes women's substantive representation, the adoption of policies of gender equality.
