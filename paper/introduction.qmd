@@ -2,7 +2,15 @@
 
 <!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
 
-<!-- @Weeks2022a [,16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic.  We focus instead on equality -->
+
+
+Across the world's rich democracies, do parties and governments respond to public opinion by running more women candidates and adopting policies that adopt gender equality?
+
+> @Caughey2022 find that state governments respond to public opinion, but generally only very slowly.
+
+> If democracy is the system in which government is equally response to the preferences of all citizens, per Dahl, then gender equality in representation is part of democracy (see V-Dem; Archenti and Tula 2017; Palma 2021; @Krook2022; @Piscopo2024).  The evidence that democracy depends on public support for democracy that we currently have is weak at best (but see, maybe, @Welzel2013).   
+
+Does greater gender equality 'create its own constituency' or does it prompt backlash?
 
 The extent of public support for gender egalitarianism has been an important issue in many countries around the world since at least the past half-century.
 The improvement of public gender egalitarianism over the globe makes scholars examine the causes and consequences of the improvement.
