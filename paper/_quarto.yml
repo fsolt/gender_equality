@@ -10,6 +10,7 @@ book:
   author: "Byung-Deuk Woo and Frederick Solt"
   date: today
   date-format: long
+  output-file: "macroegalitarianism"
   chapters:
     - index.qmd
     - introduction.qmd
@@ -27,4 +28,6 @@ bibliography: gender-equality.bib
 format:
   pdf:
     documentclass: scrbook
+    lof: TRUE
     linestretch: "1"
+
