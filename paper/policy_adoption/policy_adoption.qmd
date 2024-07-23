@@ -1,4 +1,4 @@
-# Public Egalitarianism and the Adoption of Equality-Advancing Policies
+# Dynamic Substantive Representation
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -476,62 +476,167 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "Sweden", "Switzerland", "Turkey", 
                     "United Kingdom", "United States")
 ```
-@Bergqvist2013, 284: despite the prevalence of case studies in the literature on gender equality policy adoption, these works look almost exclusively at successes; cross-national comparison avoids this problem 
 
-@Stimson1995: dynamic representation is when changes in public opinion are mirrored in policy
-
+<!-- @Weeks2022a [,16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic -->
 
 
-childcare advances equality in the workforce, the "dual-earner family"
-leave for fathers advances the "dual-carer family", while leave for mothers reinforces traditional gender roles
-
-
-## Advancing Gender Equality in Politics {.unnumbered}
+## Substantive Representation in Policies Advancing Gender Equality in Politics
 
 One of the most-studied policies advancing gender equality is the adoption of gender quotas for candidates running for legislative seats.
 National gender quotas---that is, candidate quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates for the national legislature.
 As we saw in the previous chapter, legislated national quotas have proven to be effective policies for increasing the share of women in office.
 
-```{r by_country3}
-load(file = file.path(descrep_path, "data",  "by_country2.rda"))
+To measure the adoption and reform of quotas we again employ the data on the de facto threshold provided by the excellent QAROT database [@Hughes2019] updated with information from @IDEA2023.^[
+There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this analysis.]
 
-by_country3 <- by_country2 %>%
+```{r dft_data3}
+
+control_files <- c("qarot.rda", "des.rda", "fmi.rda", "gdppc.rda")
+  
+walk(control_files, \(f) 
+     load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
+
+pge_summary <- rio::import(here("data",
+                                "pge_summary.rda")) %>% 
+  mutate(across(starts_with("p"),
+                ~ .x * 100,
+                .names = "{.col}"))
+  
+eee <- read_csv(file.path(descrep_path, "data-raw", "eee.csv"))
+
+dft_data2 <- qarot %>% 
+  filter(country %in% oecd_countries) %>% 
+  full_join(pge_summary, by = join_by(country, year)) %>%
+  left_join(des,
+            by = c("countryname", "year")) %>%
+  bind_rows(eee) %>% 
+  left_join(fmi,
+            by = c("country", "year")) %>% 
   group_by(country) %>% 
-  mutate(quota_lag = if_else(!is.na(lag(national_quota)), 
-                             lag(national_quota),
-                             national_quota),
-         quota_change = national_quota-quota_lag,
-         exposure = log1p(50-quota_lag),
-         prev_quota = as.numeric(!quota_lag==0)) %>% 
+  mutate(countryname = country,
+         iso2c = countrycode::countrycode(country, 
+                                          "country.name",
+                                          "iso2c",
+                                          warn = FALSE),
+         nq = defacto_threshold,
+         pge_lag = lag(pge),
+         pge_se_lag = lag(pge_se),
+         fmi = if_else(country == "United States" & year < 1975, 3, fmi)) %>% 
+  left_join(gdppc, by = c("country", "year")) %>% 
+  mutate(gdppc = gdppc/10000) %>% 
+  fill(list, .direction = "downup") %>% 
+  fill(nq, women_rep) %>%
+  mutate(nq_included = ifelse(!is.na(lag(pge)),
+                              nq,
+                              NA_real_)) %>% 
   ungroup() %>% 
-  filter(!quota_lag == 50)
+  arrange(country, year) %>% 
+  filter(country %in% oecd_countries) %>% 
+  group_by(country) %>% 
+  transmute(., 
+            year,
+            nq,
+            nq_lag = if_else(row_number() == 1,
+                             nq,
+                             lag(nq)), # previous year
+            nq_mean = mean(nq_lag, na.rm = TRUE),
+            nq_diff = nq_lag - nq_mean,
+            lnq = last(nq) + .0001*nq_mean,
+            nq_included = ifelse(!is.na(pge_lag),
+                                     nq,
+                                     NA_real_),
+            women_rep,
+            women_rep_lag = lag(women_rep), # previous year
+            women_rep_mean = mean(women_rep, na.rm = TRUE),
+            women_rep_diff = women_rep - women_rep_mean,
+            pge,
+            pge_se,
+            pge_lag, # previous year
+            pge_se_lag, # previous year
+            pge_mean = mean(pge_lag, na.rm = TRUE),
+            pge_mean_se = sqrt(sum(pge_se_lag^2, na.rm = TRUE))/
+              length(pge),
+            pge_diff = pge_lag - pge_mean,
+            pge_diff_se = sqrt(pge_se_lag^2 + pge_mean_se^2)/2,
+            fmi,
+            fmi_mean = mean(fmi, na.rm = TRUE),
+            fmi_diff = fmi - fmi_mean,
+            list,
+            list_mean = mean(list, na.rm = TRUE),
+            list_diff = list - list_mean,
+            gdppc,
+            gdppc_mean = mean(gdppc, na.rm = TRUE),
+            gdppc_diff = gdppc - gdppc_mean) %>% 
+  ungroup()
+
+dft_data3 <- dft_data2 %>% 
+  filter(., complete.cases(.))
 ```
+
+```{r nqts, fig.cap="National Legislative Gender Quotas in the OECD", fig.height = 9, fig.width = 7.5}
+#| label: fig-nqts
+
+dft_data2 %>%
+  ggplot(aes(x = year, y = nq)) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  coord_cartesian(xlim = c(1990, 2022)) +
+  labs(x = NULL, y = "National Quota, De Facto Threshold") +
+  geom_line(linetype = "dotted") +
+  geom_line(aes(y = nq_included)) +
+  facet_wrap(~reorder(country, -lnq), ncol = 6) +
+  theme(axis.text.x  = element_text(size = 7,
+                                    angle = 90,
+                                    vjust = .45,
+                                    hjust = .95),
+        strip.text.x = element_text(size = 8),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        plot.title = element_text(size=8)) +
+  plot_annotation(caption = str_wrap("Note: Solid lines trace trends over the years covered in this chapter's analyses; dotted lines extend to years that were not\nincluded.  Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).", 80))
+```
+
+Recall that our measure of national quotas, first presented in the previous chapter, is the de facto threshold, which combines "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
+@fig-nqts shows the trends in the adoption and reform of these national quotas over time.
+Out of the thirty-eight countries of the OECD, four now have parity quotas, that is, half of the candidates run by each party must be women and half must be men: France, Belgium, Costa Rica, and Mexico.
+
+
+### Substantive Representation in National Gender Quota Adoption
 
 ```{r nqplot, fig.cap="Public Gender Egalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-nq-plot
-country_pge <- rio::import(file.path(descrep_path,
-                                     "data",
-                       "country_pge.rda"))
+pge <- rio::import(here("data",
+                        "pge.rda"))
 
-country_quota_cor <- map(country_pge,
-                         ~ with(.x %>% filter(lag(national_quota < 50)),
-                                cor(pge_lag, national_quota,
-                                        use = "pairwise.complete.obs"))) %>% 
+nq_pge <- pge %>% 
+  group_by(draw) %>% 
+  group_split() %>% 
+  map(. %>% 
+        group_by(country) %>% 
+        mutate(pge = pge*100) %>%
+        ungroup() %>% 
+        inner_join(dft_data3 %>% 
+                     select(country, year, nq),
+                   by = c("country", "year")))
+
+nq_cor <- map(nq_pge,
+              ~ with(.x,
+                     cor(pge, nq,
+                         use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
   round(2) %>% 
   sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
-country_quota_label <- tibble(pge_lag = 90,
-                              national_quota = 4,
-                              label = country_quota_cor)
+nq_label <- tibble(pge_lag = 90,
+                         nq = 4,
+                         label = nq_cor)
 
-country_quota_plot <- ggplot(by_country3,
-                             aes(x = pge_lag,
-                                 y = national_quota)) +
+nq_plot <- ggplot(dft_data3,
+                  aes(x = pge_lag,
+                      y = nq)) +
   geom_segment(aes(x = pge_lag-2*pge_se_lag, xend = pge_lag+2*pge_se_lag,
-                   y = national_quota, yend = national_quota),
+                   y = nq, yend = nq),
                na.rm = TRUE,
                alpha = .2) +
   geom_point(alpha = .2) +
@@ -544,14 +649,14 @@ country_quota_plot <- ggplot(by_country3,
                      breaks=seq(25, 100, by = 25)) +
   scale_y_continuous(limits=c(0, 51)) +
   labs(x = TeX("Public Gender Egalitarianism$_{t-1}$"), y = "National Quota") +
-  geom_label(data = country_quota_label, aes(label = label))
+  geom_label(data = nq_label, aes(label = label))
 
-country_quota_plot
+nq_plot
 ```
 
-The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is at best weak.
-Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates.
-To better assess whether these attitudes make quota adoption more likely, however, we need to take into account other potential explanations.
+The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
+Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates; the dark, heavy line of observations across the bottom of the plot makes this clear.
+However, to better assess whether these attitudes make quota adoption more likely, we need to take into account other potential explanations.
 
 A first factor often considered likely to influence the adoption of national legislative quotas in elite-led accounts is the extent of descriptive representation women have already achieved.
 There are conflicting arguments, however, regarding _how_ descriptive representation shapes quota adoption.
@@ -567,7 +672,6 @@ We again draw data on whether elections are held with a list component from the 
 
 Our approach to modeling the adoption of gender quotas here is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
 As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the idiosyncratic distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
-We use as our unit of analysis the country-term, as our predictors vary little from year to year between legislative elections; these variables are measured at the beginning of the term.
 And also as in those analyses, we separate each of our time-varying predictors into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
 Another commonality with the models used in the last chapter is that we again incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [see @Tai2024].
 
@@ -577,51 +681,49 @@ Event history analysis, in this context, typically involves a logistic regressio
 Once a country adopts the policy, it is no longer part of the 'risk set'---that is, the country is not 'at risk' of adopting the policy a second time---and observations for that country in years subsequent to adoption are then dropped from the dataset [see @Berry1990, 398].
 
 However, the general EHA approach is flexible [see @Boehmke2009].
-This flexibility is important firstly, as @Piscopo2024 explains and as Figure 4.4 in the previous chapter illustrates, many countries have not simply adopted quotas requiring a specified share of the candidates each party puts forward to be women but have also raised this share, sometimes repeatedly, to reach or at least more closely approach parity.
-Removing a country from the analysis after its first quota adoption, as in the standard EHA approach described above, would prevent us from analyzing the 'steady path' by which quotas are sometimes reformed.
-We consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality.
-This implies that a country with a higher quota has less 'exposure' to the 'risk' of requiring parties to run additional women candidates than a country with a lower quota or no quota at all; exposure is included in our model as the log of the difference between an 50% and the current quota [see @Boehmke2009, 238].
-Our treatment of parity as the quota that most advances gender equality also means that a country leaves the risk set entirely---and so further observations of the country are excluded from the data---only after it has adopted a parity quota.
+The first reason this flexibility is important is that, as @Piscopo2024 explains and as the stair-step pattern often evident in @fig-nqts illustrates, many countries have not simply adopted quotas requiring a specified share of the candidates each party puts forward to be women but have also raised this share, sometimes repeatedly, to reach or at least more closely approach parity.
+Removing a country from the analysis after its first quota adoption, as in the standard EHA approach described above, would prevent us from analyzing the 'steady path' [see @Piscopo2024] by which quotas are sometimes reformed.
+We consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality, and so a country leaves the risk set---and so further observations of the country are excluded from the data---only after it has adopted a parity quota.
 
-This flexibility is important secondly because national legislative gender quotas and reforms are not all the same, either present or absent.
+A second reason this flexibility is important is because national legislative gender quotas and reforms are not all the same, either present or absent.
 Some countries---France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
 Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
 Still other countries, many in fact, have no mandatory legislative gender quota at all.
 We therefore treat the adoption or reform of a quota as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
-To measure the adoption and reform of quotas we again employ the data on the de facto threshold provided by the excellent QAROT database [@Hughes2019] updated with information from @IDEA2023, but now taking as our variable of interest the additional percentage of candidates who are mandated to be women after the policy's enactment, with reforms _reducing_ the number of women candidates parties are required to field represented as negative values.^[
-There are other important aspects of national legislative quotas, such as whether and how they are enforced or if the position of women on an electoral list is specified [see, e.g., @Piscopo2024], but we leave these characteristics aside in this analysis.]
+
+In a final modification of the standard EHA approach, we take into account the dynamic nature of quota adoption and reform.
+That is, we account for how the quota in force in the present depends on any mandated share of women candiates that was in force in the past by including the lagged value of the quota as a predictor.
 
 ```{r m1_nq}
 if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
-  bf_national_quota <- bf(quota_change ~
-                            me(pge_diff, pge_diff_se) +
-                            me(pge_mean, pge_mean_se) +
-                            women_rep_diff +
-                            women_rep_mean +
-                            fmi_diff +
-                            fmi_mean +
-                            list_diff +
-                            list_mean +
-                            exposure +
-                            # prev_quota +
-                            # quota_lag +
-                            (1|c|country) + (1|t|year))
+  bf_nq <- bf(nq ~
+                me(pge_diff, pge_diff_se) +
+                me(pge_mean, pge_mean_se) +
+                women_rep_diff +
+                women_rep_mean +
+                fmi_diff +
+                fmi_mean +
+                list_diff +
+                list_mean +
+                nq_lag +
+                (1|c|country) + (1|t|year))
   
-  m1_national_quota_b <- brm(formula = bf_national_quota,
-                             data = by_country3,
-                             backend = "cmdstanr",
-                             control=list(adapt_delta = 0.99, 
-                                          max_treedepth = 15),
-                             warmup = 500,
-                             iter = 1000,
-                             chains = 4,
-                             cores = 4,
-                             seed = 324)
+  m1_nq_b <- brm(formula = bf_nq,
+                 data = dft_data3 %>% 
+                   filter(!nq_lag==50),
+                 backend = "cmdstanr",
+                 control=list(adapt_delta = 0.99, 
+                              max_treedepth = 15),
+                 warmup = 500,
+                 iter = 1000,
+                 chains = 4,
+                 cores = 4,
+                 seed = 324)
   
-  m1_nq_data <- m1_national_quota_b$data
+  m1_nq_data <- m1_nq_b$data
   
   m1_nq_data_2sd <- m1_nq_data %>% 
-    select(-quota_change,
+    select(-nq,
            -country, -year, -ends_with("_se")) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -636,16 +738,14 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                          "Feminist Movement Index, Mean",
                          "Electoral List, Difference",
                          "Electoral List, Mean",
-                         "Exposure",
-                         # "Has Previously Adopted Any Quota",
-                         # "Lagged Quota",
+                         "Lagged Quota",
                          "Public Gender Egalitarianism, Difference",
                          "Public Gender Egalitarianism, Mean"),
            sd2 = ifelse(str_detect(.variable, "list_|fmi_diff|_lag"),
                         1,
                         value))
   
-  coef_data0_m1_nq <- m1_national_quota_b %>% 
+  coef_data0_m1_nq <- m1_nq_b %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
     filter(!`.variable`=="b_Intercept") %>% 
     left_join(m1_nq_data_2sd, by = join_by(.variable))
@@ -666,13 +766,24 @@ ordered <- c("Public Gender Egalitarianism, Difference",
              "Feminist Movement Index, Mean", 
              "Electoral List, Difference",
              "Electoral List, Mean",
-             # "Has Previously Adopted Any Quota",
-             "Exposure") %>% 
-             # "Lagged Quota") %>% 
+             "Lagged Quota") %>% 
   rev()
 
 coef_data_m1_nq <- coef_data0_m1_nq %>% 
   mutate(std_coef = round(.value * sd2, 1),
+         term = factor(var_names, levels = ordered)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m1_nq_data_2sd, ., by = join_by(.variable))
+
+coef_data_m1_nq_total <- coef_data0_m1_nq %>% 
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha = mean(ifelse(name=="nq_lag", .value, NA_real_),
+                      na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = round(std_coef0/(1 - alpha), 1),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
@@ -688,11 +799,28 @@ coef_plot_m1_nq <- coef_data0_m1_nq %>%
                        linewidth = 2) +
   geom_vline(xintercept = 0, linetype = "dashed") +
   theme_light() +
-  coord_cartesian(xlim = c(-15, 15)) +
+  # coord_cartesian(xlim = c(-15, 15)) +
   xlab("Standardized Coefficients") +
   ylab(NULL)
 
-coef_plot_m1_nq + 
+lag_plot_m1_nq <- coef_data0_m1_nq %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged National Quota") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficient") +
+  ylab(NULL)
+
+coef_plot_m1_nq + lag_plot_m1_nq +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(8, 1)) +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
@@ -733,9 +861,208 @@ Public gender egalitarianism matters to electoral policy adoption.
 As we saw in the previous chapter, when and where the public holds more gender egalitarian views, women are more successful in gaining elected office.
 By including descriptive representation, the share of women legislators in office, in our model we effectively partition off that potential causal path.
 In other words, the positive effect of public opinion on gender quota adoption just described does not work through the number of women in office.
-Instead, these results support the argument that---at least among the rich democracies of the OECD---both men and women legislators respond to growing public demand for gender equality with policies that increase the mandated share of women candidates for legislative office. 
+Instead, these results support the argument that---at least among the rich democracies of the OECD---both men and women legislators respond to growing public demand for gender equality with policies that increase the mandated share of women candidates for legislative office.
 
-## Advancing Gender Equality in the Workplace {.unnumbered}
+### Public Responsiveness to National Gender Quota Adoption
+
+```{r nqsem_results}    
+if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {  
+  bf_pge <- bf(pge ~ 
+                 nq_diff +
+                 nq_mean +
+                 women_rep_diff +
+                 women_rep_mean +
+                 fmi_diff +
+                 fmi_mean +
+                 list_diff +
+                 list_mean +
+                 gdppc_diff +
+                 gdppc_mean +
+                 pge_lag +
+                 (1|c|country) + (1|t|year))
+  
+  m2_nqsem_b <- brm(formula = bf_nq + 
+                      bf_pge + 
+                      set_rescor(TRUE),  
+                    data = dft_data3 %>% 
+                      filter(!nq_lag==50),
+                    backend = "cmdstanr",
+                    control=list(adapt_delta = 0.99, 
+                                 max_treedepth = 16),
+                    warmup = 500, 
+                    iter = 1000, 
+                    chains = 4, 
+                    cores = 4,
+                    seed = 324)
+  
+  m2_data <- m2_nqsem_b$data
+  
+  m2_data_2sd <- m2_data %>% 
+    select(pge_diff,
+           pge_mean,
+           women_rep_diff,
+           women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           list_mean,
+           list_diff,
+           nq_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_nq_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_nq_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_nq_", name)),
+           var_names = c("Public Gender Egalitarianism, Difference",
+                         "Public Gender Egalitarianism, Mean",
+                         "Descriptive Representation, Difference",
+                         "Descriptive Representation, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "Electoral List, Difference",
+                         "Electoral List, Mean",
+                         "Lagged National Quota"
+           ),
+           sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                        1,
+                        value),
+           dv = "National Quota") %>% 
+    bind_rows(m2_data %>% 
+                select(nq_diff,
+                       nq_mean,
+                       women_rep_diff,
+                       women_rep_mean,
+                       fmi_diff,
+                       fmi_mean,
+                       list_mean,
+                       list_diff,
+                       gdppc_mean,
+                       gdppc_diff,
+                       pge_lag) %>% 
+                summarize(across(everything(), by2sd)) %>% 
+                pivot_longer(everything()) %>% 
+                mutate(`.variable` = paste0("b_pge_", name),
+                       var_names = c("National Quota, Difference",
+                                     "National Quota, Mean",
+                                     "Descriptive Representation, Difference",
+                                     "Descriptive Representation, Mean",
+                                     "Feminist Movement Index, Difference",
+                                     "Feminist Movement Index, Mean",
+                                     "Electoral List, Difference",
+                                     "Electoral List, Mean",
+                                     "GDP per Capita, Difference",
+                                     "GDP per Capita, Mean",
+                                     "Lagged Public Gender Egalitarianism"
+                       ),
+                       sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                                    1,
+                                    value),
+                       dv = "Public Gender Egalitarianism")) %>% 
+    mutate(dv = factor(dv, levels = c("National Quota",
+                                      "Public Gender Egalitarianism")))
+  
+  coef_data0_nqsem <- m2_nqsem_b %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m2_data_2sd, by = join_by(.variable))
+  
+  save(m2_data, m2_data_2sd, coef_data0_nqsem, 
+       file = file.path(policy_path,
+                        "data",
+                        "nqsem_results.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "nqsem_results.rda"))
+}
+```
+
+```{r m2nqplot, fig.cap="Predicting the National Quota Adoption and Public Gender Egalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
+#| label: fig-m2-nq-plot
+
+ordered_nqsem <- c("Public Gender Egalitarianism, Difference",
+                   "Public Gender Egalitarianism, Mean", 
+                   "National Quota, Difference",
+                   "National Quota, Mean",
+                   "Descriptive Representation, Difference",
+                   "Descriptive Representation, Mean",
+                   "Feminist Movement Index, Difference",
+                   "Feminist Movement Index, Mean",
+                   "Electoral List, Difference",
+                   "Electoral List, Mean",
+                   "GDP per Capita, Difference",
+                   "GDP per Capita, Mean",
+                   "Lagged National Quota",
+                   "Lagged Public Gender Egalitarianism") %>% 
+  rev()
+
+coef_data_nqsem <- coef_data0_nqsem %>% 
+  mutate(std_coef = round(.value * sd2, 2),
+         term = factor(var_names, levels = ordered_nqsem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  left_join(m2_data_2sd, ., by = join_by(.variable))
+
+coef_data_nqsem_total <- coef_data0_nqsem %>%  
+  group_by(.chain, .iteration, .draw) %>% 
+  mutate(alpha_wbl = mean(ifelse(name=="wbl_lag", .value, NA_real_),
+                         na.rm = TRUE),
+         alpha_pge = mean(ifelse(name=="pge_lag", .value, NA_real_),
+                          na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  group_by(.variable) %>% 
+  mutate(std_coef0 = round(.value * sd2, 1),
+         std_coef = if_else(dv == "WBL Policy Index",
+                            round(std_coef0/(1 - alpha_wbl), 1),
+                            round(std_coef0/(1 - alpha_pge), 1)),
+         term = factor(var_names, levels = ordered_nqsem)) %>%
+  ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+  mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+  right_join(m2_data_2sd, by = join_by(.variable))
+
+coef_plots_nqsem <- coef_data0_nqsem %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered_nqsem)) %>% 
+  filter(!str_detect(var_names, "Lagged")) %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_grid(~ dv) +
+  coord_cartesian(x = c(-2, 2)) +
+  theme_light() +
+  theme(strip.text.x = element_text(size = 10, color = "black"),
+        strip.background = element_rect(fill = "white", colour = "white")) +
+  xlab("Standardized Coefficients") +
+  ylab(NULL)
+
+lag_plots_nqsem <- coef_data0_nqsem %>% 
+  mutate(std_coef = .value * sd2,
+         term = factor(var_names, levels = ordered_nqsem)) %>% 
+  filter(str_detect(var_names, "Lagged")) %>% 
+  mutate(term = "Lagged Response Variable") %>% 
+  ggplot(aes(y = term, x = std_coef)) +
+  ggdist::stat_halfeye(.width = .8,
+                       fill = "grey60",
+                       linewidth = 2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  facet_grid(~ dv) +
+  theme_light() +
+  theme(strip.text.x = element_blank(),
+        strip.background = element_blank()) +
+  xlab("Unstandardized Coefficients") +
+  ylab(NULL) 
+
+coef_plots_nqsem + lag_plots_nqsem +
+  plot_layout(ncol = 1, widths = c(1, 1), heights = c(11, 1)) +
+  plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
+```
+
+Discuss m2 results @fig-m2-nq-plot
+
+
+## Substantive Representation in Policies Advancing Gender Equality in the Workplace
 
 World Bank's Women, Business, and Law database [@WorldBank2024] 
 
@@ -902,6 +1229,8 @@ wbl_data %>%
   plot_annotation(caption = str_wrap("Source: World Bank (2024).", 85))
 ```
 
+
+### Substantive Representation in Policies Advancing Workplace Gender Equality
 ```{r wbl_b}
 if (!file.exists(file.path(policy_path,
                            "data",
@@ -1103,7 +1432,7 @@ Discuss m1 results @fig-m1-wbl-plot
 
 
 
-```{r wblsem_results.rda}    
+```{r wblsem_results}    
 if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {  
   bf_pge <- bf(pge ~ 
                  wbl_diff +
@@ -1300,6 +1629,9 @@ coef_plots_wblsem + lag_plots_wblsem +
 ```
 
 Discuss m2 results @fig-m2-wbl-plot
+
+childcare advances equality in the workforce, the "dual-earner family"
+leave for fathers advances the "dual-carer family", while leave for mothers reinforces traditional gender roles
 
 One known shortcoming of v1.0 of the WBL index is its exclusion of the single policy most closely tied to gender equality in the workforce: childcare.
 In 2024, the World Bank revised the WBL index to include childcare policy for the first time.
@@ -1690,7 +2022,7 @@ coef_plot_m1 + lag_plot_m1 +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-
+### Public Responsiveness to Policies Advancing Workplace Gender Equality
 
 @Sjoberg2004 argues that institutionalized family policies, particularly the provision of early childhood education and care, promote married women's labor force participation and so reshape attitudes toward gender roles in the public sphere.
 That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family," they can be expected to influence the public's attitudes on gender egalitarianism in the public sphere [@Sjoberg2004, 113].
@@ -1892,4 +2224,4 @@ coef_plots_enrsem + lag_plots_enrsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-## Conclusions {.unnumbered}
+## Conclusions
