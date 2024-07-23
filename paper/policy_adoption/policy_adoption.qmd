@@ -826,7 +826,7 @@ coef_plot_m1_nq + lag_plot_m1_nq +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m1_nq_plot} presents the results.
+@m1_nq_plot presents the results.
 Starting from the bottom, we see that 'exposure,' the remaining difference between a country's gender quota policy and a parity quota, has little predictive power on quota adoption and reform.
 That is, countries that have yet to adopt any legislative candidate quota cannot be distinguished from those that already have a quota in their propensity to increase the share of women candidates each party is required put forward.
 
@@ -869,6 +869,11 @@ Instead, these results support the argument that---at least among the rich democ
 
 Does quota adoption trigger a backlash?
 Or do quotas work to help make gender equality salient [see @Weeks2022] and so increase macroegalitarianism?
+Or is the public simply unresponsive to policy change, leaving the relationship between opinion and policy flowing entirely from the former to the latter?
+
+As in the previous chapter we model the potentially reciprocal relationships between our two variables of greatest interest using two equations, the first for quota adoption and reform and the second for macroegalitarianism, that are estimated within a multivariate simultaneous equations model.
+Past macroegalitarianism is used to predict present quotas, and past quotas are used to predict present macroegalitarianism.
+The varying intercepts for each country and year in the two equations are treated as correlated, which works to tie them both together in a single model.
 
 ```{r nqsem_results}    
 if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {  
