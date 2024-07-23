@@ -1,4 +1,4 @@
-# How Public Opinion Shapes Gender Egalitarian Public Policy [Very Drafty]
+# Policy Representation and Public Responsiveness [Very Drafty]
 
 The research question is one right at the heart of the politics of inequality: When do women win office? And what part do public attitudes toward gender roles play in the process?
 Not surprisingly, given the importance of the question, we have a range of theories on this.
@@ -90,7 +90,7 @@ Now, btw, I should mention that people in *this* literature, which stretches bac
 @Bericat2012: "education, work and power"
 
 
-## The Scope of the Theory {.unnumbered}
+## The Scope of the Theory
 But first we need to define the universe for the study.
 As always, there are competing concerns.  
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.

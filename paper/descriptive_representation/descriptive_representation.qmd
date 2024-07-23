@@ -1,4 +1,4 @@
-# Public Egalitarianism and Women's Dynamic Descriptive Representation
+# Dynamic Descriptive Representation
 
 <!-- Could be valuably expanded to roles in judiciary (see https://www.openicpsr.org/openicpsr/project/135801/version/V1/view) and executive (e.g., [@Goddard2021](https://journals.sagepub.com/doi/full/10.1177/1354068819878665); chapters in @Alexander2018). -->
 
@@ -820,13 +820,15 @@ if (!file.exists(file.path(descrep_path, "data-raw", "qarot.rda"))) {
                                            year >= 2016 ~ 40,
                                          countryname == "Portugal" &
                                            year >= 2019 ~ 40,
-                                         TRUE ~ defacto_threshold)) %>% 
+                                         TRUE ~ defacto_threshold),
+           country = countryname) %>% 
     left_join(parline, by = c("countryname" = "country", "year")) %>% 
     mutate(women_rep = if_else(!is.na(women_rep.x),
                                women_rep.x,
                                women_rep.y)) %>% 
     select(-women_rep.x, -women_rep.y) %>% 
     ungroup()
+  
   save(qarot, file = file.path(descrep_path, "data-raw", "qarot.rda"))
 } else {
   load(file.path(descrep_path, "data-raw", "qarot.rda"))
@@ -842,6 +844,8 @@ eee <- tribble(~countryname, ~year, ~women_rep, ~list, ~defacto_threshold,
                "Poland", 1991, 9.1, 1, 0,
                "Slovakia", 1992, 15.3, 1, 0,
                "Slovenia", 1990, 13.3, 1, 0)
+
+write_csv(eee, file = file.path(descrep_path, "data-raw", "eee.csv"))
 
 # Party Quotas (compilation)
 party_quotas <- read_csv(file.path(descrep_path,
@@ -1489,7 +1493,7 @@ Taking the uncertainty in the PGE scores into account, the bivariate correlation
 This is promising evidence for the mass-public theory, but there are many potential explanations for a strong correlation besides the theory that more egalitarian views among the public cause more women to win office.
 
 
-## Analyzing Descriptive Representation in National Legislatures {.unnumbered}
+## Analyzing Descriptive Representation in National Legislatures
 To better assess whether gender egalitarian public opinion influences women's descriptive representation, we need a more sophisticated analysis.
 To start, we will need to take into account other potential explanations for when more women are elected to office, in particular, those offered by the elite-led theory.
 After all, public opinion may simply reflect cues provided by the activists and party leaders who play a central role in the elite-led theory.
@@ -1548,7 +1552,7 @@ ggplot(dft_data1, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
 Italy in 1994 was the pioneer among these countries, but its small quota was abolished just two years later.
 In later years, those quotas that have been adopted have been more demanding, and, as the dotted lines linking quotas and their subsequent reforms demonstrate, many countries that adopted quotas strengthened them over time.
-Belgium and Mexico, which along with France and Costa Rica now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas, and when Italy adopted a quota for the second time in 2019, its de facto threshold was nearly as strong at 46.25%.
+Belgium, Costa Rica, and Mexico, which along with France now have de facto quotas requiring that women make up half of all candidates, had earlier adopted lower quotas, and when Italy adopted a quota for the second time in 2019, its de facto threshold was nearly as strong at 46.25%.
 
 Finally, the Feminist Movement Index (FMI), first presented by @Htun2012 and updated in @Forester2022, serves as our measure of the overall strength of the feminist movement.
 Among the advanced democracies we consider here, FMI scores range from one to three.
@@ -1775,7 +1779,7 @@ First, to ensure that our findings are not clouded by aggregation bias, we colle
 And second, to confirm that we have adequately addressed the potential for reverse causation, we then explicitly incorporate the effect of the extent of women's descriptive representation achieved in an election on the public's subsequent gender egalitarianism.
 
 
-## Addressing Aggregation: Explaining Descriptive Representation Within Parties {.unnumbered}
+## Addressing Aggregation: Explaining Descriptive Representation Within Parties
 
 Because the theories outlined in Chapter 2 work through the actions of parties, they are most appropriately tested using data measured at the party level.
 We compiled data on women's share of each each party's legislative representation after each election, drawing on the datasets employed in @Weeks2023 and @Adams2023 and supplementing with national sources.
@@ -2112,7 +2116,7 @@ Taking the dynamics into account, the estimated effect of country-mean differenc
 The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining descriptive representation.
 
 
-## Addressing Reverse Causation: Incorporating Representation's Effects on Opinion {.unnumbered}
+## Addressing Reverse Causation: Incorporating Representation's Effects on Opinion
 
 As mentioned above, the other concern with our analysis of elections across the rich democracies is the potential that its results are driven by reverse causation.
 This problem arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
@@ -2379,7 +2383,7 @@ The magnitude of this estimated effect is substantial: a two-standard-deviation 
 This is similar to the estimated consequences for descriptive representation of the adoption of a national quota requiring 20% of each party's candidates to be women.
 
 
-## Conclusions {.unnumbered}
+## Conclusions
 
 The role of gender egalitarian public opinion in the election of women to national office has been a cornerstone of theory on descriptive representation.
 Evidence, though, has been thin, particularly in comparison to that marshaled in support of arguments regarding the part of elites, women's organizations and feminist activists working within political parties, in pushing toward gender equality in positions of power.
