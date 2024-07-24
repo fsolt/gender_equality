@@ -598,9 +598,20 @@ dft_data2 %>%
 Recall that our measure of national quotas, first presented in the previous chapter, is the de facto threshold, which combines "a country's stated quota threshold and the breadth of a quota's actual reach" [@Hughes2019, 225].
 @fig-nqts shows the trends in the adoption and reform of these national quotas over time.
 Out of the thirty-eight countries of the OECD, four now have parity quotas, that is, half of the candidates run by each party must be women and half must be men: France, Belgium, Costa Rica, and Mexico.
+Twelve additional countries have quotas with lower de facto thresholds, ranging from Italy's requirement that women comprise 46.25% quota of each party's candidates across all legislative seats to Greece's 33% mandate.
+The remaining twenty-two OECD countries have no national legislative candidate quota at all.
+In addition to these contrasts across countries, @fig-nqts shows that even the countries with parity quotas arrived at them via distinctively different routes.
+France went from no quota at all to parity at once in 1999.
+Belgium and Costa Rica adopted their 50% requirements in two steps, previously requiring 33% and 40% of parties' candidates to be women respectively, while Mexico took three, with prior stops at 30% and 40%.
+Clearly quota adoption and reform has varied greatly across countries and over time.
 
 
 ### Substantive Representation in National Gender Quota Adoption
+
+Does macroegalitarianism help us to explain these differences?
+The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
+Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates; the dark, heavy line of observations across the bottom of the plot makes this clear.
+However, to better assess whether these attitudes in the public make quota adoption more likely, we need to take into account other potential explanations.
 
 ```{r nqplot, fig.cap="Macroegalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-nq-plot
@@ -654,11 +665,7 @@ nq_plot <- ggplot(dft_data3,
 nq_plot
 ```
 
-The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
-Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates; the dark, heavy line of observations across the bottom of the plot makes this clear.
-However, to better assess whether these attitudes make quota adoption more likely, we need to take into account other potential explanations.
-
-A first factor often considered likely to influence the adoption of national legislative quotas in elite-led accounts is the extent of descriptive representation women have already achieved.
+A first factor often considered likely to influence the adoption of national legislative quotas is the extent of descriptive representation women have already achieved.
 There are conflicting arguments, however, regarding _how_ descriptive representation shapes quota adoption.
 From one perspective, as more women are elected to the legislature, they will be more likely to successfully push for quotas to be adopted and reformed [see, e.g., @Krook2009, 21-22; @Piscopo2024].
 An opposing view holds that more descriptive representation for women works instead to undermine the sense of urgency that underpins the adoption of gender quotas [see, e.g., @Dahlerup2005; @Hughes2015]. 
@@ -666,7 +673,7 @@ To measure descriptive representation here, we use the same data from QAROT and 
 
 Two other potential influences on legislative quota adoption and reform are also familiar from our previous chapter: feminist movement strength and electoral lists.
 Feminist movements are frequently argued to be important to the success of the adoption and reform of national quotas [see @Paxton2021, 196].
-As before, we rely on the FMI [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
+As before, we rely on the Feminist Movement Index [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
 And consistent with arguments that electoral systems with at least a party-list component are more "woman-friendly" [@Rule1994, 27] and provide better opportunity structures for feminist activists, such electoral systems may make quota adoption and subsequent strengthening more likely as well [@Paxton2021, 195-196].
 We again draw data on whether elections are held with a list component from the Democratic Electoral Systems Around the World dataset [@Bormann2022].
 
@@ -685,8 +692,8 @@ The first reason this flexibility is important is that, as @Piscopo2024 explains
 Removing a country from the analysis after its first quota adoption, as in the standard EHA approach described above, would prevent us from analyzing the 'steady path' [see @Piscopo2024] by which quotas are sometimes reformed.
 We consider the adoption of a parity quota, one that requires 50% of a party's candidates across all seats to be women, to be the quota policy that maximally advances gender equality, and so a country leaves the risk set---and so further observations of the country are excluded from the data---only after it has adopted a parity quota.
 
-A second reason this flexibility is important is because national legislative gender quotas and reforms are not all the same, either present or absent.
-Some countries---France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
+A second reason this flexibility is important is because as seen above national legislative gender quotas and reforms are not all the same, either present or absent.
+Recall that some countries---specifically France, Belgium, Costa Rica, and Mexico---now have quotas that require parity in the number of women and men each party puts forward as candidates across all legislative seats.
 Other countries have adopted quotas that, although requiring parties to nominate _some_ women candidates, do not require parties to run equal numbers of women and men.
 Still other countries, many in fact, have no mandatory legislative gender quota at all.
 We therefore treat the adoption or reform of a quota as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
@@ -758,7 +765,7 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
 ```
 
 ```{r m1nqplot, fig.cap="Predicting National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
-#| label: fig-m1-nq-plot
+#| label: fig-m1-nq
 
 ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
@@ -826,7 +833,7 @@ coef_plot_m1_nq + lag_plot_m1_nq +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-@m1_nq_plot presents the results.
+@fig-m1-nq presents the results.
 Starting from the bottom, we see that 'exposure,' the remaining difference between a country's gender quota policy and a parity quota, has little predictive power on quota adoption and reform.
 That is, countries that have yet to adopt any legislative candidate quota cannot be distinguished from those that already have a quota in their propensity to increase the share of women candidates each party is required put forward.
 
@@ -988,7 +995,7 @@ if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {
 ```
 
 ```{r m2nqplot, fig.cap="Predicting the National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
-#| label: fig-m2-nq-plot
+#| label: fig-m2-nq
 
 ordered_nqsem <- c("Macroegalitarianism, Difference",
                    "Macroegalitarianism, Mean", 
@@ -1015,15 +1022,15 @@ coef_data_nqsem <- coef_data0_nqsem %>%
 
 coef_data_nqsem_total <- coef_data0_nqsem %>%  
   group_by(.chain, .iteration, .draw) %>% 
-  mutate(alpha_wbl = mean(ifelse(name=="wbl_lag", .value, NA_real_),
+  mutate(alpha_nq = mean(ifelse(name=="nq_lag", .value, NA_real_),
                          na.rm = TRUE),
          alpha_pge = mean(ifelse(name=="pge_lag", .value, NA_real_),
                           na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(.variable) %>% 
   mutate(std_coef0 = round(.value * sd2, 1),
-         std_coef = if_else(dv == "WBL Policy Index",
-                            round(std_coef0/(1 - alpha_wbl), 1),
+         std_coef = if_else(dv == "National Quota",
+                            round(std_coef0/(1 - alpha_nq), 1),
                             round(std_coef0/(1 - alpha_pge), 1)),
          term = factor(var_names, levels = ordered_nqsem)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
@@ -1069,17 +1076,39 @@ coef_plots_nqsem + lag_plots_nqsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-@fig-m2-nq-plot presents the results.
+@fig-m2-nq presents the results of this simultaneous equations model.
 Consider first the left panel of the figure, which shows the estimates of the equation predicting national quota adoption.
 It provides additional support for the conclusions we drew from the findings presented in @fig-m1-nq-plot: macroegalitarianism predicts national quota adoption and reform in both the short term, as evidenced by the estimate for its difference, and the long term, as evidenced by the estimate for its mean.
 Countries with higher mean descriptive representation are less likely to adopt quotas, consistent with the 'incremental track' identified in @Dahlerup2005.
 Increases in feminist movement strength appear to prompt higher quotas, and countries with more experience with list electoral systems are more likely to adopt quotas as well.
-In other words, the conclusions drawn from @fig-m1-nq-plot are not generated by simultaneity bias.
+In other words, the results presented on policy representation above in @fig-m1-nq are not markedly influenced by simultaneity bias.
 
+This is reassuring, but it is really the right side of the figure that is our current focus.
+That side shows the model's results for macroegalitarianism.
+And so it is that side that speaks to the question of whether quotas 'create their own constituencies' or instead trigger among the public a thermostatic backlash against gender equality.
+Before we reach that answer, however, we again start from the bottom with the estimates for our control variables.
 
-, and the right panel shows those for macroegalitarianism.
+After the estimate of the dynamic effect of past values macroegalitarianism on present values in the bottom right panel, the two bottom rows of the top right panel present the estimates for GDP per capita.
+As in @fig-m3-wr in the previous chapter, these estimates show support for modernization theory [see, e.g., @Inglehart2000; @Inglehart2003].
+Countries with higher GDP per capita exhibit more macroegalitarianism: compared to a country that is a standard deviation below the mean on this variable, a country that is a standard deviation above is predicted to have a PGE score `r get_coef("gdppc_mean", coef_data_nqsem)` points higher, compounding over time in this dynamic model to `get_coef("gdppc_mean", coef_data_nqsem_total)` points.
+This evidence from cross-country differences even within the OECD for a long-run effect of economic modernization is matched by the result for within-country differences.
+A two-standard-deviation gain in GDP per capita from one year to the next is estimated to yield an increase of `get_coef("gdppc_diff", coef_data_nqsem)` points in a country's PGE score.
+This increase then grows to a total of `get_coef("gdppc_diff", coef_data_nqsem_total)` over time.
 
+Next are the estimates for electoral systems with a party-list component.
+As also seen in @fig-m3-wr in the last chapter, net of the other variables in the model, countries that elect at least some legislators via a party list are estimated to have less macroegalitarianism than those with only more candidate-oriented small and single-member districts.
+In this model, this difference in PGE scores is estimated as `r coef_data_nqsem %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points, growing over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")`.
+Whether this is a true long-run effect of list electoral systems or instead the result of an omitted variable is unclear.
+The latter interpretation is perhaps reinforced by the inconclusive posterior distribution for differences over time in such electoral systems, although the width of that distribution is at least partially the product of the near absence in our dataset of changes in this variable within countries. 
 
+There is no evidence that the strength of the feminist movement has a direct effect on macroegalitarianism in these results.
+Neither cross-country differences nor within-country year-to-year changes yield estimates that can be distinguished from zero with much if any confidence.
+
+As we have seen previously, the same cannot be said for women's descriptive representation.
+Countries that have on average elected more women over the timeframe examined here exhibit higher levels of macroegalitarianism than those that have elected fewer women, consistent with a long-term effect.
+A two-standard-deviation difference in cross-country means is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points higher PGE scores.
+Thanks to strong influence of the past on present macroegalitarianism, this jump up is estimated to grow over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
+Similarly, a two-standard-deviation increase in descriptive representation over time is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` point gain in macroegalitarianism, which increases over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
 
 
 ## Substantive Representation in Policies Advancing Gender Equality in the Workplace

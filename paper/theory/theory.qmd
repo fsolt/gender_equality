@@ -77,9 +77,6 @@ In addition to the policy consistency, there are many reasons why public opinion
 Also, there are many ways to explain the incongruency between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
 
 
-*Note that the usual difference between outputs vs outcomes is not so easily disentangled here. In a sense, quotas are an output and representation is the outcome.  But increasing representation to gain quotas also happens.  Part of why Beer thinks egalitarianism to equality is tautological is likely that she thinks egalitarianism itself is a desirable _outcome_.
-
-
 
 ### Public Opinion vs Ideology vs Culture
 Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krauss’s -@RuleKrauss1974 _APSR_ article, people in this literature sometimes talk about these attitudes as ideology [@RuleKrauss1974, find more] or culture [@Inglehart2003, find more]; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.

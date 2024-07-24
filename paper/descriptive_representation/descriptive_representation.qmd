@@ -1483,7 +1483,7 @@ ggplot(by_country,
   plot_annotation(caption = "Notes: Whiskers describe 80% credible\nintervals.")
 ```
 
-Are gender egalitarian public opinion and women's descriptive representation related?
+Are macroegalitarianism and women's descriptive representation related?
 Every point in Figure&nbsp;\ref{wrplot} represents an election in a particular country, and each is labeled with that country's two-character codes assigned by the International Organization for Standardization (ISO).
 The figure's x-axis presents the country's macroegalitarism, as measured by its PGE score, in the year the election was held.
 And because the PGE scores are estimated with uncertainty, each point is shown with horizontal whiskers tracing its 80% credible interval.
@@ -1493,8 +1493,9 @@ Taking the uncertainty in the PGE scores into account, the bivariate correlation
 This is promising evidence for the mass-public theory, but there are many potential explanations for a strong correlation besides the theory that more egalitarian views among the public cause more women to win office.
 
 
-## Analyzing Descriptive Representation in National Legislatures
-To better assess whether gender egalitarian public opinion influences women's descriptive representation, we need a more sophisticated analysis.
+## Macroegalitarianism and Women's Descriptive Representation in National Legislatures
+
+To better assess whether macroegalitarianism in public opinion influences women's descriptive representation, we need a more sophisticated analysis.
 To start, we will need to take into account other potential explanations for when more women are elected to office, in particular, those offered by the elite-led theory.
 After all, public opinion may simply reflect cues provided by the activists and party leaders who play a central role in the elite-led theory.
 If that is the case, the strong relationship seen in Figure&nbsp;\ref{wrplot} would result from both public opinion (through these cues) and descriptive representation (through their successes in getting national quotas enacted and women candidates on party lists) being consequences of the strength of feminist activists.
@@ -2295,7 +2296,9 @@ if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
 }
 ```
 
-```{r m3plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections \\label{m3plot}", fig.height = 9, fig.width = 7.5}
+```{r m3plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections", fig.height = 9, fig.width = 7.5}
+#| label: fig-m3-wr
+
 ordered_wrsem <- c("Macroegalitarianism, Difference",
                    "Macroegalitarianism, Mean", 
                    "Descriptive Representation, Difference",
@@ -2375,7 +2378,7 @@ coef_plots_wrsem + lag_plots_wrsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Figure&nbsp;\ref{m3plot} presents the results, with the equation predicting women's descriptive representation in the left-hand panel and the equation predicting macroegalitarianism in the right-hand panel.
+@fig-m3-wr presents the results, with the equation predicting women's descriptive representation in the left-hand panel and the equation predicting macroegalitarianism in the right-hand panel.
 Both the conclusion reached earlier in this chapter that opinion affects representation and the finding of @Kim2023 that representation affects opinion are supported, reinforcing our confidence in each.
 The evidence for the relationship we are most interested in here, from gender egalitarian public opinion to women's descriptive representation in national legislatures, is if anything strengthened by controlling for the potential for reverse causation.
 The posterior probability that increasing PGE over time within a country leads to an increasing percentage of women legislators, conditional on these data and this model, is `r {{coef_data0_wrsem %>% filter(name == "pge_diff" & .value > 0) %>% nrow()}/20} %>% round()`%.
