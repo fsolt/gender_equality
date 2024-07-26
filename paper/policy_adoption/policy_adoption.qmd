@@ -477,10 +477,14 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "United Kingdom", "United States")
 ```
 
+Definitions of substantive representation and dynamic representation, how do we get to dynamic substantive representation.
 <!-- @Weeks2022a [,16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic -->
 
+In this chapter, we consider policies that advance gender equality, first in  politics and then in the workplace.
 
-## Substantive Representation in Policies Advancing Gender Equality in Politics
+We find
+
+## Policies Advancing Gender Equality in Politics
 
 One of the most-studied policies advancing gender equality is the adoption of gender quotas for candidates running for legislative seats.
 National gender quotas---that is, candidate quotas instituted by law---mandate that women constitute a specified minimum share of each political party's candidates for the national legislature.
@@ -602,13 +606,13 @@ Twelve additional countries have quotas with lower de facto thresholds, ranging 
 The remaining twenty-two OECD countries have no national legislative candidate quota at all.
 In addition to these contrasts across countries, @fig-nqts shows that even the countries with parity quotas arrived at them via distinctively different routes.
 France went from no quota at all to parity at once in 1999.
-Belgium and Costa Rica adopted their 50% requirements in two steps, previously requiring 33% and 40% of parties' candidates to be women respectively, while Mexico took three, with prior stops at 30% and 40%.
+Belgium and Costa Rica adopted their 50% requirements in two steps, previously requiring 33% and 40% of parties' candidates to be women respectively, while Mexico took three, with earlier laws requiring 30% and then 40%.
 Clearly quota adoption and reform has varied greatly across countries and over time.
 
 
 ### Substantive Representation in National Gender Quota Adoption
 
-Does macroegalitarianism help us to explain these differences?
+Does macroegalitarianism help us to explain these policy differences?
 The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
 Many countries, even those whose publics hold relatively egalitarian views on gender roles in the public sphere, have never adopted national gender quotas for legislative candidates; the dark, heavy line of observations across the bottom of the plot makes this clear.
 However, to better assess whether these attitudes in the public make quota adoption more likely, we need to take into account other potential explanations.
@@ -673,13 +677,13 @@ To measure descriptive representation here, we use the same data from QAROT and 
 
 Two other potential influences on legislative quota adoption and reform are also familiar from our previous chapter: feminist movement strength and electoral lists.
 Feminist movements are frequently argued to be important to the success of the adoption and reform of national quotas [see @Paxton2021, 196].
-As before, we rely on the Feminist Movement Index [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
+As before, we rely on the Feminist Movement Index (FMI) [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
 And consistent with arguments that electoral systems with at least a party-list component are more "woman-friendly" [@Rule1994, 27] and provide better opportunity structures for feminist activists, such electoral systems may make quota adoption and subsequent strengthening more likely as well [@Paxton2021, 195-196].
 We again draw data on whether elections are held with a list component from the Democratic Electoral Systems Around the World dataset [@Bormann2022].
 
 Our approach to modeling the adoption of gender quotas here is similar in several ways to the methods we employed in the previous chapter to model women's descriptive representation.
 As in those analyses, we use a Bayesian multilevel model that includes varying intercepts for both space, which capture the idiosyncratic distinctiveness of each country, and time, which capture those shocks that operate on all countries in each year [see @Shor2007].
-And also as in those analyses, we separate each of our time-varying predictors into its mean value for each country and the difference between its value in a given year in a country and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
+And also as in those analyses, we separate each of our time-varying predictors into its mean value for each country and the difference between its value in a given year and this country mean so as to avoid confusing the former, cross-country, differences with the over-time changes that provide the best evidence of causation [see @Bell2015].
 Another commonality with the models used in the last chapter is that we again incorporate the measurement uncertainty in the PGE scores into our analysis to avoid drawing conclusions that are not supported by the data [see @Tai2024].
 
 The fact that we are now seeking to explain policy adoption---and in particular the adoption of a gender quota---does, however, require a few differences in our modeling strategy.
@@ -699,7 +703,7 @@ Still other countries, many in fact, have no mandatory legislative gender quota 
 We therefore treat the adoption or reform of a quota as a continuous rather than dichotomous variable [see @Boehmke2009, 237].
 
 In a final modification of the standard EHA approach, we take into account the dynamic nature of quota adoption and reform.
-That is, we account for how the quota in force in the present depends on any mandated share of women candiates that was in force in the past by including the lagged value of the quota as a predictor.
+That is, we account for how the quota in force in the present depends on any mandated share of women candidates that was in force in the past by including the lagged value of the quota as a predictor.
 
 ```{r m1_nq}
 if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
@@ -741,8 +745,8 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
                                    TRUE ~ paste0("b_", name)),
            var_names = c("Descriptive Representation, Difference",
                          "Descriptive Representation, Mean",
-                         "Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Mean",
+                         "Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Mean",
                          "Electoral List, Difference",
                          "Electoral List, Mean",
                          "Lagged Quota",
@@ -771,8 +775,8 @@ ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Descriptive Representation, Difference",
              "Descriptive Representation, Mean",
-             "Feminist Movement Index, Difference",
-             "Feminist Movement Index, Mean", 
+             "Feminist Movement Strength, Difference",
+             "Feminist Movement Strength, Mean", 
              "Electoral List, Difference",
              "Electoral List, Mean",
              "Lagged Quota") %>% 
@@ -834,51 +838,55 @@ coef_plot_m1_nq + lag_plot_m1_nq +
 ```
 
 @fig-m1-nq presents the results.
-Starting from the bottom, we see that 'exposure,' the remaining difference between a country's gender quota policy and a parity quota, has little predictive power on quota adoption and reform.
-That is, countries that have yet to adopt any legislative candidate quota cannot be distinguished from those that already have a quota in their propensity to increase the share of women candidates each party is required put forward.
+Starting with the bottom panel, we see that quota laws are strongly dynamic: not surprisingly, even accounting for the other variables in the model, the extent to which the law requires parties to run women candidates for the national legislature this year is strongly influenced by the state of the law last year.
+The adoption of new quota policies and the reform of old ones are relatively rare.
 
 Moving upward, we next see the estimated coefficients for differences between electoral systems with a party list component as compared to systems that include only personalized races run by candidates within districts.
-Countries in which all of the observed legislative terms were held with electoral systems with a list component enacted quota laws mandating that `r get_coef("list_mean", coef_data_m1_nq)` percentage points more candidates are women than those that have never held elections with party lists, with a posterior probability that---conditional on these data and this model---that this effect is positive of `r {{coef_data0_m1_nq %>% filter(name == "list_mean" & .value > 0) %>% nrow()}/20} %>% round()`%.
-While this result is suggestive of long-run effects, we cannot rule out unobserved confounding variables correlated with these mean scores.
+Countries in which all of the observed legislative terms were held with electoral systems with a list component enacted quota laws mandating that `r get_coef("list_mean", coef_data_m1_nq)` percentage points more candidates are women in one year than those that have never held elections with party lists, with a posterior probability that---conditional on these data and this model---that this estimate is positive of `r {{coef_data0_m1_nq %>% filter(name == "list_mean" & .value > 0) %>% nrow()}/20} %>% round()`%.
+Given the strongly dynamic nature of quota laws, with differences this year persisting into the future, this seemingly small estimate stretches to `r get_coef("list_mean", coef_data_m1_nq)` points over time.
+While this result provides some evidence that electoral systems have long-run effects, we cannot rule out unobserved confounding variables correlated with these mean scores.
 And the coefficient for the _difference_ in electoral lists within a country provides no evidence that adopting a party-list electoral system yields a higher quota of women candidates in the short run.
 A causal interpretation of the association between electoral lists and gender quota adoption remains unsupported.
 
 We turn then to the strength of the autonomous feminist movement.
 Countries that have experienced higher mean scores on the Feminist Movement Index are estimated to be little different from those with lower mean FMI scores.
-The best evidence for such an effect comes from the estimated coefficient for 
+In any event, the best evidence that stronger feminist movements lead to more demanding gender quotas comes from the estimated coefficient for 
 changes in the strength of the feminist movement over time.
-A one-point increase in the FMI index over time within a country is estimated to yield a increase in the country's legislative quota of `r get_coef("fmi_diff", coef_data_m1_nq, type = "std_coef")` percentage points, but with an 80% confidence interval from `r get_coef("fmi_diff", coef_data_m1_nq, type = "ci")` points.
-Here again, `r {{coef_data0_m1_nq %>% filter(name == "fmi_diff" & .value > 0) %>% nrow()}/20} %>% round()`% of the posterior probability for this coefficient is positive.
-This is certainly suggestive evidence that when feminist movements grow stronger they are more successful in pushing for higher quotas.
+A one-point increase in the FMI index over time within a country is estimated to yield a subsequent increase in the country's legislative quota of `r get_coef("fmi_diff", coef_data_m1_nq)` percentage points immediately and `r get_coef("fmi_diff", coef_data_m1_nq_total)` over time.
+This is powerful evidence that when feminist movements grow stronger they are more successful in their advocacy for higher quotas.
 
-As to the debate regarding whether more women in office creates more or less pressure for legislative quotas, this evidence falls heavily on the latter side.
+As to the debate regarding whether more women in office creates more or less pressure for legislative quotas, this evidence falls more on the latter side.
 A countries with a mean level of women's descriptive representation a standard deviation above the overall mean is estimated to have a mandated share of women candidates that is on average `r get_coef("women_rep_mean", coef_data_m1_nq) %>% str_replace_all("-", "")` points _lower_ than a country with mean women's descriptive representation a standard deviation below the overall mean.
-And over time within a country, a two-standard-deviation increase in the share of women holding office at the start of the legislative term is estimated to decrease the average legislated quota at the end of the term by `r get_coef("women_rep_diff", coef_data_m1_nq) %>% str_replace_all("-", "")` points.
+This decline grows with time to `r get_coef("women_rep_mean", coef_data_m1_nq_total) %>% str_replace_all("-", "")`.
+Increases in women's descriptive representation within a country over time, on the other hand, appear to have little impact on quota adoption either way.
 
-The top two rows of the panel display the evidence in support of the argument that public opinion shapes the extent of success in enacting parity legislative candidate gender quotas.
+The top two rows of the panel display the evidence in support of the argument that gender egalitarian public opinion shapes the extent of success in enacting legislative candidate gender quotas.
 This evidence is strong.
-A country with mean PGE scores two standard deviations higher, for example New Zealand compared to Poland, is estimated to enact quotas requiring `r get_coef("pge_mean", coef_data_m1_nq)` percentage points more women candidates.
+A country with mean PGE scores two standard deviations higher, for example New Zealand as compared to Poland, is estimated to enact quotas requiring `r get_coef("pge_mean", coef_data_m1_nq)` percentage points more women candidates, a difference that grows dynamically to `r get_coef("pge_mean", coef_data_m1_nq_total)` points.
 As we have been careful to note previously, cross-country estimates like this one provides some evidence of an effect---in this case, of a more egalitarian public on legislative quota adoption---over the long term, but they could also reflect other differences among countries correlated with the predictor, here public opinion, that we are unable to measure and include in our model.
 That is, such estimates could be the result of omitted-variable bias.
 Therefore, although suggestive of causal effects, the real work of this estimate is to isolate the consequences of changes in public gender egalitarianism over time.
 
 This estimate, the coefficient for within-country changes in PGE over time, is shown in the top row of the figure.
-A two-standard-deviations increase in this variable---equivalent to about a twelve-point change in the PGE score from the start of one legislative term to the beginning of the next---is estimated to yield a `r get_coef("pge_diff", coef_data_m1_nq, type = "std_coef")` percentage-point increase in a country's legislative candidate quota, with an 80% confidence interval from `r get_coef("pge_diff", coef_data_m1_nq, type = "ci")` points.
-This is strong evidence that when the public of a country grows more gender egalitarian in its views with regard politics and the workplace, lawmakers respond by enacting higher legislative candidate quotas.
-Public gender egalitarianism matters to electoral policy adoption.
+A two-standard-deviations increase in this variable---equivalent to about a twelve-point change in the PGE score from the start of one legislative term to the beginning of the next---is estimated to yield a `r get_coef("pge_diff", coef_data_m1_nq, type = "std_coef")` percentage-point increase in a country's legislative candidate quota in the following year, with an 80% confidence interval from `r get_coef("pge_diff", coef_data_m1_nq, type = "ci")` points.
+Over time, this increase is estimated to grow to `r get_coef("pge_diff", coef_data_m1_nq_total)` points.
+This is strong evidence that when the public of a country grows more egalitarian in its views of gender roles in politics and the workplace, lawmakers respond by enacting higher legislative candidate quotas.
+Macroegalitarianism matters to electoral policy adoption.
 
 As we saw in the previous chapter, when and where the public holds more gender egalitarian views, women are more successful in gaining elected office.
 By including descriptive representation, the share of women legislators in office, in our model we effectively partition off that potential causal path.
-In other words, the positive effect of public opinion on gender quota adoption just described does not work through the number of women in office.
-Instead, these results support the argument that---at least among the rich democracies of the OECD---both men and women legislators respond to growing public demand for gender equality with policies that increase the mandated share of women candidates for legislative office.
+In other words, the positive effect of public opinion on gender quota adoption just described does not work through the number of women elected to office.
+Instead, these results support the argument that, at least among these rich OECD democracies, both men and women legislators are responsive to growing public demand for gender equality, and they respond with policies that increase the mandated share of women candidates for legislative office.
+
 
 ### Public Responsiveness to National Gender Quota Adoption
 
 Does quota adoption trigger a backlash?
-Or do quotas work to help make gender equality salient [see @Weeks2022] and so increase macroegalitarianism?
+Or do quotas work to help make gender equality salient, as @Weeks2022 puts it, and so increase macroegalitarianism?
 Or is the public simply unresponsive to policy change, leaving the relationship between opinion and policy flowing entirely from the former to the latter?
+The extensive data on macroegalitarianism that we presented in Chapter 3, stretching across decades in all of the OECD countries, allows us to investigate these questions.
 
-As in the previous chapter we model the potentially reciprocal relationships between our two variables of greatest interest using two equations, the first for quota adoption and reform and the second for macroegalitarianism, that are estimated within a multivariate simultaneous equations model.
+As in the previous chapter we model the potentially reciprocal relationships between our two variables of greatest interest using two equations, the first for quota adoption and reform and the second for macroegalitarianism, that are estimated together within a multivariate simultaneous equations model.
 Past macroegalitarianism is used to predict present quotas, and past quotas are used to predict present macroegalitarianism.
 The varying intercepts for each country and year in the two equations are treated as correlated, which works to tie them both together in a single model.
 
@@ -1078,42 +1086,63 @@ coef_plots_nqsem + lag_plots_nqsem +
 
 @fig-m2-nq presents the results of this simultaneous equations model.
 Consider first the left panel of the figure, which shows the estimates of the equation predicting national quota adoption.
-It provides additional support for the conclusions we drew from the findings presented in @fig-m1-nq-plot: macroegalitarianism predicts national quota adoption and reform in both the short term, as evidenced by the estimate for its difference, and the long term, as evidenced by the estimate for its mean.
+It provides additional support for the conclusions we drew from the findings presented in @fig-m1-nq: macroegalitarianism predicts national quota adoption and reform in both the short term, as evidenced by the estimate for its difference, and the long term, as evidenced by the estimate for its mean.
 Countries with higher mean descriptive representation are less likely to adopt quotas, consistent with the 'incremental track' identified in @Dahlerup2005.
-Increases in feminist movement strength appear to prompt higher quotas, and countries with more experience with list electoral systems are more likely to adopt quotas as well.
+Increases in feminist movement strength appear to prompt higher quotas, and countries with more experience with list electoral systems are found to be more likely to adopt quotas as well.
 In other words, the results presented on policy representation above in @fig-m1-nq are not markedly influenced by simultaneity bias.
 
-This is reassuring, but it is really the right side of the figure that is our current focus.
+This is reassuring, but it is really the right side of the figure that is now our focus.
 That side shows the model's results for macroegalitarianism.
 And so it is that side that speaks to the question of whether quotas 'create their own constituencies' or instead trigger among the public a thermostatic backlash against gender equality.
-Before we reach that answer, however, we again start from the bottom with the estimates for our control variables.
+Before we reach that answer, however, we again start at the bottom of the plot with the estimates for our control variables.
 
-After the estimate of the dynamic effect of past values macroegalitarianism on present values in the bottom right panel, the two bottom rows of the top right panel present the estimates for GDP per capita.
+After the estimate of the strongly dynamic effect of past values of macroegalitarianism on present values in the bottom right panel, the two bottom rows of the top right panel present the estimates for GDP per capita.
 As in @fig-m3-wr in the previous chapter, these estimates show support for modernization theory [see, e.g., @Inglehart2000; @Inglehart2003].
-Countries with higher GDP per capita exhibit more macroegalitarianism: compared to a country that is a standard deviation below the mean on this variable, a country that is a standard deviation above is predicted to have a PGE score `r get_coef("gdppc_mean", coef_data_nqsem)` points higher, compounding over time in this dynamic model to `get_coef("gdppc_mean", coef_data_nqsem_total)` points.
+Countries with higher GDP per capita exhibit more macroegalitarianism: compared to a country that is a standard deviation below the mean on this variable, a country that is a standard deviation above is predicted to have a PGE score `r get_coef("gdppc_mean", coef_data_nqsem)` points higher, compounding over time in this dynamic model to `r get_coef("gdppc_mean", coef_data_nqsem_total)` points.
 This evidence from cross-country differences even within the OECD for a long-run effect of economic modernization is matched by the result for within-country differences.
-A two-standard-deviation gain in GDP per capita from one year to the next is estimated to yield an increase of `get_coef("gdppc_diff", coef_data_nqsem)` points in a country's PGE score.
-This increase then grows to a total of `get_coef("gdppc_diff", coef_data_nqsem_total)` over time.
+A two-standard-deviation gain in GDP per capita from one year to the next is estimated to yield an increase of `r get_coef("gdppc_diff", coef_data_nqsem)` points in a country's PGE score.
+This increase then grows to a total of `r get_coef("gdppc_diff", coef_data_nqsem_total)` over time.
 
 Next are the estimates for electoral systems with a party-list component.
-As also seen in @fig-m3-wr in the last chapter, net of the other variables in the model, countries that elect at least some legislators via a party list are estimated to have less macroegalitarianism than those with only more candidate-oriented small and single-member districts.
-In this model, this difference in PGE scores is estimated as `r coef_data_nqsem %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points, growing over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")`.
-Whether this is a true long-run effect of list electoral systems or instead the result of an omitted variable is unclear.
-The latter interpretation is perhaps reinforced by the inconclusive posterior distribution for differences over time in such electoral systems, although the width of that distribution is at least partially the product of the near absence in our dataset of changes in this variable within countries. 
-
+As was also seen in @fig-m3-wr in the last chapter, net of the other variables in the model, countries that elect at least some legislators via a party list are estimated to have less macroegalitarianism than those with only more candidate-oriented single-member or small multi-member districts.
+In this model, this difference in PGE scores is estimated as `r coef_data_nqsem %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points, growing over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points.
+Whether this is a true long-run effect of list electoral systems or instead the result of some other, unmeasured and omitted variable is unclear.
+The latter interpretation is perhaps reinforced by the inconclusive posterior distribution for differences over time in such electoral systems, although that distribution is mostly negative and its width is at least partially the product of the near absence in our dataset of changes in this variable within countries. 
 There is no evidence that the strength of the feminist movement has a direct effect on macroegalitarianism in these results.
-Neither cross-country differences nor within-country year-to-year changes yield estimates that can be distinguished from zero with much if any confidence.
+Neither cross-country differences nor within-country year-to-year changes yield estimates that are little different from zero.
 
 As we have seen previously, the same cannot be said for women's descriptive representation.
-Countries that have on average elected more women over the timeframe examined here exhibit higher levels of macroegalitarianism than those that have elected fewer women, consistent with a long-term effect.
+Countries that have elected more women over the timeframe examined here exhibit higher levels of macroegalitarianism on average than those that have elected fewer women, consistent with a long-term effect.
 A two-standard-deviation difference in cross-country means is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points higher PGE scores.
-Thanks to strong influence of the past on present macroegalitarianism, this jump up is estimated to grow over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
-Similarly, a two-standard-deviation increase in descriptive representation over time is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` point gain in macroegalitarianism, which increases over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
+Thanks to the strong influence of past values of macroegalitarianism on present and future values, this jump up is estimated to grow over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
+Similarly, a two-standard-deviation increase in descriptive representation in one year is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` point gain in macroegalitarianism in the next, which increases over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
+
+Finally, we arrive at the estimates for national quotas.
+The results are mixed.
+On the one hand, countries that have had higher average quotas over the years examined exhibit more macroegalitarianism than countries that had lower average quotas.
+A country with a mean quota of 9.6%, a value similar to those of Spain and South Korea, is estimated to have PGE scores `r get_coef("pge_mean", coef_data_nqsem)` points higher than an otherwise similar country that never adopted a national legislative gender quota; over time, this estimated difference grows to `r get_coef("pge_mean", coef_data_nqsem_total)` points.
+So, with all of the caveats that should now be familiar regarding cross-national differences and potential omitted variables, this result points to a positive reinforcement of macroegalitarianism by national legislative quotas.
+On the other hand, quota adoptions _within_ a country's timeline do not appear to influence later macroegalitarianism at all: the dashed vertical line a zero bisects the posterior distribution for this estimate very nearly perfectly.
+The one conclusion that is safe to draw from these results is that the adoption and reform of national legislative gender quotas do _not_ provoke a negative response in the public.
+There is no evidence whatsoever of anti-egalitarian backlash.
 
 
-## Substantive Representation in Policies Advancing Gender Equality in the Workplace
+## Policies Advancing Gender Equality in the Workplace
 
-World Bank's Women, Business, and Law database [@WorldBank2024] 
+Intro paragraph needed here.
+
+To measure policies advancing gender equality in the workplace, we rely on the World Bank's Women, Business, and Law v1.0 (WBL) policy index [@WorldBank2024].
+As shown in @tbl-wbl, the WBL policy index comprises thirty-five policies addressing eight topics meant "to capture inequality in legislation throughout the duration of a woman’s working life, from the time she can enter the labor force through to retirement" [@Hyland2020, 476].
+Each is a provision enhancing gender equality in the law.
+The WBL policy index's _de jure_ rather than _de facto_ nature makes the index especially suited for our purposes because it ensures we are considering not policy outcomes but policy outputs.
+Outcomes, the extent to which a goal is achieved, are clearly important.
+But representation is better measured not by what governments achieve---which may after all be influenced by many factors beyond their control---but the steps they take (or fail to take) to reach those goals.
+
+We hasten to add that the WBL policies do appear to get results.
+Cross-sectionally, in countries with more of these policies, @Htun2019 found that women have greater access to economic resources: more access to bank accounts, higher ownership of firms, more participation in the labor force, and smaller gender wage gaps.
+Looking across countries and over time, their adoption has been shown to be closely linked to subsequently increased women's labor force participation rates, both in the OECD [@Gonzales2015, 21-23] and beyond [@Gonzales2015, 25-26; @Hyland2020, 478-488].
+Increases in the WBL policy index also yield narrowing gaps in the wages earned by men and women [@Hyland2020, 478-488].
+The WBL policies listed in @tbl-wbl are not only actionable but also effective.
 
 ```{r wbl}
 if (!file.exists(file.path(policy_path,
@@ -1214,7 +1243,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "wbl.rda"))) {
 }
 ```
 
-```{r wbltable}
+```{r tblwbl}
 #| label: tbl-wbl
 
 read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoption/data-raw/wbl2024_v1.xlsx",
@@ -1242,6 +1271,7 @@ read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoptio
                              ""),
          Laws = lead(Laws)) %>%
   select(Indicator, Laws) %>% 
+  rename(Topic = Indicator) %>% 
   filter(!Laws=="") %>% 
   modelsummary::datasummary_df(title = "WBL Policy Index",
                                longtable = TRUE, 
@@ -1251,8 +1281,6 @@ read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoptio
   kableExtra::column_spec(1, width = "10em") %>%
   kableExtra::column_spec(2, width = "20em")
 ```
-
-@tbl-wbl shows all
 
 ```{r wblplot, fig.cap="The WBL Policy Index in the OECD", fig.height = 9, fig.width = 7.5}
 #| label: fig-wblplot
@@ -1278,8 +1306,82 @@ wbl_data %>%
   plot_annotation(caption = str_wrap("Source: World Bank (2024).", 85))
 ```
 
+@fig-wblplot depicts the trends in the WBL policy index in the thirty-eight countries of the OECD from 1970, the first year included in the WBL database, through 2023, when the time series end.
+A half-century ago, policy in many countries did little to advance gender equality in paid employment and much to stand in its way: the only WBL policy adopted in all of these countries was that women could travel internationally in the same way as men.
+At that time Denmark and Sweden had the highest scores on the index, having already adopted twenty-five of the thirty-five policies advancing gender equality in access to employment and entrepreneurship, but neither had passed such crucial policies as prohibiting discrimination in employment based on gender or addressing and penalizing sexual harassment at work and domestic violence at home.
+More recently, twelve OECD member states have adopted every one of the policies listed in @tbl-wbl and so reached a score of 100 on the index: Belgium was the first to do so, in 2010, and the Netherlands the last of these twelve, in 2022.
+In 2023, even the lowest-scoring OECD countries---Israel, Chile, and Japan, each with an 80 on the WBL policy index---had adopted more equality-enhancing policies than the highest-scoring countries had five decades earlier. 
+Over the countries and years we analyze here, gender equality policymaking progressed the most in Latvia and Estonia, where the WBL index increased by over 40 points, and the least in Canada, where only two additional policies were adopted, and in Costa Rica, where just one was.
+Both the extent to which these countries have passed these laws and the pace at which they have done so varies considerably.
+
 
 ### Substantive Representation in Policies Advancing Workplace Gender Equality
+
+Our first question is whether growing gender egalitarianism among citizens prompts their representatives to adopt policies that enhance gender equality in employment.
+As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and the WBL policy index is very strong.
+
+```{r wblplot, fig.cap="Macroegalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
+#| label: fig-wbl-corr
+pge <- rio::import(here("data",
+                        "pge.rda"))
+
+wbl_pge <- pge %>% 
+  group_by(draw) %>% 
+  group_split() %>% 
+  map(. %>% 
+        group_by(country) %>% 
+        mutate(pge = pge*100) %>%
+        ungroup() %>% 
+        inner_join(wbl_data %>% 
+                     select(country, year, wbl_index),
+                   by = c("country", "year")))
+
+wbl_cor <- map(wbl_pge,
+              ~ with(.x,
+                     cor(pge, wbl_index,
+                         use = "pairwise.complete.obs"))) %>% 
+  unlist() %>% 
+  mean() %>% 
+  round(2) %>% 
+  sprintf("%.2f", .) %>% 
+  paste0("R = ", .)
+
+wbl_label <- tibble(pge_lag = 90,
+                         wbl_index = 44,
+                         label = wbl_cor)
+
+wbl_plot <- ggplot(wbl_data,
+                  aes(x = pge_lag,
+                      y = wbl_index)) +
+  geom_segment(aes(x = pge_lag-1.96*pge_se_lag, xend = pge_lag+1.96*pge_se_lag,
+                   y = wbl_index, yend = wbl_index),
+               na.rm = TRUE,
+               alpha = .06) +
+  geom_point(alpha = .12) +
+  geom_smooth(method = 'lm', se = FALSE) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text  = element_text(size=10),
+        axis.title = element_text(size=12)) +
+  scale_x_continuous(limits=c(25, 100),
+                     breaks=seq(25, 100, by = 25)) +
+  scale_y_continuous(limits=c(40, 100)) +
+  labs(x = TeX("Macroegalitarianism$_{t-1}$"), y = "WBL Policy Index") +
+  geom_label(data = wbl_label, aes(label = label))
+
+wbl_plot
+```
+
+Researchers are wary of drawing conclusions based on such correlations, however.
+This strong bivariate relationship may be the consequence of spuriousness.
+@Kim2022, for example, finds that gains in women's descriptive representation predict subsequent increases in the WBL policy index, especially in democratic countries.
+As we have seen in @fig-m3-wr, gains in women's descriptive representation also yield higher macroegalitarianism in the democracies of the OECD.
+The apparent relationship between gender egalitarianism among a country's citizens and the adoption of policies increasing gender equality may be driven entirely by women in the legislature---or some other variable, like national legislative quotas [see @Weeks2022]---causing both.
+
+So we again construct a model that includes our usual suspects of such spuriousness: national quotas, women's descriptive representation, feminist movement strength, and the presence of party lists in the electoral system, each measured as in our previous analyses.
+And, also as before, we use the within-between specification to parse out cross-country differences from over-time trends in each of our variables [see @Bell2015] in a Bayesian multilevel model with varying intercepts for both countries and years that capture the distinctive time-invariant characteristics of each country and the global time-varying traits that affected all countries at once [see @Shor2007]. 
+Consistent with our now-familar approach, we also include as a predictor the one-year lag of the WBL policy index to capture the dynamics of policy adoption [see @Keele2006] and the measurement uncertainty in the PGE scores [see @Tai2024].
+
 ```{r wbl_b}
 if (!file.exists(file.path(policy_path,
                            "data",
@@ -1371,8 +1473,8 @@ if (!file.exists(file.path(policy_path,
                          "Macroegalitarianism, Mean",
                          "Descriptive Representation, Difference",
                          "Descriptive Representation, Mean",
-                         "Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Mean",
+                         "Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Mean",
                          "National Quota, Difference",
                          "National Quota, Mean",
                          "GDP per Capita, Difference",
@@ -1414,8 +1516,8 @@ ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Descriptive Representation, Difference",
              "Descriptive Representation, Mean",
-             "Feminist Movement Index, Difference",
-             "Feminist Movement Index, Mean", 
+             "Feminist Movement Strength, Difference",
+             "Feminist Movement Strength, Mean", 
              "National Quota, Difference",
              "National Quota, Mean",
              "GDP per Capita, Difference",
@@ -1477,7 +1579,8 @@ coef_plot_m1 + lag_plot_m1 +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Discuss m1 results @fig-m1-wbl-plot
+The results are displayed in @fig-m1-wbl-plot.
+
 
 
 
@@ -1677,19 +1780,24 @@ coef_plots_wblsem + lag_plots_wblsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-Discuss m2 results @fig-m2-wbl-plot
+@fig-m2-wbl-plot depicts the results.
 
-childcare advances equality in the workforce, the "dual-earner family"
-leave for fathers advances the "dual-carer family", while leave for mothers reinforces traditional gender roles
 
-One known shortcoming of v1.0 of the WBL index is its exclusion of the single policy most closely tied to gender equality in the workforce: childcare.
+
+One known shortcoming of the longitudinal WBL data we use here is its exclusion of the single policy most closely tied to gender equality in the workforce: childcare.
 In 2024, the World Bank revised the WBL index to include childcare policy for the first time.
-The WBL v2.0 dataset includes data on whether there are laws that establish public and private center-based childcare services as well as laws establishing employer-provided childcare.^[
-The new version also highlights the importance of gender-based violence to gender equality in the workplace, moving (and expanding) laws combating sexual harassment from the Workplace indicator and provisions addressing domestic violence from the Marriage indicator, along with information about laws banning child marriage and criminalizing femicide, to a new Safety indicator [see @WorldBank2024a, 25-27].  As the WBL index v1.0 does include _some_ information on policies addressing gender-based violence, we leave analysis of these policies to future work.]
+Version 2.0 of the WBL dataset includes data on whether there are laws that establish public and private center-based childcare services as well as laws establishing employer-provided childcare.^[
+The new version also highlights the importance of gender-based violence to gender equality in the workplace, moving and expanding its treatment of laws combating sexual harassment from the Workplace indicator and provisions addressing domestic violence from the Marriage indicator, along with information about laws banning child marriage and criminalizing femicide, to a new Safety indicator [see @WorldBank2024a, 25-27].  As the WBL index v1.0 does include some information on policies addressing gender-based violence, we leave a more focused analysis of these specific policies to future work.]
 Unfortunately, this newly revised and expanded WBL index is currently available only for a single year, 2023.
 That renders it unsuitable for our purposes for two reasons.
-The cross-sectional nature of these data prevent the time-sensitive EHA and dynamic analyses that we employ to convincingly test responsiveness to public opinion across the high-income democracies of the OECD, and further the PGE data as yet extends to 2022 in only two of the thirty-eight countries in our sample.
-We must look elsewhere for data on childcare.
+Most importantly, the cross-sectional nature of these data prevent the time-sensitive dynamic analyses that we employ to convincingly test the representation of public opinion and the responsiveness of the public to policy change across the high-income democracies of the OECD.
+But also, as a practical matter, the PGE data as yet extends to 2022 in only two of the thirty-eight countries in our sample.
+This makes even a cross-sectional analysis infeasible.
+We must look elsewhere for data on childcare policy.
+
+Availability is more important than spending, and the available spending data has validity problems anyway because the it covers older preschool children, whose care is associated more with part-time, dead-end work.
+To measure childcare availability across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two. 
+@fig-enrplot shows how enrollments have varied across countries and over time.
 
 ```{r ecec_data}
 if (!file.exists(file.path(policy_path, "data-raw", "ecec_data.csv"))) {
@@ -1855,8 +1963,7 @@ ecec_enr_plot <- ggplot(ecec_data1 %>% filter(!is.na(ecec_enrollment)),
 ecec_enr_plot
 ```
 
-@fig-ecec-enrplot shows the bivariate relationship between gender egalitarianism and early childhood enrollments.
-Each point represents a country-year and is labelled with the country's two-character ISO code. 
+@fig-ecec-enrplot shows the bivariate relationship between gender egalitarianism and these very early childhood enrollments.
 Enrollment rates in education and care for children aged zero to two are plotted vertically on the y-axis, and PGE scores are plotted horizontally on the x-axis; the horizontal whiskers trace the 80% credible intervals of the PGE scores.
 The relationship between these two variables is positive and strong: the bivariate correlation, with the uncertainty in the PGE scores taken into account, is `r ecec_enr_cor %>% str_extract("\\.\\d{2}")`.
 Still, a strong correlation is famously insufficient to establish causation.
