@@ -1534,7 +1534,7 @@ coef_data_m1 <- coef_data0_m1 %>%
 
 coef_data_m1_total <- coef_data0_m1 %>% 
   group_by(.chain, .iteration, .draw) %>% 
-  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+  mutate(alpha = mean(ifelse(name=="wbl_lag", .value, NA_real_),
                       na.rm = TRUE)) %>% 
   ungroup() %>% 
   group_by(.variable) %>% 
@@ -1581,6 +1581,8 @@ coef_plot_m1 + lag_plot_m1 +
 
 The results are displayed in @fig-m1-wbl-plot.
 
+`r get_coef("pge_mean", coef_data_m1)` 
+`r get_coef("pge_mean", coef_data_m1_total)`
 
 ### Public Responsiveness to Policies Advancing Workplace Gender Equality
 
@@ -2182,8 +2184,8 @@ coef_plot_m1 + lag_plot_m1 +
 
 
 
-@Sjoberg2004 argues that institutionalized family policies, particularly the provision of early childhood education and care, promote married women's labor force participation and so reshape attitudes toward gender roles in the public sphere.
-That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family," they can be expected to influence the public's attitudes on gender egalitarianism in the public sphere [@Sjoberg2004, 113].
+@Sjoberg2004 argues that institutionalized family policies, particularly the provision of early childhood education and care, promote married women's labor force participation and so reshape the public's attitudes on gender egalitarianism in the public sphere.
+That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family," they can be expected to influence macroegalitarianism [@Sjoberg2004, 113].
 
 
 ```{r enrsem_results.rda}    
