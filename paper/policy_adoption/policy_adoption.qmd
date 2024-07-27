@@ -1129,7 +1129,7 @@ There is no evidence whatsoever of anti-egalitarian backlash.
 
 ## Policies Advancing Gender Equality in the Workplace
 
-Intro paragraph needed here.
+**Intro paragraph needed here.**
 
 To measure policies advancing gender equality in the workplace, we rely on the World Bank's Women, Business, and Law v1.0 (WBL) policy index [@WorldBank2024].
 As shown in @tbl-wbl, the WBL policy index comprises thirty-five policies addressing eight topics meant "to capture inequality in legislation throughout the duration of a woman’s working life, from the time she can enter the labor force through to retirement" [@Hyland2020, 476].
@@ -1582,7 +1582,7 @@ coef_plot_m1 + lag_plot_m1 +
 The results are displayed in @fig-m1-wbl-plot.
 
 
-
+### Public Responsiveness to Policies Advancing Workplace Gender Equality
 
 ```{r wblsem_results}    
 if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {  
@@ -1783,20 +1783,21 @@ coef_plots_wblsem + lag_plots_wblsem +
 @fig-m2-wbl-plot depicts the results.
 
 
+### A Further Test: Childcare Provision
 
 One known shortcoming of the longitudinal WBL data we use here is its exclusion of the single policy most closely tied to gender equality in the workforce: childcare.
 In 2024, the World Bank revised the WBL index to include childcare policy for the first time.
 Version 2.0 of the WBL dataset includes data on whether there are laws that establish public and private center-based childcare services as well as laws establishing employer-provided childcare.^[
 The new version also highlights the importance of gender-based violence to gender equality in the workplace, moving and expanding its treatment of laws combating sexual harassment from the Workplace indicator and provisions addressing domestic violence from the Marriage indicator, along with information about laws banning child marriage and criminalizing femicide, to a new Safety indicator [see @WorldBank2024a, 25-27].  As the WBL index v1.0 does include some information on policies addressing gender-based violence, we leave a more focused analysis of these specific policies to future work.]
-Unfortunately, this newly revised and expanded WBL index is currently available only for a single year, 2023.
+Unfortunately, this newly revised and expanded WBL index is currently available only for a single year.
 That renders it unsuitable for our purposes for two reasons.
 Most importantly, the cross-sectional nature of these data prevent the time-sensitive dynamic analyses that we employ to convincingly test the representation of public opinion and the responsiveness of the public to policy change across the high-income democracies of the OECD.
-But also, as a practical matter, the PGE data as yet extends to 2022 in only two of the thirty-eight countries in our sample.
-This makes even a cross-sectional analysis infeasible.
+But also, as a practical matter, the PGE data as yet extends to within a year of the updated WBL in only two of the thirty-eight countries in our sample.
+This makes even a cross-sectional analysis unfeasible.
 We must look elsewhere for data on childcare policy.
 
-Availability is more important than spending, and the available spending data has validity problems anyway because the it covers older preschool children, whose care is associated more with part-time, dead-end work.
-To measure childcare availability across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two. 
+**Availability is more important than spending, and the available spending data has validity problems anyway because the it covers older preschool children, whose care is associated more with part-time, low-wage, dead-end work.**
+To measure childcare availability across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two. **Cite**
 @fig-enrplot shows how enrollments have varied across countries and over time.
 
 ```{r ecec_data}
@@ -1970,13 +1971,13 @@ Still, a strong correlation is famously insufficient to establish causation.
 A strong correlation may instead, for example, simply arise due to spuriousness; that is, egalitarian attitudes and early childhood care enrollments may both be driven by some third factor, such as levels of women's descriptive representation.
 We need a more sophisticated model to draw firmer conclusions. 
 
-First, we need to account for likely sources of spuriousness.
+First, as ever, we need to account for likely sources of spuriousness.
 Levels of descriptive representation and the strength of the feminist movement are two variables that plausibly could influence both the public's gender egalitarian attitudes and the constellation of policies that shape the rate of young children's enrollment in education and care.
-As described previously, we use data from QAROT and @IDEA2023 for the former and from @Forester2022 for the latter.
+As in previous analyses, we use data from QAROT and @IDEA2023 for the former and from @Forester2022 for the latter.
 
-quota: @Weeks2022
+**quota: @Weeks2022**
 
-To model enrollment in early childhood education and care, we use some now-familiar tools. 
+To model enrollment in early childhood education and care, we use now-familiar tools. 
 We again use a Bayesian multilevel model that includes varying intercepts for 
 each country and each year that capture any distinctive differences across space and any shocks that occur over time and so minimize bias due to heteroskedasticity or from variables omitted from the model [see @Shor2007].
 We use the 'within-between specification' to separate time-varying predictors into their mean values for each country and the changes over time, with the latter providing the best evidence of causation [see @Bell2015].
@@ -2178,7 +2179,8 @@ coef_plot_m1 + lag_plot_m1 +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-### Public Responsiveness to Policies Advancing Workplace Gender Equality
+
+
 
 @Sjoberg2004 argues that institutionalized family policies, particularly the provision of early childhood education and care, promote married women's labor force participation and so reshape attitudes toward gender roles in the public sphere.
 That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family," they can be expected to influence the public's attitudes on gender egalitarianism in the public sphere [@Sjoberg2004, 113].
