@@ -1002,7 +1002,7 @@ if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {
 }
 ```
 
-```{r m2nqplot, fig.cap="Predicting the National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r m2nqplot, fig.cap="Predicting National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-m2-nq
 
 ordered_nqsem <- c("Macroegalitarianism, Difference",
@@ -1320,7 +1320,7 @@ Both the extent to which these countries have passed these laws and the pace at 
 Our first question is whether growing gender egalitarianism among citizens prompts their representatives to adopt policies that enhance gender equality in employment.
 As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and the WBL policy index is very strong.
 
-```{r wblplot, fig.cap="Macroegalitarianism and National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
+```{r wblplot, fig.cap="Macroegalitarianism and Policies Advancing Gender Equality in Employment in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-wbl-corr
 pge <- rio::import(here("data",
                         "pge.rda"))
@@ -1375,7 +1375,7 @@ wbl_plot
 Researchers are wary of drawing conclusions based on such correlations, however.
 This strong bivariate relationship may be the consequence of spuriousness.
 @Kim2022, for example, finds that gains in women's descriptive representation predict subsequent increases in the WBL policy index, especially in democratic countries.
-As we have seen in @fig-m3-wr, gains in women's descriptive representation also yield higher macroegalitarianism in the democracies of the OECD.
+As we have seen in @fig-m3-wr in the last chapter and @fig-m2-nq in this one, gains in women's descriptive representation also yield higher macroegalitarianism in the democracies of the OECD.
 The apparent relationship between gender egalitarianism among a country's citizens and the adoption of policies increasing gender equality may be driven entirely by women in the legislature---or some other variable, like national legislative quotas [see @Weeks2022]---causing both.
 
 So we again construct a model that includes our usual suspects of such spuriousness: national quotas, women's descriptive representation, feminist movement strength, and the presence of party lists in the electoral system, each measured as in our previous analyses.
@@ -1511,7 +1511,7 @@ if (!file.exists(file.path(policy_path,
 ```
 
 ```{r m1wblplot, fig.cap="Predicting the WBL Policy Index in OECD Countries \\label{m1_wbl_plot}", fig.height = 7, fig.width = 7.5}
-#| label: fig-m1-wbl-plot
+#| label: fig-m1-wbl
 ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Descriptive Representation, Difference",
@@ -1579,12 +1579,33 @@ coef_plot_m1 + lag_plot_m1 +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-The results are displayed in @fig-m1-wbl-plot.
+The results are displayed in @fig-m1-wbl.
+The are, perhaps, surprising.
+Even with OECD, a group of relatively high-income countries, the richer countries score higher on the WBL policy index than the poorer ones, by `r get_coef("gdppc_mean", coef_data_m1)` points immediately, and due to the strong dynamics in the adoption of these policies, `r get_coef("gdppc_mean", coef_data_m1_total)` points over time.
+This may indicate a long-term causal influence, but gains in GDP per capita do not evidence a similar effect so we are careful to not draw strong conclusions.
 
-`r get_coef("pge_mean", coef_data_m1)` 
-`r get_coef("pge_mean", coef_data_m1_total)`
+National gender quotas bear little relationship to the adoption of these equality-enhancing policies in this model.
+Nor does the average strength of the feminist movement, but _gains_ in the Feminist Movement Index increase the adoption of these policies by `r get_coef("fmi_diff", coef_data_m1)` points in the short run and `r get_coef("fmi_diff", coef_data_m1_total)` points compounded over time.
+
+We turn then to the model's estimates of the coefficients for macroegalitarianism on policies advancing gender equality in employment, first considering cross-country differences.
+A two-standard-deviation difference in PGE scores is found to correspond to an immediate `r get_coef("pge_mean", coef_data_m1)` point difference in the WBL policy index, which grows to `r get_coef("pge_mean", coef_data_m1_total)` points when the dynamics of the index are taken into account.
+The posterior distribution indicates that the probability that this estimate is positive is `r {{coef_data0_m1 %>% filter(name == "pge_mean" & .value > 0) %>% nrow()}/20} %>% round()`%.
+Again, we treat this result cautiously: it may reflect how public opinion influences policymakers over the long term, but it may also be the product of differences across countries that remain outside of our model.
+
+We put more weight on how year-to-year changes in macroegalitarianism correspond to subsequent changes in policy.
+These are not perfect for the purpose of drawing conclusions about causation, but given that the attitudes of the public are not subject to experimental manipulation, they are the strongest evidence available.
+And, in this case, the evidence is indeed strong.
+A two-standard-deviation increase in macroegalitarianism in one year within a country is estimated to be followed by a `r get_coef("pge_diff", coef_data_m1)` gain in the WBL policy index in the next.
+Over time, as past policymaking influences future policymaking, this gain increases to `r get_coef("pge_diff", coef_data_m1_total)` points.
+Just as the models earlier in this chapter indicated that more gender egalitarian public opinion spurs legislators to adopt and raise national gender quotas to advance gender equality in politics, this model indicates that it also induces them to adopt policies advancing gender equality in employment.
+
 
 ### Public Responsiveness to Policies Advancing Workplace Gender Equality
+
+That governments respond to gender egalitarianism in the public with policies addressing equality in both politics and work does not necessarily suggest that the public reacts to these policies similarly.
+That is, even though the public reacts to the election of more women and the adoption of legislative gender quotas by becoming even more egalitarian, it could be that its reaction is different to policies removing barriers to equality in employment.
+After all, these policies intrude more directly into people's daily lives than the makeup of the legislature does.
+It would not be too surprising if these more intrusive policies, rather than working to create their own constituencies, instead prompt a thermostatic backlash.
 
 ```{r wblsem_results}    
 if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {  
@@ -1702,7 +1723,7 @@ if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {
 ```
 
 ```{r m2wblplot, fig.cap="Predicting the WBL Policy Index and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
-#| label: fig-m2-wbl-plot
+#| label: fig-m2-wbl
 
 ordered_wblsem <- c("Macroegalitarianism, Difference",
                     "Macroegalitarianism, Mean", 
@@ -1782,12 +1803,19 @@ coef_plots_wblsem + lag_plots_wblsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
-@fig-m2-wbl-plot depicts the results.
+We test this possibility with a simultaneous-equations model similar to those we have used previously, predicting at once both the WBL index of gender-equality-enhancing policies and the PGE scores of macroegalitarianism.
+@fig-m2-wbl depicts the results.
+The left side of the plot reproduces the findings of @fig-m1-wbl, again providing reassurance that our specification of that model successfully avoided any bias due to endogeneity.
+
+The figure's right side shows the model's estimates for macroegalitarianism.
+These estimates provide no evidence of a thermostatic effect of increasingly gender-equal policies toward work on public opinion; there is no backlash.
+Instead, increases in the WBL policy index are followed by increases in public egalitarianism.
+A two-standard-deviation gain in the former yields an immedidate `r get_coef("pge_diff", coef_data_wblsem) %>% str_replace("\\.(\\d)\\d", ".\\1")` point gain in the latter, and this gain expands to `r get_coef("pge_diff", coef_data_wblsem_total)` points over time.
 
 
 ### A Further Test: Childcare Provision
 
-One known shortcoming of the longitudinal WBL data we use here is its exclusion of the single policy most closely tied to gender equality in the workforce: childcare.
+One known shortcoming of the longitudinal WBL data we use here is its exclusion of the single policy most often and closely tied to gender equality in the workforce: childcare.
 In 2024, the World Bank revised the WBL index to include childcare policy for the first time.
 Version 2.0 of the WBL dataset includes data on whether there are laws that establish public and private center-based childcare services as well as laws establishing employer-provided childcare.^[
 The new version also highlights the importance of gender-based violence to gender equality in the workplace, moving and expanding its treatment of laws combating sexual harassment from the Workplace indicator and provisions addressing domestic violence from the Marriage indicator, along with information about laws banning child marriage and criminalizing femicide, to a new Safety indicator [see @WorldBank2024a, 25-27].  As the WBL index v1.0 does include some information on policies addressing gender-based violence, we leave a more focused analysis of these specific policies to future work.]
@@ -1798,9 +1826,13 @@ But also, as a practical matter, the PGE data as yet extends to within a year of
 This makes even a cross-sectional analysis unfeasible.
 We must look elsewhere for data on childcare policy.
 
-**Availability is more important than spending, and the available spending data has validity problems anyway because the it covers older preschool children, whose care is associated more with part-time, low-wage, dead-end work.**
-To measure childcare availability across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two. **Cite**
-@fig-enrplot shows how enrollments have varied across countries and over time.
+Childcare policy is multifaceted, with many potential levers for affecting cost, availability, and quality [@Hegawisch2011, 128-129].^[
+The availability of childcare is seen the most important indicator of policy effort---and more predictive of women's opportunities for employment---than government expenditures and childcare costs [@Hegawisch2011, 128-129].
+In any event, the available expenditures data has validity problems because the it covers older preschool children, whose often 'short-hour' care is associated with more part-time employment among mothers [see, e.g., @Korpi2000, 145].]
+We therefore consider childcare enrollments, which are an indicator of all three of these aspects of policy.
+Further, as a policy outcome can also be seen to complement our earlier focus on policy outputs in the WBL policy index.
+To provide a measure across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two [@OECD2024].
+@fig-enrplot shows how these enrollments have varied across countries and over time.
 
 ```{r ecec_data}
 if (!file.exists(file.path(policy_path, "data-raw", "ecec_data.csv"))) {
