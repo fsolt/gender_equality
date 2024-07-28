@@ -1826,7 +1826,7 @@ But also, as a practical matter, the PGE data as yet extends to within a year of
 This makes even a cross-sectional analysis unfeasible.
 We must look elsewhere for data on childcare policy.
 
-Childcare policy is multifaceted, with many potential levers for affecting cost, availability, and quality [@Hegawisch2011, 128-129].^[
+Childcare policy is multifaceted, with many potential levers for affecting cost, availability, and quality [@Hegewisch2011, 128-129].^[
 The availability of childcare is seen the most important indicator of policy effort---and more predictive of women's opportunities for employment---than government expenditures and childcare costs [@Hegawisch2011, 128-129].
 In any event, the available expenditures data has validity problems because the it covers older preschool children, whose often 'short-hour' care is associated with more part-time employment among mothers [see, e.g., @Korpi2000, 145].]
 We therefore consider childcare enrollments, which are an indicator of all three of these aspects of policy.
