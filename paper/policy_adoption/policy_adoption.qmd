@@ -1827,12 +1827,18 @@ This makes even a cross-sectional analysis unfeasible.
 We must look elsewhere for data on childcare policy.
 
 Childcare policy is multifaceted, with many potential levers for affecting cost, availability, and quality [@Hegewisch2011, 128-129].^[
-The availability of childcare is seen the most important indicator of policy effort---and more predictive of women's opportunities for employment---than government expenditures and childcare costs [@Hegawisch2011, 128-129].
+The availability of childcare is seen the most important indicator of policy effort---and more predictive of women's opportunities for employment---than government expenditures and childcare costs [@Hegewisch2011, 128-129].
 In any event, the available expenditures data has validity problems because the it covers older preschool children, whose often 'short-hour' care is associated with more part-time employment among mothers [see, e.g., @Korpi2000, 145].]
 We therefore consider childcare enrollments, which are an indicator of all three of these aspects of policy.
 Further, as a policy outcome can also be seen to complement our earlier focus on policy outputs in the WBL policy index.
 To provide a measure across our countries of interest, we look to OECD data on enrollments in early childhood education and care among the very young, children aged zero to two [@OECD2024].
+
 @fig-enrplot shows how these enrollments have varied across countries and over time.
+The highest rates are found in the Netherlands in 2020, where nearly 70% of children under the age of two were enrolled in nursuries, day care centers, and the like.
+Center-based care for very young children was almost vanishingly rare in Slovakia and Turkey, on the other hand.
+Beyond the differences in levels and trends across countries, the plot reveals that these data are more sparse than others we have considered, covering less than half of the country-years in the OECD from 1999 to 2020.
+While the data include long time-series for many countries, observations are rarer for many others, and for Canada there are no observations at all.
+Still, an analysis of these data seems a worthwhile check on the conclusions reached by our examination of the WBL policy index.
 
 ```{r ecec_data}
 if (!file.exists(file.path(policy_path, "data-raw", "ecec_data.csv"))) {
@@ -2007,9 +2013,8 @@ We need a more sophisticated model to draw firmer conclusions.
 
 First, as ever, we need to account for likely sources of spuriousness.
 Levels of descriptive representation and the strength of the feminist movement are two variables that plausibly could influence both the public's gender egalitarian attitudes and the constellation of policies that shape the rate of young children's enrollment in education and care.
-As in previous analyses, we use data from QAROT and @IDEA2023 for the former and from @Forester2022 for the latter.
-
-**quota: @Weeks2022**
+@Weeks2022 finds that national quota adoption worked to shift family policies in the direction of more gender equality among twenty OECD democracies, so taking this factor into consideration is also important.
+Richer and growing economies may also be expected to be better able to afford to make childcare available, so we include GDP per capita as a control as well.
 
 To model enrollment in early childhood education and care, we use now-familiar tools. 
 We again use a Bayesian multilevel model that includes varying intercepts for 
@@ -2092,10 +2097,10 @@ if (!file.exists(file.path(policy_path,
            women_rep_mean,
            fmi_diff,
            fmi_mean,
-           national_quota_mean,
            national_quota_diff,
-           gdppc_mean,
+           national_quota_mean,
            gdppc_diff,
+           gdppc_mean,
            ecec_enr_lag) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -2108,8 +2113,8 @@ if (!file.exists(file.path(policy_path,
                          "Macroegalitarianism, Mean",
                          "Descriptive Representation, Difference",
                          "Descriptive Representation, Mean",
-                         "Feminist Movement Index, Difference",
-                         "Feminist Movement Index, Mean",
+                         "Feminist Movement Strength, Difference",
+                         "Feminist Movement Strength, Mean",
                          "National Quota, Difference",
                          "National Quota, Mean",
                          "GDP per Capita, Difference",
@@ -2119,7 +2124,7 @@ if (!file.exists(file.path(policy_path,
                         1,
                         value))
   
-  coef_data0_m1 <- m1_enr_b %>% 
+  coef_data0_m1_enr <- m1_enr_b %>% 
     as_draws_df() %>% 
     tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
     filter(!str_detect(`.variable`, "_Intercept")) %>% 
@@ -2135,7 +2140,7 @@ if (!file.exists(file.path(policy_path,
                         "data",
                         "ecec_enr_data2.rda"))
   
-  save(m1_data, m1_data_2sd, coef_data0_m1, cy_summary_m1, 
+  save(m1_data, m1_data_2sd, coef_data0_m1_enr, cy_summary_m1, 
        file = file.path(policy_path,
                         "data",
                         "enr_results.rda"))
@@ -2145,13 +2150,15 @@ if (!file.exists(file.path(policy_path,
 }
 ```
 
-```{r m1enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m1_enr_plot}", fig.height = 7, fig.width = 7.5}
+```{r m1enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 7, fig.width = 7.5}
+#| label: fig-m1-enr
+
 ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Descriptive Representation, Difference",
              "Descriptive Representation, Mean",
-             "Feminist Movement Index, Difference",
-             "Feminist Movement Index, Mean", 
+             "Feminist Movement Strength, Difference",
+             "Feminist Movement Strength, Mean", 
              "National Quota, Difference",
              "National Quota, Mean",
              "GDP per Capita, Difference",
@@ -2159,18 +2166,19 @@ ordered <- c("Macroegalitarianism, Difference",
              "Lagged Enrollment") %>% 
   rev()
 
-coef_data_m1 <- coef_data0_m1 %>% 
+coef_data_m1_enr <- coef_data0_m1_enr %>% 
   mutate(std_coef = round(.value * sd2, 1),
          term = factor(var_names, levels = ordered)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m1_data_2sd, ., by = join_by(.variable))
 
-coef_data_m1_total <- coef_data0_m1 %>% 
+coef_data_m1_enr_total <- coef_data0_m1_enr %>% 
   group_by(.chain, .iteration, .draw) %>% 
-  mutate(alpha = mean(ifelse(name=="women_rep_lag", .value, NA_real_),
+  mutate(alpha = mean(ifelse(name=="ecec_enr_lag", .value, NA_real_),
                       na.rm = TRUE)) %>% 
   ungroup() %>% 
+  filter(alpha < .97) %>% 
   group_by(.variable) %>% 
   mutate(std_coef0 = round(.value * sd2, 1),
          std_coef = round(std_coef0/(1 - alpha), 1),
@@ -2179,7 +2187,7 @@ coef_data_m1_total <- coef_data0_m1 %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
   left_join(m1_data_2sd, ., by = join_by(.variable))
 
-coef_plot_m1 <- coef_data0_m1 %>% 
+coef_plot_m1 <- coef_data0_m1_enr %>% 
   mutate(std_coef = .value * sd2,
          term = factor(var_names, levels = ordered)) %>% 
   filter(!str_detect(var_names, "Lagged")) %>% 
@@ -2213,11 +2221,20 @@ coef_plot_m1 + lag_plot_m1 +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
+In this relatively small dataset, only a few of the posterior distributions of the coefficient estimates exhibit a bulk of their probability far from zero.
+Countries with higher GDP per capita exhibit higher childcare enrollments among the very young, with a two-standard-deviation difference in the mean estimated to yield `r get_coef("gdppc_mean", coef_data_m1_enr)` points higher enrollments immediately and `r get_coef("gdppc_mean", coef_data_m1_enr_total)` points over time.
+Countries with higher mean gender quotas also have higher enrollments, with a two-standard-deviation difference in mean national quota levels corresponding to `r get_coef("quota_mean", coef_data_m1_enr)` percentage points more of the under-two population in childcare.
+The dynamics of the model---the fact that past enrollments strongly predict future enrollments---means this increase grows to `r get_coef("quota_mean", coef_data_m1_enr_total)` points over time.
 
+Most important for our inquiry, when gender egalitarian attitudes increase among the public within a country, subsequent childcare enrollments rise as well.
+The estimated year-to-year gain in enrollment following a two-standard-deviation rise in macroegalitarianism is `r get_coef("pge_diff", coef_data_m1_enr)` percentage points, and this gain compounds to `r get_coef("pge_diff", coef_data_m1_enr_total)` points dynamically.
+Part of this estimate may well reflect that when egalitarian views grow in the public, more members of the public take advantage of the childcare that is available even in the absence of policy change; this is the precise reason why we sought to focus our inquiry on policy outputs like the WBL policy index rather than outcomes.
+Still, legislators better representing the views of a more egalitarian public by pursuing policy changes that makes childcare more accessible are likely part of the story as well.
 
-
+And how does the public respond?
 @Sjoberg2004 argues that institutionalized family policies, particularly the provision of early childhood education and care, promote married women's labor force participation and so reshape the public's attitudes on gender egalitarianism in the public sphere.
-That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family," they can be expected to influence macroegalitarianism [@Sjoberg2004, 113].
+That is, because these policies "contain normative elements and expectations on the 'proper' role of men as well as women in society and in the family" [@Sjoberg2004, 113], they can be expected to reinforce and increase macroegalitarianism.
+But a thermostatic reaction, a backlash to increased gender equality in policies like those affecting childcare, also remains a possibility.
 
 
 ```{r enrsem_results.rda}    
@@ -2258,10 +2275,10 @@ if (!file.exists(file.path(policy_path, "data", "enrsem_results.rda"))) {
            women_rep_mean,
            fmi_diff,
            fmi_mean,
-           national_quota_mean,
            national_quota_diff,
-           gdppc_mean,
+           national_quota_mean,
            gdppc_diff,
+           gdppc_mean,
            ecec_enr_lag) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -2335,7 +2352,8 @@ if (!file.exists(file.path(policy_path, "data", "enrsem_results.rda"))) {
 }
 ```
 
-```{r m2enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries \\label{m2_enr_plot}", fig.height = 9, fig.width = 7.5}
+```{r m2enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 9, fig.width = 7.5}
+#| label: fig-m2-enr
 
 ordered_enrsem <- c("Macroegalitarianism, Difference",
                     "Macroegalitarianism, Mean", 
@@ -2416,4 +2434,26 @@ coef_plots_enrsem + lag_plots_enrsem +
   plot_annotation(caption = "Notes: Dots indicate posterior medians; whiskers describe 80% credible\nintervals; shading depicts the posterior probability distribution.")
 ```
 
+@fig-m2-enr shows the results of a simultaneous-equations model of childcare enrollments and macroegalitarianism.
+On the left of the plot, we see that the results of the model of enrollments presented in @fig-m1-enr remain substantively unchanged when the potential endogenous relationship between the two variables is included in the model.
+On the right are the results predicting macroegalitarianism.
+Looking at the estimates toward the top of that side reveals that countries with higher mean enrollments tend somewhat to have higher levels of macroegalitarianism.
+A country with an enrollment rate a standard deviation above the overall mean, like those of Belgium or New Zealand, is estimated to have a PGE score `r get_coef("enr_mean", coef_data_enrsem)` points higher than an otherwise similar country with enrollments a standard deviation below the mean, similar to that of Hungary, compounding to `r get_coef("enr_mean", coef_data_enrsem_total)` over time.
+The posterior distribution indicates that the probability that this estimate is positive, given this model and these data, is `r {{coef_data0_enrsem %>% filter(name == "ecec_enr_mean" & .value > 0) %>% nrow()}/20} %>% round()`%.
+Changes in enrollment levels within a country over time, however, do not provide evidence for a short-term effect on macroegalitarianism.
+It would seem that the private choices involved in enrolling one's child in daycare are too opaque to trigger a response in public opinion on a year-to-year basis.
+In any event, there is no evidence whatsoever that growing enrollments of very young children provoke a thermostatic decline in macroegalitarianism. 
+
+\pagebreak
 ## Conclusions
+
+In this chapter, we examined policy representation of public opinion toward gender roles in the public sphere as well as the public's responsiveness to policies that advance gender equality.
+We considered the most common policy focused on gender equality in politics, national legislative gender quotas, and a comprehensive measure of policies enabling gender equality in employment and entrepreneurship, the World Bank's Women, Business and the Law policy index.
+As a further check on our conclusions, we also examined a policy outcome long understood to be crucial to gender equality in the workplace, enrollments in childcare for children under age two.
+
+Our findings with regard to policy representation are unequivocal.
+As the public adopts more gender egalitarian views, legislators are more likely to pass more demanding mandatory gender quotas, laws that require women to make up a specified share of parties' candidates for the legislature.
+Such circumstances also make lawmakers more likely to adopt more of the policies that work to place women on equal footing to men in employment.
+Even enrollments in childcare among the very young---a complex outcome reflecting policies influencing cost, accessibility, and quality of center-based care as well as the private decisions of parents---responds to shifts in macroegalitarianism.
+
+
