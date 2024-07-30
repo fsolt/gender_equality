@@ -1,7 +1,77 @@
 # Conclusion
 
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300,
+  fig.width=7
+)
+
+if (!require(pacman))
+  install.packages("pacman")
+library(pacman)
+
+p_install(janitor, force = FALSE)
+
+p_load(
+  # presentation
+  gridExtra,
+  modelsummary,
+  dotwhisker,
+  ggthemes,
+  latex2exp,
+  RColorBrewer,
+  colorRamps,
+  directlabels,
+  patchwork,
+  kableExtra,
+  
+  # data wrangling
+  broom,
+  countrycode,
+  DCPOtools,
+  glue,
+  here,
+  imputeTS,
+  janitor,
+  readxl,
+  rsdmx,
+  tidyverse,
+  wbstats)
+```
+
 In summary, this book is still super, super drafty.
 
-It could be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
-For example, it would not be surprising for an egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much.'
+@tbl-summary 
 
+```{r summary_table}
+#| label: tbl-summary
+tibble(` ` = c("Women's Descriptive\nRepresentation",
+                    "National Legislative\nGender Quota",
+                    "Laws Advancing\nEquality in Employment",
+                    "Childcare\nEnrollments"),
+       `Policy\nRepresentation` = c("++", "++", "++", "+"),
+       `Public\nResponsiveness` = c("++", "+", "++", "")) %>% 
+  knitr::kable(format = "latex",
+               align = "lcc", 
+               escape = FALSE)
+# %>% 
+#     kableExtra::column_spec(1, width = "30em") %>%
+#   kableExtra::column_spec(c(2,3), width = "10em")
+
+```
+
+## Implications for public opinion
+
+It could be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
+For example, it would not be surprising for even a very egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
+
+## Implications for politics of gender
+
+## Implications for policy
+
+## Implications for democracy
