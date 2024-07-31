@@ -1,18 +1,36 @@
-# Policy Representation and Public Responsiveness [Very Drafty]
+# Policy Representation and Public Responsiveness on Gender Equality [Still Very Drafty]
+
+We want to know how public opinion responds to movement toward gender equality, but we think it makes sense to start the inquiry with the representation of opinion in politics and policy. 
+
+## Representation: From Opinion to Politics and Policy
+
+Typology of representation
+
+Reasons for opinion to matter to policy
+
+With regard to gender egalitarianism, the case for representation is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
+Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, fewer women gain office, and public policy will not change.
+Indeed, @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
+
+There are, however, many reasons for public opinion to not translate to policy.
+sexist or even just skeptical party gatekeepers
+institutional veto players
+relative power of the wealthy
+
+Here we should talk about why it _isn't_ tautological: belief vs behavior; institutions, including parties, that prevent preferences from being translated into outcomes* [for example, @Araujo2022, "As Powell Jr. (2004) describes, one of the obstacles to examining whether electorates' preferences translate into equivalent policy adoption is that 'a multidimensional preference configuration can yield almost any configuration of outcomes' (p. 291)" @Powell2004]; maybe additional reasons?
+
+However, public opinion or preference is not always translated into policy outcomes. As @Monroe1998 mentioned in terms of policy consistency, policy changes or outcomes are not identical to a prior public preference. Policy consistency refers to the levels of match between public preferences for change and policy change.
+In addition to the policy consistency, there are many reasons why public opinion or preference is not matched to policy outcomes. For instance, policy consistency can be determined by policy responsiveness. Previous studies have argued that policy responsiveness is a core democratic value for citizens and democratic countries rather than non-democratic countries tend to have higher policy responsiveness [@Bowler2017; @Miller2015]. Furthermore, a non-neglectable number of studies have demonstrated that there are variations concerning policy responsiveness in non-democratic countries according to their electoral systems or other socio-economic situations [@Dassonneville2021a; @Erikson2015; @Lueders2022; @Schakel2021]. Those studies are on the line with the argument that public opinion or preference is not always identical to policy outcomes. 
+Also, there are many ways to explain the incongruency between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
+
+
+## Public Responsiveness: From Policy to Opinion
+
+Thermostat: @Wlezien1995; @Soroka2010; @Atkinson2021
 
 The research question is one right at the heart of the politics of inequality: When do women win office? And what part do public attitudes toward gender roles play in the process?
 Not surprisingly, given the importance of the question, we have a range of theories on this.
 
-The first contends that this is an elite-led process.
-In this account, activists of the women's movement do the truly heroic work of convincing the patriarchal, male old guard of political parties to put women on the ballot.
-
-On the one hand, this involves demanding--and getting--commitments that the party will have women make up a specific share of its slate of candidates, that is, that the party will adopt a gender quota.
-
-On the other hand, whether or not a party makes a formal commitment in the form of a quota, activists push for parties to run more female candidates--and the push to overcome the biases of the existing male party leadership has proven easier when and where the electoral system consists of, or includes, a party-list component rather than only highly personalized races within small districts.
-In the purest forms of the elite-led political theory, that's it: The activists' hard work within political parties to get more women on the ballot is the whole story.
-In this telling, the public, the voters, are basically ambivalent with regard to electing men or women--and there *are* various experimental studies that provide evidence that this is true in some contexts--so it is the *supply* of female candidates that determines how many women win elected office.
-Now, there's a *ton* of evidence--qualitative and quantitative--for the hypotheses implied by the elite-led account, decades' worth of work on this topic, really, that show that quotas and party lists yield more women's descriptive representation.
-It is, by now, super-well established stuff.
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -65,21 +83,13 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "United Kingdom", "United States")
 ```
 
-Yet there is a second theory that contends that public attitudes cannot be dismissed as readily as they are in the purest elite-led accounts.
-This public-opinion story is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties run more women, and more women win election.
-Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, and fewer women gain office.
-@Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion "seems to be a very good measure of gender equality."
-
-Here we should talk about why it _isn't_ tautological: belief vs behavior; institutions, including parties, that prevent preferences from being translated into outcomes* [for example, @Araujo2022, "As Powell Jr. (2004) describes, one of the obstacles to examining whether electorates' preferences translate into equivalent policy adoption is that 'a multidimensional preference configuration can yield almost any configuration of outcomes' (p. 291)" @Powell2004]; maybe additional reasons?
-
-However, public opinion or preference is not always translated into policy outcomes. As @Monroe1998 mentioned in terms of policy consistency, policy changes or outcomes are not identical to a prior public preference. Policy consistency refers to the levels of match between public preferences for change and policy change.
-In addition to the policy consistency, there are many reasons why public opinion or preference is not matched to policy outcomes. For instance, policy consistency can be determined by policy responsiveness. Previous studies have argued that policy responsiveness is a core democratic value for citizens and democratic countries rather than non-democratic countries tend to have higher policy responsiveness [@Bowler2017; @Miller2015]. Furthermore, a non-neglectable number of studies have demonstrated that there are variations concerning policy responsiveness in non-democratic countries according to their electoral systems or other socio-economic situations [@Dassonneville2021a; @Erikson2015; @Lueders2022; @Schakel2021]. Those studies are on the line with the argument that public opinion or preference is not always identical to policy outcomes. 
-Also, there are many ways to explain the incongruency between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
 
 
 
-### Public Opinion vs Ideology vs Culture
-Now, btw, I should mention that people in *this* literature, which stretches back to at least Wilma Rule Krauss’s -@RuleKrauss1974 _APSR_ article, people in this literature sometimes talk about these attitudes as ideology [@RuleKrauss1974, find more] or culture [@Inglehart2003, find more]; I'm with those who prefer to call broadly held attitudes and preferences "public opinion," but it’s all the same concept.
+
+
+
+
 
 ### Dimensions of Political Equality
 @Beer2009 [, 217]: "there is some scholarly consensus that gender equality should be assessed in terms of three domains: capabilities, opportunities, and empowerment/agency"
