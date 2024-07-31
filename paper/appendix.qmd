@@ -1,5 +1,10 @@
 # Appendices
 
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
 
@@ -18,18 +23,41 @@ library(glue)
 library(countrycode)
 library(patchwork)
 library(modelsummary)
+library(here)
 
 set.seed(324)
+
+oecd_countries <- c("Australia", "Austria", "Belgium",
+                    "Canada", "Chile", "Colombia",
+                    "Costa Rica", "Czechia", "Denmark",
+                    "Estonia", "Finland", "France", 
+                    "Germany", "Greece", "Hungary",
+                    "Iceland", "Ireland", "Israel",
+                    "Italy", "Japan", "South Korea",
+                    "Latvia", "Lithuania", "Luxembourg",
+                    "Mexico", "Netherlands", "New Zealand",
+                    "Norway", "Poland", "Portugal", 
+                    "Slovakia", "Slovenia", "Spain",
+                    "Sweden", "Switzerland", "Turkey", 
+                    "United Kingdom", "United States")
 ```
 
 \pagebreak
-# Appendix A: Survey Items Used to Estimate Public Gender Egalitarianism and Their Distribution
-```{r egr_summary_stats, cache = FALSE, cache.extra = tools::md5sum(here::here("data-raw", "dcpo_input_raw_public.csv"))}
-dcpo_input_raw_public <- read_csv(here::here("data", "dcpo_input_raw_public.csv"),
-                                  col_types = "cdcddcd")
+## Appendix A: Survey Items Used to Estimate Public Gender Egalitarianism
+```{r item_summary, cache = FALSE, cache.extra = tools::md5sum(here::here("data-raw", "dcpo_input_raw_public.csv"))}
+surveys_pge <- read_csv(here("paper",
+                             "measuring_egalitarianism",
+                             "data-raw",
+                             "surveys_pge.csv"),
+                        col_types = "cccccnn")
 
-public_items <- read_csv(here::here("data-raw", "public_items.csv"),
-                         col_types = "ccddd")
+dcpo_input_raw_pge <- read_csv(here("paper",
+                                    "measuring_egalitarianism",
+                                    "data",
+                                    "dcpo_input_raw_pge.csv"),
+                               col_types = "cdcddcd")
+
+load(here::here("data", "item_results.rda"))
 
 process_dcpo_input_raw <- function(dcpo_input_raw_df) {
   dcpo_input_raw_df %>% 
@@ -42,73 +70,91 @@ process_dcpo_input_raw <- function(dcpo_input_raw_df) {
     arrange(-cc_rank)
 } 
 
-dcpo_input_raw_public1 <- process_dcpo_input_raw(dcpo_input_raw_public) %>% 
-  left_join(public_items, by = "item")
-dcpo_input_raw_poliwork1 <- dcpo_input_raw_public1 %>% 
-  filter(political==1|workplace==1)
+dcpo_input_raw_pge1 <- process_dcpo_input_raw(dcpo_input_raw_pge)
 
-surveys_egr <- read_csv(here::here("data-raw", "surveys_egr_classification.csv"),
-                        col_types = "ccccnnn")
+items_summary <- dcpo_input_raw_pge1 %>%
+  dplyr::select(country, year, item, survey) %>%
+  separate_rows(survey, sep=",\\s+") %>% 
+  distinct() %>%
+  group_by(item) %>% 
+  mutate(survey = str_extract(survey, "^[a-z]*"),
+         all_surveys = paste0(unique(survey), collapse = ", ")) %>% 
+  ungroup() %>% 
+  distinct(country, year, item, .keep_all = TRUE) %>% 
+  group_by(item) %>% 
+  mutate(n_cy = n()) %>% 
+  ungroup() %>%
+  distinct(item, n_cy, all_surveys) %>% 
+  left_join(surveys_pge %>%
+              select(item, question_text) %>%
+              distinct(item, .keep_all = TRUE),
+            by = "item") %>% 
+  left_join(alpha_results, by = "item") %>% 
+  left_join(beta_results, by = "item") %>% 
+  arrange(-n_cy)
 
-n_surveys <- surveys_egr %>% 
-  filter(agreed == 1) %>%
-  distinct(survey) %>% 
-  nrow()
-
-n_items <- dcpo_input_raw_poliwork1 %>%
-  distinct(item) %>% 
-  nrow()
-
-n_countries <- dcpo_input_raw_poliwork1 %>%
-  distinct(country) %>% 
-  nrow()
-
-n_cy <- dcpo_input_raw_poliwork1 %>%
-  distinct(country, year) %>% 
-  nrow() %>% 
-  scales::comma()
-
-n_years <- as.integer(summary(dcpo_input_raw_poliwork1$year)[6]-summary(dcpo_input_raw_poliwork1$year)[1])
-
-spanned_cy <- dcpo_input_raw_poliwork1 %>% 
-  group_by(country) %>% 
-  summarize(years = max(year) - min(year) + 1) %>% 
-  summarize(n = sum(years)) %>% 
-  pull(n) %>% 
-  scales::comma()
-
-total_cy <- {n_countries * n_years} %>% 
-  scales::comma()
-
-year_range <- paste("from",
-                    summary(dcpo_input_raw_poliwork1$year)[1],
-                    "to",
-                    summary(dcpo_input_raw_poliwork1$year)[6])
-
-n_cyi <- dcpo_input_raw_poliwork1 %>% 
-  distinct(country, year, item) %>% 
-  nrow() %>% 
-  scales::comma()
-
-back_to_numeric <- function(string_number) {
-  string_number %>% 
-    str_replace(",", "") %>% 
-    as.numeric()
-}
 ```
-National and cross-national surveys have often included questions tapping attitudes toward equality for women and men in the public sphere over the past half-century, but the resulting data are both sparse, that is, unavailable for many countries and years, and incomparable, generated by many different survey items.
-In all, we identified `r n_items` such survey items that were asked in no fewer than five country-years in countries surveyed at least twice; these items were drawn from `r n_surveys` different survey datasets.
-These items are listed in the table below, along with the dispersion ($\alpha$) and difficulty ($\beta$) scores estimated for each from the DCPO model.
-Question text may vary slightly across survey datasets, but not, roughly speaking, by more than the translation differences across languages found within the typical cross-national survey dataset.
-Lower values of dispersion indicate questions that better identify publics with more public gender egalitarianism from those with less.
-Items have one less difficulty score than the number of response categories.
-Survey dataset codes correspond to those used in the `DCPOtools` R package; they appear in decreasing order of country-years contributed.
 
-Together, the survey items in the source data were asked in `r n_countries` different countries in at least two time points over `r n_years` years, `r year_range`, yielding a total of `r n_cyi` country-year-item observations.
-The number of items observed in the source data for each country-year is plotted in Figure \ref{obs_by_cy} below.
-The PGE scores of country-years with more observed items are likely to be estimated more precisely.
-The estimates for country-years with fewer (or no) observed items rely more heavily (or entirely) on the random-walk prior and are therefore less certain.
+```{r dcpo_items_table}
+#| label: tbl-items
 
-Overlap among items have not been a concern in the literature on generating latent-variable estimates of public opinion across countries and over time from sparse data, largely because the dynamic aspect of the models employed, that is, the random-walk prior, works to tie together items that do not overlap [see @Claassen2019; @Caughey2019; @Solt2020c]. 
-Nevertheless, the most commonly observed item in the PGE source data, `polileader4`, effectively serves as the bridge between the other items: it has overlapping country-year observations with 39 of the other 50 items (which together cover 91% of the observed country-years), and only a single item (`politics4a`, which covers 22 country-years) had no observations within a year of a `polileader4` observation.
+items_summary %>% 
+  transmute(`Survey\nItem\nCode` = item,
+            `Country-Years` = as.character(n_cy),
+            `Question Text` = str_replace(question_text, "([^(]*)\\(.*", "\\1"),
+            # `Response Categories` = response_categories,
+            `Dispersion` = as.character(sprintf("%.2f", dispersion)),
+            `Difficulties` = difficulties,
+            `Survey Dataset Codes*` = all_surveys) %>% 
+  modelsummary::datasummary_df(output = "kableExtra",
+                               longtable = TRUE,
+                               title = "Survey Items Used to Estimate Public Gender Egalitarianism Scores",
+                               escape = FALSE) %>% 
+  kableExtra::kable_styling(latex_options = c("repeat_header"),
+                            font_size = 7) %>%
+  kableExtra::column_spec(1, width = "7em") %>%
+  kableExtra::column_spec(2, width = "4em") %>%
+  kableExtra::column_spec(3, width = "16em") %>%
+  # kableExtra::column_spec(3, width = "13em") %>%
+  kableExtra::column_spec(4, width = "4em") %>%
+  kableExtra::column_spec(c(5, 6), width = "8em") %>%
+  kableExtra::footnote(symbol = "Survey dataset codes correspond to those used in the DCPOtools R package (Solt, Hu, and Tai 2019).")
+```
+
+\pagebreak
+## Appendix B: Source Data Observations by Country and Year
+```{r obs1, fig.cap = "Source Data Observations by Country and Year", fig.height = 7}
+#| label: fig-obs1
+
+dcpo_input_plot <- dcpo_input_raw_pge1 %>% 
+  filter(country %in% oecd_countries) %>% 
+  distinct(country, year, item, cc_rank) %>% 
+  group_by(country, year) %>% 
+  summarize(n = n(),
+            cc_rank = mean(cc_rank)) %>% 
+  ungroup() 
+
+dcpo_input_plot %>%
+  ggplot(aes(x = year, 
+             y = forcats::fct_reorder(country, cc_rank),
+             fill = n)) + 
+  geom_tile() +
+  scale_fill_steps(low = rev(hcl.colors(8, "inferno"))[1],
+                   high = rev(hcl.colors(8, "inferno"))[8],
+                   breaks =  seq(2, 16, 2),
+                   show.limits = TRUE,
+                   right = FALSE,
+                   name = "Observations") +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(breaks=seq(1968, 2024, 4),
+                     sec.axis = dup_axis()) +
+  scale_y_discrete(position = "right") +
+  theme(axis.text.x  = element_text(size = 6),
+        axis.text.y  = element_text(size = 7),
+        strip.background = element_rect(fill = "white", colour = "white"),
+        strip.placement = "outside",
+        legend.position = "bottom",
+        # legend.position = c(0.13, 0.12),
+        legend.background = element_rect(fill = "white", colour = NA))
+```
 
