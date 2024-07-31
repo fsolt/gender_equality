@@ -1634,7 +1634,7 @@ By default, `brms` assigns linear regression coefficients improper flat priors o
 That means that, before considering the data and model, the probability that a coefficient takes on any value, from negative infinity to positive infinity, is assumed to be equal.
 Weakly informative priors---for example, normal(0, 2)---yield substantively similar results for all of these analyses.]
 
-Figure&nbsp;\ref{m1plot} presents the results.
+@fig-m1-dr presents the results.
 The shaded regions represent the posterior probability distributions; the higher the shading, the more likely that what each region depicts---here, one regression coefficient---takes on that value conditional on these data and this model.
 The dots mark the median values of these distributions, so half of the probability falls to either side.
 The whiskers trace the 80% credible intervals; that is, there is an 80% probability that the regression coefficient falls within that range, again, conditional on these data and this model.
@@ -1643,7 +1643,9 @@ In other words, incumbency matters.
 But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, descriptive representation would decline rather than grow over time.
 This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
-```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections \\label{m1plot}", fig.height = 7, fig.width = 7.5}
+```{r m1plot, fig.cap="Predicting Women's Descriptive Representation in OECD Democratic Elections", fig.height = 7, fig.width = 7.5}
+#| label: fig-m1-dr
+
 ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Feminist Movement Strength, Difference",
