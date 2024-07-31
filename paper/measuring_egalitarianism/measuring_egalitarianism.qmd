@@ -99,7 +99,7 @@ Cross-national and longitudinal investigation of, for example, the argument that
 This chapter presents the latest version of the Public Gender Egalitarianism (PGE) dataset, which is based on the host of national and cross-national survey data available and recent advances in latent variable modeling of public opinion that allow us to make use of this sparse and incomparable data.
 It provides comparable estimates of the public's attitudes on gender equality in the public sphere of politics and paid work across countries and over time.
 We show that these PGE scores are strongly correlated with responses to single survey items as well as with measures of women's participation in the workforce and in the boardroom.
-The PGE data are an invaluable source for studying the consequences of collective attitudes toward gender equality in the public sphere over time in countries around the world, and they serve as the basis for many of the analyses we present in later chapters.
+The PGE data are an invaluable source for studying the causes and consequences of macroegalitarianism over time in countries around the world, and they serve as the measure of our concept of macroegalitarianism in many of the analyses we present in later chapters.
 
 ```{r dcpo_input_raw_pge, include=FALSE, eval=FALSE}
 surveys_pge <- read_csv(here("paper", "measuring_egalitarianism", "data-raw", "surveys_pge.csv"),
@@ -495,6 +495,34 @@ pge <- extract_dcpo_results(dcpo_input,
 
 save(pge, file = here("data", "pge.rda"))
 
+alpha_results <- summarize_dcpo_results(dcpo_input,
+                                        dcpo_output = dcpo_output,
+                                        pars = "alpha") %>% 
+    transmute(item = question,
+              dispersion = mean)
+
+beta_results <- summarize_dcpo_results(dcpo_input,
+                                       dcpo_output,
+                                       "beta") %>% 
+    group_by(question) %>% 
+    summarize(difficulties0 = paste0(sprintf("%.2f", round(mean, 2)),
+                                     collapse = ", ")) %>% 
+    mutate(item = question,
+           cp = if_else(str_detect(item, "threestate"),
+                        2, 
+                        as.numeric(str_extract(item, "\\d+")) - 1),
+           term = str_glue("(( ?-?[0-9].[0-9][0-9]?,?){{{cp}}})"),
+           difficulties = str_extract(difficulties0, 
+                                      term) %>%
+               str_replace(",$", "") %>% 
+               str_trim()) %>% 
+    transmute(item, difficulties)
+
+save(alpha_results,
+     beta_results,
+     file = here::here("data",
+                       "item_results.rda"))
+
 pge_summary <- DCPOtools::summarize_dcpo_results(dcpo_input,
                                                  dcpo_output,
                                                  "theta",
@@ -537,6 +565,7 @@ All $\hat{R}$ diagnostics were below 1.02, indicating that the model converged.
 
 The dispersion parameters of the survey items indicate that all of them load well on the latent variable (see Appendix A).
 The result is estimates, in all `r res_cy` country-years spanned by the source data, of mean public gender egalitarianism, what we call PGE scores.
+
 
 ## Validation of the PGE Dataset
 
@@ -1896,7 +1925,7 @@ The difference between the first and last observed years in Canada cannot be dis
 
 ## Conclusions
 
-Despite ample theorizing on the role of public opinion regarding gender roles in politics and the workplace, empirical evidence has been limited, consisting of studies of one or a few cross-sections or based on dubious proxies.
+Despite ample theorizing on the role of public opinion regarding gender equality in politics and the workplace---that is, macroegalitarianism---empirical evidence has been limited, consisting of studies of one or a few cross-sections or based on dubious proxies.
 The reason for this regrettable outcome is the want of data on this concept that is comparable both across countries and over time.
 The PGE dataset addresses this need.
 
@@ -1904,6 +1933,7 @@ It does so by compiling the available survey data on the subject and estimating 
 The result is a set of complete time-series in countries around the world, a comparable measure of the public's attitudes toward equality for women and men in the public sphere, the traditionally male domain of politics and paid employment, along with quantified uncertainty in this measure.
 The PGE dataset covers nearly 3,000 country-years, almost six times as many as provided by the most commonly asked single survey item.
 
-In the following chapters, we will take advantage of the PGE data to better address such long-standing questions as how collective attitudes on gender roles have influenced the election of women to national legislatures [see, e.g., @Paxton2003; @Alexander2012] and to pursue both new and more nuanced lines of inquiry on issues of policy responsiveness [cf., @Kittilson2008; @Busemeyer2021].
+We take advantage of this new measure of macroegalitarianism to address the dynamics of the long-standing questions on the interplay between collective attitudes on gender roles and the actions of parties and governments.
+In the next chapter, we consider the influence of macroegalitarianism on the election of women to national legislatures [see, e.g., @Paxton2003; @Alexander2012], and examine whether women legislators in turn shape attitudes.
 
 \pagebreak

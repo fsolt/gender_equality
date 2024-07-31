@@ -1779,9 +1779,9 @@ First, to ensure that our findings are not clouded by aggregation bias, we colle
 And second, to confirm that we have adequately addressed the potential for reverse causation, we then explicitly incorporate the effect of the extent of women's descriptive representation achieved in an election on the public's subsequent gender egalitarianism.
 
 
-### Addressing Aggregation: Explaining Descriptive Representation Within Parties
-<!-- V REVISE V -->
-Because the theories outlined in Chapter 2 work through the actions of parties, they are most appropriately tested using data measured at the party level.
+### A Further Test: Descriptive Representation Within Parties
+
+One critique of the foregoing is that the theories outlined in Chapter 2 work through the actions of parties, and that therefore they are most appropriately tested using data measured at the party level.
 We compiled data on women's share of each each party's legislative representation after each election, drawing on the datasets employed in @Weeks2023 and @Adams2023 and supplementing with national sources.
 The resulting data comprises over 1400 observations.
 
@@ -2113,19 +2113,20 @@ Consider first the cross-country findings.
 Parties in a country where public opinion is a standard deviation above the sample mean elect `r get_coef("pge_mean", coef_data_m2pf)` points more women representatives within their delegations than those in a country where public opinion is a standard deviation below.
 And over time _within_ a country, a two-standard deviation increase in macroegalitarianism is found to yield on average a `r get_coef("pge_diff", coef_data_m2pf)` point increase in the extent to which parties send women to the legislature.
 Taking the dynamics into account, the estimated effect of country-mean differences grows to `r get_coef("pge_mean", coef_data_m2pf_total)` and that for over-time differences from these means to `r get_coef("pge_diff", coef_data_m2pf_total)` points.
-The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining descriptive representation.
-
+The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the arguably more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining descriptive representation.
+Whether we look at entire legislatures or party delegations, when the public holds more egalitarian views, more women gain office.
 
 ## Public Responsiveness to Descriptive Representation
-<!-- V REVISE V -->
 
-As mentioned above, the other concern with our analysis of elections across the rich democracies is the potential that its results are driven by reverse causation.
-This problem arises where what we have theorized as the causal relationship, here that more gender egalitarian public opinion causes more women's descriptive representation, can also be theorized as running in the opposite direction.
-Often public opinion is influenced by elite cues, and one such cue may be how many women are in the national legislature.
-If opinion is the consequence of elite cues, then, despite the model's inclusion of controls for some of these cues as well as for the previous share of women in the legislature, the association observed between public opinion and descriptive representation that underlies our conclusions may not evince opinion's effect on representation.
-It may instead reflect causation that runs only in the opposite direction, from representation to opinion.
+But what about the other part of the relationship: how does the public respond to changes in women's descriptive representation?
+Does women candidate's success lead to those opposed to gender equality to mobilize on these grounds and work to tilt public opinion in an anti-egalitarian direction?
+Or do women legislators instead stand as role models and cues, providing in their work convincing examples of women's competence in the traditionally male domains of politics and work?
 
-That when the public sees more women in office it adopts more gender egalitarian opinions is indeed plausible.
+Getting answers to these questions is important not only substantively, but also methodologically.
+Despite our care in model construction, if public opinion is shaped by women's descriptive representation in either direction, the association that underlies our conclusions may not evince macroegalitarianism's effect on representation.
+It may instead reflect causation that runs only in the opposite direction, from representation to public opinion.
+
+That when the public sees more women in office it adopts more gender egalitarian opinions is more than plausible.
 It has in fact been found in previous research to have empirical support.
 @Alexander2012 employs a seemingly unrelated regression model and aggregate data of a cross-section of twenty-five countries included in two waves of the World Values Survey.
 It finds that increases in women's presence in parliaments over the decade between WVS waves predicted greater belief that men are not better political leaders than women in the second wave, even when beliefs in the first wave were taken into account.
@@ -2135,6 +2136,7 @@ In multilevel models of individuals with varying intercepts for country-years an
 The larger evidentiary base in @Kim2023 provides more confidence than the very small sample used in @Alexander2012.
 In terms of modeling strategy, though, @Kim2023 represents the converse of the analyses presented in this chapter so far: it looks only at one side of this potentially reciprocal relationship and concludes that all of the association observed to remain after controlling for other observed variables flows on this side.
 As @Kim2023 [, 17] itself notes, "Perhaps the biggest concern is that preexisting egalitarianism skews results," a concern the study could not address in its model due to the limited observations available over time in the WVS data.
+This of course is the counterpart of our concern for our findings of dynamic descriptive representation, only coming from the opposite direction.
 The combination of building a single model that explicitly incorporates both hypotheses, as in @Alexander2012, and estimating its parameters with a large dataset, as in @Kim2023, would be the "ideal" approach to disentangling these relationships [@Kim2023, 22 at endnote 21].
 
 Fortunately, the dataset used in this chapter, built around the extensive PGE dataset on gender egalitarian public opinion, allows us to proceed along exactly these lines.
@@ -2396,6 +2398,6 @@ Elite negotiations such as those between activists and party gatekeepers determi
 
 This chapter presents strong evidence that the public does in fact matter to the extent to which women gain office. 
 When public opinion towards gender roles in the public sphere of politics and the workplace shift toward egalitarianism, more women are elected.
-And, although these public attitudes do respond to the extent to which women hold positions of power, the importance of the public is still clear when taking this reverse causation is also considered.
-Taking macroegalitarianism into account is a valuable complement to the elite-led theory of women's descriptive representation.
+And, fears of backlash notwithstanding, public attitudes respond positively to the extent to which women hold positions of power.
+Taking macroegalitarianism into account is important to understanding women's descriptive representation.
 In the next chapter, we examine whether public opinion also shapes women's substantive representation, the adoption of policies of gender equality.
