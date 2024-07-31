@@ -44,34 +44,57 @@ p_load(
   wbstats)
 ```
 
-In summary, this book is still super, super drafty.
 
-@tbl-summary 
+
+@tbl-summary summarizes these findings.
 
 ```{r summary_table}
 #| label: tbl-summary
+
 tibble(` ` = c("Women's Descriptive\nRepresentation",
-                    "National Legislative\nGender Quota",
+                    "National Legislative\nGender Quotas",
                     "Laws Advancing\nEquality in Employment",
                     "Childcare\nEnrollments"),
        `Policy\nRepresentation` = c("++", "++", "++", "+"),
-       `Public\nResponsiveness` = c("++", "+", "++", "")) %>% 
-  knitr::kable(format = "latex",
-               align = "lcc", 
-               escape = FALSE)
-# %>% 
-#     kableExtra::column_spec(1, width = "30em") %>%
-#   kableExtra::column_spec(c(2,3), width = "10em")
-
+       `Public\nResponsiveness` = c("++", "+", "++", "0")) %>% 
+  modelsummary::datasummary_df(title = "Summary of Evidence",
+                               output = "kableExtra",
+                               align = "lcc",
+                               notes = c("++ Strong evidence of positive relationship; + some evidence of positive relationship;", "0 no evidence of relationship; - some evidence of negative relationship;", "-- strong evidence of negative relationship.")) %>% 
+  kableExtra::column_spec(1, width = "15em") %>%
+  kableExtra::column_spec(c(2,3), width = "8em")
 ```
 
-## Implications for public opinion
+\pagebreak
+## Implications for the Study of Public Opinion
 
-It could be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
+It could well be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 
-## Implications for politics of gender
+## Implications for the Study of the Politics of Gender
 
-## Implications for policy
+The relationships documented here constitute a confirmation of theories long put forward by scholars of gender politics.
+Whether labelled culture, ideology, or attitudes, these scholars have pointed to the importance of collective views on gender roles to politics and policy for many decades.
 
-## Implications for democracy
+Nevertheless, the lack of appropriate data has led to the exclusion of macroegalitarianism from much empirical work.
+This 
+
+We focused our inquiry on politics in relatively rich democracies.
+This choice was based in the theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
+That is, the countries of the OECD collectively constitute a 'most likely case.'
+Whether our findings hold in other contexts remains an open question.
+Whether women's descriptive representation and policies advancing equality depend dynamically on macroegalitarianism across democracies among developing countries or in autocracies are promising lines of future inquiry.
+
+## Implications for Policy
+
+There is no need to worry about backlash: our results indicate that policies that advance gender equality work instead to help create their own constituencies.
+
+
+## Implications for Democracy
+
+Gender equality is democracy.
+
+Evidence that public opinion supportive of democracy in the abstract leads to democratic deepening or prevents democratic backsliding has been scant.
+
+Our findings suggest that macroegalitarianism is at least part of the story of how public opinion reinforces democracy.
+<!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
