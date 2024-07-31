@@ -1322,6 +1322,7 @@ As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and
 
 ```{r wblplot, fig.cap="Macroegalitarianism and Policies Advancing Gender Equality in Employment in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-wbl-corr
+
 pge <- rio::import(here("data",
                         "pge.rda"))
 
@@ -1512,6 +1513,7 @@ if (!file.exists(file.path(policy_path,
 
 ```{r m1wblplot, fig.cap="Predicting the WBL Policy Index in OECD Countries \\label{m1_wbl_plot}", fig.height = 7, fig.width = 7.5}
 #| label: fig-m1-wbl
+
 ordered <- c("Macroegalitarianism, Difference",
              "Macroegalitarianism, Mean", 
              "Descriptive Representation, Difference",
