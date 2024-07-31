@@ -50,6 +50,7 @@ p_load(
 
 ```{r summary_table}
 #| label: tbl-summary
+#| tbl-cap: Summary of Evidence
 
 tibble(` ` = c("Women's Descriptive\nRepresentation",
                     "National Legislative\nGender Quotas",
@@ -57,16 +58,18 @@ tibble(` ` = c("Women's Descriptive\nRepresentation",
                     "Childcare\nEnrollments"),
        `Policy\nRepresentation` = c("++", "++", "++", "+"),
        `Public\nResponsiveness` = c("++", "+", "++", "0")) %>% 
-  modelsummary::datasummary_df(title = "Summary of Evidence",
-                               output = "kableExtra",
+  modelsummary::datasummary_df(output = "kableExtra",
                                align = "lcc",
-                               notes = c("++ Strong evidence of positive relationship; + some evidence of positive relationship;", "0 no evidence of relationship; - some evidence of negative relationship;", "-- strong evidence of negative relationship.")) %>% 
+                               notes = c("++ Strong evidence of positive relationship; + some evidence of positive relationship;", "0 no evidence of relationship; — some evidence of negative relationship; — — strong", "evidence of negative relationship.")) %>% 
   kableExtra::column_spec(1, width = "15em") %>%
   kableExtra::column_spec(c(2,3), width = "8em")
 ```
 
 \pagebreak
 ## Implications for the Study of Public Opinion
+
+
+
 
 It could well be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
@@ -77,7 +80,9 @@ The relationships documented here constitute a confirmation of theories long put
 Whether labelled culture, ideology, or attitudes, these scholars have pointed to the importance of collective views on gender roles to politics and policy for many decades.
 
 Nevertheless, the lack of appropriate data has led to the exclusion of macroegalitarianism from much empirical work.
-This 
+This can be problematic.
+For example, the finding of @Kim2022 that greater women's descriptive representation yields the adoption of more policies advancing gender equality in employment appears, in light of our findings, to be spurious.
+Changes in both descriptive representation (see @fig-m1-dr) and these policies (see @fig-m1-wbl) are predicted by changes in public opinion toward women
 
 We focused our inquiry on politics in relatively rich democracies.
 This choice was based in the theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
@@ -94,7 +99,8 @@ There is no need to worry about backlash: our results indicate that policies tha
 
 Gender equality is democracy.
 
-Evidence that public opinion supportive of democracy in the abstract leads to democratic deepening or prevents democratic backsliding has been scant.
+Evidence that public opinion, considered as support for democracy in the abstract, leads to democratic deepening or prevents democratic backsliding has been scant.
 
 Our findings suggest that macroegalitarianism is at least part of the story of how public opinion reinforces democracy.
+
 <!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
