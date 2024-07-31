@@ -1,49 +1,104 @@
-# Introduction [Very Drafty]
+# Introduction [Still Very Drafty]
 
-<!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
+Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
 
-<!-- separate spheres ideology -->
+Some observers see in these events signs of a continued and renewed backlash in the public against gender equality.
+@Faludi1991 on the United States in 1980s, and more recent work.
 
-@Shang2022 on [economic] implications of gender equality
+Further support for backlash comes from the theory of thermostatic public opinion.
 
-Across the world's rich democracies, do parties and governments respond to gender egalitarian public opinion by running more women candidates and adopting policies that advance gender equality?
+Example of attitudes toward abortion in the United States after _Roe_ and after _Dobbs_.
 
-> @Caughey2022 find that state governments respond to public opinion, but generally only very slowly.
+But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it.
 
-> If democracy is the system in which government is equally responsive to the preferences of all citizens, per Dahl, then gender equality in representation is an essential part of democracy (see V-Dem; Archenti and Tula 2017; Palma 2021; @Krook2022; @Piscopo2024).  The evidence that democracy depends on democratic support that we currently have is weak at best (but see, maybe, @Welzel2013).   
+So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt backlash?
 
-Does greater gender equality 'create its own constituency' or does it prompt backlash?
+The public's responsiveness to rising gender equality is really only part of the relationship between opinion and policy: if and how parties and governments represent the public's attitudes is the other part.
+Do parties and governments respond to gender egalitarian public opinion by running more successful women candidates and adopting policies that advance gender equality?
 
-The extent of public support for gender egalitarianism has been an important issue in many countries around the world since at least the past half-century.
-The improvement of public gender egalitarianism over the globe makes scholars examine the causes and consequences of the improvement.
-A wide range of studies pay their attention on the determinants of public gender egalitarianism.
-For instance, according to the crucial study done by @Norris2001 which is consistent with the work from @Reynolds1999, the role of cultural rigidity, religion, and generational value is critical for the persistency and spread of gender egalitarianism.
-Some studies focus on the impacts of regime types such as democracy and autocracy as a focal determinant of gender equality @Beer2009, while other studies maintain that political elites play a key role in shaping public attitudes toward gender equality @Bulut2023.
+There is a lot of theory and empirical research on gender politics to suggest that they do.
+Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
 
-How do societal attitudes toward gender roles influence women's political success and policy influence?
-Taking advantage of a comprehensive collection of survey data and recent advances in latent variable modeling of public opinion, this book provides new evidence of how and when public gender egalitarianism is translated into gender equality in countries around the world.
+Public opinion research is often at least somewhat more skeptical of representation.
+Some contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
+Plenty of reasons why representation may not _ever_ happen: sexist or even just skeptical party gatekeepers, institutional veto players, opposition among the wealthy.
 
-The influence of public support for gender equality on various social and political phenomena has received wide attention from scholars (Cannavale et al., 2022; Cavero-Rubio et al., 2019; Concha, 2023; Kanas & Steinmetz, 2021; Kaufman et al., 2023; McThomas & Tesler, 2016; Mustafa & Almazrouei, 2020).
-For instance, @Winter2008 showed that U.S. voters' support for Hilary Clinton depended on their attitudes toward the women's movement and gender equality.
-More recently, @Bergqvist2013 examines both successful and unsuccessful cases and emphasizes the close association between public gender egalitarianism and gender equality policy adoption.
+Before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
+To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
+Specifically, we will call egalitarian public opinion toward gender roles in politics and the workplace as macroegalitarianism.
 
-Despite the above-mentioned previous literature on the importance of public support for gender equality, the lack of time-series cross-national data on public opinion prevents us from fully understand its influence [@RuleKrauss1974].
-Especially, the causal influence of public gender egalitarianism on policy outcomes is still under a veil due to the lack of such data.
-Previous studies on the impact of public support for gender egalitarianism have largely relied on cross-sectional data with little or no leverage on change over time (Glas & Alexander, 2020; McThomas & Tesler, 2016; Paxton & Kunovich, 2003; Steel & Kabashima, 2008). 
-Given the non-negligible changes in the public support for gender equality over decades (Bolzendahl & Myers, 2004; Eriksson‐Zetterquist & Renemark, 2016; Thijs et al., 2019), this is an unfortunate shortcoming that undermines our confidence in our current state of understanding.
-This book seeks to remedy this problem through the new Public Gender Egalitarianism (PGE) dataset, which provides a comparable time-series cross-national index for 124 countries over the years from 1972 to 2022, as well as other novel data.
-
-
-The book proceeds in the following order.
-In the next chapter, we review extant theories and hypotheses about how public opinion shapes public policy on gender equality.
-Then we present how public gender egalitarian attitudes---attitudes favoring gender equality in the public sphere of politics and the workplace---vary across countries and how these attitudes have changed over the past three decades.
-Next the work examines women's success in achieving political office in countries around the world, identifying the extent to which more gender egalitarian attitudes translate into greater women's descriptive representation in legislatures, cabinets, and chief executive's offices.
-
-Chapter 5 turns to the adoption of gender egalitarian policies in cross-national perspective, highlighting the roles of public gender egalitarianism and descriptive representation and relying on time-series cross-national data on policies including the adoption of gender quotas and laws combating violence against women.
-In Chapters 6 and 7, we further examine the relationships between public opinion, descriptive representation, and policy outcomes in case studies of Mexico and South Korea, delving into the processes by which gender egalitarian attitudes are, and are not, converted into political outcomes that further gender equality.
-Our findings shed new light on the conditions in which policymakers take the public's views on egalitarian gender roles into account.
-
-Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for women's exclusion from the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
-Yet even a half century after @RuleKrauss1974 [, 1719] called for more and better data on these collective attitudes, what we have available to us remains inadequate for fully examining their causes and consequences.
+Much of the reason the questions posed above have yet to be fully answered is that data on macroegalitarianism is scant.
+Even a half century after @RuleKrauss1974 [, 1719] called for more and better data on collective attitudes on gender roles, what we have available to us remains inadequate for fully examining their causes and consequences.
 In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2020] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
+
+Addressing this shortfall is the first of the contributions of this book.
+
+```{r eval=FALSE}
+# @Inglehart2003:
+# "[T]raditional cultural attitudes have long been thought to present major barriers to women's representation in elected office, but previous studies have not present conclusive empirical evidence supporting this proposition.
+# Theories of socialization have long emphasized the importance of the division of sex roles within a country - especially egalitarian attitudes towards women as political leaders (Sapiro 1983; Carroll 1994). Cultural explanations hypothesize that in traditional societies, women will be reluctant to run and, if they seek the office, will fail to attract sufficient support to win.
+# Cultural attitudes may have a direct influence on whether women are prepared come forward as candidates for office (the supply-side of the equation), and the criteria used by gate-keepers when evaluating suitable candidates (the demand-side), as well as having an indirect influence upon the overall institutional context, such as the adoption of gender quotas in party recruitment processes (Lovenduski and Norris 1993; Norris 1997)."
+# 
+# @Woo2023:
+# "The PGE dataset will allow researchers to not only better address such long-standing questions as how collective attitudes on gender roles have influenced the election of women to national legislatures and vice versa [see, e.g., @Paxton2003; @Alexander2012] but also, for example, to pursue both new and more nuanced lines of inquiry on issues of policy responsiveness and policy feedback [cf., @Kittilson2008; @Busemeyer2021]."
+# 
+# The extent of public support for gender egalitarianism has been an important issue in many countries around the world since at least the past half-century.
+# The improvement of public gender egalitarianism over the globe makes scholars examine the causes and consequences of the improvement.
+# A wide range of studies pay their attention on the determinants of public gender egalitarianism.
+# For instance, according to the crucial study done by @Norris2001 which is consistent with the work from @Reynolds1999, the role of cultural rigidity, religion, and generational value is critical for the persistency and spread of gender egalitarianism.
+# Some studies focus on the impacts of regime types such as democracy and autocracy as a focal determinant of gender equality @Beer2009, while other studies maintain that political elites play a key role in shaping public attitudes toward gender equality @Bulut2023.
+# 
+# How do societal attitudes toward gender roles influence women's political success and policy influence?
+# Taking advantage of a comprehensive collection of survey data and recent advances in latent variable modeling of public opinion, this book provides new evidence of how and when public gender egalitarianism is translated into gender equality in countries around the world.
+# 
+# The influence of public support for gender equality on various social and political phenomena has received wide attention from scholars (Cannavale et al., 2022; Cavero-Rubio et al., 2019; Concha, 2023; Kanas & Steinmetz, 2021; Kaufman et al., 2023; McThomas & Tesler, 2016; Mustafa & Almazrouei, 2020).
+# For instance, @Winter2008 showed that U.S. voters' support for Hilary Clinton depended on their attitudes toward the women's movement and gender equality.
+# More recently, @Bergqvist2013 examines both successful and unsuccessful cases and emphasizes the close association between public gender egalitarianism and gender equality policy adoption.
+# 
+# Despite the above-mentioned previous literature on the importance of public support for gender equality, the lack of time-series cross-national data on public opinion prevents us from fully understand its influence [@RuleKrauss1974].
+# Especially, the causal influence of public gender egalitarianism on policy outcomes is still under a veil due to the lack of such data.
+# Previous studies on the impact of public support for gender egalitarianism have largely relied on cross-sectional data with little or no leverage on change over time (Glas & Alexander, 2020; McThomas & Tesler, 2016; Paxton & Kunovich, 2003; Steel & Kabashima, 2008).
+# Given the non-negligible changes in the public support for gender equality over decades (Bolzendahl & Myers, 2004; Eriksson‐Zetterquist & Renemark, 2016; Thijs et al., 2019), this is an unfortunate shortcoming that undermines our confidence in our current state of understanding.
+# This book seeks to remedy this problem through the new Public Gender Egalitarianism (PGE) dataset, which provides a comparable time-series cross-national index for 124 countries over the years from 1972 to 2022, as well as other novel data.
+```
+
+## Contributions of the Book
+
+New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative dynamic perspective.
+
+Comparative: new data allows us to examine experiences of countries around the world, not just the United States or Europe or any other single region.
+The cases you choose influence the answers you get.
+
+Dynamic: takes time seriously.
+Given our inability to experimentally manipulate either policy or public opinion, how things unfold over time gives the best possible evidence of causation.
+
+Considers party and policy representation alongside public responsiveness.  
+Previous works tend to look at either one or the other, at the risk of simultaneity bias due to endogeneity.
+
+
+## Plan of the Book
+
+The book proceeds as follows.
+In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
+
+In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
+After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
+
+Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the relatively rich democracies of the OECD.
+There, it explores the implications of these theories for women's descriptive representation, in particular, women's success in winning election to national legislatures.
+Our analyses show that increases in macroegalitarianism predict subsequent gains in descriptive representation for women and that, in turn, the public responds to more women in office not with a backlash but instead by growing even more egalitarian in their views.
+
+Chapter 5 turns to the adoption of policies advancing gender equality in the public sphere, both in politics and in paid employment.
+Looking again across the OECD, it finds that governments represent the views of their citizens: when macroegalitarianism increases, laws setting national legislative gender quotas and policies that put women on equal footing in the workforce are more likely to be adopted.
+Intriguingly, these effect does not appear to work through improvements in descriptive representation: when the public becomes more egalitarian, it seems that both men and women legislators represent their constituents by favoring policies that advance gender equality.
+We find some evidence of public responsiveness in this chapter as well.
+All of this evidence indicates that policymaking and public opinion constitute a virtuous circle, that the adoption of policies advancing gender equality leads, if anything, to more macroegalitarianism rather than to the backlash of a thermostatic response.
+
+In Chapters 6 and 7, we further examine the relationships between public opinion, descriptive representation, and policy outcomes in case studies of Mexico and South Korea, delving into the processes by which gender egalitarian attitudes are, and are not, converted into political outcomes that further gender equality.
+Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades.
+Korea, on the other hand, has not witnessed such developments.
+Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality.
+
+Chapter 8 concludes the book by reviewing the evidence for dynamic descriptive and substantive representation and public responsiveness.
+It considers our findings' implications for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
