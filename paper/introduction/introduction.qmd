@@ -83,7 +83,7 @@ Previous works tend to look at either one or the other, at the risk of simultane
 The book proceeds as follows.
 In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
 
-![This Book's Analyses](intro_diagram.jpeg){#fig-diagram}
+![This Book's Analyses](diagram.jpeg){#fig-diagram}
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
