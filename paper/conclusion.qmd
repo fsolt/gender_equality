@@ -1,4 +1,4 @@
-# Conclusion [Still Very Drafty Too 😅]
+# Conclusion [Still Very Drafty Too]
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
