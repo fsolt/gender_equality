@@ -6,7 +6,7 @@ We want to know how public opinion responds to movement toward gender equality, 
 
 Typology of representation
 
-Reasons for opinion to matter to policy
+Reasons for opinion, in general, to matter to parties and policy
 
 With regard to gender egalitarianism, the case for representation is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, fewer women gain office, and public policy will not change.
@@ -21,15 +21,13 @@ Here we should talk about why it _isn't_ tautological: belief vs behavior; insti
 
 However, public opinion or preference is not always translated into policy outcomes. As @Monroe1998 mentioned in terms of policy consistency, policy changes or outcomes are not identical to a prior public preference. Policy consistency refers to the levels of match between public preferences for change and policy change.
 In addition to the policy consistency, there are many reasons why public opinion or preference is not matched to policy outcomes. For instance, policy consistency can be determined by policy responsiveness. Previous studies have argued that policy responsiveness is a core democratic value for citizens and democratic countries rather than non-democratic countries tend to have higher policy responsiveness [@Bowler2017; @Miller2015]. Furthermore, a non-neglectable number of studies have demonstrated that there are variations concerning policy responsiveness in non-democratic countries according to their electoral systems or other socio-economic situations [@Dassonneville2021a; @Erikson2015; @Lueders2022; @Schakel2021]. Those studies are on the line with the argument that public opinion or preference is not always identical to policy outcomes. 
-Also, there are many ways to explain the incongruency between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
+Also, there are many ways to explain the lack of congruence between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
 
 
-## Public Responsiveness: From Policy to Opinion
+## Public Responsiveness: From Politics and Policy to Opinion
 
-Thermostat: @Wlezien1995; @Soroka2010; @Atkinson2021
+Thermostatic public opinion: @Wlezien1995; @Soroka2010; @Atkinson2021
 
-The research question is one right at the heart of the politics of inequality: When do women win office? And what part do public attitudes toward gender roles play in the process?
-Not surprisingly, given the importance of the question, we have a range of theories on this.
 
 
 ```{r setup, include=FALSE}

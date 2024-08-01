@@ -5,9 +5,10 @@ Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
 Some observers see in these events signs of a continued and renewed backlash in the public against gender equality.
 @Faludi1991 on the United States in 1980s, and more recent work.
 
-Further support for backlash comes from the theory of thermostatic public opinion.
+A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
+The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and preferences will shift [@Wlezien1995].
 
-Example of attitudes toward abortion in the United States after _Roe_ and after _Dobbs_.
+Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [@Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
 
 But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it.
 
@@ -34,7 +35,7 @@ As a consequence, cross-national research has been constrained to study countrie
 
 Addressing this shortfall is the first of the contributions of this book.
 
-```{r eval=FALSE}
+```{r eval=FALSE, include=FALSE}
 # @Inglehart2003:
 # "[T]raditional cultural attitudes have long been thought to present major barriers to women's representation in elected office, but previous studies have not present conclusive empirical evidence supporting this proposition.
 # Theories of socialization have long emphasized the importance of the division of sex roles within a country - especially egalitarian attitudes towards women as political leaders (Sapiro 1983; Carroll 1994). Cultural explanations hypothesize that in traditional societies, women will be reluctant to run and, if they seek the office, will fail to attract sufficient support to win.
@@ -63,14 +64,14 @@ Addressing this shortfall is the first of the contributions of this book.
 # This book seeks to remedy this problem through the new Public Gender Egalitarianism (PGE) dataset, which provides a comparable time-series cross-national index for 124 countries over the years from 1972 to 2022, as well as other novel data.
 ```
 
-## Contributions of the Book
+## Our Contributions
 
 New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative dynamic perspective.
 
 Comparative: new data allows us to examine experiences of countries around the world, not just the United States or Europe or any other single region.
 The cases you choose influence the answers you get.
 
-Dynamic: takes time seriously.
+Dynamic: takes time seriously [@Stimson1995].
 Given our inability to experimentally manipulate either policy or public opinion, how things unfold over time gives the best possible evidence of causation.
 
 Considers party and policy representation alongside public responsiveness.  
