@@ -13,7 +13,7 @@ book:
   output-file: "macroegalitarianism"
   chapters:
     - index.qmd
-    - introduction.qmd
+    - /introduction/introduction.qmd
     - /theory/theory.qmd
     - /measuring_egalitarianism/measuring_egalitarianism.qmd
     - /descriptive_representation/descriptive_representation.qmd
