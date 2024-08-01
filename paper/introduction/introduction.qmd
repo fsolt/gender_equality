@@ -69,7 +69,8 @@ Addressing this shortfall is the first of the contributions of this book.
 New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative dynamic perspective.
 
 Comparative: new data allows us to examine experiences of countries around the world, not just the United States or Europe or any other single region.
-The cases you choose influence the answers you get.
+@Wilson2022 on imbalance in countries and regions studied.
+Plus, of course, the cases you choose influence the answers you get. 
 
 Dynamic: takes time seriously [@Stimson1995].
 Given our inability to experimentally manipulate either policy or public opinion, how things unfold over time gives the best possible evidence of causation.

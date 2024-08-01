@@ -98,7 +98,7 @@ Before we proceed further, we need to define the universe for the study.
 As always, there are competing concerns.  
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
 Too much work in political science 
-The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work.
+The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work [see @Wilson2022].
 But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
 The theories outlined above presuppose a certain minimum level of democracy---at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.^[
 This is not to say that governments in authoritarian countries do not at least sometimes work to represent public opinion.
