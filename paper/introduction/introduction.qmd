@@ -3,12 +3,12 @@
 Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
 
 Some observers see in these events signs of a continued and renewed backlash in the public against gender equality.
-@Faludi1991 on the United States in 1980s, and more recent work.
+@Faludi1991 on the United States in 1980s, and subsequent work.
 
 A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
-The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and preferences will shift [@Wlezien1995].
+The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and preferences will shift against the policy [@Wlezien1995].
 
-Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [@Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
+Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [see @Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
 
 But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it.
 
