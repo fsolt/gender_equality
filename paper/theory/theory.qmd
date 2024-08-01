@@ -1,35 +1,5 @@
 # Policy Representation and Public Responsiveness on Gender Equality [Still Very Drafty]
 
-We want to know how public opinion responds to movement toward gender equality, but we think it makes sense to start the inquiry with the representation of opinion in politics and policy. 
-
-## Representation: From Opinion to Politics and Policy
-
-Typology of representation
-
-Reasons for opinion, in general, to matter to parties and policy
-
-With regard to gender egalitarianism, the case for representation is straightforward: when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
-Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, fewer women gain office, and public policy will not change.
-Indeed, @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
-
-There are, however, many reasons for public opinion to not translate to policy.
-sexist or even just skeptical party gatekeepers
-institutional veto players
-relative power of the wealthy
-
-Here we should talk about why it _isn't_ tautological: belief vs behavior; institutions, including parties, that prevent preferences from being translated into outcomes* [for example, @Araujo2022, "As Powell Jr. (2004) describes, one of the obstacles to examining whether electorates' preferences translate into equivalent policy adoption is that 'a multidimensional preference configuration can yield almost any configuration of outcomes' (p. 291)" @Powell2004]; maybe additional reasons?
-
-However, public opinion or preference is not always translated into policy outcomes. As @Monroe1998 mentioned in terms of policy consistency, policy changes or outcomes are not identical to a prior public preference. Policy consistency refers to the levels of match between public preferences for change and policy change.
-In addition to the policy consistency, there are many reasons why public opinion or preference is not matched to policy outcomes. For instance, policy consistency can be determined by policy responsiveness. Previous studies have argued that policy responsiveness is a core democratic value for citizens and democratic countries rather than non-democratic countries tend to have higher policy responsiveness [@Bowler2017; @Miller2015]. Furthermore, a non-neglectable number of studies have demonstrated that there are variations concerning policy responsiveness in non-democratic countries according to their electoral systems or other socio-economic situations [@Dassonneville2021a; @Erikson2015; @Lueders2022; @Schakel2021]. Those studies are on the line with the argument that public opinion or preference is not always identical to policy outcomes. 
-Also, there are many ways to explain the lack of congruence between policy and public opinion under democratic countries. For instance, it is plausible that political parties might focus on public opinion on salient issues rather than treat public preferences across all issues [@Alvarez2024; @Costello2021]. At the same time, the government and parliament them selves pay more attention to the global issues which received more public attention [@Kluver2016].
-
-
-## Public Responsiveness: From Politics and Policy to Opinion
-
-Thermostatic public opinion: @Wlezien1995; @Soroka2010; @Atkinson2021
-
-
-
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
 
@@ -82,37 +52,71 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 
 
+We want to know how public opinion responds to movement toward gender equality, but we think it makes the most sense to start the inquiry with the representation of opinion in politics and policy. 
+
+## Representation: From Opinion to Politics and Policy
+
+Typology of representation
+
+Reasons for opinion, in general, to matter to parties and policy [@Miller2015; @Bowler2017; @Dassonneville2021a]
+
+With regard to gender egalitarianism, the case for representation is straightforward: at least in democratic countries, when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
+Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, fewer women gain office, and anti-egalitarian public policy will not change.
+Indeed, @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
+
+There are, however, many reasons for public opinion to not translate to policy.
+sexist or even just skeptical party gatekeepers
+competing issue priorities, both of parties and voters [@Powell2004, 291; @Costello2021; @Araugjo2022; @Alvarez2024; see also the emphasis on _autonomous_ women's movements in @Htun2012 and @Forester2022]
+institutional veto players
+relative power of the wealthy [see, e.g., @Solt2008; @Erikson2015; @Schakel2021]
+
+To see if and to what extent the members of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
 
 
+## Public Responsiveness: From Politics and Policy to Opinion
+
+Thermostatic public opinion: opinion moves opposite to policy [@Wlezien1995; @Soroka2010; @Atkinson2021]
+
+Policies make their own constituencies: opinion moves to further support policy
+
+The public doesn't respond at all [@Atkinson2021]
 
 
+### Policies Advancing Gender Equality
 
+We focus on gender equality in the traditionally masculine public sphere of politics and paid employment.
 
-
-### Dimensions of Political Equality
 @Beer2009 [, 217]: "there is some scholarly consensus that gender equality should be assessed in terms of three domains: capabilities, opportunities, and empowerment/agency"
-
 @Bericat2012: "education, work and power"
+
+The policies we consider, then, are among those @Htun2010 [, 210, 209] call _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
+This means, mercifully, that we don't have to also control for the strength of the church as an opponent to reform.
 
 
 ## The Scope of the Theory
-But first we need to define the universe for the study.
+Before we proceed further, we need to define the universe for the study.
 As always, there are competing concerns.  
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
+Too much work in political science 
 The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work.
-But, on the other hand, we always need to avoid including cases to which the theory just doesn't apply.
-The theories outlined above, at least those beyond the elite-led theory, the ones that have to do with public opinion, presuppose a certain minimum level of democracy--at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.
-And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there--widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2015; @Paxton2021, 156-157].
+But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
+The theories outlined above presuppose a certain minimum level of democracy---at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.^[
+This is not to say that governments in authoritarian countries do not at least sometimes work to represent public opinion.
+In fact, there is reason to think---and evidence to show---that they sometimes do [see, e.g., @Tang2016 on China; @Lueders2022 on the German Democratic Republic].
+Our point here is that the mechanisms through which public opinion may be translated to policy in authoritarian regimes is different from those suggested in the theories outlined above, and so for present purposes we should set those cases aside.]
+And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there---widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2015; @Paxton2021, 156-157].
 So in light of these considerations, we are looking at advanced democracies.
 It's important, though, to be sure to not interpret "advanced democracies" as simply "western Europe and the British offshoots."
-And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking the countries.
-So we settled on the 38 countries of the current OECD.
+And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking countries.
+So we settled on the 38 countries of the current OECD (see @fig-oecdmap).
 Yes, it's the usual suspects of most of Europe plus the United States and 
 Canada-Australia-New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
-Or, you know, about one China's worth of people; it's easy to see that there's still a lot of white countries to better understand also.
+Or, you know, about one China's worth of people; it's easy to see that there's still a lot of other, unshaded countries to better understand also.
 But the theories outlined in this chapter apply to these darker shaded countries, so they will be the subject of this book.
 
-```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD \\label{oecdmap}", fig.height = 5.5, fig.width = 7.5}
+```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD", fig.height = 5.5, fig.width = 7.5}
+#| label: fig-oecdmap
+
 world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
     filter(!admin == "Antarctica")
 
