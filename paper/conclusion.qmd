@@ -1,4 +1,4 @@
-# Conclusion
+# Conclusion [Still Very Drafty Too 😅]
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -82,13 +82,18 @@ Whether labelled culture, ideology, or attitudes, these scholars have pointed to
 Nevertheless, the lack of appropriate data has led to the exclusion of macroegalitarianism from much empirical work.
 This can be problematic.
 For example, the finding of @Kim2022 that greater women's descriptive representation yields the adoption of more policies advancing gender equality in employment appears, in light of our findings, to be spurious.
-Changes in both descriptive representation (see @fig-m1-dr) and these policies (see @fig-m1-wbl) are predicted by changes in public opinion toward women
+Changes in women's share of the national legislature are predicted by changes in gender egalitarian public opinion (see @fig-m1-dr).
+Trends in macroegalitarianism also predict policy adoption, even when descriptive representation is controlled, while descriptive representation does not (see @fig-m1-wbl).
+These results suggest a very different mechanism through which policies advancing gender equality are adopted.
+These policy gains are not achieved by women legislators working alone, but rather by both women and men legislators seeking to bring policy into better alignment with the egalitarian views of the public.
+More generally, they suggest that the close relationships among these variables means that well-grounded conclusions can only be reached when all of them are included in our analyses.
 
-We focused our inquiry on politics in relatively rich democracies.
-This choice was based in the theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
+It is worth noting that we focused our inquiry on politics in relatively rich democracies.
+This choice was based in long-standing theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
 That is, the countries of the OECD collectively constitute a 'most likely case.'
 Whether our findings hold in other contexts remains an open question.
 Whether women's descriptive representation and policies advancing equality depend dynamically on macroegalitarianism across democracies among developing countries or in autocracies are promising lines of future inquiry.
+
 
 ## Implications for Policy
 
