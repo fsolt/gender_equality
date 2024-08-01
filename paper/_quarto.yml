@@ -21,8 +21,10 @@ book:
     - /mexico/mexico.qmd
     - /korea/korea.qmd
     - conclusion.qmd
+  appendices:
     - appendix.qmd
     - references.qmd
+    
 
 bibliography: gender-equality.bib
 
