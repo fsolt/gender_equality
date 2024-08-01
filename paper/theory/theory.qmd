@@ -56,21 +56,26 @@ We want to know how public opinion responds to movement toward gender equality, 
 
 ## Representation: From Opinion to Politics and Policy
 
-Typology of representation
+Typology of representation: descriptive, substantive, symbolic [@Pitkin1967]
 
-Reasons for opinion, in general, to matter to parties and policy [@Miller2015; @Bowler2017; @Dassonneville2021a]
+In public opinion research, policy representation occurs when policy change reflects changes in public opinion.
+
+We consider _dynamic_ descriptive representation as whether changes in the share of women in the national legislature reflects gender egalitarian public opinion.
+We use dynamic _substantive_ representation to refer to the question of whether changes in macroegalitarianism are reflected in changes in policies advancing gender equality.
+
+Reasons for opinion, in general, to matter to politics and policy [@Miller2015; @Bowler2017; @Dassonneville2021a]
 
 With regard to gender egalitarianism, the case for representation is straightforward: at least in democratic countries, when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
 Where traditional attitudes relegating women to the private sphere of home and children are more dominant, conversely, parties put forward fewer female candidates, fewer women gain office, and anti-egalitarian public policy will not change.
 Indeed, @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
 
-There are, however, many reasons for public opinion to not translate to policy.
-sexist or even just skeptical party gatekeepers
-competing issue priorities, both of parties and voters [@Powell2004, 291; @Costello2021; @Araugjo2022; @Alvarez2024; see also the emphasis on _autonomous_ women's movements in @Htun2012 and @Forester2022]
+There are, however, many reasons for gender egalitarian public opinion to _not_ translate to either more women in office or the adoption of policies that advance gender equality.
+sexist or even just skeptical/anxious party gatekeepers
+competing issue priorities, both of voters and parties [see @Powell2004, 291; @Costello2021; @Alvarez2024; specifically with regard to gender attitudes, see @Hayes2016; @Araujo2022; and see also the emphasis on _autonomous_ women's movements in @Htun2012; @Forester2022]
+These competing issues may be brought forward through the greater relative power of the wealthy in an exercise of the second face of power [see, e.g., @Solt2008; @Erikson2015; @Schakel2021].
 institutional veto players
-relative power of the wealthy [see, e.g., @Solt2008; @Erikson2015; @Schakel2021]
 
-To see if and to what extent the members of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
+To see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
 
 
 ## Public Responsiveness: From Politics and Policy to Opinion
@@ -79,7 +84,7 @@ Thermostatic public opinion: opinion moves opposite to policy [@Wlezien1995; @So
 
 Policies make their own constituencies: opinion moves to further support policy
 
-The public doesn't respond at all [@Atkinson2021]
+The public sometimes doesn't respond at all [@Atkinson2021]
 
 
 ### Policies Advancing Gender Equality
