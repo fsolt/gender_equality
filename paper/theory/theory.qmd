@@ -70,12 +70,18 @@ Where traditional attitudes relegating women to the private sphere of home and c
 Indeed, @Beer2009 [, 214] says this story is so straightforward that it is tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
 
 There are, however, many reasons for gender egalitarian public opinion to _not_ translate to either more women in office or the adoption of policies that advance gender equality.
+
 sexist or even just skeptical/anxious party gatekeepers
-competing issue priorities, both of voters and parties [see @Powell2004, 291; @Costello2021; @Alvarez2024; specifically with regard to gender attitudes, see @Hayes2016; @Araujo2022; and see also the emphasis on _autonomous_ women's movements in @Htun2012; @Forester2022]
+
+related: misperceptions of public opinion among legislators [@Walgrave2022]
+
+competing issue priorities, both of voters and parties [see @Powell2004, 291; @Costello2021; @Alvarez2024; specifically with regard to gender attitudes, see @Hayes2016; @Araujo2022; and see also the emphasis on _autonomous_ women's movements in @Htun2012; @Forester2022] as well as straight-up failures in 'voting correctly' [see @Lau1997]
+
 These competing issues may be brought forward through the greater relative power of the wealthy in an exercise of the second face of power [see, e.g., @Solt2008; @Erikson2015; @Schakel2021].
+
 institutional veto players
 
-To see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
+The argument for representation may appear strong, but to see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
 
 
 ## Public Responsiveness: From Politics and Policy to Opinion
