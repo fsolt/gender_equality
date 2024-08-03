@@ -67,7 +67,7 @@ To examine the influence of PGE and the adoption of gender quotas on women’s d
 In the analysis, we use women’s descriptive representation measured with the percentage of female legislators in the Korean National Assembly as a dependent variable. 
 As two independent variables, we employ our PGE scores and the adoption of 30% and 50% gender quotas respectively.
 
-![](Table 7.1.png)
+![](Table7.1.png)
 
 Table 1 presents the empirical results from the OLS regression models. 
 Model 1 is estimated only with the PGE scores, while Model 2 and Model 3 are estimated with 30% and 50% gender quotas respectively. 
@@ -85,7 +85,7 @@ Thus, the influence of the adoption of gender quotas is not merely statistically
 
 With the improvement of women’s descriptive representation in legislative branches based on the adoption of gender quotas which is one of women friendly policies and improve public attitude toward gender egalitarianism, a myriad of studies examines the influence of women’s descriptive representation on women’s substantive representation such as policy adoptions or outcomes, policy priorities, and policy preferences of legislators [@RN220; @RN219; @RN203].
 
-![](Table 7.2.png)
+![](Table7.2.png){#tbl-korea2}
 
 We further examine the influence of women’s descriptive representation on PGE. 
 Table 2 shows the empirical results from the OLS regression models. 
