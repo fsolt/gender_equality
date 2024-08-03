@@ -30,7 +30,7 @@ Women’s descriptive representation in South Korea has been dramatically improv
 Figure 1 illustrates the percentage of female legislators and politicians in the Korean National Assembly, local assembly, metropolitan city mayor, and self-governing province governor. 
 As presented, the percentages except one in metropolitan city mayor which is consistently zero increased dramatically after the adoption of gender quotas which is one of the most representative women friendly policies in South Korea introduced in the Law on Political Parties in 2000 after the 2000 national election [@RN203].
 
-![](Figure 7.1.png)
+![](Figure 7.1.png){#fig-korea1}
 
 South Korea’s Gender quotas were introduced in both proportional representation (PR) and single-member district tiers of elections of the Korean National Assembly and local assembly, and they have been strengthened over the elections. 
 Since 2005, the quotas in the PR tiers take ‘zipper’ list in which male and female candidates should be alternated. 
@@ -67,7 +67,7 @@ To examine the influence of PGE and the adoption of gender quotas on women’s d
 In the analysis, we use women’s descriptive representation measured with the percentage of female legislators in the Korean National Assembly as a dependent variable. 
 As two independent variables, we employ our PGE scores and the adoption of 30% and 50% gender quotas respectively.
 
-![](Table7.1.png)
+![](Table 7.1.png){#tbl-korea1}
 
 Table 1 presents the empirical results from the OLS regression models. 
 Model 1 is estimated only with the PGE scores, while Model 2 and Model 3 are estimated with 30% and 50% gender quotas respectively. 
@@ -85,7 +85,7 @@ Thus, the influence of the adoption of gender quotas is not merely statistically
 
 With the improvement of women’s descriptive representation in legislative branches based on the adoption of gender quotas which is one of women friendly policies and improve public attitude toward gender egalitarianism, a myriad of studies examines the influence of women’s descriptive representation on women’s substantive representation such as policy adoptions or outcomes, policy priorities, and policy preferences of legislators [@RN220; @RN219; @RN203].
 
-![](Table7.2.png){#tbl-korea2}
+![](Table 7.2.png){#tbl-korea2}
 
 We further examine the influence of women’s descriptive representation on PGE. 
 Table 2 shows the empirical results from the OLS regression models. 
@@ -194,14 +194,14 @@ After the session of the 14th Congress when 4 bills concerning violence against 
 The number reaches 503 in the 19th Congress, and 855 in the 20th Congress. To build Bill Sponsorship, I assign 0 to “Bill ID – Individual Legislators” observations when legislators sponsor violence against women bills. 
 Otherwise, 1 is assigned to observations.
 
-![](Figure 7.2.png)
+![](Figure 7.2.png){#fig-korea2}
 
 Next, to build Bill Success, we categorize violence against women bills into Rejection and Success. We assign 0 to “Bill ID” observations if bills are finally rejected. 
 Otherwise, we assign 1. 
 Since 14th Congress, 797 bills about violence against women have been passed, while 1,119 bills are finally rejected. 
 It should be noted that both the number of proposed violence against women bills and the rate of rejection have increased.
 
-![](Figure 7.3.png)
+![](Figure 7.3.png){#fig-korea3}
  
 Control Variable
 
@@ -247,7 +247,7 @@ Across all the empirical models estimated in the next section, the mean and indi
 Given the nature of the two binary dependent variables, Bill Sponsorship and Bill Success, logistic regression is applied to examine the influence of independent variables on both dependent variables. 
 In addition, robust standard errors are estimated instead of normal standard errors.
 
-![](Table 7.3.png)
+![](Table 7.3.png){#tbl-korea3}
 
 Table 2 shows the empirical results from the logistic regression with the dependent variable, Bill Sponsorship. 
 The number of observations, the AIC, and the BIC are provided for model comparison purpose. 
@@ -266,7 +266,7 @@ In addition, in terms of party affiliation of the lawmakers, it has been reveale
 It contradicts our expectation and not consistent with the findings about the influence of left-wing political parties over the globe. 
 At the first glance, it seems non-sensical, but it can be understood considering that left-wing parties in South Korea have engaged in labor issues rather than women’s rights.
 
-![](Figure 7.4.png)
+![](Figure 7.4.png){#fig-korea4}
 
 Rather than concluding with the empirical results from Table 2, we continue our analysis by examining the predicted probabilities of sponsoring women-friendly bills. 
 It enables us to evaluate the substantive effects of PGE Scores on the introduction of the policies. 
@@ -278,7 +278,7 @@ Thus, with regards to the predicted probability, the impacts of PGE scores on th
 The influence of other statistically significant control variables on the predicted probabilities of sponsoring violence against women bills is also substantively meaningful. 
 Moreover, despite some differences in the estimated coefficients and standard errors, the empirical results are similar in the logistic regression model with the random effect of each bill ID.
 
-![](Table 7.4.png)
+![](Table 7.4.png){#tbl-korea4}
 
 Next, in order to test whether the influence of PGE Scores on the sponsorship on women-friendly bills is conditioned by the gender of individual legislators or not, we redo the analysis with the inclusion of the interaction term between PGE Scores and Gender. 
 Again, the AIC and BIC are presented for model comparison. 
@@ -286,7 +286,7 @@ The base terms of PGE Scores and Gender are statistically significant at the lev
 The interaction term has negative impacts and is statistically meaningful at the p-value 0.1. 
 The results concerning the series of control variables are consistent with those of Table 2.
 
-![](Figure 7.5.png)
+![](Figure 7.5.png){#fig-korea5}
 
 Figure 5 presents the probability of sponsoring women-friendly bills based on the values of PGE Scores and the gender of individual legislators. 
 As you can see, the probabilities of sponsoring such bills of male and female legislators are 1.500% and 2.586% respectively. 
@@ -295,13 +295,13 @@ If the PGE Score is set to 6, the predicted probabilities of male and female law
 In other words, the differences increase from around 1 to 1.5. 
 It should be noted that the 95% confidence intervals are overlapped with each other.
 
-![](Table 7.5.png)
+![](Table 7.5.png){#tbl-korea5}
 
 To test the relationship between the PGE Scores and the probability of women-friendly bills’ success, we estimate a logistic regression model with a binary dependent variable indicating whether the bills are passed or not. 
 Table 4 demonstrates that the PGE Scores is positively associated with the dependent variable at the level of p < 0.05, indicating that the probability of the passage of women-friendly bills is affected by the increase in the PGE Scores. 
 Concerning the control variables, Electoral Cycle is negatively statistically significant while Number of Sponsors, Total Number of Bills, and Center Left Party Control are statistically significant in positive directions.
 
-![](Figure 7.6.png)
+![](Figure 7.6.png){#fig-korea6}
 
 Figure 6 shows the predicted probabilities of Bill Success based on the PGE Scores. 
 It shows that the PGE Scores is not only statistically significant but also substantively significant. 
