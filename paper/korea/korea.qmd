@@ -1,1 +1,356 @@
 # Gender Egalitarian Policies in the Korean National Assembly: A Case Study
+
+Does the improved public gender egalitarianism lead legislators to focus on the adoption of women-friendly policies? 
+Does the improved women’s descriptive representation increase public gender egalitarianism? 
+Concerning another aspect of dynamics, is the adoption of women friendly policies be translated into the public gender egalitarianism and vice versa? 
+
+This chapter examines the case of South Korea to unveil the triad relationship one by one. 
+Even though the previous literature has broadened our understanding of the relationship between gender egalitarianism and the adoption of women-friendly policies, the influence of gender egalitarianism on the introduction of women-friendly policies has not been empirically examined thoroughly. 
+Moreover, in the context of gender egalitarianism, the association between public attitude toward gender equality and the adoption of women friendly policies has not been disentangled with the case of South Korea. 
+With the PGE dataset introduced in the previous chapter, we investigate the association among women’s descriptive representation, public gender egalitarianism, and the adoption of women friendly policies.
+
+We focus on the case of South Korean analyze the relationship among the three components. Relying on the Korean case enables us to take analytical advantages. 
+The Bill Information System developed by Korean National Assembly provides bill sponsorship record with detailed information about each proposed bill from the 1st Congress (1948-1950) to the 20th Congress (2016-2020), which makes it possible to fully understand the influence of the public gender egalitarianism on the adoption of women-friendly policies from the start and vice versa. 
+
+Second, given that @RN199 argues that executive dominance over legislative bodies on agenda-setting in legislative branches has been observed frequently in parliamentary democracies unlike presidential democracies, South Korea classified as a presidential democracy is a valuable case where the Korean National Assembly has played a crucial role in shaping legislative agenda on women-friendly policies. 
+Furthermore, it enables us to fully understand the relationship between public attitude on gender equality and women’s descriptive representation. 
+Third, South Korea is a country in which both women’s substantive representation in terms of women-friendly policies and descriptive representation has progressed dramatically in a short period, providing enough variations to be examined.
+
+The rest of this chapter proceeds with the following orders. 
+In the next section, we will examine the role of PGE and gender quotas which is one of the most salient women friendly policies in determining women’s descriptive representation. 
+At the same time, we will also discuss the influence of women’s descriptive representation on the public attitudes toward gender egalitarianism. 
+Then, we turn to unveil the influence of the improvement women’s descriptive representation and PGE on the adoption of women friendly policies based on the Bill Information System. 
+In this section, we will not only examine the impacts of both factors on bill sponsorship combating violence against women, but also investigate the role of those factors on bill success. 
+Next, we will disentangle the association between the adoption of women friendly policies and public attitude toward gender quotas. 
+Finally, we conclude with a discussion on the potential vulnerabilities of the virtuous circle among women’s descriptive representation, public gender egalitarianism and the adoption of women friendly policies in South Korea.
+
+## The Association among PGE, Women Friendly Policies, and Women’s Descriptive Representation
+
+Women’s descriptive representation in South Korea has been dramatically improved over the last decades [@RN201; @RN202; @RN200; @RN6090]. 
+Figure 1 illustrates the percentage of female legislators and politicians in the Korean National Assembly, local assembly, metropolitan city mayor, and self-governing province governor. 
+As presented, the percentages except one in metropolitan city mayor which is consistently zero increased dramatically after the adoption of gender quotas which is one of the most representative women friendly policies in South Korea introduced in the Law on Political Parties in 2000 after the 2000 national election [@RN203].
+
+![](Figure 7.1.png)
+
+South Korea’s Gender quotas were introduced in both proportional representation (PR) and single-member district tiers of elections of the Korean National Assembly and local assembly, and they have been strengthened over the elections. 
+Since 2005, the quotas in the PR tiers take ‘zipper’ list in which male and female candidates should be alternated. 
+Also, even though it is less restrictive, 30% gender quotas are recommended in both elections of the Korean National Assembly and local assembly [@RN204]. 
+As @RN97 emphasized, Figure 1 indicates that the effectiveness of the adoption of gender quotas in determining women’s descriptive representation as a fast track. 
+
+There are some critics against the adoption of gender quotas [@RN205; @RN206]. 
+For instance, @RN204 demonstrate that the positive impact of zipper quotas at the proportional representation is limited and political parties sometimes fail to comply with the 30% gender quotas at SMD-level. 
+However, women’s election has been increased in South Korea after the adoption of quotas [@RN203].
+
+The case of South Korea in terms of the influence of gender quotas on women’s descriptive representation echoes the previous findings that the quotas which is one of the most important women friendly policies plays an important role in improving women’s descriptive representation [@RN207; @RN6467; @RN208]. 
+The case of South Korea is also consistent with the previous arguments that the changes in political institutions tend to increase women’s descriptive representation and public demands for more women [@RN114; @RN209].
+
+Other policies except gender quotas have also led to women’s descriptive representation be improved. 
+One of the examples is the adoption of gender-targeted public financing in South Korea. 
+Gender-targeted public financing is to distribute public or state funding according to gender for improving gender equality in political sphere [@RN210]. 
+Concerning the effective ness of the public financing, @RN211 emphasized the role of political parties. 
+To be specific, he argues that political parties relying heavily on public financing tend to comply with the set of female nominations. 
+Also, @RN212 maintains that electoral system and candidate selection models are the key determinants of the success of gender-targeted public financing.
+
+South Korea implemented public financing targeting female candidates in the early 2000s [@RN213; @RN214]. 
+In the case of South Korea, women’s organizations make political parties to follow the role of gender-targeted public financing. 
+Although the work from @RN215 unveil that political parties in South Korea tend to monopolize public funding, the role of gender-targeted public financing should not be disregarded.
+
+As mentioned in the previous theory chapter, the influence of public attitudes toward gender equality on women’s descriptive representation has not been thoroughly examined by scholars over decades [@RN166; @RN165; @RN164; @RN167; @RN163]. 
+Related to the case of South Korea, it is also true that the role of public gender egalitarianism in determining women’s descriptive representation has been under-studied. 
+
+However, women’s movement based on the improved public attitude toward gender egalitarianism has exerted meaningful influence on women’s descriptive representation. 
+In South Korea, women’s movement has been developed along with the establishment of liberal democratic regimes [@RN216]. 
+The activity of women’s organizations or groups based on the improved public gender egalitarianism has positively affected the improvement of women’s descriptive representation and the adoption of women’s legislation such as the adoption of gender quotas [@RN217; @RN218]. 
+Therefore, it is expected that the improvement of public attitudes toward gender equality tends to increase women’s descriptive representation at least indirectly.
+
+To examine the influence of PGE and the adoption of gender quotas on women’s descriptive representation in South Korea, we conduct a simple OLS regression analysis. 
+In the analysis, we use women’s descriptive representation measured with the percentage of female legislators in the Korean National Assembly as a dependent variable. 
+As two independent variables, we employ our PGE scores and the adoption of 30% and 50% gender quotas respectively.
+
+![](Table 7.1.png)
+
+Table 1 presents the empirical results from the OLS regression models. 
+Model 1 is estimated only with the PGE scores, while Model 2 and Model 3 are estimated with 30% and 50% gender quotas respectively. 
+The explanatory variables are lagged by one year, given that the adoption of gender quotas and the improvement of public attitudes will be translated into women’s descriptive representation with time lags.
+
+The R-squared values are presented for model comparison and to check explanatory power of the three models. 
+As demonstrated, the PGE scores are statistically significant at the level of p < 0.01 across all three models, indicating that the improvement in the PGE scores tends to increase the percentage of female decision-makers in the Korean National Assembly. 
+Even though the impact decreases in Model 3, the PGE scores is still statistically significant.
+
+In terms of gender quotas, the 30% and 50% gender quotas are statistically significant at the level of p < 0.001 in Model 3. 
+Given that the R-squared value is higher in Model 3 compared to that in Model 2, we focus on the interpretation of the results from Model 3. 
+The beta coefficients of the 30% and 50% gender quotas in Model 3 are 2.905 and 11.823 respectively. 
+It means that the adoption of 30% and 50% gender quotas increases the percentage of female legislators by 2.905% and 11.823% correspondingly. 
+Thus, the influence of the adoption of gender quotas is not merely statistically significant, but also substantively meaningful.
+
+With the improvement of women’s descriptive representation in legislative branches based on the adoption of gender quotas which is one of women friendly policies and improve public attitude toward gender egalitarianism, a myriad of studies examines the influence of women’s descriptive representation on women’s substantive representation such as policy adoptions or outcomes, policy priorities, and policy preferences of legislators [@RN220; @RN219; @RN203].
+
+![](Table 7.2.png)
+
+We further examine the influence of women’s descriptive representation on PGE. 
+Table 2 shows the empirical results from the OLS regression models. 
+In the analysis, we employ our PGE scores as dependent variable, while we use the percentage of female legislators as our independent variable. 
+Rather than disregarding the omitted variable bias, we include three control variables: the level of democracy, the adoption of 30% quotas, and the adoption of 50% quotas. 
+
+The level of democracy has been widely believed as a potential determinant of public attitudes toward gender equality. 
+For examine, @RN221 demonstrate that democratic countries compared to non-democratic ones tend to be more inclusive and incorporate women’s rights in political and social spheres. 
+However, some scholars also question about the impacts of democracy on public attitudes about gender equality. 
+For example, @RN222 demonstrate that the impacts of democracy are marginal at best. 
+The study from @RN223 empirically shows that the level of democracy and public gender egalitarianism is not associated. 
+Therefore, rather than omitting the level of democracy, we also test the competing theories concerning the influence of democracy on public gender egalitarianism. 
+We measure the level of democracy based on the Polyarchy index from the Varieties of Democracy (V-Dem) dataset [@RN224].
+
+As presented in Table 2, women’s descriptive representation is statistically significant across all three models at the level of p < 0.05. 
+It supports our expectation that there is an association between women’s descriptive representation and public gender egalitarianism. 
+In terms of democracy, the level of democracy is statistically significant only in Model 2 where the adoptions of quotas are not included as control variables. 
+It echoes the findings from scholars rejecting the influence of democracy on public attitudes toward gender equality. 
+
+Concerning the adoptions of quotas, Model 3 shows that neither of quotas is not statistically significant at any level of p-value. 
+Moreover, even though it is not noted, the adoption of the 50% gender quotas is statistically significant at the level of p < 0.1 in a negative direction. 
+At the first glance, it seems non-sensical. 
+However, given the harsh backlash from men, especially young men in South Korea [@RN160; @RN161], the negative influence of gender quotas on public attitudes toward gender equality is reasonable.
+
+To sum up the empirical results from this section, we unveil that public attitudes toward gender egalitarianism and the adoption of gender quotas lead women’s descriptive representation be improved in South Korea. 
+At the same time, the increased women’s descriptive representation again reinforces the public attitudes toward gender egalitarianism.
+
+It has been revealed that the improved women’s descriptive representation in legislative branches tend to be associated with the adoption of women-friendly policies including violence against women [@RN225]. 
+Some other studies unveil the impacts of women’s descriptive representation might be conditioned by the electoral tiers of legislators [@RN226]. 
+Even though previous studies focusing on the role of women’s descriptive representation have reduced the uncertainty in policy outcomes for gender equality, there is still unexplained variation in policy adoptions. 
+At the same time, the emergence of women in legislative branches does not consistent with the elimination of bias against female legislators.
+
+## The Influence of PGE and Women’s Descriptive Representation on the Adoption of Women Friendly Policies
+
+In this section, we focus on the role of public opinion toward gender equality in addition to women’s descriptive representation in introducing gender equality policies. 
+We expect that our attempt contributes to minimize the uncertainty of gender equality policy adoptions. 
+The rest of this section proceeds with the following order. 
+First, the association between public gender egalitarianism and the adoption of women-friendly policies will be theorized and hypothesized. 
+Then, the influence of the gender of individual legislators on the association will be examined. 
+In the empirical analysis section, data and variables, modeling strategies, and empirical results will be presented. 
+Finally, we conclude.
+
+How the public gender egalitarianism affects the behaviors of legislators on women’s interests and integrity? This article relies on the rational approach about legislators’ policy-making behaviors to theorize the relationship between public gender egalitarianism and sponsorship concerning women-friendly bills. 
+Based on the tradition of the rational approach concerning decision makers’ behaviors, Legislators are risk-averse [@RN227]. 
+To be specific, even though there are some variations in risk aversion among legislators according to their gender [@RN228], legislators generally tend to behave with the goal of maximizing their chances of being re-elected [@RN229; @RN230]. 
+Given that legislators have limited resources including time, budget, and personnel which they can use, they should be very careful in proposing bills. 
+Thus, legislators are needed to access information about issues including women’s issues appropriately, and they have to decide whether they will handle such issues or not.
+
+The increased public gender egalitarianism can give legislators a signal that proposing bills concerning women’s issues might benefit their probabilities of being re-elected or, at least, it is efficient to invest their resources on such issues. 
+In other words, the improved public gender egalitarianism can motivate legislators to engage in women’s issues because diving into the issues might bring the rewards of their investment. 
+Thus, we expect that, if gender egalitarianism is increased among public, legislators are more likely to focus on sponsoring women-friendly bills.
+
+Hypothesis 1: The increase in public gender egalitarianism leads legislators to focus on the adoption of women-friendly policies, while all other things being equal (ceteris paribus).
+
+Rather than only testing the relationship between public gender egalitarianism and the adoption of women-friendly policies, we also investigate the conditional effect of the gender of individual legislators on the link between public gender egalitarianism and the policy adoption. 
+It has been regarded that female legislators are more likely to pay attention to women’s issues including violence against women and women’s integrity [@RN232; @RN231; @RN19; @RN22; @RN221].
+
+The theoretical background of the strong association between women’s descriptive and substantive representation can be traced back to @RN233. 
+@RN233’s explanation of women’s descriptive and substantive representation gives a clue to the conducive influence of women’s descriptive representation on the adoption and implementation of laws and public policies related to violence against women. 
+She defines political representation as an activity that makes voters “present” in policy-making processes, descriptive representation as a body mirroring the characteristics including gender and race of the represented groups, and substantive representation as a body reflecting the interests of the community. 
+Put simply, substantive representation is “acting for” representation and descriptive representation is “standing for” representation [@RN77]. 
+@RN233 argues that an increase in “descriptive representation” tends to lead to greater “substantive representation” [@RN234].
+
+In a similar vein, the politics of presence theory developed by @RN64 asserts that the gender of representatives is an influential factor in representative democracy [@RN66; @RN65; @RN67; @RN68; @RN69]. 
+Based on the assumption that female legislators and female citizens have shared life experiences such as child-rearing or exposure to violence, Phillips (1995, pp. 67–68) underlines that the entrance of women into politics is a prerequisite for the politicization of women’s issues. 
+Some studies interviewing legislators and legislative staffers provide empirical evidence for the politics of presence theory [@RN70; @RN71; @RN74; @RN72; @RN73].
+
+Theories developed by @RN83 and @RN66 also support the positive influence of women’s descriptive representation on substantive representation. 
+@RN83 argues that men and women have been taught differently regarding views on morality. The main thrust of her theory is that women, unlike men, tend to be taught empathy and compassion as the core of morality from childhood. 
+This difference in the “ethics of care” between men and women makes women pay more attention to issues such as welfare policies and the avoidance of using military forces [@RN49; @RN84]. 
+In addition, Mansbridge (1999), using a case study of the U.S., theorizes that female representatives can appropriately reflect the needs of female citizens based on their shared experience. 
+Mansbridge (1999) argues that because of their common female identity, female legislators are more likely than male legislators to understand the problems female citizens experience, formulate legal solutions to those problems, and incorporate the solutions into the legislative processes. 
+She also demonstrates that female legislators tend to focus more on women’s issues including education, health, and welfare than male legislators do, because female representatives facilitate conversations with female citizens and politicize the problems affecting them.
+
+Even though the above-mentioned theories rely on different explanations, all aim to explain how women’s descriptive representation can promote their substantive representation. 
+It should be noted that a wide array of studies with data about individual representatives has highlighted heterogeneities among women representatives according to their partisanships [@RN236; @RN41; @RN235], individual characteristics [@RN238; @RN237], or intersectionality related to race and class [@RN240; @RN239]. 
+We expect that female legislators are more likely to sponsor bills for women friendly policies and the influence of public gender egalitarianism is more conspicuous among female legislators compared to their male counterparts.
+
+Hypothesis 2: Female legislators are more likely to sponsor women-friendly policies compared to their male counterparts, while all other things being equal (ceteris paribus).
+
+Hypothesis 3: The impacts of public gender egalitarianism on women-friendly policy adoption differ by the gender of individual legislators, while all other things being equal (ceteris paribus).
+
+### Empirical Analysis
+
+Data and Variables
+
+Independent and Dependent Variables
+
+The PGE Scores in South Korea and individual legislators’ gender are employed as independent variable and, as dependent variables, we use two binary variables: Bill Sponsorship and Bill Success. 
+To unveil the influence of the PGE scores and women’s descriptive representation on the adoption of women friendly policies, we focus on bills about violence against women. 
+It is because the issue of violence against women is one of the most salient and traditional women’s issues [@RN175; @RN241; @RN242]. 
+
+To build Bill Sponsorship, we, first, collected all information about each bill proposed in the Korean National Assembly from 1992 (the start of 14th Congress) to 2020 (the end of 20th Congress) based on the Bill Information System developed by the Korean National Assembly. 
+The Bill Information System provides detailed information about proposed bills such as their proposed date, lists of sponsors, contents of each bill, and results of each bill. 
+In total, 85,860 bills have been proposed from the 14th Congress to 20th Congress. 
+Then, we, relying on keywords related to violence against women, classify whether each bill is a bill addressing violence against women.
+
+To be specific, first, we drop all bills proposed not by legislators. 
+In the dataset, 63,374 bills among 85,860 bills have been proposed by legislators. 
+Next, we select bills with titles including the following keywords: feminicide, forced sterilization, stalking, trafficking, violence against women and girls, domestic and intimate partner violence, sexual violence, sexual harassment, female genital mutilation, child, early and forced marriage, protection of women and children, and victims of violence against women. 
+Third, we also select bills with contents including the above-mentioned keywords. 
+Lastly, given that this approach might include bills not related to violence against women, we review the selected bills to exclude bills not relevant to violence against women.
+
+As a result, 1,916 bills among 85,860 bills are categorized into the violence against women bills. 
+After the session of the 14th Congress when 4 bills concerning violence against women were proposed, the number of violence against women bills proposed has increased. 
+The number reaches 503 in the 19th Congress, and 855 in the 20th Congress. To build Bill Sponsorship, I assign 0 to “Bill ID – Individual Legislators” observations when legislators sponsor violence against women bills. 
+Otherwise, 1 is assigned to observations.
+
+![](Figure 7.2.png)
+
+Next, to build Bill Success, we categorize violence against women bills into Rejection and Success. We assign 0 to “Bill ID” observations if bills are finally rejected. 
+Otherwise, we assign 1. 
+Since 14th Congress, 797 bills about violence against women have been passed, while 1,119 bills are finally rejected. 
+It should be noted that both the number of proposed violence against women bills and the rate of rejection have increased.
+
+![](Figure 7.3.png)
+ 
+Control Variable
+
+a series of control variables according to the two dependent variables are controlled. 
+In terms of Bill Sponsorship, we first control the gender of individual legislators based on the previous studies concerning the link between women’s descriptive and substantive representation [@RN66; @RN65; @RN67; @RN68; @RN69]. 
+At the same time, we parcel out the influence of previous experience of cosponsoring with female legislators.
+
+Also, we control Seniority of legislators. 
+Previous literature on the seniority of legislators has demonstrated that more senior lawmakers tend to have higher legislative effectiveness [@RN244; @RN243]. 
+On the contrary, some Korean case studies have revealed that more senior members are likely to focus on the issues of unification and national security, and to propose fewer bills [@RN245; @RN246]. 
+Therefore, rather than disregarding the potential impacts of the seniority of legislators, we include Seniority as one of the control variables. 
+It is an ordinal variable ranging from 1 to 9 according to the times of being elected.
+
+Given that South Korea has a two-tiered electoral system composed of a district tier (single-member district) and a party tier (proportional representation), Electoral Tier of legislators is controlled. 
+I assign 0 to “Bill ID – Individual Legislators” observations if legislators were elected from single-member districts; otherwise, 1 is assigned. 
+The inclusion of Electoral Tier is based on the rationale that lawmakers elected from single-member districts tend to focus on the specific problems and issues related to their districts rather than more general issues such as the problems of violence against women to increase the probability of being re-elected.
+
+Moreover, we include Party Affiliation as an independent variable when Bill Sponsorship is employed as a dependent variable to evaluate the conditional influence of Gender according to individual legislators’ partisanships. 
+In South Korea, 87 political parties had seats in the Korean National Assembly from the 1st Congress to 20th Congress. 
+The 87 political parties are categorized into Center Right, Center Left, and Left political parties. 
+If individual legislators are not involved in any political party, they are assigned to the Independent category.
+
+In addition, Electoral Cycle and Congress are also controlled. 
+It is expected that legislators are more likely to propose or sponsor bills right before the next election because voters tend to weigh more legislators’ active participation in bill proposal or sponsorship during such period. 
+To control the anticipated positive impact of Electoral Cycle, 1 is assigned to “Bill ID – Individual Legislators” observations if a bill was proposed one year before the general elections; otherwise, 0 is assigned. 
+Congress is a binary variable for each congress session. 
+The inclusion of Congress enables me to control unobserved and unmeasured each congress-specific influence on the probability of sponsoring bills about violence against women.
+
+Related to the other dependent variable, Bill Success, we control Electoral Cycle, total Number of Sponsors, Total Number of Bills per session, Center Left Party Control, and the % of Sponsors from Dominant Party. 
+Number of Sponsors and % of Sponsors from Dominant Party are controlled with a natural expectation that those two variables have positive relationships with the probability of Bill Success. 
+Moreover, even though there is no concrete theory about the association between the total number of bills proposed per session and the probability of bills’ success, Total Number of Bills is controlled, given that previous literature on bill success has controlled the total number of bills introduced [@RN248; @RN247]. 
+Center Left Party Control is also included as one of the control variables to parcel out the potential influence of different party controls in the Korean National Assembly. 
+In addition, I also control whether each bill is sponsored by legislators from different political parties or not with the binary variable named Sponsored by Legislators from Different Parties.
+
+We should note that observations before the 13th Congress are not included in the dataset considering the fact that violence against women bills have been proposed since the 14th Congress. 
+In addition, given that 14th Congress started in 1992, and the period of military dictatorship (by Park Jeong-Hee from 1963-1979) and the two military governments (by Chun Doo-Hwan from 1980-1988, and by Roh Taw-Woo from 1988-1993) ended with the 1992 presidential election won by Kim Young-Sam initiating Civilian Government, it enables us to naturally control the influence of regime types. 
+
+Again, the unit of analysis is “Bill ID – Individual Legislators,” and “Bill ID” when the dependent variables are Bill Sponsorship and Bill Success respectively. 
+Across all the empirical models estimated in the next section, the mean and individual variance inflation factors (VIFs) of independent and control variables do not exceed 2, indicating that there is no problematic multicollinearity among explanatory variables.
+
+### Modeling Strategies and Empirical Results
+
+Given the nature of the two binary dependent variables, Bill Sponsorship and Bill Success, logistic regression is applied to examine the influence of independent variables on both dependent variables. 
+In addition, robust standard errors are estimated instead of normal standard errors.
+
+![](Table 7.3.png)
+
+Table 2 shows the empirical results from the logistic regression with the dependent variable, Bill Sponsorship. 
+The number of observations, the AIC, and the BIC are provided for model comparison purpose. 
+The results unveil some eye-catching findings. 
+Most importantly, concerning the independent variable, PGE Scores is statistically significant at the level of p < 0.001. 
+It indicates that the improved public gender egalitarianism leads legislators to focus on sponsoring women-friendly bills. 
+To be specific, the beta coefficient of PGE Scores is 0.781, meaning that one unit increase in the PGE Scores increases the log-odds of sponsoring women-friendly bills by 0.781.
+
+Turning to control variables, Gender and the previous experience of sponsoring women-friendly bills are statistically significant at the level of p < 0.001. 
+It provides empirical supports for the previous arguments related to the association between women’s descriptive and substantive representation. 
+Furthermore, seniority, electoral tier, and electoral cycle turn out to be statistically significant. 
+It is consistent with the existing findings that senior legislators in South Korea are more likely to pay their attention to the issues of the unification of the two Koreas. 
+Also, the results related to the electoral tier indicates that legislators elected from the PR system tend to invest their limited resources toward general issues such as women’s integrity.
+
+In addition, in terms of party affiliation of the lawmakers, it has been revealed that legislators from left-wing political parties are less likely to sponsor bills about women’s interests. 
+It contradicts our expectation and not consistent with the findings about the influence of left-wing political parties over the globe. 
+At the first glance, it seems non-sensical, but it can be understood considering that left-wing parties in South Korea have engaged in labor issues rather than women’s rights.
+
+![](Figure 7.4.png)
+
+Rather than concluding with the empirical results from Table 2, we continue our analysis by examining the predicted probabilities of sponsoring women-friendly bills. 
+It enables us to evaluate the substantive effects of PGE Scores on the introduction of the policies. 
+Figure 4 demonstrates the predicted probabilities based on the values of PGE Scores and the kernel density of the scores. 
+As presented, when PGE Score is 4 the predicted probability is around 1.679% and it increases to 3.538% if the PGE Score is 5. 
+At the extreme, the probability reaches 7.220%. 
+Thus, with regards to the predicted probability, the impacts of PGE scores on the legislative behaviors of lawmakers are not merely statistically significant, but also substantively meaningful.
+
+The influence of other statistically significant control variables on the predicted probabilities of sponsoring violence against women bills is also substantively meaningful. 
+Moreover, despite some differences in the estimated coefficients and standard errors, the empirical results are similar in the logistic regression model with the random effect of each bill ID.
+
+![](Table 7.4.png)
+
+Next, in order to test whether the influence of PGE Scores on the sponsorship on women-friendly bills is conditioned by the gender of individual legislators or not, we redo the analysis with the inclusion of the interaction term between PGE Scores and Gender. 
+Again, the AIC and BIC are presented for model comparison. 
+The base terms of PGE Scores and Gender are statistically significant at the level of p < 0.05 in positive direction. 
+The interaction term has negative impacts and is statistically meaningful at the p-value 0.1. 
+The results concerning the series of control variables are consistent with those of Table 2.
+
+![](Figure 7.5.png)
+
+Figure 5 presents the probability of sponsoring women-friendly bills based on the values of PGE Scores and the gender of individual legislators. 
+As you can see, the probabilities of sponsoring such bills of male and female legislators are 1.500% and 2.586% respectively. 
+Based on the point estimates, the differences between male and female legislators are getting distinctive with the increase of PGE Scores. 
+If the PGE Score is set to 6, the predicted probabilities of male and female lawmakers are 7.007% and 8.570% each to each. 
+In other words, the differences increase from around 1 to 1.5. 
+It should be noted that the 95% confidence intervals are overlapped with each other.
+
+![](Table 7.5.png)
+
+To test the relationship between the PGE Scores and the probability of women-friendly bills’ success, we estimate a logistic regression model with a binary dependent variable indicating whether the bills are passed or not. 
+Table 4 demonstrates that the PGE Scores is positively associated with the dependent variable at the level of p < 0.05, indicating that the probability of the passage of women-friendly bills is affected by the increase in the PGE Scores. 
+Concerning the control variables, Electoral Cycle is negatively statistically significant while Number of Sponsors, Total Number of Bills, and Center Left Party Control are statistically significant in positive directions.
+
+![](Figure 7.6.png)
+
+Figure 6 shows the predicted probabilities of Bill Success based on the PGE Scores. 
+It shows that the PGE Scores is not only statistically significant but also substantively significant. 
+If the PGE Scores increases from 4 to 6, the probability of Bill Success increases from 26.168% to 77.506%. 
+Even not presented, the effects of the series of control variables are also substantively meaningful.
+
+To sum up the empirical results in this section, we relying on the logistic regression and the data on bill sponsorship in South Korea demonstrate that the increase in public gender egalitarianism tends to lead lawmakers to pay more attention to women’s integrity and interests. 
+The results from the logistic regression show that the positive influence of public gender egalitarianism on the adoption of women-friendly policies is not merely statistically significant, but also substantively meaningful. 
+It provides empirical evidence that the association between public gender egalitarianism and the adoption of women-friendly policies should be examined in both directions. 
+
+In addition, although the degree of the impacts is smaller than we expected, the results show that the influence of public gender egalitarianism is conditioned by the gender of individual legislators. 
+To be specific, female legislators compared to their male counterparts are more sensitive to the increase in the public gender egalitarianism. 
+This finding contributes to the literature on Women and Politics, by provides additional empirical evidence for the link between women’s descriptive and substantive representation.
+
+## Conclusion and Discussion on Vulnerability of the Virtuous Circle in South Korea
+
+This chapter examines the interaction among the public gender egalitarianism, the adoption of women friendly policies, and women’s descriptive representation. 
+Throughout this chapter, we unveil that the improved in public attitudes toward gender equality and the adoption of women friendly policies lead to the increase of women’s descriptive representation. 
+Also, the increased percentage of female legislators is translated into the adoption of women friendly policies. 
+At the same time, we show that the adoption of women friendly policies reinforces the public gender egalitarianism. 
+It demonstrates the existence of the virtuous circle in South Korea.
+
+However, we do not argue that the results should be regarded as conclusive evidence for the conducive impacts of public gender egalitarianism on policy outcomes for women. 
+As discussed in various comparative literature [@RN251; @RN249; @RN250], the statistical approach, even though it has been employed with the individual case of country, does not test theories themselves but only hypothesis. 
+Also, it is hard to catch the underlying mechanisms behind the link between public gender egalitarianism and the adoption of women-friendly policies and the association among the adoption of women friendly policies, public attitudes, and women’s descriptive representation. 
+Therefore, the natural direction of future studies is to examine the virtuous circle with more in-depth case study or interview approach.
+
+In addition, given that we only investigate the interaction between public gender egalitarianism and the gender of individual legislators concerning the influence of PGE on legislative behaviors, it will be interesting to see whether the impacts of the gender egalitarianism on policy outcomes are conditioned by other factors such as the introduction of gender quotas. 
+Also, testing the generalizability of the empirical results from this chapter with other country cases will be promising.
+
+Moreover, it should be noted that there are some potential threats against the virtuous circle among women’s descriptive representation, public gender egalitarianism, and the adoption of women friendly policies in South Korea. 
+First, the adoption of women friendly policies can generate backlash from men, especially young men. The most salient example is the adoption of gender quotas and backlash in South Korea. 
+The recent study from @RN160 demonstrates that group-based economic anxiety among men can be translated into the negative attitudes toward gender equality and the adoption of women friendly policies. 
+By analyzing the case of South Korea, they show that economic insecurity makes younger male generation be more hesitant to support the adoption of women friendly policies. 
+Likewise, there is a probability that the adoption of women friendly policies such as gender quotas invokes backlash from men.
+
+Second, the intensive gender conflicts and war also threats the virtuous circle. 
+In South Korea, gender conflicts and war have received wide attention from scholars due to their intension and severity [@RN252]. 
+In the conflicts, young men tend to perceive themselves as victims of women’s movements or feminist activities [@RN253]. 
+The hatred between men and women in South Korea has dramatically intensified after the murder at the Gangnam Station [@RN255; @RN254]. 
+In terms of hared discourse in South Korea, the study from @RN256 by analyzing comments on news articles published in South Korea from 1990 to 2021 find that hatred related to gender ranks at 3rd place among all hatred discourse in South Korea after 2016. 
+They also demonstrate that the public discourse concerning gender conflicts and hatred decreases the probabilities of sponsoring bills about women’s issues. 
+Therefore, the intensive gender conflicts can hinder the virtuous circle from being maintained.
+
+Last, the existence of failed female political leaders can also breakdown the virtuous circle. 
+In the 2012 presidential election in South Korea, the first female president, Park Geun-Hye, was elected as the 11th president. 
+However, she was impeached in 2017 due to “Choi-Soon-Sil-Gate” with the decision from the constitutional court. 
+Previous studies based on social role theories about women’s political representation have argued that the novelty of the “first” can alter the public opinion about female political leaders [@RN258; @RN257]. 
+It means that the failure of female political leaders including the former president Park can negatively affect public attitude toward gender roles in South Korea.
+
+The above-mentioned threats against the virtuous circle are not only potential but also actually harm the circle. 
+Thus, appropriately handling the potential dangers is prerequisite of sustaining the virtuous circle among the public attitude toward gender equality, women’s descriptive representation, and the adoption of women friendly policies.
