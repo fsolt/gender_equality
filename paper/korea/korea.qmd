@@ -1,1 +1,25 @@
 # Gender Egalitarian Policies in the Korean National Assembly: A Case Study
+
+Does the improved public gender egalitarianism lead legislators to focus on the adoption of women-friendly policies? 
+Does the improved women’s descriptive representation increase public gender egalitarianism? 
+Concerning another aspect of dynamics, is the adoption of women friendly policies be translated into the public gender egalitarianism and vice versa? 
+
+Even though the previous literature has broadened our understanding of the relationship between gender egalitarianism and the adoption of women-friendly policies, the influence of gender egalitarianism on the introduction of women-friendly policies has not been empirically examined thoroughly. 
+Moreover, in the context of gender egalitarianism, the association between public attitude toward gender equality and the adoption of women friendly policies has not been disentangled with the case of South Korea. 
+With the PGE dataset introduced in the previous chapter, we investigate the association among women’s descriptive representation, public gender egalitarianism, and the adoption of women friendly policies.
+
+We focus on the case of South Korean analyze the relationship among the three components. 
+Relying on the Korean case enables us to take analytical advantages. 
+The Bill Information System developed by Korean National Assembly provides bill sponsorship record with detailed information about each proposed bill from the 1st Congress (1948-1950) to the 20th Congress (2016-2020), which makes it possible to fully understand the influence of the public gender egalitarianism on the adoption of women-friendly policies from the start and vice versa. 
+
+Second, given that Tsebelis (2002) argues that executive dominance over legislative bodies on agenda-setting in legislative branches has been observed frequently in parliamentary democracies unlike presidential democracies, South Korea classified as a presidential democracy is a valuable case where the Korean National Assembly has played a crucial role in shaping legislative agenda on women-friendly policies. 
+Furthermore, it enables us to fully understand the relationship between public attitude on gender equality and women’s descriptive representation. 
+Third, South Korea is a country in which both women’s substantive representation in terms of women-friendly policies and descriptive representation has progressed dramatically in a short period, providing enough variations to be examined.
+
+The rest of this chapter proceeds with the following orders. 
+In the next section, we will examine the role of PGE and gender quotas which is one of the most salient women friendly policies in determining women’s descriptive representation. 
+At the same time, we will also discuss the influence of women’s descriptive representation on the public attitudes toward gender egalitarianism. 
+Then, we turn to unveil the influence of the improvement women’s descriptive representation and PGE on the adoption of women friendly policies based on the Bill Information System. 
+In this section, we will not only examine the impacts of both factors on bill sponsorship combating violence against women, but also investigate the role of those factors on bill success. 
+Next, we will disentangle the association between the adoption of women friendly policies and public attitude toward gender quotas. Finally, we conclude with a discussion on the potential vulnerabilities of the virtuous circle among women’s descriptive representation, public gender egalitarianism and the adoption of women friendly policies in South Korea.
+
