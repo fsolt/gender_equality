@@ -81,16 +81,23 @@ These competing issues may be brought forward through the greater relative power
 
 institutional veto players
 
+(@Burstein2010 previews the opinion-to-policy debate.)
+
 The argument for representation may appear strong, but to see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
+
+How policy representation occurs: Is electoral turnover necessary or do legislators of all stripes respond to the public? (The latter is the 'policy accommodation' mechanism, per @Erikson2002.)  In this context, is it necessary for women to replace men in office for gender egalitarian policies to be adopted, or do men legislators also respond to macroegalitarianism in the public?
 
 
 ## Public Responsiveness: From Politics and Policy to Opinion
 
+@Busemeyer2021 reviews.
+
 Thermostatic public opinion: opinion moves opposite to policy [@Wlezien1995; @Soroka2010; @Atkinson2021]
 
-Policies make their own constituencies: opinion moves to further support policy
+Policies make their own constituencies: opinion moves to further support policy [@Svallfors2010; @Soss2007]
 
 The public sometimes doesn't respond at all [@Atkinson2021]
+
 
 
 ### Policies Advancing Gender Equality
@@ -111,7 +118,7 @@ On the one hand, we want to look as broadly as possible: we want to minimize sam
 Too much work in political science 
 The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work [see @Wilson2022].
 But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
-The theories outlined above presuppose a certain minimum level of democracy---at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"--and so countries that don't clear that very low bar should be excluded.^[
+The theories outlined above presuppose a certain minimum level of democracy---at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"---and so countries that don't clear that very low bar should be excluded.^[
 This is not to say that governments in authoritarian countries do not at least sometimes work to represent public opinion.
 In fact, there is reason to think---and evidence to show---that they sometimes do [see, e.g., @Tang2016 on China; @Lueders2022 on the German Democratic Republic].
 Our point here is that the mechanisms through which public opinion may be translated to policy in authoritarian regimes is different from those suggested in the theories outlined above, and so for present purposes we should set those cases aside.]

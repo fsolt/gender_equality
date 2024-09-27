@@ -2,15 +2,25 @@
 
 Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
 
-Some observers see in these events signs of a continued and renewed backlash in the public against gender equality.
-@Faludi1991 on the United States in 1980s, and subsequent work.
+Some observers see in events like these signs of a recurring backlash in the public against gender equality.
+
+@Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.]
 
 A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
-The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and preferences will shift against the policy [@Wlezien1995].
+The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against the policy [@Wlezien1995].
+
+
+
+
 
 Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [see @Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
 
-But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it.
+In its original formulation, the theory requires citizens to possess a level of knowledge of politics that a long line of public opinion research shows is unrealistic, and as recently re-elaborated it requires the issue in question to be debated by political parties so as to provide cues to the broader public as to what is going on (Atkinson et al. 2021, 5–6).
+
+
+But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it. 
+@Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
+For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and, in fact, the U.S. public has consistently favored the continued expansion of the program.
 
 So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt backlash?
 
@@ -66,12 +76,12 @@ Addressing this shortfall is the first of the contributions of this book.
 
 ## Our Contributions
 
-New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative dynamic perspective.
+New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative and dynamic perspective.
 Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update the Public Gender Egalitarianism dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across more than one hundred countries over time.
 
-Comparative: our new data allows us to examine experiences of countries around the world, not just the United States or Europe or any other single region.
+Comparative: our new data allows us to examine experiences of countries around the world, not just in the United States or Europe or any other single region.
 @Wilson2022 on imbalance in countries and regions studied.
-Plus, of course, the cases you choose influence the answers you get. 
+Plus, of course, the cases you choose affect the answers you get [@Geddes1990]. 
 
 Dynamic: takes time seriously [@Stimson1995].
 Given our inability to experimentally manipulate either policy or public opinion, how things unfold over time gives the best possible evidence of causation.
