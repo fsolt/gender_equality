@@ -2076,7 +2076,7 @@ coef_plot_m2pf <- coef_data0_m2 %>%
 
 lag_plot_m2pf <- coef_data0_m2 %>% 
   mutate(std_coef = .value * sd2,
-         term = factor(var_names, levels = ordered)) %>% 
+         term = factor(var_names, levels = ordered_pfem)) %>% 
   filter(str_detect(var_names, "Lagged")) %>% 
   mutate(term = "Lagged Women's Share of Party Seats") %>% 
   ggplot(aes(y = term, x = std_coef)) +
