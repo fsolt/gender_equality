@@ -913,6 +913,10 @@ write_feather(poststrat_all,
               sink = file.path(mex20_dir, "..", "poststrat_all.arrow"))
 ```
 
+```{r poststrat_all}
+poststrat_all <- read_feather(file.path(mex20_dir, "..", "poststrat_all.arrow"))
+```
+
 ```{r pge_surveys_all}
 
 
