@@ -15,3 +15,1227 @@
 <!-- Beer 2020: -->
 <!-- https://www.elgaronline.com/edcollchap/edcoll/9781788119290/9781788119290.00030.xml -->
 
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300,
+  fig.width=7
+)
+
+if (!require(pacman))
+  install.packages("pacman")
+library(pacman)
+
+p_install(janitor, force = FALSE)
+
+p_load(
+  # analysis
+  brms,
+  
+  # presentation
+  gridExtra,
+  modelsummary,
+  dotwhisker,
+  ggthemes,
+  latex2exp,
+  RColorBrewer,
+  colorRamps,
+  directlabels,
+  patchwork,
+  
+  # data wrangling
+  arrow,
+  broom,
+  countrycode,
+  DCPOtools,
+  glue,
+  here,
+  imputeTS,
+  janitor,
+  readxl,
+  rsdmx,
+  tidyverse,
+  wbstats)
+
+interplot2 <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95, 
+                        adjCI = FALSE, hist = FALSE, var2_dt = NA, predPro = FALSE, 
+                        var2_vals = NULL, point = FALSE, sims = 5000, xmin = NA, 
+                        xmax = NA, ercolor = NA, esize = 0.5, ralpha = 0.5, rfill = "grey70", 
+                        stats_cp = "none", txt_caption = NULL, facet_labs = NULL, 
+                        ...) {
+  m.class <- class(m)
+  if (m.class == "list") {
+    m.sims <- m %>% 
+      map_df(~ arm::sim(.x, sims/100) %>% 
+               pluck("fixef") %>% 
+               as_tibble())
+    m <- m[[1]]
+  } else m.sims <- arm::sim(m, sims) %>% 
+      pluck("fixef") %>% 
+      as_tibble()
+  factor_v1 <- factor_v2 <- FALSE
+  if (is.factor(eval(parse(text = paste0("m@frame$", var1)))) & 
+      is.factor(eval(parse(text = paste0("m@frame$", var2))))) 
+    stop("The function does not support interactions between two factors.")
+  if (is.factor(eval(parse(text = paste0("m@frame$", var1))))) {
+    var1_bk <- var1
+    var1 <- paste0(var1, levels(eval(parse(text = paste0("m@frame$", 
+                                                         var1)))))
+    factor_v1 <- TRUE
+    ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+           var12 <- paste0(var2, ":", var1)[-1])
+    for (i in seq(var12)) {
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        var12[i] <- paste0(var1, ":", var2)[-1][i]
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        stop(paste("Model does not include the interaction of", 
+                   var1, "and", var2, "."))
+    }
+  } else if (is.factor(eval(parse(text = paste0("m@frame$", 
+                                                var2))))) {
+    var2_bk <- var2
+    var2 <- paste0(var2, levels(eval(parse(text = paste0("m@frame$", 
+                                                         var2)))))
+    factor_v2 <- TRUE
+    ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+           var12 <- paste0(var2, ":", var1)[-1])
+    for (i in seq(var12)) {
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        var12[i] <- paste0(var1, ":", var2)[-1][i]
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        stop(paste("Model does not include the interaction of", 
+                   var1, "and", var2, "."))
+    }
+  } else {
+    ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+           var12 <- paste0(var2, ":", var1))
+    for (i in seq(var12)) {
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        var12[i] <- paste0(var1, ":", var2)[i]
+      if (!var12[i] %in% unlist(dimnames(m@pp$X)[2])) 
+        stop(paste("Model does not include the interaction of", 
+                   var1, "and", var2, "."))
+    }
+  }
+  if (factor_v2) {
+    xmin <- 0
+    xmax <- 1
+    steps <- 2
+  } else {
+    if (is.na(xmin)) 
+      xmin <- min(m@frame[var2], na.rm = T)
+    if (is.na(xmax)) 
+      xmax <- max(m@frame[var2], na.rm = T)
+    if (is.null(steps)) {
+      steps <- eval(parse(text = paste0("length(unique(na.omit(m@frame$", 
+                                        var2, ")))")))
+    }
+    if (steps > 100) 
+      steps <- 100
+  }
+  coef <- data.frame(fake = seq(xmin, xmax, length.out = steps), 
+                     coef1 = NA, ub = NA, lb = NA)
+  coef_df <- data.frame(fake = numeric(0), coef1 = numeric(0), 
+                        ub = numeric(0), lb = numeric(0), model = character(0))
+  if (factor_v1) {
+    if (predPro == TRUE) 
+      stop("The current version does not support estimating predicted probabilities for factor base terms.")
+    for (j in 1:(length(levels(eval(parse(text = paste0("m@frame$", 
+                                                        var1_bk))))) - 1)) {
+      for (i in 1:steps) {
+        coef$coef1[i] <- mean(first(m.sims[, match(var1[j + 
+                                                          1], unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                      m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]))
+        coef$ub[i] <- quantile(first(m.sims[, match(var1[j + 
+                                                           1], unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                       m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]), 
+                               (1 - ci)/2)
+        coef$lb[i] <- quantile(first(m.sims[, match(var1[j + 
+                                                           1], unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                       m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]), 
+                               1 - (1 - ci)/2)
+      }
+      if (plot == TRUE) {
+        coef$value <- var1[j + 1]
+        coef_df <- rbind(coef_df, coef)
+        if (hist == TRUE) {
+          if (is.na(var2_dt)) {
+            var2_dt <- eval(parse(text = paste0("m@frame$", 
+                                                var2)))
+          }
+          else {
+            var2_dt <- var2_dt
+          }
+        }
+      }
+      else {
+        names(coef) <- c(var2, "coef", "ub", "lb")
+        return(coef)
+      }
+    }
+    if (is.null(facet_labs)) 
+      facet_labs <- unique(coef_df$value)
+    coef_df$value <- factor(coef_df$value, labels = facet_labs)
+    interplot:::interplot.plot(m = coef_df, hist = hist, steps = steps, 
+                               var2_dt = var2_dt, point = point, ercolor = ercolor, 
+                               esize = esize, ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                               txt_caption = NULL, ...) + facet_grid(. ~ value)
+  } else if (factor_v2) {
+    if (predPro == TRUE) 
+      stop("The current version does not support estimating predicted probabilities for factor base terms.")
+    for (j in 1:(length(levels(eval(parse(text = paste0("m@frame$", 
+                                                        var2_bk))))) - 1)) {
+      for (i in 1:steps) {
+        coef$coef1[i] <- mean(first(m.sims[, match(var1, 
+                                                   unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                      m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]))
+        coef$ub[i] <- quantile(first(m.sims[, match(var1, 
+                                                    unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                       m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]), 
+                               (1 - ci)/2)
+        coef$lb[i] <- quantile(first(m.sims[, match(var1, 
+                                                    unlist(dimnames(m@pp$X)[2]))] + coef$fake[i] * 
+                                       m.sims[, match(var12[j], unlist(dimnames(m@pp$X)[2]))]), 
+                               1 - (1 - ci)/2)
+      }
+      if (plot == TRUE) {
+        coef$value <- var2[j + 1]
+        coef_df <- rbind(coef_df, coef)
+        if (hist == TRUE) {
+          if (is.na(var2_dt)) {
+            var2_dt <- eval(parse(text = paste0("m@frame$", 
+                                                var2)))
+          }
+          else {
+            var2_dt <- var2_dt
+          }
+        }
+      }
+      else {
+        names(coef) <- c(var2, "coef", "ub", "lb")
+        return(coef)
+      }
+    }
+    if (is.null(facet_labs)) 
+      facet_labs <- unique(coef_df$value)
+    coef_df$value <- factor(coef_df$value, labels = facet_labs)
+    interplot:::interplot.plot(m = coef_df, steps = steps, hist = hist, 
+                               var2_dt = var2_dt, point = point, ercolor = ercolor, 
+                               esize = esize, ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                               txt_caption = NULL, ...) + facet_grid(. ~ value)
+  } else {
+    if (predPro == TRUE) {
+      if (is.null(var2_vals)) 
+        stop("The predicted probabilities cannot be estimated without defining 'var2_vals'.")
+      df <- data.frame(m$model)
+      df[[names(m@flist)]] <- NULL
+      if (sum(grep("X.weights.", names(df))) != 0) 
+        df <- select(df, -X.weights.)
+      df_temp <- select(df, 1)
+      df <- df[-1] %>% map(function(var) {
+        if (is.factor(var)) {
+          model.matrix(~var - 1)[, -1] %>% as.data.frame()
+        }
+        else {
+          as.numeric(var)
+        }
+      })
+      for (i in seq(df)) {
+        if (!is.data.frame(df[[i]])) {
+          namesUpdate <- c(names(df_temp), names(df)[[i]])
+          df_temp <- cbind(df_temp, df[[i]])
+          names(df_temp) <- namesUpdate
+        }
+        else {
+          df_temp <- cbind(df_temp, df[[i]])
+        }
+      }
+      df <- df_temp
+      names(df)[1] <- "(Intercept)"
+      df$`(Intercept)` <- 1
+      if (var1 == var2) {
+        names(df) <- sub("I\\.(.*)\\.2\\.", "I\\(\\1\\^2\\)", 
+                         names(df))
+      }
+      iv_medians <- summarize_all(df, funs(median(., na.rm = TRUE)))
+      fake_data <- iv_medians[rep(1:nrow(iv_medians), 
+                                  each = steps * length(var2_vals)), ]
+      fake_data[[var1]] <- with(df, rep(seq(min(get(var1)), 
+                                            max(get(var1)), length.out = steps), steps = length(var2_vals)))
+      fake_data[[var2]] <- rep(var2_vals, each = steps)
+      fake_data[[var12]] <- fake_data[[var1]] * fake_data[[var2]]
+      pp <- rowMeans(plogis(data.matrix(fake_data) %*% 
+                              t(data.matrix(m.sims))))
+      row_quantiles <- function(x, probs) {
+        naValue <- NA
+        storage.mode(naValue) <- storage.mode(x)
+        nrow <- nrow(x)
+        q <- matrix(naValue, nrow = nrow, ncol = length(probs))
+        if (nrow > 0L) {
+          t <- quantile(x[1L, ], probs = probs)
+          colnames(q) <- names(t)
+          q[1L, ] <- t
+          if (nrow >= 2L) {
+            for (rr in 2:nrow) {
+              q[rr, ] <- quantile(x[rr, ], probs = probs)
+            }
+          }
+        }
+        else {
+          t <- quantile(0, probs = probs)
+          colnames(q) <- names(t)
+        }
+        q <- drop(q)
+        q
+      }
+      pp_bounds <- row_quantiles(plogis(data.matrix(fake_data) %*% 
+                                          t(data.matrix(m.sims))), prob = c((1 - 
+                                                                               ci)/2, 1 - (1 - ci)/2))
+      pp <- cbind(pp, pp_bounds)
+      pp <- pp * 100
+      colnames(pp) <- c("coef1", "lb", "ub")
+      pp <- cbind(fake_data[, c(var1, var2)], pp)
+      pp[, var2] <- as.factor(pp[, var2])
+      names(pp)[1] <- "fake"
+      names(pp)[2] <- "value"
+      coef <- pp
+    } else {
+      multiplier <- ifelse(var1 == var2, 2, 1) 
+      
+      for (i in 1:steps) {
+        coef$coef1[i] <- mean(first(m.sims[, match(var1, 
+                                                   unlist(dimnames(m@pp$X)[2]))] + {multiplier * 
+                                                       coef$fake[i] * m.sims[, match(var12, 
+                                                                                     unlist(dimnames(m@pp$X)[2]))]}))
+        coef$ub[i] <- quantile(first(m.sims[, match(var1, 
+                                                    unlist(dimnames(m@pp$X)[2]))] + multiplier * 
+                                       coef$fake[i] * m.sims[, match(var12, 
+                                                                     unlist(dimnames(m@pp$X)[2]))]), (1 - ci)/2)
+        coef$lb[i] <- quantile(first(m.sims[, match(var1, 
+                                                    unlist(dimnames(m@pp$X)[2]))] + multiplier * 
+                                       coef$fake[i] * m.sims[, match(var12, 
+                                                                     unlist(dimnames(m@pp$X)[2]))]), 1 - (1 - ci)/2)
+      }
+    }
+    multiplier <- ifelse(var1 == var2, 2, 1) 
+    min_sim <- m.sims[, match(var1, unlist(dimnames(m@pp$X)[2]))] + 
+      multiplier * xmin * m.sims[, match(var12, 
+                                         unlist(dimnames(m@pp$X)[2]))]
+    max_sim <- m.sims[, match(var1, unlist(dimnames(m@pp$X)[2]))] + 
+      multiplier * xmax * m.sims[, match(var12, 
+                                         unlist(dimnames(m@pp$X)[2]))]
+    diff <- first(max_sim - min_sim)
+    ci_diff <- c(quantile(diff, (1 - ci)/2), quantile(diff, 
+                                                      1 - (1 - ci)/2))
+    if (plot == TRUE) {
+      if (hist == TRUE) {
+        if (is.na(var2_dt)) {
+          var2_dt <- eval(parse(text = paste0("m@frame$", 
+                                              var2)))
+        }
+        else {
+          var2_dt <- var2_dt
+        }
+      }
+      interplot:::interplot.plot(m = coef, steps = steps, hist = hist, 
+                                 predPro = predPro, var2_vals = var2_vals, var2_dt = var2_dt, 
+                                 point = point, ercolor = ercolor, esize = esize, 
+                                 ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                                 txt_caption = NULL, ...)
+    } else {
+      if (predPro == TRUE) {
+        names(coef) <- c(var2, paste0("values_in_", 
+                                      var1), "coef", "ub", "lb")
+      }
+      else {
+        names(coef) <- c(var2, "coef", "ub", "lb")
+      }
+      return(coef)
+    }
+  }
+}
+
+interplot_b <- function (m, var1, var2, plot = TRUE, steps = NULL, ci = 0.95, 
+                         adjCI = FALSE, hist = FALSE, var2_dt = NA, predPro = FALSE, 
+                         var2_vals = NULL, point = FALSE, sims = 5000, xmin = NA, 
+                         xmax = NA, ercolor = NA, esize = 0.5, ralpha = 0.5, rfill = "grey70", 
+                         stats_cp = "none", txt_caption = NULL, facet_labs = NULL, 
+                         ...) {
+  
+  m.sims <- brms::as_draws_df(m) %>% 
+    as_tibble()
+  
+  if (is.na(xmin)) 
+    xmin <- min(m$data[var2], na.rm = TRUE)
+  if (is.na(xmax)) 
+    xmax <- max(m$data[var2], na.rm = TRUE)
+  if (is.null(steps)) {
+    steps <- eval(parse(text = paste0("length(unique(na.omit(m$data$", 
+                                      var2, ")))")))
+  }
+  if (steps > 100) 
+    steps <- 100
+  
+  coef <- data.frame(fake = seq(xmin, xmax, length.out = steps), 
+                     coef1 = NA, ub = NA, lb = NA)
+  coef_df <- data.frame(fake = numeric(0), coef1 = numeric(0), 
+                        ub = numeric(0), lb = numeric(0), model = character(0))
+  
+  var1a <- str_subset(names(m.sims), var1)[1]
+  var2a <- str_subset(names(m.sims), var2)[1]
+  ifelse(var1 == var2, var12 <- paste0("I(", var1, "^2)"), 
+         var12 <- paste0(var2a, ":", var1))
+  if (!var12 %in% names(m.sims))
+    var12 <- paste0(var1a, ":", var2)
+  if (!var12 %in% names(m.sims)) 
+    stop(paste("Model does not include the interaction of", 
+               var1, "and", var2, "."))
+  
+  multiplier <- ifelse(var1 == var2, 2, 1) 
+  
+  for (i in 1:steps) {
+    coef$coef1[i] <- mean({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1])
+    coef$lb[i] <- quantile({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1], (1 - ci)/2)
+    coef$ub[i] <- quantile({m.sims[, var1a] + {multiplier * 
+        coef$fake[i] * m.sims[, var12]}}[, 1], 1 - (1 - ci)/2)
+  }
+  
+  min_sim <- {m.sims[, var1a] + {multiplier * 
+      xmin * m.sims[, var12]}}[, 1]
+  max_sim <- {m.sims[, var1a] + {multiplier * 
+      xmax * m.sims[, var12]}}[, 1]
+  diff <- first(max_sim - min_sim)
+  ci_diff <- c(quantile(diff, (1 - ci)/2), quantile(diff, 
+                                                    1 - (1 - ci)/2))
+  if (plot == TRUE) {
+    interplot:::interplot.plot(m = coef, steps = steps, hist = hist, 
+                               predPro = predPro, var2_vals = var2_vals, var2_dt = var2_dt, 
+                               point = point, ercolor = ercolor, esize = esize, 
+                               ralpha = ralpha, rfill = rfill, stats_cp = "none", 
+                               txt_caption = NULL, ...)
+  } else {
+    names(coef) <- c(var2, "coef", "ub", "lb")
+    return(coef)
+  }
+}
+
+make_dummies <- function(df, col) {
+  vals <- discard(unique(df[[col]]), is.na)
+  dummies <- map(vals, function(val) {
+    df %>% 
+      transmute({{val}} := as.numeric(.data[[col]] == val))
+  }) %>% 
+    list_cbind()
+  
+  bind_cols(df, dummies)
+}
+
+get_coef <- function(iv, results_df = coef_data, type = "both", width = .8) {
+  result_var <- results_df %>% 
+    filter(.width == width) %>% 
+    pull(.variable) %>% 
+    str_subset(iv)
+  
+  if (!type=="both") {
+    res <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull({{type}})
+  } else {
+    sc <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull(std_coef)
+    
+    ci <- results_df %>% 
+      filter(.variable == result_var & .width == width) %>% 
+      pull(ci)
+    
+    wdth <- enexpr(width) * 100
+    
+    res <- paste0(sc, " (", wdth, "% c.i.: ", ci, ")")
+  }
+  
+  return(res)
+}
+
+by2sd <- function(var) {
+  dich <- stats::na.omit(unique(var)) %>% 
+    sort() %>% identical(c(0, 1))
+  if (dich) 
+    sd <- 1
+  else 
+    sd <- 2 * stats::sd(var, na.rm = TRUE)
+  
+  return(sd)
+}
+
+set.seed(324)
+descrep_path <- here("paper", "descriptive_representation")
+policy_path <- here("paper", "policy_adoption")
+mex90_dir <- here::here("paper", "mexico", "data-raw", "censo1990")
+mex00_dir <- here::here("paper", "mexico", "data-raw", "censo2000")
+mex05_dir <- here::here("paper", "mexico", "data-raw", "censo2005")
+mex10_dir <- here::here("paper", "mexico", "data-raw", "censo2010")
+mex20_dir <- here::here("paper", "mexico", "data-raw", "censo2020")
+
+amb_regions <- tibble(state = c("Aguascalientes", "Baja California", 
+                                "Baja California Sur", "Campeche", "Chiapas",
+                                "Chihuahua", "Ciudad de México", 
+                                "Coahuila", "Colima", "Durango", "Guanajuato",
+                                "Guerrero", "Hidalgo", 
+                                "Jalisco", "Michoacán", "Morelos", "México",
+                                "Nayarit", "Nuevo León", 
+                                "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
+                                "San Luis Potosí", "Sinaloa", "Sonora",
+                                "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", 
+                                "Yucatán", "Zacatecas", "Distrito Federal"),
+                      region = structure(c(2L, 1L, 1L, 4L, 
+                                           4L, 1L, 3L, 1L, 2L, 1L, 2L, 4L, 3L,
+                                           2L, 2L, 3L, 3L, 2L, 1L, 4L, 
+                                           3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
+                                           4L, 4L, 1L, 3L), 
+                                         levels = c("Norte",
+                                                    "Centro Occidente",
+                                                    "Centro", 
+                                                    "Sur"), class = "factor"))
+```
+
+```{r get_censo1990, eval=FALSE}
+# 1990 censo files
+walk(1:32 %>% sprintf("%02.0f", .), function(state) {
+  options(timeout = 300)
+ download.file(paste0("https://www.inegi.org.mx/contenidos/programas/ccpv/1990/microdatos/cgpv90p_", state, "_dbf.zip"),
+                      destfile = file.path(mex90_dir, paste0(state, ".zip")))
+  unzip(file.path(mex90_dir, paste0(state, ".zip")),
+        exdir = file.path(mex90_dir, state))
+})
+
+censo1990 <- map(1:32 %>% sprintf("%02.0f", .), function(state) {
+  dbf_file <- list.files(file.path(mex90_dir, state), 
+                         pattern = "m_10\\d+\\.dbf")
+  
+  rio::import(file.path(mex90_dir, 
+                        state,
+                        dbf_file))
+}) %>% 
+  list_rbind()
+
+write_feather(censo1990, sink = file.path(mex90_dir, "censo1990_raw.arrow"))
+
+# 1990 iter file
+options(timeout = 300)
+download.file("https://www.inegi.org.mx/contenidos/programas/ccpv/1990/microdatos/iter/00_nacional_1990_iter_dbf.zip",
+              destfile = file.path(mex90_dir, "00_nacional_1990_iter_dbf.zip"))
+
+unzip(file.path(mex90_dir, "00_nacional_1990_iter_dbf.zip"),
+        exdir = mex90_dir)
+
+iter1990 <- rio::import(file.path(mex90_dir, "iter_naldbf90.dbf"))
+
+write_feather(iter1990, sink = file.path(mex90_dir, "iter1990.arrow"))
+```
+
+```{r censo1990, eval=FALSE}
+censo1990_raw <- read_feather(file.path(mex90_dir, "censo1990_raw.arrow"))
+
+iter1990 <- read_feather(file.path(mex90_dir, "iter1990.arrow")) %>%
+  filter(LOC == "0000") %>% 
+  transmute(ENT = ENTIDAD,
+            NOM_ENT,
+            state = str_remove(NOM_ENT, " de .*"),
+            state = case_when(state == "M�xico" ~ "México",
+                              state == "Michoac�n" ~ "Michoacán", 
+                              state == "Nuevo Le�n" ~ "Nuevo León",
+                              state == "Quer�taro" ~ "Querétaro",
+                              state == "San Luis Potos�" ~ "San Luis Potosí",
+                              state == "Yucat�n" ~ "Yucatán",
+                              TRUE ~ state),
+            MUN,
+            NOM_MUN,
+            POBTOT = as.numeric(P_TOTAL)) %>% 
+  left_join(amb_regions, by = "state")
+
+censo1990 <- censo1990_raw %>%
+       select(ENT, MUN, TAM_LOC,
+                  SEXO, ANO_CUMP, NIV_EST, ANO_APRO, HAB_IND) %>% 
+       filter(as.numeric(ANO_CUMP) >= 18) %>% 
+         left_join(iter1990, by = join_by(ENT, MUN)) %>% 
+         transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
+                                         between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
+                                         POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
+                     factor(levels = c("Grande (más de 100,000)",
+                                       "Mediana (entre 25,000 y 100,000)",
+                                       "Pequeña (menos de 25,000)")),
+                   state = NOM_ENT,
+                   region,
+                   rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
+                     factor(levels = c("Urbano", "Rural")),
+                   stratum = as.factor(paste(muni_size, rural)),
+                   pop = POBTOT,
+                   indig = HAB_IND == "1",
+                   female = if_else(SEXO=="2", 1, 0),
+                   agegrp = cut(as.numeric(ANO_CUMP), 
+                                breaks = c(17, 24, 44, 64, 150),
+                                labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+                   years_edu = ANO_APRO,
+                   educ = case_when(NIV_EST == "0" ~ 0,
+                                    (NIV_EST == "1" & years_edu < 6) ~ 1,
+                                    (NIV_EST == "1" & years_edu == 6) |
+                                      (NIV_EST == "2" & years_edu < 3) ~ 2, # complete primary
+                                    (NIV_EST == "2" & years_edu == 3) |
+                                      (NIV_EST == "3" & years_edu < 3) ~ 3, # complete secondary
+                                    (NIV_EST == "3" & years_edu == 3) ~ 4, # complete high school
+                                    (NIV_EST == "4" | NIV_EST == "5") ~ 5, # college+
+                                    TRUE ~ NA_integer_)) %>% 
+  select(-years_edu)
+
+write_feather(censo1990, sink = file.path(mex90_dir, "censo1990.arrow"))
+```
+
+```{r get_censo2000, eval=FALSE}
+# 2000 censo files
+walk(1:32 %>% sprintf("%02.0f", .), function(state) {
+  options(timeout = 300)
+ download.file(paste0("https://www.inegi.org.mx/contenidos/programas/ccpv/2000/microdatos/muestra/cgpv2000_", state, "_dbf.zip"),
+                      destfile = file.path(mex00_dir, paste0(state, ".zip")))
+  unzip(file.path(mex00_dir, paste0(state, ".zip")),
+        exdir = file.path(mex00_dir, state))
+})
+
+censo2000a <- map(1:16 %>% sprintf("%02.0f", .), function(state) {
+  dbf_file <- list.files(file.path(mex00_dir, state), 
+                         pattern = "PER_F\\d+\\.DBF")
+  
+  rio::import(file.path(mex00_dir, 
+                        state,
+                        dbf_file))
+}) %>% 
+  list_rbind()
+
+write_feather(censo2000a, sink = file.path(mex00_dir, "censo2000a.arrow"))
+
+censo2000b <- map(17:32 %>% sprintf("%02.0f", .), function(state) {
+  dbf_file <- list.files(file.path(mex00_dir, state), 
+                         pattern = "PER_F\\d+\\.DBF")
+  
+  rio::import(file.path(mex00_dir, 
+                        state,
+                        dbf_file))
+}) %>% 
+  list_rbind()
+
+write_feather(censo2000b, sink = file.path(mex00_dir, "censo2000b.arrow"))
+
+# 2000 iter file
+options(timeout = 300)
+mex00_dir <- here::here("paper", "mexico", "data-raw", "censo2000")
+download.file("https://www.inegi.org.mx/contenidos/programas/ccpv/2000/microdatos/iter/00_nacional_2000_iter_dbf.zip",
+              destfile = file.path(mex00_dir, "00_nacional_2000_iter_dbf.zip"))
+
+unzip(file.path(mex00_dir, "00_nacional_2000_iter_dbf.zip"),
+        exdir = mex00_dir)
+
+iter2000 <- rio::import(file.path(mex00_dir, "ITER_NALDBF00.dbf"))
+
+write_feather(iter2000, sink = file.path(mex00_dir, "iter2000.arrow"))
+```
+
+```{r censo2000, eval=FALSE}
+censo2000a <- read_feather(file.path(mex00_dir, "censo2000a_raw.arrow"))
+censo2000b <- read_feather(file.path(mex00_dir, "censo2000b_raw.arrow"))
+iter2000 <- read_feather(file.path(mex00_dir, "iter2000.arrow")) %>%
+  filter(LOC == "0000") %>% 
+  transmute(ENT = ENTIDAD,
+            NOM_ENT,
+            state = str_remove(NOM_ENT, " de .*"),
+            state = case_when(state == "M�xico" ~ "México",
+                              state == "Michoac�n" ~ "Michoacán", 
+                              state == "Nuevo Le�n" ~ "Nuevo León",
+                              state == "Quer�taro" ~ "Querétaro",
+                              state == "San Luis Potos�" ~ "San Luis Potosí",
+                              state == "Yucat�n" ~ "Yucatán",
+                              TRUE ~ state),
+            MUN,
+            NOM_MUN,
+            POBTOT = as.numeric(POBTOT)) %>% 
+  left_join(amb_regions, by = "state")
+
+censo2000 <- map(list(censo2000a, censo2000b),
+                 ~ .x %>%
+       select(ENT, MUN, TAM_LOC,
+                  SEXO, EDAD, NIVELACAD, PERETN) %>% 
+       filter(as.numeric(EDAD) >= 18) %>% 
+         left_join(iter2000, by = join_by(ENT, MUN)) %>% 
+         transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
+                                         between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
+                                         POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
+                     factor(levels = c("Grande (más de 100,000)",
+                                       "Mediana (entre 25,000 y 100,000)",
+                                       "Pequeña (menos de 25,000)")),
+                   state = NOM_ENT,
+                   region,
+                   rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
+                     factor(levels = c("Urbano", "Rural")),
+                   stratum = as.factor(paste(muni_size, rural)),
+                   pop = POBTOT,
+                   indig = PERETN == 1,
+                   female = if_else(SEXO=="2", 1, 0),
+                   agegrp = cut(as.numeric(EDAD), 
+                                breaks = c(17, 24, 44, 64, 150),
+                                labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+                   educ = case_when(NIVELACAD == "00" ~ 0,
+                                    NIVELACAD == "10" ~ 1,
+                                    NIVELACAD == "20" ~ 2, # complete primary
+                                    NIVELACAD %in% c("30", "61") ~ 3, # complete secondary
+                                    NIVELACAD %in% c("40", "62") ~ 4, # complete high school
+                                    between(as.numeric(NIVELACAD), 63, 80) ~ 5,
+                                    TRUE ~ NA_integer_))) %>% 
+  list_rbind()
+
+write_feather(censo2000, sink = file.path(mex00_dir, "censo2000.arrow"))
+```
+
+```{r get_censo2010, eval=FALSE}
+# 2010 censo files
+walk(1:32 %>% sprintf("%02.0f", .), function(state) {
+  options(timeout = 300)
+  download.file(paste0("https://www.inegi.org.mx/contenidos/programas/ccpv/2010/microdatos/mpv/MC2010_", state, "_sav.zip"),
+                       destfile = file.path(mex10_dir, paste0(state, ".zip")))
+  unzip(file.path(mex10_dir, paste0(state, ".zip")),
+        exdir = file.path(mex10_dir, state))
+})
+
+censo2010 <- map(1:32 %>% sprintf("%02.0f", .), function(state) {
+  options(timeout = 300)
+  
+  sav_file <- list.files(file.path(mex10_dir, state), 
+                         pattern = "[pP]ersonas_\\d+\\.(SAV|sav)")
+  
+  rio::import(file.path(mex10_dir, 
+                        state,
+                        sav_file))
+}) %>% 
+  list_rbind()
+
+write_feather(censo2010, sink = file.path(mex10_dir, "censo2010.arrow"))
+
+
+# 2010 iter file
+download.file("https://www.inegi.org.mx/contenidos/programas/ccpv/2010/microdatos/iter/00_nacional_2010_iter_dbf.zip",
+              destfile = file.path(mex10_dir, "00_nacional_2010_iter_dbf.zip"))
+
+unzip(file.path(mex10_dir, "00_nacional_2010_iter_dbf.zip")),
+        exdir = mex10_dir)
+
+iter2010 <- rio::import(file.path(mex10_dir, "ITER_NALDBF10.dbf"))
+
+write_feather(iter2010, sink = file.path(mex10_dir, "iter2010.arrow"))
+```
+
+```{r censo2010, eval=FALSE}
+censo2010_raw <- read_feather(file.path(mex10_dir, "censo2010_raw.arrow"))
+
+iter2010 <- read_feather(file.path(mex10_dir, "iter2010.arrow")) %>%
+  filter(LOC == "0000") %>% 
+  transmute(ENT = ENTIDAD,
+            NOM_ENT,
+            state = str_remove(NOM_ENT, " de .*"),
+            state = case_when(state == "M�xico" ~ "México",
+                              state == "Michoac�n" ~ "Michoacán",
+                              state == "Nuevo Le�n" ~ "Nuevo León",
+                              state == "Quer�taro" ~ "Querétaro",
+                              state == "San Luis Potos�" ~ "San Luis Potosí",
+                              state == "Yucat�n" ~ "Yucatán",
+                              TRUE ~ state),
+            MUN,
+            NOM_MUN,
+            POBTOT = as.numeric(POBTOT)) %>% 
+  left_join(amb_regions, by = "state")
+
+censo2010 <- censo2010_raw %>%
+  select(ENT, MUN, TAM_LOC, tam_loc,
+         SEXO, EDAD, NIVACAD, PERETN) %>% 
+  filter(as.numeric(EDAD) >= 18) %>% 
+  left_join(iter2000, by = join_by(ENT, MUN)) %>% 
+  transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
+                                  between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
+                                  POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
+              factor(levels = c("Grande (más de 100,000)",
+                                "Mediana (entre 25,000 y 100,000)",
+                                "Pequeña (menos de 25,000)")),
+            state = NOM_ENT,
+            region,
+            tam_loc = if_else(!is.na(TAM_LOC), TAM_LOC, tam_loc),
+            rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
+              factor(levels = c("Urbano", "Rural")),
+            stratum = as.factor(paste(muni_size, rural)),
+            pop = POBTOT,
+            indig = PERETN == 1,
+            female = if_else(SEXO=="2", 1, 0),
+            agegrp = cut(as.numeric(EDAD), 
+                         breaks = c(17, 24, 44, 64, 150),
+                         labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+            educ = case_when(NIVACAD == "00" ~ 0,
+                             NIVACAD == "01" ~ 1,
+                             NIVACAD == "02" ~ 2, # complete primary
+                             NIVACAD %in% c("03", "06") ~ 3, # complete secondary
+                             NIVACAD %in% c("04", "05", "07") ~ 4, # complete high school
+                             as.numeric(NIVACAD) >= 8 ~ 5)) # college+
+
+write_feather(censo2010, sink = file.path(mex10_dir, "censo2010.arrow"))
+```
+
+``` {r get_censo2020, eval=FALSE}
+# 2020 censo files
+mex20_dir <- here::here("paper", "mexico", "data-raw", "censo2020")
+
+state_abbs <- c("ags", "bc", "bcs", "cam", "chs", "chh",
+                "cdmx", "coa", "col", "dgo", "mex", "gto",
+                "gro", "hgo", "jal", "mich", "mor", "nay", 
+                "nl", "oax", "pue", "qro", "qroo", "slp",
+                "sin", "son", "tab", "tam", "tla", "ver",
+                "yuc", "zac")
+
+censo2020 <- map(state_abbs, function(state) {
+  options(timeout = 300)
+  download.file(paste0("http://en.www.inegi.org.mx/contenidos/programas/ccpv/2020/microdatos/Censo2020_CA_", state, "_sav.zip"),
+                       destfile = file.path(mex20_dir, paste0(state, ".zip")))
+  unzip(file.path(mex20_dir, paste0(state, ".zip")),
+        exdir = file.path(mex20_dir, state))
+  
+  sav_file <- list.files(file.path(mex20_dir, state), 
+                         pattern = "Personas\\d+\\.(SAV|sav)")
+  
+  rio::import(file.path(mex20_dir, 
+                        state,
+                        sav_file))
+}) %>% 
+  list_rbind()
+
+write_feather(censo2020, sink = file.path(mex20_dir, "censo2020_raw.arrow"))
+
+# 2020 iter file 
+download.file("https://www.inegi.org.mx/contenidos/programas/ccpv/2020/microdatos/iter/ITER_NAL_2020_csv.zip",
+              destfile = file.path(mex20_dir, "ITER_NAL_2020_csv.zip"))
+
+unzip(file.path(mex20_dir, "ITER_NAL_2020_csv.zip")),
+        exdir = file.path(mex20_dir))
+
+iter2020 <- read_csv(file.path(mex20_dir, "ITER_NALCSV20.csv"))
+
+write_feather(iter2020, sink = file.path(mex20_dir, "iter2020.arrow"))
+```
+
+```{r censo2020, eval=FALSE}
+censo2020_raw <- read_feather(file.path(mex20_dir, "censo2020_raw.arrow"))
+
+iter2020 <- read_feather(file.path(mex20_dir, "iter2020.arrow")) %>%
+  filter(LOC == "0000") %>% 
+  transmute(ENT = ENTIDAD,
+            NOM_ENT,
+            state = str_remove(NOM_ENT, " de .*"),
+            MUN,
+            NOM_MUN,
+            POBTOT = as.numeric(POBTOT)) %>% 
+  left_join(amb_regions, by = "state")
+
+censo2020 <- censo2020_raw %>%
+  select(ENT, MUN, TAMLOC,
+         SEXO, EDAD, NIVACAD, PERTE_INDIGENA) %>%
+  filter(EDAD >= 18) %>% 
+  left_join(iter2020, by = c("ENT", "MUN")) %>% 
+  transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
+                                  between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
+                                  POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
+              factor(levels = c("Grande (más de 100,000)",
+                                "Mediana (entre 25,000 y 100,000)",
+                                "Pequeña (menos de 25,000)")),
+            state,
+            region,
+            rural = if_else(TAMLOC == 1, "Rural", "Urbano") %>% 
+              factor(levels = c("Urbano", "Rural")),
+            stratum = as.factor(paste(muni_size, rural)),
+            pop = POBTOT,
+            indig = PERTE_INDIGENA == 1,
+            female = if_else(SEXO==3, 1, 0),
+         agegrp = cut(EDAD, 
+                      breaks = c(17, 24, 44, 64, 150),
+                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+         educ = case_when(NIVACAD == "00" ~ 0,
+                          NIVACAD == "01" ~ 1,
+                          NIVACAD %in% c("02", "06") ~ 2, # complete primary
+                          NIVACAD %in% c("03", "07") ~ 3, # complete secondary
+                          NIVACAD %in% c("04", "05", "08") ~ 4, # complete high school
+                          as.numeric(NIVACAD) >= 9 ~ 5))
+
+write_feather(censo2020, sink = file.path(mex20_dir, "censo2020.arrow"))
+```
+
+```{r poststrat_df, eval=FALSE}
+censo1990 <- read_feather(file.path(mex90_dir, "censo1990.arrow")) %>% 
+  mutate(year = 1990)
+censo2000 <- read_feather(file.path(mex00_dir, "censo2000.arrow")) %>% 
+  mutate(year = 2000)
+censo2010 <- read_feather(file.path(mex10_dir, "censo2010.arrow")) %>% 
+  mutate(year = 2010) %>% 
+  select(-tam_loc)
+censo2020 <- read_feather(file.path(mex20_dir, "censo2020.arrow")) %>% 
+  mutate(year = 2020)
+
+poststrat_9020 <- map(list(censo1990, censo2000, censo2010, censo2020), 
+                      ~ .x %>%
+                        filter(complete.cases(.)) %>% 
+                        mutate(stratum = fct_drop(stratum),
+                               state = if_else(state == "Distrito Federal",
+                                               "Ciudad de México", 
+                                               state)) %>% 
+                        group_by(year, state, region, indig, female,
+                                 agegrp, educ, stratum) %>%
+                        summarize(n = sum(pop), .groups = "drop")) %>% 
+  list_rbind()
+
+poststrat_all <- poststrat_9020 %>% 
+  select(-region) %>% 
+  complete(year = 1990:2020, state, indig,
+           female, agegrp, educ, stratum) %>% 
+  mutate(n = if_else(is.na(n) & year %% 10 == 0, 0, n)) %>% 
+  left_join(amb_regions, by = "state") %>% 
+  group_by(state, indig, female, agegrp, educ, stratum) %>% 
+  mutate(n = na_interpolation(n)) %>% 
+  arrange(state, indig, female, agegrp, educ, stratum, year)
+
+write_feather(poststrat_all, 
+              sink = file.path(mex20_dir, "..", "poststrat_all.arrow"))
+```
+
+```{r pge_surveys_all}
+
+
+
+as_factor_stata <- function(x) {
+  x %>% 
+    labelled::labelled(., attr(., "labels")) %>%
+    labelled::to_factor(levels = "labels", sort_levels = "values")
+}
+
+amb_mexico_combo <- rio::import(here::here("..", 
+                                           "Data",
+                                           "dcpo_surveys", 
+                                           "misc_files",
+                                           "amb_files", 
+                                           "amb_mexico_combo",
+                                           "amb_mexico_combo.RData"),
+                                trust = TRUE) %>% 
+  mutate(region = as_factor_stata(estratopri),
+         state = as_factor_stata(prov),
+         state = case_when(state == "Distrito Federal" ~ "Ciudad de México",
+                           state == "Estado de México" ~ "México",
+                           TRUE ~ state),
+         muni_size = as_factor_stata(estratosec),
+         rural = as_factor_stata(ur),
+         stratum = as.factor(paste(muni_size, rural)),
+         polileader4 = vb50,
+         politicianecon3 = vb52,
+         quota7 =	gen6,
+         female = q1 - 1,
+         agegrp = cut(q2, 
+                      breaks = c(17, 24, 44, 64, 150),
+                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+         educ = case_when(ed == 0 ~ 0,
+                          ed < 6 ~ 1,
+                          between(ed, 6, 8) ~ 2,
+                          between(ed, 9, 11) ~ 3,
+                          ed == 12 ~ 4,
+                          ed > 12 ~ 5),
+         indig = etid == 3) 
+
+```
+
+```{r mr}
+library(brms)
+
+cmr <- brm(polileader4 ~ (1|indig) + (1|female) + (1|indig:female) +
+             (1|agegrp) + (1|educ) + (1|region) + (1|stratum) + 
+             (1|stratum:region) + (1|state) + (1|stratum:state),
+           family = "cumulative",
+           data = amb_mexico_combo,
+           chains = 4, 
+           cores = 4, 
+           control = list(adapt_delta = 0.99, max_treedepth = 14),
+           backend = "cmdstanr")
+
+deep_cmr <- brm(polileader4 ~ (1|indig) +  (1|female) + (1|indig:female) +
+                  (1|agegrp) + (1|region) + (1|educ) + (1|state) + (1|stratum) +
+                  (1|stratum:region) + (1|stratum:state) + (1|indig:agegrp) +
+                  (1|indig:educ) + (1|female:agegrp) + (1|agegrp:educ) +
+                  (1|indig:female:agegrp) + (1|indig:female:educ) +
+                  (1|female:agegrp:educ) + (1|indig:state) +
+                  (1|female:state) + (1|educ:state) + (1|agegrp:state) +
+                  (1|indig:region) + (1|female:region) + (1|educ:region) +
+                  (1|agegrp:region) + (1|indig:stratum) + (1|female:stratum) +
+                  (1|educ:stratum) + (1|agegrp:stratum),
+                family = "cumulative",
+                data = amb_mexico_combo,
+                chains = 4, 
+                cores = 4, 
+                control = list(adapt_delta = 0.99, max_treedepth = 14),
+                backend = "cmdstanr")
+```
+
+```{r}
+m1 <- brm(
+  pge | thres(thres, gr = item) ~ Intercept +
+    factor(item) +  
+    (1 | caseid) + 
+    s(year) +
+    s(year, agegrp, bs="fs") +
+    s(year, female, bs="fs") +
+    s(year, educ, bs="fs"),
+  data = amb_mexico_combo,
+  family = cumulative("probit", threshold = "sum_to_zero"),
+  prior = prior(normal(0, 1.5), class = "b") +
+    prior(normal(0, 2), class = "sds") +
+    prior(normal(0, 1.5), class = "Intercept"),
+  chains = 4,
+  cores = 4,
+  iter = 1000,
+  warmup = 500,
+  inits = 0,
+  file = "models/at"
+)
+
+
+```
+
+
+
+```{r bd_leg_old_propietary, eval=FALSE}
+state_files_dir <- here::here("paper/mexico/data-raw/from_des_to_subs_rep-main/01_data/ch_3/electoral_results/electas")
+
+state_files <- list.files(state_files_dir)
+
+bd_leg_old_propietary <- map(state_files, \(file) {
+  print(file)
+  file_path <- file.path(state_files_dir, file)
+  file_sheet <- excel_sheets(file_path) %>% 
+    str_subset("Históric")
+  read_excel(file.path(state_files_dir, file), 
+             sheet = file_sheet,
+             skip = 1) %>% 
+    clean_names() %>% 
+    select(-c(circunscripcion, starts_with("x")))
+}) %>% 
+  list_rbind() %>%
+  transmute(state = estado,
+            period = periodo,
+            last_name = apellido,
+            name = nombre,
+            gender = str_to_sentence(sexo) %>% 
+              str_detect("^H|^Ma") %>%
+              if_else("Male", "Female"),
+            party = partido_politico,
+            propietary_alternate = propietario_o_suplente %>% 
+              str_detect("Pr") %>% 
+              if_else("Propietary", "Alternate"),
+            electoral_rule = str_to_title(principio_de_representacion) %>% 
+              str_detect("^M") %>% 
+              if_else("Majority", "Proportional"),
+            electoral_district = distrito_electoral,
+            electoral_district_loc = distrito_electoral_local) %>% 
+  filter(propietary_alternate == "Propietary")
+
+save(bd_leg_old_propietary, 
+     file = here::here("paper", "mexico",
+                       "data-raw", "bd_leg_old_propietary.rda"))
+```
+
+```{r bd_leg_all}
+bd_leg_old_propietary <- rio::import(here::here("paper", "mexico",
+                       "data-raw", "bd_leg_old_propietary.rda"))
+
+# Both principles ----
+bd_leg_old_propietary_all <- 
+  bd_leg_old_propietary %>% 
+  # Calculate number and proportion of legislators by state, gender and legislature, as well as total number of seats by legislature
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(n_female_legislators = sum(gender == "Female"), 
+            n_male_legislators = sum(gender == "Male"),
+            total_legislators = n(),
+            prop_female_legislators = n_female_legislators/total_legislators,
+            prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything())
+
+# Majority rule ----
+bd_leg_old_propietary_mr <- 
+  bd_leg_old_propietary %>% 
+  # Filter in order to only keep the observations of legislators elected by majority
+  filter(electoral_rule == "Majority") %>% 
+  # Calculate number and proportion of legislators by state, gender and legislature, as well as total number of seats by legislature
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(n_female_legislators = sum(gender == "Female"), 
+            n_male_legislators = sum(gender == "Male"),
+            total_legislators = n(),
+            prop_female_legislators = n_female_legislators/total_legislators,
+            prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(electoral_rule = "Mayority",
+         start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything())
+
+# Proportional representation ----
+bd_leg_old_propietary_pr <- 
+  bd_leg_old_propietary %>% 
+  # Filter in order to only keep the observations of legislators elected by proportional representation
+  filter(electoral_rule == "Proportional") %>% 
+  # Calculate number and proportion of legislators by state, gender and legislature, as well as total number of seats by legislature
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(n_female_legislators = sum(gender == "Female"), 
+            n_male_legislators = sum(gender == "Male"),
+            total_legislators = n(),
+            prop_female_legislators = n_female_legislators/total_legislators,
+            prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(electoral_rule = "Proportional") %>% 
+  mutate(start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything())
+
+### Import data for the last two legislatures ----
+bd_leg_new <- 
+  read_excel(file.path(state_files_dir,
+                       "..",
+                       "Congreso estatales base de datos.xlsx"),
+             skip = 1) %>% 
+  clean_names() %>% 
+  rename(state = x1,
+         period = x2,
+         party = x3,
+         male_fptp = hombres_4,
+         female_fptp = mujeres_5,
+         male_pr = hombres_6,
+         female_pr = mujeres_7,
+         total = x8)
+
+## Calculate number and proportion of legislators by state, gender and legislature ----
+
+# All ----
+bd_leg_new_all <- 
+  bd_leg_new %>% 
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(female_fptp = sum(female_fptp),
+            female_pr = sum(female_pr),
+            male_fptp = sum(male_fptp),
+            male_pr = sum(male_pr)) %>% 
+  mutate(n_female_legislators = female_fptp + female_pr, 
+         n_male_legislators = male_fptp + male_pr) %>% 
+  ungroup() %>% 
+  select(-c(contains("fptp"), contains("_pr"))) %>% 
+  mutate(total_legislators = n_female_legislators + n_male_legislators,
+         prop_female_legislators = n_female_legislators/total_legislators,
+         prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything())
+
+# Majority rule ----
+bd_leg_new_mr <- 
+  bd_leg_new %>% 
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(n_female_legislators = sum(female_fptp), 
+            n_male_legislators = sum(male_fptp)) %>% 
+  ungroup() %>% 
+  mutate(total_legislators = n_female_legislators + n_male_legislators,
+         prop_female_legislators = n_female_legislators/total_legislators,
+         prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  mutate(electoral_rule = "Majority") %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything())
+
+# Proportional representation ----
+bd_leg_new_pr <- 
+  bd_leg_new %>% 
+  group_by(state, period, .drop = FALSE) %>% 
+  summarise(n_female_legislators = sum(female_pr), 
+            n_male_legislators = sum(male_pr)) %>% 
+  ungroup() %>% 
+  mutate(total_legislators = n_female_legislators + n_male_legislators,
+         prop_female_legislators = n_female_legislators/total_legislators,
+         prop_male_legislators = n_male_legislators/total_legislators) %>% 
+  ungroup() %>% 
+  mutate(electoral_rule = "Proportional") %>% 
+  # Create variable to identify the year when each legislature started
+  mutate(start_yr = as.numeric(str_sub(period, start = 1, end = 4))) %>% 
+  select(state, period, start_yr, everything()) 
+
+### Create final tibbles, binding data from old and new datasets ----
+# All ----
+bd_leg_all <- 
+  bd_leg_old_propietary_all %>% 
+  # Create n_legislature to later eliminate data for the last two legislatures
+  group_by(state) %>% 
+  mutate(n_legislature = rank(-start_yr)) %>% 
+  ungroup() %>% 
+  # Eliminate data for the last two legislatures
+  filter(n_legislature > 2) %>% 
+  select(-n_legislature) %>% 
+  # Bind data from new dataset for the last two legislatures 
+  bind_rows(bd_leg_new_all) %>% 
+  # Arrange observations by state and start year
+  arrange(state, start_yr) %>% 
+  # Create lagged version of prop_female_legislators
+  group_by(state) %>% 
+  mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
+  ungroup() 
+
+# Majority rule ----
+bd_leg_mr <- 
+  bd_leg_old_propietary_mr %>% 
+  # Create n_legislature to later eliminate data for the last two legislatures
+  group_by(state) %>% 
+  mutate(n_legislature = rank(-start_yr)) %>% 
+  ungroup() %>% 
+  # Eliminate data for the last two legislatures
+  filter(n_legislature > 2) %>% 
+  select(-n_legislature) %>% 
+  # Bind data from new dataset for the last two legislatures 
+  bind_rows(bd_leg_new_mr) %>% 
+  # Arrange observations by state and start year
+  arrange(state, start_yr) %>% 
+  # Create lagged version of prop_female_legislators
+  group_by(state) %>% 
+  mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
+  ungroup() 
+
+# Proportional representation ----
+bd_leg_pr <- 
+  bd_leg_old_propietary_pr %>% 
+  # Create n_legislature to later eliminate data for the last two legislatures
+  group_by(state) %>% 
+  mutate(n_legislature = rank(-start_yr)) %>% 
+  ungroup() %>% 
+  # Eliminate data for the last two legislatures
+  filter(n_legislature > 2) %>% 
+  select(-n_legislature) %>% 
+  # Bind data from new dataset for the last two legislatures 
+  bind_rows(bd_leg_new_pr) %>% 
+  # Arrange observations by state and start year
+  arrange(state, start_yr) %>% 
+  # Create lagged version of prop_female_legislators
+  group_by(state) %>% 
+  mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
+  ungroup() 
+
+
+```
