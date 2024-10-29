@@ -31,6 +31,8 @@ paper/.quarto/
 paper/slides/*
 paper/*/slides/*
 paper/data/*
+paper/mexico/data-raw/censo*
+paper/mexico/data-raw/from_des_to_subs*
 proposal/*
 paper/measuring_egalitarianism/data/1000_political/*
 paper/measuring_egalitarianism/data/1500_workplace/*
