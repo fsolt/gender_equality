@@ -4,13 +4,14 @@ Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
 
 Some observers see in events like these signs of a recurring backlash in the public against gender equality.
 
-@Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.]
+@Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.] 
 
 A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
 The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against the policy [@Wlezien1995].
+More on backlash: @Bishin2016; @Flores2016; @Redman2018 and works cited
 
-
-
+@Bishin2016, 625: "In some cases, the term [backlash] is used to refer to a sharply negative change in public opinion in response to policy change, while in others, backlash merely reflects actions (e.g., protests, voting) taken by those who have always held negative opinions toward the group."
+@Bishin2016, 626: "We define opinion backlash as a large, negative, and enduring shift in opinion against a policy or group that occurs in response to some event that threatens the status quo. Backlash may be evidenced by changes in any of several aspects of opinion, including policy positions, the intensity of feeling about an issue, or the attitudes expressed toward members of the group."
 
 
 Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [see @Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
@@ -22,7 +23,7 @@ But public opinion scholars have also found that many 'policies create their own
 @Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
 For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and, in fact, the U.S. public has consistently favored the continued expansion of the program.
 
-So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt backlash?
+So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt a 'thermostatic' backlash?
 
 The public's responsiveness to rising gender equality is really only part of the relationship between opinion and policy: if and how parties and governments represent the public's attitudes is the other part.
 Do parties and governments respond to gender egalitarian public opinion by running more successful women candidates and adopting policies that advance gender equality?
@@ -96,7 +97,7 @@ The hazard of a one-sided approach is the risk of simultaneity bias due to endog
 The book proceeds as follows.
 In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
 
-![This Book's Analyses](diagram.jpeg){#fig-diagram}
+![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='t' height=3in}
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
