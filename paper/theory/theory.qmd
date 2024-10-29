@@ -85,14 +85,14 @@ institutional veto players
 
 The argument for representation may appear strong, but to see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
 
-How policy representation occurs: Is electoral turnover necessary or do legislators of all stripes respond to the public? (The latter is the 'policy accommodation' mechanism, per @Erikson2002.)  In this context, is it necessary for women to replace men in office for gender egalitarian policies to be adopted, or do men legislators also respond to macroegalitarianism in the public?
+How policy representation occurs: Is electoral turnover necessary or do legislators of all stripes respond to the public? (The latter is the 'policy accommodation' mechanism, per @Erikson2002; @Caughey2018 calls them 'selection' and 'adaptation.')  In this context, is it necessary for women to replace men in office for gender egalitarian policies to be adopted, or do men legislators also respond to macroegalitarianism in the public?
 
 
 ## Public Responsiveness: From Politics and Policy to Opinion
 
 @Busemeyer2021 reviews.
 
-Thermostatic public opinion: opinion moves opposite to policy [@Wlezien1995; @Soroka2010; @Atkinson2021]
+Thermostatic public opinion: opinion moves opposite to policy [@Wlezien1995; @Soroka2010; @Atkinson2021]; on backlash: @Bishin2016 and works cited
 
 Policies make their own constituencies: opinion moves to further support policy [@Svallfors2010; @Soss2007]
 
@@ -114,25 +114,40 @@ This means, mercifully, that we don't have to also control for the strength of t
 ## The Scope of the Theory
 Before we proceed further, we need to define the universe for the study.
 As always, there are competing concerns.  
-On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions.
-Too much work in political science 
-The desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work [see @Wilson2022].
+On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions [see, e.g., @King2021, 121].
+T
+Our measure of macroegalitarianism, the Public Gender Egalitarianism scores, were created to allow 
+
+The Public Gender Egalitarianism scores we present in the next chapter desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work [see @Wilson2022].
 But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
-The theories outlined above presuppose a certain minimum level of democracy---at least the minimal Przeworkski, Alvarez, Cheibub, and Limongi definition of democracy, "contested elections with broad suffrage for the most important offices"---and so countries that don't clear that very low bar should be excluded.^[
+The theories outlined above presuppose a certain minimum level of democracy---at least the minimal definition of democracy presented by @Przeworski2000 [, 14-16] as "a regime in which those who govern are selected through contested elections" ---and so countries that don't clear that very low bar should be excluded.^[
 This is not to say that governments in authoritarian countries do not at least sometimes work to represent public opinion.
 In fact, there is reason to think---and evidence to show---that they sometimes do [see, e.g., @Tang2016 on China; @Lueders2022 on the German Democratic Republic].
 Our point here is that the mechanisms through which public opinion may be translated to policy in authoritarian regimes is different from those suggested in the theories outlined above, and so for present purposes we should set those cases aside.]
 And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there---widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2015; @Paxton2021, 156-157].
-So in light of these considerations, we are looking at advanced democracies.
-It's important, though, to be sure to not interpret "advanced democracies" as simply "western Europe and the British offshoots."
-And, further, one doesn't want to open the door to the garden of forking paths that comes with hand-picking countries.
-So we settled on the 38 countries of the current OECD (see @fig-oecdmap).
-Yes, it's the usual suspects of most of Europe plus the United States and 
-Canada-Australia-New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
-Or, you know, about one China's worth of people; it's easy to see that there's still a lot of other, unshaded countries to better understand also.
-But the theories outlined in this chapter apply to these darker shaded countries, so they will be the subject of this book.
+In light of these considerations, we will set aside for future research consideration of the processes of representation and responsiveness in authoritarian or developing countries and focus here on the advanced democracies.
 
-```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD", fig.height = 5.5, fig.width = 7.5}
+It is important, however, to be sure to not interpret "advanced democracies" as simply "Western Europe and North America."
+There are certainly countries with advanced economies and long-standing democracies that are found beyond those regions.
+Japan is an obvious example.
+Yet we do not want to engage in the exercise of picking the countries that compose our sample by hand.
+For example, should the sample of advanced democracies include Taiwan?
+Despite its high-tech economy and vibrant democracy, some have argued that it should not on the grounds that Taiwan is "not sovereign" [e.g., @Stockemer2012, 772].
+What about Hungary or Turkey?
+Expansive government control over the media and other signs of autocratization has led to much discussion of democratic backsliding in both countries [see, e.g., @Nakai2023].
+The issue with exercising judgment in this way is that it opens the door to "the garden of forking paths," in which such decisions are accepted or revisited by researchers depending on the results obtained [@Gelman2013a].
+That is, researchers might choose to include or exclude one or more of these arguable cases, and then, if and only if they find the results of the consequent analyses to be in some way unsatisfactory, find themselves reversing the decision.
+Choices like these, also known as "researcher degrees of freedom," and the fragility of the findings that result have attracted growing attention among political scientists in recent years [see, e.g., @Wuttke2019; @Breznau2022; @Hu2024a].
+
+Committing to rely on a prior and external determination of which countries are "advanced democracies" minimizes this risk.^[
+Of course, it does not _eliminate_ the risk implied by researcher degrees of freedom, as even this decision may be contingent on the results obtained: taking a single path through the garden does not eradicate its many forks.]
+For this project, the current membership of the Organisation for Economic Co-operation and Development (OECD) serves as that prior, external determination.
+The OECD comprises 38 countries (see @fig-oecdmap).
+Those countries do include the usual suspects of most of Europe plus the United States, Canada, Australia, and New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
+As @fig-oecdmap makes clear, there are still many other, unshaded countries to better understand also.
+But the theories outlined in this chapter apply to the shaded countries, so they will be the subject of this book.
+
+```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD", fig.width = 7.5}
 #| label: fig-oecdmap
 
 world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
