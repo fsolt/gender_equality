@@ -588,9 +588,12 @@ censo1990 <- censo1990_raw %>%
                   SEXO, ANO_CUMP, NIV_EST, ANO_APRO, HAB_IND) %>% 
        filter(as.numeric(ANO_CUMP) >= 18) %>% 
          left_join(iter1990, by = join_by(ENT, MUN)) %>% 
-         transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
-                                         between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
-                                         POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
+         transmute(muni_size = case_when(POBTOT > 100000 ~
+                                           "Grande (más de 100,000)",
+                                         between(POBTOT, 25000, 100000) ~
+                                           "Mediana (entre 25,000 y 100,000)",
+                                         POBTOT < 25000 ~
+                                           "Pequeña (menos de 25,000)") %>% 
                      factor(levels = c("Grande (más de 100,000)",
                                        "Mediana (entre 25,000 y 100,000)",
                                        "Pequeña (menos de 25,000)")),
@@ -604,10 +607,11 @@ censo1990 <- censo1990_raw %>%
                    female = if_else(SEXO=="2", 1, 0),
                    agegrp = cut(as.numeric(ANO_CUMP), 
                                 breaks = c(17, 24, 44, 64, 150),
-                                labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+                                labels = c("18 to 24", "25 to 44",
+                                           "45 to 64", "65+")),
                    years_edu = ANO_APRO,
-                   educ = case_when(NIV_EST == "0" ~ 0,
-                                    (NIV_EST == "1" & years_edu < 6) ~ 1,
+                   educ = case_when(((NIV_EST == "0" | NIV_EST == "1") &
+                                       years_edu < 6) ~ 1, # less than primary
                                     (NIV_EST == "1" & years_edu == 6) |
                                       (NIV_EST == "2" & years_edu < 3) ~ 2, # complete primary
                                     (NIV_EST == "2" & years_edu == 3) |
@@ -711,8 +715,8 @@ censo2000 <- map(list(censo2000a, censo2000b),
                    agegrp = cut(as.numeric(EDAD), 
                                 breaks = c(17, 24, 44, 64, 150),
                                 labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
-                   educ = case_when(NIVELACAD == "00" ~ 0,
-                                    NIVELACAD == "10" ~ 1,
+                   educ = case_when(NIVELACAD == "00" |
+                                      NIVELACAD == "10" ~ 1,
                                     NIVELACAD == "20" ~ 2, # complete primary
                                     NIVELACAD %in% c("30", "61") ~ 3, # complete secondary
                                     NIVELACAD %in% c("40", "62") ~ 4, # complete high school
@@ -803,8 +807,7 @@ censo2010 <- censo2010_raw %>%
             agegrp = cut(as.numeric(EDAD), 
                          breaks = c(17, 24, 44, 64, 150),
                          labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
-            educ = case_when(NIVACAD == "00" ~ 0,
-                             NIVACAD == "01" ~ 1,
+            educ = case_when(NIVACAD == "00" | NIVACAD == "01" ~ 1,
                              NIVACAD == "02" ~ 2, # complete primary
                              NIVACAD %in% c("03", "06") ~ 3, # complete secondary
                              NIVACAD %in% c("04", "05", "07") ~ 4, # complete high school
@@ -889,8 +892,7 @@ censo2020 <- censo2020_raw %>%
          agegrp = cut(EDAD, 
                       breaks = c(17, 24, 44, 64, 150),
                       labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
-         educ = case_when(NIVACAD == "00" ~ 0,
-                          NIVACAD == "01" ~ 1,
+         educ = case_when(NIVACAD == "00" | NIVACAD == "01" ~ 1, # less than primary
                           NIVACAD %in% c("02", "06") ~ 2, # complete primary
                           NIVACAD %in% c("03", "07") ~ 3, # complete secondary
                           NIVACAD %in% c("04", "05", "08") ~ 4, # complete high school
@@ -924,7 +926,7 @@ poststrat_9020 <- map(list(censo1990, censo2000, censo2010, censo2020),
 
 poststrat_all <- poststrat_9020 %>% 
   select(-region) %>% 
-  complete(year = 1990:2020, state, indig,
+  complete(year = 1990:2021, state, indig,
            female, agegrp, educ, stratum) %>% 
   mutate(n = if_else(is.na(n) & year %% 10 == 0, 0, n)) %>% 
   left_join(amb_regions, by = "state") %>% 
@@ -1201,8 +1203,8 @@ all_sets <- list_rbind(all_sets_list) %>%
          item = factor(item),
          state = factor(state),
          var_agegrp = cut(var_age, 
-                          breaks = c(17, 30, 64, 150),
-                          labels = c("18 to 30", "30 to 64", "65+")),
+                      breaks = c(17, 24, 44, 64, 150),
+                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
          var_rural = factor(var_rural,
                             levels = c(FALSE, TRUE),
                             labels = c("urban", "rural")),
@@ -1307,10 +1309,8 @@ m1 <- brm(target | thres(thres, gr = item) ~ Intercept +
             (1|region) + (1|stratum) + (1|state) +
             (1|stratum:region) + (1|stratum:state) +
             (1|var_indig) + (1|var_indig:var_female) +
-            (1|var_agegrp) + (1|var_educ) +
-            s(year) +
-            s(year, var_female, bs="fs") +
-            s(year, var_educ, bs="fs"),
+            (1|var_agegrp) + (1|var_female) + (1|var_educ) +
+            s(year),
           data = all_sets,
           family = cumulative("probit", threshold = "sum_to_zero"),
           prior = prior(normal(0, 1.5), class = "b") +
@@ -1322,6 +1322,7 @@ m1 <- brm(target | thres(thres, gr = item) ~ Intercept +
           cores = 4, 
           control = list(adapt_delta = 0.99, max_treedepth = 14),
           backend = "cmdstanr",
+          file_refit = "on_change",
           file = "data/m1")
 
 
