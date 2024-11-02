@@ -1189,10 +1189,7 @@ for (i in seq(nrow(vars_table))) {
            item = v$item,
            thres = as.numeric(str_extract(v$item, "\\d+"))) %>% 
     bind_cols(t_data1) %>%
-    left_join(amb_regions2, by = join_by(var_state)) %>% 
-    mutate(var_agegrp = cut(var_age, 
-                      breaks = c(17, 24, 44, 64, 150),
-                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")))
+    left_join(amb_regions2, by = join_by(var_state))
   
   all_sets_list[[i]] <- vars1
   rm(vars1)
@@ -1200,8 +1197,12 @@ for (i in seq(nrow(vars_table))) {
 
 all_sets <- list_rbind(all_sets_list) %>% 
   filter(complete.cases(.)) %>% 
-  mutate(Intercept = 1, 
+  mutate(Intercept = 1,
+         item = factor(item),
          state = factor(state),
+         var_agegrp = cut(var_age, 
+                          breaks = c(17, 30, 64, 150),
+                          labels = c("18 to 30", "30 to 64", "65+")),
          var_rural = factor(var_rural,
                             levels = c(FALSE, TRUE),
                             labels = c("urban", "rural")),
@@ -1302,12 +1303,14 @@ all_sets <- read_feather(here::here("paper",
                                    "all_sets.arrow"))
 
 m1 <- brm(target | thres(thres, gr = item) ~ Intercept +
-            factor(item) + 
+            item + 
             (1|region) + (1|stratum) + (1|state) +
             (1|stratum:region) + (1|stratum:state) +
-            (1|var_indig) + (1|var_female) + (1|var_indig:var_female) +
+            (1|var_indig) + (1|var_indig:var_female) +
             (1|var_agegrp) + (1|var_educ) +
-            s(year),
+            s(year) +
+            s(year, var_female, bs="fs") +
+            s(year, var_educ, bs="fs"),
           data = all_sets,
           family = cumulative("probit", threshold = "sum_to_zero"),
           prior = prior(normal(0, 1.5), class = "b") +
