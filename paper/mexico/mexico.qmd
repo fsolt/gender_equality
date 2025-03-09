@@ -483,49 +483,50 @@ mex05_dir <- here::here("paper", "mexico", "data-raw", "censo2005")
 mex10_dir <- here::here("paper", "mexico", "data-raw", "censo2010")
 mex20_dir <- here::here("paper", "mexico", "data-raw", "censo2020")
 
-amb_regions <- tibble(state = c("Aguascalientes", "Baja California", 
-                                "Baja California Sur", "Campeche", "Chiapas",
-                                "Chihuahua", "Ciudad de México", 
-                                "Coahuila", "Colima", "Durango", "Guanajuato",
-                                "Guerrero", "Hidalgo", 
-                                "Jalisco", "Michoacán", "Morelos", "México",
-                                "Nayarit", "Nuevo León", 
-                                "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
-                                "San Luis Potosí", "Sinaloa", "Sonora",
-                                "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", 
-                                "Yucatán", "Zacatecas", "Distrito Federal"),
-                      region = structure(c(2L, 1L, 1L, 4L, 
-                                           4L, 1L, 3L, 1L, 2L, 1L, 2L, 4L, 3L,
-                                           2L, 2L, 3L, 3L, 2L, 1L, 4L, 
-                                           3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
+censo_regions <- tibble(state = c("Aguascalientes", "Baja California", 
+                                  "Baja California Sur", "Campeche", "Chiapas",
+                                  "Chihuahua", "Ciudad de México", 
+                                  "Coahuila", "Colima", "Durango", "Guanajuato",
+                                  "Guerrero", "Hidalgo", 
+                                  "Jalisco", "Michoacán", "Morelos", "México",
+                                  "Nayarit", "Nuevo León", 
+                                  "Oaxaca", "Puebla", "Querétaro",
+                                  "Quintana Roo", "San Luis Potosí", "Sinaloa",
+                                  "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
+                                  "Veracruz", "Yucatán", "Zacatecas",
+                                  "Distrito Federal"),
+                        region = structure(c(2L, 1L, 1L, 4L, 
+                                             4L, 1L, 3L, 1L, 2L, 1L, 2L, 4L, 3L,
+                                             2L, 2L, 3L, 3L, 2L, 1L, 4L, 
+                                             3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
                                            4L, 4L, 1L, 3L), 
                                          levels = c("Norte",
                                                     "Centro Occidente",
                                                     "Centro", 
                                                     "Sur"), class = "factor"))
 
-amb_regions2 <- tibble(var_state = 1:32,
-                       state = c("Aguascalientes", "Baja California", 
-                            "Baja California Sur", "Campeche", "Chiapas",
-                            "Chihuahua", "Coahuila", "Colima", 
-                            "Distrito Federal",
-                            "Durango", "Guanajuato",
-                            "Guerrero", "Hidalgo", 
-                            "Jalisco", "Michoacán", "Morelos", "México",
-                            "Nayarit", "Nuevo León", 
-                            "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
-                            "San Luis Potosí", "Sinaloa", "Sonora",
-                            "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz",
-                            "Yucatán", "Zacatecas"),
-                  region = structure(c(2L, 1L, 1L, 4L, 
-                                       4L, 1L, 1L, 2L, 3L, 1L, 2L, 4L, 3L,
-                                       2L, 2L, 3L, 3L, 2L, 1L, 4L, 
-                                       3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
-                                       4L, 4L, 1L), 
-                                     levels = c("Norte",
-                                                "Centro Occidente",
-                                                "Centro", 
-                                                "Sur"), class = "factor"))
+amb_regions <- tibble(var_state = 1:32,
+                      state = c("Aguascalientes", "Baja California", 
+                                "Baja California Sur", "Campeche", "Chiapas",
+                                "Chihuahua", "Coahuila", "Colima", 
+                                "Distrito Federal",
+                                "Durango", "Guanajuato",
+                                "Guerrero", "Hidalgo", 
+                                "Jalisco", "Michoacán", "Morelos", "México",
+                                "Nayarit", "Nuevo León", 
+                                "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
+                                "San Luis Potosí", "Sinaloa", "Sonora",
+                                "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz",
+                                "Yucatán", "Zacatecas"),
+                      region = structure(c(2L, 1L, 1L, 4L, 
+                                           4L, 1L, 1L, 2L, 3L, 1L, 2L, 4L, 3L,
+                                           2L, 2L, 3L, 3L, 2L, 1L, 4L, 
+                                           3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
+                                           4L, 4L, 1L), 
+                                         levels = c("Norte",
+                                                    "Centro Occidente",
+                                                    "Centro", 
+                                                    "Sur"), class = "factor"))
 ```
 
 ```{r get_censo1990, eval=FALSE}
@@ -588,37 +589,45 @@ censo1990 <- censo1990_raw %>%
                   SEXO, ANO_CUMP, NIV_EST, ANO_APRO, HAB_IND) %>% 
        filter(as.numeric(ANO_CUMP) >= 18) %>% 
          left_join(iter1990, by = join_by(ENT, MUN)) %>% 
-         transmute(muni_size = case_when(POBTOT > 100000 ~
-                                           "Grande (más de 100,000)",
-                                         between(POBTOT, 25000, 100000) ~
-                                           "Mediana (entre 25,000 y 100,000)",
-                                         POBTOT < 25000 ~
-                                           "Pequeña (menos de 25,000)") %>% 
-                     factor(levels = c("Grande (más de 100,000)",
-                                       "Mediana (entre 25,000 y 100,000)",
-                                       "Pequeña (menos de 25,000)")),
-                   state = NOM_ENT,
-                   region,
-                   rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
-                     factor(levels = c("Urbano", "Rural")),
-                   stratum = as.factor(paste(muni_size, rural)),
-                   pop = POBTOT,
-                   indig = HAB_IND == "1",
-                   female = if_else(SEXO=="2", 1, 0),
-                   agegrp = cut(as.numeric(ANO_CUMP), 
-                                breaks = c(17, 24, 44, 64, 150),
-                                labels = c("18 to 24", "25 to 44",
-                                           "45 to 64", "65+")),
-                   years_edu = ANO_APRO,
-                   educ = case_when(((NIV_EST == "0" | NIV_EST == "1") &
-                                       years_edu < 6) ~ 1, # less than primary
-                                    (NIV_EST == "1" & years_edu == 6) |
-                                      (NIV_EST == "2" & years_edu < 3) ~ 2, # complete primary
-                                    (NIV_EST == "2" & years_edu == 3) |
-                                      (NIV_EST == "3" & years_edu < 3) ~ 3, # complete secondary
-                                    (NIV_EST == "3" & years_edu == 3) ~ 4, # complete high school
-                                    (NIV_EST == "4" | NIV_EST == "5") ~ 5, # college+
-                                    TRUE ~ NA_integer_)) %>% 
+  transmute(muni_size = case_when(POBTOT > 100000 ~
+                                    "Grande (más de 100,000)",
+                                  between(POBTOT, 25000, 100000) ~
+                                    "Mediana (entre 25,000 y 100,000)",
+                                  POBTOT < 25000 ~
+                                    "Pequeña (menos de 25,000)") %>% 
+              factor(levels = c("Grande (más de 100,000)",
+                                "Mediana (entre 25,000 y 100,000)",
+                                "Pequeña (menos de 25,000)")),
+            state = str_remove(NOM_ENT, " de .*"),
+            state = case_when(state == "M�xico" ~ "México",
+                              state == "Michoac�n" ~ "Michoacán", 
+                              state == "Nuevo Le�n" ~ "Nuevo León",
+                              state == "Quer�taro" ~ "Querétaro",
+                              state == "San Luis Potos�" ~ "San Luis Potosí",
+                              state == "Yucat�n" ~ "Yucatán",
+                              TRUE ~ state),
+            region,
+            year = 1990,
+            rural = if_else(as.numeric(TAM_LOC) == 1, "rural", "urban") %>% 
+              factor(levels = c("urban", "rural")),
+            stratum = as.factor(paste(muni_size, rural)),
+            pop = POBTOT,
+            indig = HAB_IND == "1",
+            female = if_else(SEXO=="2", 1, 0),
+            agegrp = cut(as.numeric(ANO_CUMP), 
+                         breaks = c(17, 24, 44, 64, 150),
+                         labels = c("18 to 24", "25 to 44",
+                                    "45 to 64", "65+")),
+            years_edu = ANO_APRO,
+            educ = case_when(((NIV_EST == "0" | NIV_EST == "1") &
+                                years_edu < 6) ~ 1, # less than primary
+                             (NIV_EST == "1" & years_edu == 6) |
+                               (NIV_EST == "2" & years_edu < 3) ~ 2, # complete primary
+                             (NIV_EST == "2" & years_edu == 3) |
+                               (NIV_EST == "3" & years_edu < 3) ~ 3, # complete secondary
+                             (NIV_EST == "3" & years_edu == 3) ~ 4, # complete high school
+                             (NIV_EST == "4" | NIV_EST == "5") ~ 5, # college+
+                             TRUE ~ NA_integer_)) %>% 
   select(-years_edu)
 
 write_feather(censo1990, sink = file.path(mex90_dir, "censo1990.arrow"))
@@ -704,10 +713,18 @@ censo2000 <- map(list(censo2000a, censo2000b),
                      factor(levels = c("Grande (más de 100,000)",
                                        "Mediana (entre 25,000 y 100,000)",
                                        "Pequeña (menos de 25,000)")),
-                   state = NOM_ENT,
+                   state = str_remove(NOM_ENT, " de .*"),
+                   state = case_when(state == "M�xico" ~ "México",
+                                     state == "Michoac�n" ~ "Michoacán", 
+                                     state == "Nuevo Le�n" ~ "Nuevo León",
+                                     state == "Quer�taro" ~ "Querétaro",
+                                     state == "San Luis Potos�" ~ "San Luis Potosí",
+                                     state == "Yucat�n" ~ "Yucatán",
+                                     TRUE ~ state),
                    region,
-                   rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
-                     factor(levels = c("Urbano", "Rural")),
+                   year = 2000,
+                   rural = if_else(as.numeric(TAM_LOC) == 1, "rural", "urban") %>% 
+                     factor(levels = c("urban", "rural")),
                    stratum = as.factor(paste(muni_size, rural)),
                    pop = POBTOT,
                    indig = PERETN == 1,
@@ -788,18 +805,26 @@ censo2010 <- censo2010_raw %>%
   select(ENT, MUN, TAM_LOC, tam_loc,
          SEXO, EDAD, NIVACAD, PERETN) %>% 
   filter(as.numeric(EDAD) >= 18) %>% 
-  left_join(iter2000, by = join_by(ENT, MUN)) %>% 
+  left_join(iter2010, by = join_by(ENT, MUN)) %>% 
   transmute(muni_size = case_when(POBTOT > 100000 ~ "Grande (más de 100,000)",
                                   between(POBTOT, 25000, 100000) ~ "Mediana (entre 25,000 y 100,000)",
                                   POBTOT < 25000 ~ "Pequeña (menos de 25,000)") %>% 
               factor(levels = c("Grande (más de 100,000)",
                                 "Mediana (entre 25,000 y 100,000)",
                                 "Pequeña (menos de 25,000)")),
-            state = NOM_ENT,
+            state = str_remove(NOM_ENT, " de .*"),
+            state = case_when(state == "M�xico" ~ "México",
+                              state == "Michoac�n" ~ "Michoacán",
+                              state == "Nuevo Le�n" ~ "Nuevo León",
+                              state == "Quer�taro" ~ "Querétaro",
+                              state == "San Luis Potos�" ~ "San Luis Potosí",
+                              state == "Yucat�n" ~ "Yucatán",
+                              TRUE ~ state),
             region,
+            year = 2010,
             tam_loc = if_else(!is.na(TAM_LOC), TAM_LOC, tam_loc),
-            rural = if_else(as.numeric(TAM_LOC) == 1, "Rural", "Urbano") %>% 
-              factor(levels = c("Urbano", "Rural")),
+            rural = if_else(as.numeric(TAM_LOC) == 1, "rural", "urban") %>% 
+              factor(levels = c("urban", "rural")),
             stratum = as.factor(paste(muni_size, rural)),
             pop = POBTOT,
             indig = PERETN == 1,
@@ -811,7 +836,8 @@ censo2010 <- censo2010_raw %>%
                              NIVACAD == "02" ~ 2, # complete primary
                              NIVACAD %in% c("03", "06") ~ 3, # complete secondary
                              NIVACAD %in% c("04", "05", "07") ~ 4, # complete high school
-                             as.numeric(NIVACAD) >= 8 ~ 5)) # college+
+                             as.numeric(NIVACAD) >= 8 ~ 5)) %>% # college+ 
+  select(-tam_loc)
 
 write_feather(censo2010, sink = file.path(mex10_dir, "censo2010.arrow"))
 ```
@@ -883,8 +909,9 @@ censo2020 <- censo2020_raw %>%
                                 "Pequeña (menos de 25,000)")),
             state,
             region,
-            rural = if_else(TAMLOC == 1, "Rural", "Urbano") %>% 
-              factor(levels = c("Urbano", "Rural")),
+            year = 2020,
+            rural = if_else(TAMLOC == 1, "rural", "urban") %>% 
+              factor(levels = c("urban", "rural")),
             stratum = as.factor(paste(muni_size, rural)),
             pop = POBTOT,
             indig = PERTE_INDIGENA == 1,
@@ -901,23 +928,18 @@ censo2020 <- censo2020_raw %>%
 write_feather(censo2020, sink = file.path(mex20_dir, "censo2020.arrow"))
 ```
 
-```{r poststrat_df, eval=FALSE}
-censo1990 <- read_feather(file.path(mex90_dir, "censo1990.arrow")) %>% 
-  mutate(year = 1990)
-censo2000 <- read_feather(file.path(mex00_dir, "censo2000.arrow")) %>% 
-  mutate(year = 2000)
-censo2010 <- read_feather(file.path(mex10_dir, "censo2010.arrow")) %>% 
-  mutate(year = 2010) %>% 
-  select(-tam_loc)
-censo2020 <- read_feather(file.path(mex20_dir, "censo2020.arrow")) %>% 
-  mutate(year = 2020)
+```{r poststrat_all, eval=FALSE}
+censo1990 <- read_feather(file.path(mex90_dir, "censo1990.arrow"))
+censo2000 <- read_feather(file.path(mex00_dir, "censo2000.arrow"))
+censo2010 <- read_feather(file.path(mex10_dir, "censo2010.arrow"))
+censo2020 <- read_feather(file.path(mex20_dir, "censo2020.arrow"))
 
 poststrat_9020 <- map(list(censo1990, censo2000, censo2010, censo2020), 
                       ~ .x %>%
                         filter(complete.cases(.)) %>% 
                         mutate(stratum = fct_drop(stratum),
-                               state = if_else(state == "Distrito Federal",
-                                               "Ciudad de México", 
+                               state = if_else(state == "Ciudad de México",
+                                               "Distrito Federal",
                                                state)) %>% 
                         group_by(year, state, region, indig, female,
                                  agegrp, educ, stratum) %>%
@@ -932,17 +954,14 @@ poststrat_all <- poststrat_9020 %>%
   left_join(amb_regions, by = "state") %>% 
   group_by(state, indig, female, agegrp, educ, stratum) %>% 
   mutate(n = na_interpolation(n)) %>% 
-  arrange(state, indig, female, agegrp, educ, stratum, year)
+  arrange(state, indig, female, agegrp, educ, stratum, year) %>% 
+  ungroup()
 
 write_feather(poststrat_all, 
               sink = file.path(mex20_dir, "..", "poststrat_all.arrow"))
 ```
 
-```{r poststrat_all}
-poststrat_all <- read_feather(file.path(mex20_dir, "..", "poststrat_all.arrow"))
-```
-
-```{r pge_surveys_all}
+```{r pge_surveys_all, eval=FALSE}
 surveys_controls_mex <- read_csv(file.path(mex20_dir,
                                            "..",
                                            "surveys_controls_mex.csv"),
@@ -1199,25 +1218,32 @@ for (i in seq(nrow(vars_table))) {
 
 all_sets <- list_rbind(all_sets_list) %>% 
   filter(complete.cases(.)) %>% 
-  mutate(Intercept = 1,
-         item = factor(item),
-         state = factor(state),
-         var_agegrp = cut(var_age, 
-                      breaks = c(17, 24, 44, 64, 150),
-                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
-         var_rural = factor(var_rural,
-                            levels = c(FALSE, TRUE),
-                            labels = c("urban", "rural")),
-         var_educ = if_else(var_educ == 0,
-                            1,
-                            var_educ) %>% 
-           factor(levels = 1:5,
-                  labels = c("Less than primary",
-                             "Complete primary",
-                             "Complete middle",
-                             "Complete high",
-                             "University or more")),
-         stratum = as.factor(paste(var_muni_size, var_rural))) %>% 
+  transmute(Intercept = 1,
+            item = factor(item),
+            state = factor(state),
+            year,
+            var_agegrp = cut(var_age, 
+                             breaks = c(17, 24, 44, 64, 150),
+                             labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+            var_rural = factor(var_rural,
+                               levels = c(FALSE, TRUE),
+                               labels = c("urban", "rural")),
+            var_female = factor(var_female,
+                                levels = c(0, 1),
+                                labels = c("male", "female")),
+            var_indig = factor(var_indig,
+                               levels = c(FALSE, TRUE),
+                               labels = c("non-indig", "indig")),
+            var_educ = if_else(var_educ == 0,
+                               1,
+                               var_educ) %>% 
+              factor(levels = 1:5,
+                     labels = c("Less than primary",
+                                "Complete primary",
+                                "Complete middle",
+                                "Complete high",
+                                "University or more")),
+            stratum = as.factor(paste(var_muni_size, var_rural))) %>% 
   arrange(year)
 
 write_feather(all_sets, here::here("paper",
@@ -1225,47 +1251,46 @@ write_feather(all_sets, here::here("paper",
                                    "data",
                                    "all_sets.arrow"))
 
-
-as_factor_stata <- function(x) {
-  x %>% 
-    labelled::labelled(., attr(., "labels")) %>%
-    labelled::to_factor(levels = "labels", sort_levels = "values")
-}
-
-amb_mexico_combo <- rio::import(here::here("..", 
-                                           "Data",
-                                           "dcpo_surveys", 
-                                           "misc_files",
-                                           "amb_files", 
-                                           "amb_mexico_combo",
-                                           "amb_mexico_combo.RData"),
-                                trust = TRUE) %>% 
-  mutate(region = as_factor_stata(estratopri),
-         state = as_factor_stata(prov),
-         state = case_when(state == "Distrito Federal" ~ "Ciudad de México",
-                           state == "Estado de México" ~ "México",
-                           TRUE ~ state),
-         muni_size = as_factor_stata(estratosec),
-         rural = as_factor_stata(ur),
-         stratum = as.factor(paste(muni_size, rural)),
-         polileader4 = vb50,
-         politicianecon3 = vb52,
-         quota7 =	gen6,
-         female = q1 - 1,
-         agegrp = cut(q2, 
-                      breaks = c(17, 24, 44, 64, 150),
-                      labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
-         educ = case_when(ed == 0 ~ 0,
-                          ed < 6 ~ 1,
-                          between(ed, 6, 8) ~ 2,
-                          between(ed, 9, 11) ~ 3,
-                          ed == 12 ~ 4,
-                          ed > 12 ~ 5),
-         indig = etid == 3) 
+# as_factor_stata <- function(x) {
+#   x %>% 
+#     labelled::labelled(., attr(., "labels")) %>%
+#     labelled::to_factor(levels = "labels", sort_levels = "values")
+# }
+# 
+# amb_mexico_combo <- rio::import(here::here("..", 
+#                                            "Data",
+#                                            "dcpo_surveys", 
+#                                            "misc_files",
+#                                            "amb_files", 
+#                                            "amb_mexico_combo",
+#                                            "amb_mexico_combo.RData"),
+#                                 trust = TRUE) %>% 
+#   mutate(region = as_factor_stata(estratopri),
+#          state = as_factor_stata(prov),
+#          state = case_when(state == "Distrito Federal" ~ "Ciudad de México",
+#                            state == "Estado de México" ~ "México",
+#                            TRUE ~ state),
+#          muni_size = as_factor_stata(estratosec),
+#          rural = as_factor_stata(ur),
+#          stratum = as.factor(paste(muni_size, rural)),
+#          polileader4 = vb50,
+#          politicianecon3 = vb52,
+#          quota7 =	gen6,
+#          female = q1 - 1,
+#          agegrp = cut(q2, 
+#                       breaks = c(17, 24, 44, 64, 150),
+#                       labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
+#          educ = case_when(ed == 0 ~ 0,
+#                           ed < 6 ~ 1,
+#                           between(ed, 6, 8) ~ 2,
+#                           between(ed, 9, 11) ~ 3,
+#                           ed == 12 ~ 4,
+#                           ed > 12 ~ 5),
+#          indig = etid == 3) 
 
 ```
 
-```{r mr}
+```{r mr, eval=FALSE}
 library(brms)
 
 cmr <- brm(polileader4 ~ (1|indig) + (1|female) + (1|indig:female) +
@@ -1296,18 +1321,19 @@ deep_cmr <- brm(polileader4 ~ (1|indig) +  (1|female) + (1|indig:female) +
                 backend = "cmdstanr")
 ```
 
-```{r lmr}
-library(arrow); library(brms)
-
+```{r lmr, eval=FALSE}
 all_sets <- read_feather(here::here("paper",
                                    "mexico",
                                    "data",
-                                   "all_sets.arrow"))
+                                   "all_sets.arrow")) # %>% 
+  # mutate(region_stratum = factor(paste(region, stratum)),
+  #        state_stratum = factor(paste(state, stratum)),
+  #        var_indig_female = paste("indig", var_indig, ", female", var_female))
 
 m1 <- brm(target | thres(thres, gr = item) ~ Intercept +
             item + 
             (1|region) + (1|stratum) + (1|state) +
-            (1|stratum:region) + (1|stratum:state) +
+            (1|region:stratum) + (1|state:stratum) +
             (1|var_indig) + (1|var_indig:var_female) +
             (1|var_agegrp) + (1|var_female) + (1|var_educ) +
             s(year),
@@ -1316,18 +1342,143 @@ m1 <- brm(target | thres(thres, gr = item) ~ Intercept +
           prior = prior(normal(0, 1.5), class = "b") +
             prior(normal(0, 2), class = "sds") +
             prior(normal(0, 1.5), class = "Intercept"),
-          iter = 1000,
-          warmup = 500,
+          iter = 1500,
+          warmup = 1000,
           chains = 4, 
           cores = 4, 
           control = list(adapt_delta = 0.99, max_treedepth = 14),
           backend = "cmdstanr",
-          file_refit = "on_change",
+          file_refit = "on_change", # on_change
           file = "data/m1")
 
+m01 <- brm(target | thres(thres, gr = item) ~ Intercept +
+            item + 
+            s(year) +
+            s(year, state, bs="fs"),
+          data = all_sets,
+          family = cumulative("probit", threshold = "sum_to_zero"),
+          prior = prior(normal(0, 1.5), class = "b") +
+            prior(normal(0, 2), class = "sds") +
+            prior(normal(0, 1.5), class = "Intercept"),
+          iter = 150,
+          warmup = 100,
+          chains = 4, 
+          cores = 4, 
+          control = list(adapt_delta = 0.99, max_treedepth = 14),
+          backend = "cmdstanr",
+          file_refit = "on_change", # on_change
+          file = "data/m01")
 
+library(brms)
+library(arrow)
+all_sets <- read_feather(here::here("paper",
+                                   "mexico",
+                                   "data",
+                                   "all_sets.arrow")) 
+
+m02 <- brm(target | thres(thres, gr = item) ~ Intercept +
+            item + 
+            s(year),
+          data = all_sets,
+          family = cumulative("probit", threshold = "sum_to_zero"),
+          prior = prior(normal(0, 1.5), class = "b") +
+            prior(normal(0, 2), class = "sds") +
+            prior(normal(0, 1.5), class = "Intercept"),
+          iter = 150,
+          warmup = 100,
+          chains = 4, 
+          cores = 4, 
+          control = list(adapt_delta = 0.99, max_treedepth = 14),
+          backend = "cmdstanr",
+          file_refit = "on_change", # on_change
+          file = "data/m02")
+
+m11 <- brm(target | thres(thres, gr = item) ~ Intercept +
+            item + 
+             region +
+             stratum +
+             state +
+             region * stratum +
+             state * stratum +
+             var_indig +
+             var_female +
+             var_indig * var_female +
+             var_educ +
+            s(year),
+          data = all_sets,
+          family = cumulative("probit", threshold = "sum_to_zero"),
+          prior = prior(normal(0, 1.5), class = "b") +
+            prior(normal(0, 2), class = "sds") +
+            prior(normal(0, 1.5), class = "Intercept"),
+          iter = 1500,
+          warmup = 1000,
+          chains = 4, 
+          cores = 4, 
+          control = list(adapt_delta = 0.99, max_treedepth = 14),
+          backend = "cmdstanr",
+          file_refit = "on_change", # on_change
+          file = "data/m1")
 ```
 
+```{r national_est, eval=FALSE}
+# pick item with the most cases
+item_ph <- all_sets %>%
+  count(item) %>%
+  filter(n == max(n)) %>%
+  pull(item)
+
+thres_ph <- as.numeric(str_extract(item_ph, "\\d+"))
+
+poststrat_df <- read_feather(file.path(mex20_dir,
+                                        "..",
+                                        "poststrat_all.arrow")) %>% 
+  ungroup() %>% 
+  transmute(year, # numeric
+            region, # factor
+            stratum, # factor
+            state = factor(state),
+            var_indig = indig, # logical
+            var_female = female, # numeric
+            var_agegrp = agegrp, # factor
+            var_educ = factor(educ,
+                              labels = c("Less than primary",
+                                         "Complete primary",
+                                         "Complete middle",
+                                         "Complete high",
+                                         "University or more")),
+            item = item_ph,
+            thres = thres_ph,
+            Intercept = 1)
+
+epred_mat <- posterior_epred(m02, 
+                             newdata = poststrat_df,
+                             draws = 1000,
+                             allow_new_levels = TRUE)
+
+
+df_m1 <- m1$fit
+
+df_state_idealpoint <- tibble(state = rep(NA, length(levels(all_sets$state))),
+                              year = ,
+                       idealpoint_mean = NA,
+                       idealpoint_sd = NA)
+
+i = 1
+for(s in levels(all_sets$state)){
+  state_estimates <- (mu_alpha_adj[, which(postrat_df$state==s)] %*% postrat_df$n[which(postrat_df$state==s)]/
+    sum(postrat_df$n[which(postrat_df$state==s)]) )
+  df_state_idealpoint$state[i] <- s
+  df_state_idealpoint$idealpoint_mean[i] <- mean(state_estimates)
+  df_state_idealpoint$idealpoint_sd[i] <- sd(state_estimates)
+  i = i + 1
+}
+
+mrp_estimates_vector <- epred_mat[,,4] %*% {poststrat_df$n / sum(poststrat_df$n)}
+mrp_estimate <- c(mean = mean(mrp_estimates_vector),
+                  sd = sd(mrp_estimates_vector))
+cat("MRP estimate mean, sd: ", round(mrp_estimate, 3))
+
+```
 
 
 ```{r bd_leg_old_propietary, eval=FALSE}
@@ -1370,7 +1521,7 @@ save(bd_leg_old_propietary,
                        "data-raw", "bd_leg_old_propietary.rda"))
 ```
 
-```{r bd_leg_all}
+```{r bd_leg_all, eval=FALSE}
 bd_leg_old_propietary <- rio::import(here::here("paper", "mexico",
                        "data-raw", "bd_leg_old_propietary.rda"))
 
