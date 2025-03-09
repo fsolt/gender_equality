@@ -113,7 +113,7 @@ This means, mercifully, that we don't have to also control for the strength of t
 
 ## The Scope of the Theory
 Before we proceed further, we need to define the universe for the study.
-As always, there are competing concerns.  
+As always, there are competing concerns.
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions [see, e.g., @King2021, 121].
 T
 Our measure of macroegalitarianism, the Public Gender Egalitarianism scores, were created to allow 
@@ -137,7 +137,7 @@ What about Hungary or Turkey?
 Expansive government control over the media and other signs of autocratization has led to much discussion of democratic backsliding in both countries [see, e.g., @Nakai2023].
 The issue with exercising judgment in this way is that it opens the door to "the garden of forking paths," in which such decisions are accepted or revisited by researchers depending on the results obtained [@Gelman2013a].
 That is, researchers might choose to include or exclude one or more of these arguable cases, and then, if and only if they find the results of the consequent analyses to be in some way unsatisfactory, find themselves reversing the decision.
-Choices like these, also known as "researcher degrees of freedom," and the fragility of the findings that result have attracted growing attention among political scientists in recent years [see, e.g., @Wuttke2019; @Breznau2022; @Hu2024a].
+Choices like these, also known as "researcher degrees of freedom," and the fragility of the findings that result have attracted growing attention among political scientists in recent years [see, e.g., @Wuttke2019; @Breznau2022; @Hu2025].
 
 Committing to rely on a prior and external determination of which countries are "advanced democracies" minimizes this risk.^[
 Of course, it does not _eliminate_ the risk implied by researcher degrees of freedom, as even this decision may be contingent on the results obtained: taking a single path through the garden does not eradicate its many forks.]

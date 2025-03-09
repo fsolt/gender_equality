@@ -48,7 +48,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 To generate a sample of published articles on gender egalitarianism, we searched the Web of Science.
 Web of Science topic searches return articles in which the search terms appear in the title or abstract.
 We executed the following search: `TS = (("public opinion" OR attitudes OR culture) AND ((women* OR gender) AND (equal* OR egalitarian*)))`.
-After filtering false positives---articles that do not include a measure of public attitudes toward gender equality or gender roles---the eighty most cited empirical research articles returned compose our sample.
+After filtering the many false positives---articles that do not include a measure of public attitudes toward gender equality or gender roles---the hundred most cited empirical research articles returned compose our sample.
 Each of the articles was then consulted to identify its number of countries and mean years observed per country.
 This information is listed in Table A1 below.
 
@@ -71,19 +71,9 @@ gr <- read_csv(here("paper",
                    .)} %>% 
            str_replace(", ([A-Z][a-z]+)$", ", and \\1") %>% 
            str_replace("^([A-Z][a-z]+(?:-[A-Z][a-z]+)?), and ([A-Z][a-z]+)$", "\\1 and \\2"),
-         citation = paste(last_names, year) %>% 
-           ifelse(. == "Andersen and Fetner 2008" &
-                    !str_detect(source_title, "AMERICAN"),
-                  "Andersen and Fetner 2008a",
-                  .) %>% 
-           ifelse(. == "Lax and Phillips 2009" &
-                    !str_detect(source_title, "JOURNAL"),
-                  "Lax and Phillips 2009a",
-                  .) %>% 
-           ifelse(. == "Brewer 2003" &
-                    !str_detect(source_title, "OPINION"),
-                  "Brewer 2003a",
-                  .),
+         citation = paste(last_names, year),
+         k = if_else(k == 13.5, k, round(k)),
+         t = round(t, 1),
          cy = k*t)
 
 gr %>% 
@@ -106,7 +96,7 @@ gr %>%
 
 \pagebreak
 
-## Appendix A: Survey Items Used to Estimate Public Gender Egalitarianism
+## Appendix B: Survey Items Used to Estimate Public Gender Egalitarianism
 ```{r item_summary, cache = FALSE, cache.extra = tools::md5sum(here::here("data-raw", "dcpo_input_raw_public.csv"))}
 surveys_pge <- read_csv(here("paper",
                              "measuring_egalitarianism",
@@ -185,7 +175,7 @@ items_summary %>%
 ```
 
 \pagebreak
-## Appendix B: Source Data Observations by Country and Year
+## Appendix C: Source Data Observations by Country and Year
 ```{r obs1, fig.cap = "Source Data Observations by Country and Year", fig.height = 7}
 #| label: fig-obs1
 
