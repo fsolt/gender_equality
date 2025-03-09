@@ -39,6 +39,20 @@ p_load(
   # modelsummary,
   # kableExtra
 ) 
+
+oecd_countries <- c("Australia", "Austria", "Belgium",
+                    "Canada", "Chile", "Colombia",
+                    "Costa Rica", "Czechia", "Denmark",
+                    "Estonia", "Finland", "France", 
+                    "Germany", "Greece", "Hungary",
+                    "Iceland", "Ireland", "Israel",
+                    "Italy", "Japan", "South Korea",
+                    "Latvia", "Lithuania", "Luxembourg",
+                    "Mexico", "Netherlands", "New Zealand",
+                    "Norway", "Poland", "Portugal", 
+                    "Slovakia", "Slovenia", "Spain",
+                    "Sweden", "Switzerland", "Turkey", 
+                    "United Kingdom", "United States")
 ```
 
 # Introduction [Still Very Drafty]
@@ -85,7 +99,7 @@ Specifically, we will call egalitarian public opinion toward gender roles in pol
 Much of the reason the questions posed above have yet to be fully answered is that data on macroegalitarianism is scant.
 Even a half century after @RuleKrauss1974 [, 1719] called for more and better data on collective attitudes on gender roles, what we have available to us remains inadequate for fully examining their causes and consequences.
 In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
-As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2020] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
+As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2019a] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
 
 Figure\nobreakspace{}\ref{proj_kt_plot} illustrates the trade-off between the breadth of country coverage and the number of years available for each country.
 It plots, for each survey project, the number of countries for which data on gender egalitarianism are available against the mean number of years these data are available per country.
@@ -157,14 +171,20 @@ proj_kt_plot <- ggplot(proj_kt, aes(y = t, x = k)) +
 proj_kt_plot + plot_annotation(caption = str_wrap("Notes: The number of countries and mean years observed are plotted only for the most frequently asked single question on attitudes toward women's equality in each survey project.", width = 114))
 ```
 
-```{r gr}
+```{r}
+#| label: fig-gr
+#| fig-cap: "Countries and Mean Years Observed in Prominent Research"
+#| fig-height: 6
+#| fig-width: 7.5
+#| fig-pos: 'h'
+
 
 cited <- tribble(~citation, ~text_x, ~text_y,
-                 "Alexander 2012", 29, 2.4,
-                 "Paxton and Kunovich 2003", 48, 1.7,
-                 "Alesina et al. 2013", 78, 0.25,
-                 "Scarborough et al. 2021", 4, 21.5,
-                 "Fortin 2005", 28, 3.5)
+                 "Alesina et al. 2013", 1, -1,
+                 "Scarborough et al. 2021", 7, 0,
+                 "Glas and Spierings 2019", 0, 1,
+                 "Schober 2013", 5, 0, 
+                 "Arpino et al. 2015", 5, 0)
 
 gr <- read_csv(here("paper",
                     "introduction",
@@ -182,108 +202,70 @@ gr <- read_csv(here("paper",
                    .)} %>% 
            str_replace(", ([A-Z][a-z]+)$", ", and \\1") %>% 
            str_replace("^([A-Z][a-z]+(?:-[A-Z][a-z]+)?), and ([A-Z][a-z]+)$", "\\1 and \\2"),
-         citation = paste(last_names, year) %>% 
-           ifelse(. == "Andersen and Fetner 2008" &
-                    !str_detect(source_title, "AMERICAN"),
-                  "Andersen and Fetner 2008a",
-                  .) %>% 
-           ifelse(. == "Lax and Phillips 2009" &
-                    !str_detect(source_title, "JOURNAL"),
-                  "Lax and Phillips 2009a",
-                  .) %>% 
-           ifelse(. == "Brewer 2003" &
-                    !str_detect(source_title, "OPINION"),
-                  "Brewer 2003a",
-                  .),
+         citation = paste(last_names, year),
          cy = k*t) %>% 
   group_by(k, t) %>% 
   mutate(to_jitter = n() > 1) %>% 
   ungroup() %>% 
   left_join(cited, by = "citation") %>% 
   mutate(cited = ifelse(citation %in% cited$citation, citation, NA_character_))
-  # mutate(text_color = if_else(is.na(text_x), "white", "gray20"),
-  #        text_x = if_else(is.na(text_x), k, text_x))
-```
 
-```{r gr-plot, fig.cap="Countries and Mean Years Observed in Prominent Research\\label{gr_plot}", fig.height=8, fig.width=7.5, fig.pos='h', cache=FALSE}
+gr_alpha <- .2
+gr_seed <- 3240
 
-gr_alpha <- .3
-my_palette <- colorRampPalette(brewer.pal(11, "Spectral"))
-color_scale <- scale_color_gradientn(colors = my_palette(max(gr$year) -
-                                                           min(gr$year) + 1),
-                                     limits = c(min(gr$year),
-                                                max(gr$year)),
-                                     name="Publication\nYear")
-fill_scale <- scale_fill_gradientn(colours = my_palette(max(gr$year) -
-                                                          min(gr$year) + 1),
-                                   limits = c(min(gr$year),
-                                              max(gr$year)),
-                                   name="Publication\nYear")
-
-set.seed(324)
 gr_plot <- ggplot(gr, aes(x = k,
-                          y = t)) + #,
-                          # color = year,
-                          # fill = year)) +
+                          y = t)) + 
   geom_point(aes(size = hits),
              data = gr %>% filter(!to_jitter),
              alpha = gr_alpha) +
   geom_point(aes(size = hits),
              data = gr %>% filter(to_jitter),
              alpha = gr_alpha,
-             position = position_jitter(width = .25, height = .25)) +
+             position = position_jitter(width = .2,
+                                        height = .25,
+                                        seed = gr_seed)) +
   ggrepel::geom_text_repel(data = gr,
                            aes(label = cited),
-                               color = "grey20",
-                           nudge_x = 5) +
-  # geom_text(aes(label = citation,
-  #               x = text_x,
-  #               y = text_y,
-  #               size = 300),
-  #           data = gr %>% filter(!is.na(text_x)),
-  #           color = "grey20") +
-  # color_scale +
-  # fill_scale +
+                           # color = "grey20",
+                           nudge_x = gr$text_x,
+                           nudge_y = gr$text_y,
+                           size = 3.3) +
   theme_bw() +
   theme(legend.justification = c(.99,.99), 
         legend.position = c(.98,.98),
         legend.box.background = element_rect(color = "grey",
                                              fill="white")) +
+  guides(size = guide_legend(override.aes = list(alpha = .1))) +
   scale_size(name = "Citations") +
   labs(x = "Countries Observed",
        y = "Mean Years Observed Per Country Observed",
        title = "Prominent Articles on\nPublic Opinion on Gender Roles") +
   annotate(geom = "rect", 
            xmin = 0, xmax = 5, 
-           ymin = 0, ymax = 5,
+           ymin = 0, ymax = 5.3,
            color = "black", 
            fill = NA,
            linewidth = .25 ) +
-  geom_segment(aes(x = 0, y = 5, xend = 13, yend = 16.2),
-               linetype = "dashed",
-               linewidth = .25) +
-  geom_segment(aes(x = 5, y = 0, xend = 30.5, yend = 4.7),
-               linetype = "dashed",
-               linewidth = .25) # +
-  # geom_segment(aes(x = 46, y = 1, xend = 47.5, yend = 1.6),
-  #              linetype = "solid",
-  #              linewidth = .25,
-  #              color = "gray20")
+  annotate(geom = "segment",
+           x = 0, y = 5.3, xend = 33, yend = 19.1,
+           linetype = "dashed",
+           linewidth = .25) +
+  annotate(geom = "segment",
+           x = 5, y = 0, xend = 50, yend = 7.5,
+           linetype = "dashed",
+           linewidth = .25)
 
-set.seed(324)
 zoom_plot <- ggplot(gr, aes(x = k,
-                            y = t)) + #,
-                            # color = year,
-                            # fill = year)) +
+                            y = t)) + 
   geom_point(aes(size = hits),
              data = gr %>% filter(!to_jitter),
              alpha = gr_alpha) +
   geom_point(aes(size = hits),
              data = gr %>% filter(to_jitter),
              alpha = gr_alpha,
-             position = position_jitter(width = .25, height = .25)) +
-  # color_scale +
-  # fill_scale +
+             position = position_jitter(width = .5, 
+                                        height = .25,
+                                        seed = gr_seed)) +
   theme_bw() +
   theme(legend.position = "none",
         plot.background = element_rect(colour = "black",
@@ -294,38 +276,160 @@ zoom_plot <- ggplot(gr, aes(x = k,
        y = NULL)
 
 gr_plot + 
-  inset_element(zoom_plot, 15/80, 5/20, 30/80, 15/20) +
-  plot_annotation(caption = str_wrap("Notes: Citation counts as reported by the Web of Science on January 4, 2025.  See Appendix A for details on this sample of prominent articles.", width = 110))
+  inset_element(zoom_plot, 33.75/80, 7.4/20, 48.75/80, 17.4/20) +
+  plot_annotation(caption = str_wrap("Notes: Overlapping points are jittered slightly to enhance visibility.  Citation counts are as reported by the Web of Science on January 4, 2025.  See Appendix A for details on this sample of prominent articles.", width = 120))
 
 ```
 
-Data availability has influenced scholarship on the topic, as can be seen in Figure\nobreakspace{}\ref{gr_plot}.
+Data availability has influenced scholarship on the topic, as can be seen in @fig-gr.
 Using the Web of Science, we assembled a sample of prominent published articles on attitudes toward gender equality (see Appendix A for details).
 These articles were published from `r summary(gr$year)[[1]]` to `r summary(gr$year)[[6]]` (median: `r summary(gr$year)[[3]]`) and were cited in the Web of Science from `r summary(gr$hits)[[1]]` to `r summary(gr$hits)[[6]]` times (median: `r summary(gr$hits)[[3]]`).
 We then examined these articles to find the number of countries and years investigated in each.
 The zoomed inset of the plot highlights that many of these articles might be described as using a case-study research design: just over a quarter of this sample considers only a single year in only a single country.
 
-Among the works that investigate more contexts, the data employed tend to be longitudinal or cross-national, but only very rarely both.
-Another quarter of these articles look at change over time, examining two or more years of data within just one country.
-The recent work of @Scarborough2021 employs U.S. General Social Survey data in 21 years from 1977 to 2018 to examine how gender and racial attitudes covaried over this period.
-Over a third of the sample considers data from multiple countries in a single cross-section.
-In the lower right corner, the much-cited work of @Alesina2013 collapses data from three waves of the World Values Survey on 79 countries to examine whether traditions of plow-based agriculture have a negative influence on the extent of egalitarian gender attitudes.
+Among the works that investigate more contexts, the data employed tend to be longitudinal or cross-national, but very rarely both.
+Arrayed vertically at the left of the figure, more than a quarter of this sample looks only at change over time, examining two or more years of data within just one country.
+The recent work of @Scarborough2021 employs U.S. GSS data in 21 years from 1977 to 2018 to examine how gender and racial attitudes covaried over this period.
+Of the studies not using the U.S. GSS, @Schober2013 takes advantage of panel data in 16 waves of the British Household Panel Survey to assess how gender egalitarian attitudes influence changes in time use after parenthood.
 
+Spread horizontally along the bottom of the plot, over a third of the sample considers data from multiple countries in a sole cross-section.
+Not surprisingly given its position in Figure\nobreakspace{}\ref{proj_kt_plot}, the WVS is the most frequently used source among articles in the lower right of @fig-gr.
+The highest number of countries is examined in the much-cited work of @Alesina2013, which collapses data from three waves of the WVS for a total of 79 countries into one cross-section to examine whether traditions of plow-based agriculture have a negative influence on the extent of egalitarian gender attitudes.
 
-
-Research considering data from more than five countries encompass less than a sixth of these articles.
-
-One recent piece, @Hildebrandt2019, draws on the fifth and sixth waves of the WVS to create a single cross-section of 73 countries and argues that modernization leads to more tolerance and in turn, in democracies, more support for gay rights; the influential work by @Adamczyk2009 similarly employs a single cross-section of the WVS, in its case the fourth wave, to examine how individuals' religiosity and their countries' religious heritages shape their attitudes toward gay rights.
-@Reynolds2013 looks at the most countries of any of these prominent works, 81, combining WVS and Pew Global Attitudes data to obtain 146 observed country-years (mean observed years per country: 1.8) with which to evaluate how attitudes influence policy.
-The article examining the most country-years of public opinion in this sample is @Redman2018, an investigation of policy feedback on public opinion that uses the second through sixth WVS waves to provide a total of 203 country-years in 70 countries, that is, 2.9 observed years per country on average.
-@Hooghe2013, which also studies policy feedback, is the cross-national study with the most longitudinal data in the sample: it employs the first five waves of the ESS to provide a total of 123 country-years across 29 countries for a mean of 4.2 observed years per country.
-Within this sample of prominent works, none of the articles including five or more countries is able to examine public opinion in more than five years in any of the countries included in their analyses.
+Research considering data from two or more countries _and_ two or more years per country encompass just one-tenth of these articles.
+@Arpino2015 uses changes in attitudes toward gender equality in the labor market---and the gap between men and women in these attitudes---to predict the total fertility rate in 27 European and North American countries drawing on data from three waves of the combined WVS and European Values Survey.
+The resulting 81 observations is the largest number of country-years analyzed in any of these prominent works. 
+Pooling data from WVS and Arab Barometer surveys, @Glas2019a (along with a companion piece, @Glas2020) examined the relationship between feminism and religiosity among Arab Muslims in 15 countries across 51 country-years, an average of 3.4 years observed per country; this represents the greatest over-time variation of any cross-national study in this sample.
+Among these prominent works, none of the articles including five or more countries is able to examine public opinion in more than five years in any of the countries included in their analyses.
 
 That these L-shaped distributions in the available datasets and the resulting analyses should limit our confidence in our conclusions should be readily evident.
 The single-country studies that make up the vertical part of the L, even those over many years, naturally leave questions regarding the generalizability of their findings to other parts of the world [see, e.g., @King2021, 210].
 The cross-national analyses on the horizontal, with just one or perhaps a few time points to leverage, on the other hand, often raise concerns that differences across countries are being conflated with over-time causal processes [see, e.g., @Jackman1985, 173-174].
+
+Moreover
 That a disproportionate share of the available surveys and of the research on public opinion on gender equality focuses on Europe and North America only compounds these issues.
 As @Wilson2022 [, 1037] points out, such geographic bias makes the scope conditions of even cross-national studies difficult to discern.
+
+```{r}
+#| label: fig-countries
+#| fig-cap: "Count of Prominent Articles Including Countries in Each Region"
+#| fig-height: 5
+#| fig-width: 7.5
+#| fig-pos: 'h'
+
+countries_by_cases <- read_csv(here("paper",
+                                    "introduction",
+                                    "data-raw",
+                                    "countries.csv"),
+                               show_col_types = FALSE) %>% 
+  group_by(article) %>% 
+  mutate(country = countrycode(country,
+                               origin = "country.name",
+                               destination = "country.name"),
+         k = n(),
+         cases = if_else(k>1, "cross_national",
+                         "single_case")) %>% 
+  ungroup() %>% 
+  count(country, cases) %>% 
+  group_by(country) %>% 
+  mutate(total = sum(n)) %>% 
+  ungroup() %>% 
+  arrange(total, rev(country)) %>% 
+  mutate(oecd = if_else(country %in% oecd_countries,
+                        "OECD Countries",
+                        "Non-OECD Countries"),
+         country = as_factor(country),
+         region = countrycode(country,
+                              origin = "country.name",
+                              destination = "region23"),
+         oecd = as_factor(oecd))
+
+countries <- read_csv(here("paper",
+                           "introduction",
+                           "data-raw",
+                           "countries.csv"),
+                      show_col_types = FALSE) %>% 
+  mutate(country = countrycode(country,
+                               origin = "country.name",
+                               destination = "country.name")) %>% 
+  count(country) %>% 
+  arrange(n, rev(country)) %>% 
+  mutate(oecd = country %in% oecd_countries,
+         region = countrycode(country,
+                              origin = "country.name",
+                              destination = "region23"),
+         region = case_when(country %in% 
+                              c("Canada", "United States") ~
+                              "North America",
+                            str_detect(region, "Eastern Asia") ~ "East Asia",
+                            str_detect(region, "Southern Asia") ~ "South Asia",
+                            str_detect(region, "Western Asia") ~ "West Asia",
+                            str_detect(country, "Taiwan") ~ "East Asia",
+                            str_detect(country, "Russia") ~ "Central Asia",
+                            str_detect(region, "Europe") ~ "Europe",
+                            str_detect(region, "Caribbean|Central America|South America") ~ "Latin America & Caribbean",
+                            str_detect(region, "Australia") ~ "Oceania",
+                            str_detect(region, "Africa") ~ "Africa",
+                            TRUE ~ region) %>% 
+           fct_relevel("Africa",
+                       "Central Asia",
+                       "South Asia",
+                       "Latin America & Caribbean",
+                       "West Asia",
+                       "East Asia",
+                       "Europe",
+                       "Oceania",
+                       "North America"),
+         iso2c = if_else(oecd,
+                         countrycode(country,
+                             origin = "country.name",
+                             destination = "iso2c"),
+                         NA_character_))
+
+oecd_regions <- countries %>% 
+  group_by(region, oecd) %>% 
+  mutate(n_mean = if_else(oecd,
+                          mean(n),
+                          NA_real_),
+         n_mean1 = replace_na(n_mean, mean(n)),
+         iso2c = if_else(oecd,
+                         countrycode(country,
+                             origin = "country.name",
+                             destination = "iso2c"),
+                         NA_character_)) %>% 
+  ungroup() %>% 
+  arrange(-n_mean1) %>% 
+  mutate(region = fct_relevel(region, 
+                              "Northern America",
+                              "Oceania",
+                              ""))
+
+# country_coverage_plot <- ggplot(data = countries %>% 
+#                                   filter(oecd),
+#                                 aes(y = country, x = n)) +
+#   geom_bar(stat = "identity") +
+#   theme_bw() +
+#   labs(y = NULL,
+#        x = "Articles")
+# 
+# region_coverage_plot <- ggplot(data = oecd_regions,
+#                                 aes(y = region, x = n)) +
+#   geom_boxplot() +
+#   ylab(NULL) +
+#   xlab("Articles")
+
+countries %>% 
+  ggplot(aes(x = n,
+             y = region,
+             alpha = oecd)) +
+  geom_point() +
+  ggrepel::geom_text_repel(aes(label = iso2c), size = 2) +
+  scale_alpha_manual(values = c(.15, 1)) +
+  theme_bw() +
+  theme(legend.position="none") +
+  labs(y = NULL,
+       x = "Articles")
+```
 
 Addressing this shortfall is the first of the contributions of this book.
 
@@ -380,7 +484,7 @@ The hazard of a one-sided approach is the risk of simultaneity bias due to endog
 The book proceeds as follows.
 In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
 
-![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='t' height=3in}
+![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
