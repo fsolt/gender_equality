@@ -69,8 +69,10 @@ gr <- read_csv(here("paper",
            {ifelse(str_count(., ",") > 1,
                    str_replace(., ",.*", " et al."),
                    .)} %>% 
-           str_replace(", ([A-Z][a-z]+)$", ", and \\1") %>% 
-           str_replace("^([A-Z][a-z]+(?:-[A-Z][a-z]+)?), and ([A-Z][a-z]+)$", "\\1 and \\2"),
+           str_replace(", ([A-Z][a-z]+)$", ", and \\1") %>%
+           str_replace("^([A-Z][a-z]+(?:-[A-Z][a-z]+)?), and ([A-Z][a-z]+)$", "\\1 and \\2") %>% 
+           str_replace("Thornton, ", "Thornton and ") %>% 
+           str_replace("Pedula, ", "Pedula and "),
          citation = paste(last_names, year),
          k = if_else(k == 13.5, k, round(k)),
          t = round(t, 1),
