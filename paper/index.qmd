@@ -1,10 +1,6 @@
-# Preface for KIRL Readers {.unnumbered}
 
-After a year of fruitlessly spinning wheels while trying to address the comments we received on earlier versions, an epiphany struck just a month ago.
-The comments we were having so much trouble addressing arose because we were not addressing the right debates.
-The book needed reframed.
+# Preface {.unnumbered}
 
-This recognition has us more excited than ever for the work's potential, but one upshot of its recentness is that the new introduction, theory, and conclusion chapters remain still very drafty, little more than outlines really.
-Much to do, but it will get done.
-
-So, with apologies for its still incomplete state, we thank you for taking a look at this work.
+Thanks to KIRL (of course).
+Thanks too to OPVR and CLAS at Iowa.
+Also presented at Iowa, Konstanz, Purdue, Buffalo, Mizzou, EUI, UMKC.

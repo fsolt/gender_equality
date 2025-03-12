@@ -1,4 +1,3 @@
-
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
 
