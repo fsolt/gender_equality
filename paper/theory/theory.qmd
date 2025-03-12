@@ -115,19 +115,17 @@ This means, mercifully, that we don't have to also control for the strength of t
 Before we proceed further, we need to define the universe for the study.
 As always, there are competing concerns.
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions [see, e.g., @King2021, 121].
-T
-Our measure of macroegalitarianism, the Public Gender Egalitarianism scores, were created to allow 
-
-The Public Gender Egalitarianism scores we present in the next chapter desire to get beyond "just the U.S." or "just western Europe" was of course a big reason to generate the PGE data in the first place, to enable "cross-national, cross-regional" work [see @Wilson2022].
+The Public Gender Egalitarianism scores we present in the next chapter are motivated by a desire to get beyond research designs that are limited to "just the U.S." or "just western Europe"---designs that are all too common, as we found at @sec-scholarship---that is, by the desire to enable cross-national, cross-regional work [see @Wilson2022].
 But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
-The theories outlined above presuppose a certain minimum level of democracy---at least the minimal definition of democracy presented by @Przeworski2000 [, 14-16] as "a regime in which those who govern are selected through contested elections" ---and so countries that don't clear that very low bar should be excluded.^[
+The theories outlined above presuppose a certain minimum level of democracy---at least the minimal definition of democracy presented by @Przeworski2000 [, 14-16] as "a regime in which those who govern are selected through contested elections."
+Countries that do not clear that very low bar, therefore, should be excluded.^[
 This is not to say that governments in authoritarian countries do not at least sometimes work to represent public opinion.
 In fact, there is reason to think---and evidence to show---that they sometimes do [see, e.g., @Tang2016 on China; @Lueders2022 on the German Democratic Republic].
 Our point here is that the mechanisms through which public opinion may be translated to policy in authoritarian regimes is different from those suggested in the theories outlined above, and so for present purposes we should set those cases aside.]
 And politics works in many developing democracies in ways that suggest that the processes these theories describe may unfold very differently there---widespread clientelism, for example, is thought to work to exclude women from politics at every level [see, e.g, @Arriola2014; @Franceschet2014; @Benstead2015; @Paxton2021, 156-157].
 In light of these considerations, we will set aside for future research consideration of the processes of representation and responsiveness in authoritarian or developing countries and focus here on the advanced democracies.
 
-It is important, however, to be sure to not interpret "advanced democracies" as simply "Western Europe and North America."
+We consider it important, however, to be sure to not interpret "advanced democracies" as simply "Western Europe and North America."
 There are certainly countries with advanced economies and long-standing democracies that are found beyond those regions.
 Japan is an obvious example.
 Yet we do not want to engage in the exercise of picking the countries that compose our sample by hand.
