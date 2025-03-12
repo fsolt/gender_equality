@@ -24,6 +24,7 @@ p_load(
   countrycode,
   patchwork,
   ggthemes,
+  ggrepel,
   # ggmagnify,
   # ggdist,
   RColorBrewer
@@ -53,11 +54,13 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "Slovakia", "Slovenia", "Spain",
                     "Sweden", "Switzerland", "Turkey", 
                     "United Kingdom", "United States")
+
+wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", " seventeen", "eighteen", "nineteen"), 1:19)[x]
 ```
 
 # Introduction [Still Very Drafty]
 
-Vignettes of the 2016 U.S. and 2022 Korean presidential elections.
+Vignettes of the 2022 Korean and 2024 Mexican presidential elections.
 
 Some observers see in events like these signs of a recurring backlash in the public against gender equality.
 
@@ -78,7 +81,7 @@ In its original formulation, the theory requires citizens to possess a level of 
 
 But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it. 
 @Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
-For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and, in fact, the U.S. public has consistently favored the continued expansion of the program.
+For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds that, in fact, the U.S. public has consistently favored the continued expansion of the program.
 
 So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt a 'thermostatic' backlash?
 
@@ -96,22 +99,21 @@ Before we go on, we should mention that widely-held attitudes toward gender role
 To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
 Specifically, we will call egalitarian public opinion toward gender roles in politics and the workplace as macroegalitarianism.
 
+
+## A Scholarship Limited by the Existing Data {#sec-scholarship}
+
 Much of the reason the questions posed above have yet to be fully answered is that data on macroegalitarianism is scant.
 Even a half century after @RuleKrauss1974 [, 1719] called for more and better data on collective attitudes on gender roles, what we have available to us remains inadequate for fully examining their causes and consequences.
 In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2019a] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
 
-Figure\nobreakspace{}\ref{proj_kt_plot} illustrates the trade-off between the breadth of country coverage and the number of years available for each country.
-It plots, for each survey project, the number of countries for which data on gender egalitarianism are available against the mean number of years these data are available per country.
-Some survey projects ask more than one question on the topic, but here, only the most frequently asked single question on the topic is shown.
-An 'L' shape is readily evident.
-Many surveys, clustered in the lower left at the bend in the L, ask questions about support for gender equality in only a few different country-year contexts.
-Some though, such as the U.S. General Social Survey (GSS) and the Swedish Society, Opinion, and Media (SOM) project in the top left, have fielded such questions repeatedly over many years in a single country, although even these efforts fall short of complete time series.
-Others, including the World Values Survey (WVS) and the Pew International Religion Surveys along the bottom and towards the right, provide information about many countries across one or a few years.
-The International Social Survey Program (ISSP), which surveyed respondents in 52 countries in as many as nine years (mean: 4.3 years) over two decades, provides the most over-time data for the most countries.
-No single survey combines broad, cross-regional country coverage with longitudinal time-series data.
+```{r}
+#| label: fig-proj-kt
+#| fig-cap: "Countries and Mean Years Observed in Survey Datasets"
+#| fig-height: 4.75
+#| fig-width: 7.5
+#| fig-pos: 'h'
 
-```{r proj-kt-plot, fig.cap="Countries and Mean Years Observed in Survey Datasets \\label{proj_kt_plot}", fig.height=4, fig.pos='h', cache=FALSE}
 dcpo_input_raw <- read_csv(here::here("paper",
                                       "measuring_egalitarianism",
                                       "data", 
@@ -170,6 +172,16 @@ proj_kt_plot <- ggplot(proj_kt, aes(y = t, x = k)) +
 
 proj_kt_plot + plot_annotation(caption = str_wrap("Notes: The number of countries and mean years observed are plotted only for the most frequently asked single question on attitudes toward women's equality in each survey project.", width = 114))
 ```
+
+@fig-proj-kt illustrates the trade-off in available survey datasets including questions on attitudes toward gender roles between the breadth of country coverage and the number of years available for each country.
+It plots, for each survey project, the number of countries for which data on gender egalitarian attitudes are available against the mean number of years these data are available per country.
+Some survey projects ask more than one question on the topic, but here, only the most frequently asked single question on the topic is shown.
+An 'L' shape is readily evident.
+Many surveys, clustered in the lower left at the bend in the L, ask questions about support for gender equality in only a few different country-year contexts.
+Some though, such as the U.S. General Social Survey (GSS) and the Swedish Society, Opinion, and Media (SOM) project in the top left, have fielded such questions repeatedly over many years in a single country, although even these efforts fall short of complete time series.
+Others, including the World Values Survey (WVS) and the Pew International Religion Surveys along the bottom and towards the right, provide information about many countries across one or a few years.
+The International Social Survey Program (ISSP), which surveyed respondents in 52 countries in as many as nine years (mean: 4.3 years) over two decades, provides the most over-time data for the most countries.
+No single survey combines broad, cross-regional country coverage with longitudinal time-series data.
 
 ```{r}
 #| label: fig-gr
@@ -293,27 +305,24 @@ The recent work of @Scarborough2021 employs U.S. GSS data in 21 years from 1977 
 Of the studies not using the U.S. GSS, @Schober2013 takes advantage of panel data in 16 waves of the British Household Panel Survey to assess how gender egalitarian attitudes influence changes in time use after parenthood.
 
 Spread horizontally along the bottom of the plot, over a third of the sample considers data from multiple countries in a sole cross-section.
-Not surprisingly given its position in Figure\nobreakspace{}\ref{proj_kt_plot}, the WVS is the most frequently used source among articles in the lower right of @fig-gr.
+Not surprisingly given its position in @fig-proj-kt, the WVS is the most frequently used source among articles in the lower right of @fig-gr.
 The highest number of countries is examined in the much-cited work of @Alesina2013, which collapses data from three waves of the WVS for a total of 79 countries into one cross-section to examine whether traditions of plow-based agriculture have a negative influence on the extent of egalitarian gender attitudes.
 
+The observation of four decades ago of @Stimson1985 [, 914] regarding political science that "[w]e do comparative analyses across space, dynamic analyses over time, but almost never do we do dynamic comparison" holds true among these prominent and interdisciplinary works on attitudes toward gender equality.
 Research considering data from two or more countries _and_ two or more years per country encompass just one-tenth of these articles.
 @Arpino2015 uses changes in attitudes toward gender equality in the labor market---and the gap between men and women in these attitudes---to predict the total fertility rate in 27 European and North American countries drawing on data from three waves of the combined WVS and European Values Survey.
 The resulting 81 observations is the largest number of country-years analyzed in any of these prominent works. 
-Pooling data from WVS and Arab Barometer surveys, @Glas2019a (along with a companion piece, @Glas2020) examined the relationship between feminism and religiosity among Arab Muslims in 15 countries across 51 country-years, an average of 3.4 years observed per country; this represents the greatest over-time variation of any cross-national study in this sample.
-Among these prominent works, none of the articles including five or more countries is able to examine public opinion in more than five years in any of the countries included in their analyses.
+Pooling data from WVS and Arab Barometer surveys, Glas and Spierings [-@Glas2019a; along with a companion piece, @Glas2020] examined the relationship between feminism and religiosity among Arab Muslims in 15 countries across 51 country-years, an average of 3.4 years observed per country; this represents the greatest over-time variation of any cross-national study in this sample.
+None of the articles including five or more countries is able to examine public opinion in more than five years in any of the countries included in their analyses.
 
-That these L-shaped distributions in the available datasets and the resulting analyses should limit our confidence in our conclusions should be readily evident.
-The single-country studies that make up the vertical part of the L, even those over many years, naturally leave questions regarding the generalizability of their findings to other parts of the world [see, e.g., @King2021, 210].
+That these L-shaped distributions in the available datasets and the resulting analyses should limit the confidence any of us can feel in our conclusions should be readily evident.
+The single-country studies that make up the vertical part of the L, even those over many years, by their nature leave questions regarding the generalizability of their findings to other parts of the world [see, e.g., @King2021, 210; @Pepinsky2019, 193].
 The cross-national analyses on the horizontal, with just one or perhaps a few time points to leverage, on the other hand, often raise concerns that differences across countries are being conflated with over-time causal processes [see, e.g., @Jackman1985, 173-174].
 
-Moreover
-That a disproportionate share of the available surveys and of the research on public opinion on gender equality focuses on Europe and North America only compounds these issues.
-As @Wilson2022 [, 1037] points out, such geographic bias makes the scope conditions of even cross-national studies difficult to discern.
-
-```{r}
-#| label: fig-countries
+```{r, eval=FALSE}
+#| label: fig-countries0
 #| fig-cap: "Count of Prominent Articles Including Countries in Each Region"
-#| fig-height: 5
+#| fig-height: 6
 #| fig-width: 7.5
 #| fig-pos: 'h'
 
@@ -384,7 +393,10 @@ countries <- read_csv(here("paper",
                          countrycode(country,
                              origin = "country.name",
                              destination = "iso2c"),
-                         NA_character_))
+                         NA_character_),
+         jitter_height = if_else(region == "Europe",
+                                 .25,
+                                 0.01))
 
 oecd_regions <- countries %>% 
   group_by(region, oecd) %>% 
@@ -418,20 +430,165 @@ oecd_regions <- countries %>%
 #   ylab(NULL) +
 #   xlab("Articles")
 
+# countries %>% 
+#   ggplot(aes(x = n,
+#              y = region)) +
+#   geom_point(data = countries %>% 
+#                   filter(!oecd),
+#              alpha = .2,
+#              position = position_jitter(height = .3,
+#                                         seed = 10)) +
+#   geom_text(data = countries %>% 
+#                   filter(oecd & !(region %in% c("Europe",
+#                                               "Latin America & Caribbean"))),
+#             aes(label = iso2c),
+#             size = 2.1) +
+#   geom_text(data = countries %>% 
+#               filter(oecd & (region %in% c("Europe",
+#                                               "Latin America & Caribbean"))),
+#             aes(label = iso2c),
+#             size = 2.1,
+#             position = position_jitter(width = .1,
+#                                         height = .3,
+#                                         seed = 10)) +
+#   # scale_alpha_manual(values = c(.15, 1)) +
+#   theme_bw() +
+#   theme(legend.position="none") +
+#   labs(y = NULL,
+#        x = "Articles")
+
 countries %>% 
   ggplot(aes(x = n,
-             y = region,
-             alpha = oecd)) +
-  geom_point() +
-  ggrepel::geom_text_repel(aes(label = iso2c), size = 2) +
-  scale_alpha_manual(values = c(.15, 1)) +
+             y = region)) +
+  geom_point(data = countries %>% 
+                  filter(!oecd),
+             alpha = .2,
+             position = position_jitter(height = .2,
+                                        seed = 10)) +
+  geom_text(data = countries %>% 
+                  filter(oecd & !(region %in% c("Europe",
+                                              "Latin America & Caribbean"))),
+            aes(label = iso2c),
+            size = 2.1) +
+  geom_text_repel(data = countries %>% 
+              filter(oecd & (region %in% c("Europe",
+                                              "Latin America & Caribbean"))),
+            aes(label = iso2c),
+            size = 2.1,
+            max.overlaps = 20) +
   theme_bw() +
   theme(legend.position="none") +
   labs(y = NULL,
        x = "Articles")
 ```
 
-Addressing this shortfall is the first of the contributions of this book.
+```{r}
+#| label: fig-countries
+#| fig-cap: "Count of Prominent Articles Including Each Country by Region"
+#| fig-height: 6
+#| fig-width: 7.5
+#| fig-pos: 'h'
+
+countries <- read_csv(here("paper",
+                           "introduction",
+                           "data-raw",
+                           "countries.csv"),
+                      show_col_types = FALSE) %>% 
+  mutate(country = countrycode(country,
+                               origin = "country.name",
+                               destination = "country.name")) %>% 
+  count(country) %>% 
+  arrange(n, rev(country)) %>% 
+  mutate(oecd = country %in% oecd_countries,
+         region = countrycode(country,
+                              origin = "country.name",
+                              destination = "region23"),
+         region = case_when(country %in% 
+                              c("Canada", "United States") ~
+                              "North America",
+                            str_detect(region, "Eastern Asia") ~ "East Asia",
+                            str_detect(region, "Southern Asia") ~ "South Asia",
+                            str_detect(region, "Western Asia") ~ "West Asia",
+                            str_detect(country, "Taiwan") ~ "East Asia",
+                            str_detect(country, "Russia") ~ "Central Asia",
+                            str_detect(region, "Europe") ~ "Europe",
+                            str_detect(region, "Caribbean|Central America|South America") ~ "Latin America &\nCaribbean",
+                            str_detect(region, "Australia") ~ "Oceania",
+                            str_detect(region, "Africa") ~ "Africa",
+                            TRUE ~ region) %>% 
+           fct_relevel("Africa",
+                       "Central Asia",
+                       "South Asia",
+                       "Latin America &\nCaribbean",
+                       "West Asia",
+                       "East Asia",
+                       "Europe",
+                       "Oceania",
+                       "North America"),
+         iso2c = countrycode(country,
+                             origin = "country.name",
+                             destination = "iso2c"),
+         # iso2c = if_else(oecd,
+         #                 countrycode(country,
+         #                             origin = "country.name",
+         #                             destination = "iso2c"),
+         #                 NA_character_),
+         jitter_height = if_else(region == "Europe",
+                                 .25,
+                                 0.01))
+
+plot_seed <- 14; countries %>%
+  ggplot(aes(x = n,
+             y = region)) +
+  geom_text(data = countries %>%
+               filter(!oecd),
+             aes(label = iso2c),
+             size = 2.2,
+             alpha = .3,
+             position = position_jitter(height = .25,
+                                        seed = plot_seed)) +
+  # geom_point(data = countries %>%
+  #                 filter(!oecd),
+  #            alpha = .2,
+  #            position = position_jitter(height = .25,
+  #                                       seed = plot_seed)) +
+  geom_text(data = countries %>%
+                  filter(oecd & !(region %in% c("Europe",
+                                              "Latin America &\nCaribbean"))),
+            aes(label = iso2c),
+            size = 2.2) +
+  geom_text(data = countries %>%
+              filter(oecd & (region %in% c("Europe",
+                                              "Latin America &\nCaribbean"))),
+            aes(label = iso2c),
+            size = 2.2,
+            position = position_jitter(width = .1,
+                                        height = .33,
+                                        seed = plot_seed)) +
+  theme_bw() +
+  theme(legend.position="none",
+        axis.text.y = element_text(size=10)) +
+  labs(y = NULL,
+       x = "Articles",
+       title = "Geographic Concentration in Prominent Articles on\nPublic Opinion on Gender Roles") +
+  plot_annotation(caption = str_wrap("Notes: Countries are represented by their ISO-2 codes; OECD members are emphasized.  Overlapping observations are jittered slightly to enhance visibility.  See Appendix A for details on this sample of prominent articles.", width = 120))
+```
+
+This unease is compounded by the fact that this research is geographically concentrated.
+While @fig-gr depicted the number of countries and years in each study in our sample of prominent works, @fig-countries takes the opposite perspective and shows the number of these articles that include each country.
+One hundred eighteen countries are included in the analysis of at least one of the papers.
+Eight countries are covered exactly once.
+Considering the countries that are included in any of these works, the median is included just five times.
+Not surprisingly, the advanced democracies of the Organization for Economic Cooperation and Development (OECD) are generally better studied in these prominent articles [cf. @Wilson2022, 1025].
+All but two of a list of the top twenty most-included countries in this sample of prominent works are OECD members, and those non-OECD countries are ranked last (China, tied with four OECD members) and next to last (Brazil) on this list.
+The median OECD country appears in `r countries %>% filter(oecd) %>% pull(n) %>% median() %>% wordify_numeral()` articles.
+Still, there is considerable bias in coverage even among the OECD countries.
+At one end, Costa Rica, Luxembourg, and Israel appear in just two, three, and four articles respectively.
+At the other end, the United States is included in `r countries %>% filter(country == "United States") %>% pull(n)` works, nearly five times the OECD median and more than twice as many as the next most studied countries, Germany and the United Kingdom.
+Indeed, among these works, the United States has been the subject of more _single-country_ studies---over one-fourth of our sample---than the number of articles even including any other single country.
+It is a truism that the cases examined influence the conclusions reached [e.g., @Geddes1990], and as @Wilson2022 [, 1037] points out, geographic bias of the sort found in this literature makes the scope conditions of even cross-national studies difficult to discern.
+In sum, a lack of data enabling researchers to look at developments over long stretches of time across many countries has prevented much research on how public opinion, politics, and policy interact with regard to questions of gender equality, and what scholarship exists is further undermined by pervasive geographic bias. 
+
 
 ```{r eval=FALSE, include=FALSE}
 # @Inglehart2003:
@@ -464,19 +621,45 @@ Addressing this shortfall is the first of the contributions of this book.
 
 ## Our Contributions
 
-New data, based on thousands of surveys conducted in countries around the world, allows us to examine these questions together in comparative and dynamic perspective.
-Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update the Public Gender Egalitarianism dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across more than one hundred countries over time.
+```{r pge_stats}
+load(here("data", "pge_summary.rda"))
+n_countries <- pge_summary$country %>%
+  unique() %>%
+  length()
 
-Comparative: our new data allows us to examine experiences of countries around the world, not just in the United States or Europe or any other single region.
-@Wilson2022 on imbalance in countries and regions studied.
-Plus, of course, the cases you choose affect the answers you get [@Geddes1990]. 
+mean_years <- pge_summary %>%
+  group_by(country) %>%
+  summarize(years = max(year) - min(year) + 1) %>% 
+  pull(years) %>% 
+  mean() %>% 
+  round(1)
 
-Dynamic: takes time seriously [@Stimson1995].
-Given our inability to experimentally manipulate either policy or public opinion, how things unfold over time gives the best possible evidence of causation.
+```
+
+Addressing the absence of cross-national time-series data on attitudes toward gender equality is the first of the contributions of this book.
+Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
+The resulting data include information on `r n_countries` countries, with a mean number of consecutive years per country of `r mean_years`.
+In terms of @fig-proj-kt, the updated PGE dataset lands beyond the right hand border and toward the top, with more countries than any of the surveys and a greater mean number of years per country than all but two single-country surveys: Sweden's SOM and the U.S. GSS.
+Moreover, the careful attention to the cross-national comparability of the PGE data reassures that a principal weakness of large-_n_ research is mitigated: weak internal validity due to the difficulties of measurement across countries [see @Jackman1985, 161; @Pepinsky2019, 193-194].
+These new data on macroegalitarianism, based on thousands of surveys conducted in countries around the world, allows us to examine the causes and consequences of macroegalitarianism together in comparative and dynamic perspective.
+
+That our perspective is _broadly comparative_ is crucial.
+These new data allows us to take a cross-national, cross-regional comparative approach and examine the experiences of all of the countries around the world to which the theories of representation and responsiveness mentioned above clearly apply.
+Single-country studies have long been the dominant research design in comparative politics [see, e.g., @Munck2007, 22; @Schedler2010, 421; @Pepinsky2019, 192], as in the interdisciplinary sample of prominent works on attitudes toward gender roles we presented above, but such works often struggle to address concerns regarding external validity, that is, whether the findings reached in the country studied generalize to anywhere else [see, e.g., @Jackman1985, 164; @Lieberman2005, 441; @Findley2021, 381].
+The same question is raised by even cross-national comparative studies that are regionally concentrated: there is not necessarily reason to suppose that their conclusions hold elsewhere.
+By allowing us to look at advanced democracies in North America, Oceania, Europe, east Asia, west Asia, and Latin America, the PGE data increases the likelihood that our conclusions regarding macroegalitarianism will not be limited to the context of a single country or region.
+
+The _dynamic_ perspective of our analyses is no less important.
+It has long been known that cross-sectional associations, that is, those established by looking only across countries at a single time, have several weaknesses that are not ameliorated no matter how broadly comparative the sample.
+If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether policy adoptions represent the public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result some other, unobserved cause [see, e.g., @Rustow1968, 48].
+Because democratic representation and public responsiveness are necessarily processes that unfold over time, our evidence for these processes should look over time as well [e.g., @Stimson1995, 543; @Soroka2010, 22-23].
+Pooling data across countries and over time in analyses that are both comparative _and_ dynamic has been long recognized as "an extraordinarily robust research design" for drawing causal inferences [@Stimson1985, 916] and given the inability to experimentally manipulate any of our variables of interest---public opinion, women in office, or policy---provides the best possible evidence of causation.
 
 Considers party and policy representation alongside public responsiveness.  
 Previous works tend to look at either one side of this loop or the other.
 The hazard of a one-sided approach is the risk of simultaneity bias due to endogeneity.
+
+Multilevel @Lieberman2005 @Findley2021 @Snyder2001
 
 
 ## Plan of the Book
@@ -489,20 +672,19 @@ In the next chapter, we review the theories and existing evidence on the relatio
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
 
-Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the relatively rich democracies of the OECD.
-There, it explores the implications of these theories for women's descriptive representation, in particular, women's success in winning election to national legislatures.
+Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the advanced democracies that constitute the OECD.
+There, we explore the implications of these theories for women's descriptive representation, and in particular, women's success in winning election to national legislatures.
 Our analyses show that increases in macroegalitarianism predict subsequent gains in descriptive representation for women and that, in turn, the public responds to more women in office not with a backlash but instead by growing even more egalitarian in their views.
 
 Chapter 5 turns to the adoption of policies advancing gender equality in the public sphere, both in politics and in paid employment.
 Looking again across the OECD, it finds that governments represent the views of their citizens: when macroegalitarianism increases, laws setting national legislative gender quotas and policies that put women on equal footing in the workforce are more likely to be adopted.
-Intriguingly, these effect does not appear to work through improvements in descriptive representation: when the public becomes more egalitarian, it seems that both men and women legislators represent their constituents by favoring policies that advance gender equality.
+Intriguingly, these effects do not appear to work through improvements in descriptive representation: when the public becomes more egalitarian, it seems that both men and women legislators represent their constituents by favoring policies that advance gender equality.
 We find some evidence of public responsiveness in this chapter as well.
 All of this evidence indicates that policymaking and public opinion constitute a virtuous circle, that the adoption of policies advancing gender equality leads, if anything, to more macroegalitarianism rather than to the backlash of a thermostatic response.
 
 In Chapters 6 and 7, we further examine the relationships between public opinion, descriptive representation, and policy outcomes in case studies of Mexico and South Korea, delving into the processes by which gender egalitarian attitudes are, and are not, converted into political outcomes that further gender equality.
-Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades.
-Korea, on the other hand, has not witnessed such developments.
+As we suggested in the opening pages, Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades while Korea, on the other hand, has not witnessed such developments.
 Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality.
 
-Chapter 8 concludes the book by reviewing the evidence for dynamic descriptive and substantive representation and public responsiveness.
+Chapter 8 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
 It considers our findings' implications for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
