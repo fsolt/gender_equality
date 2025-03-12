@@ -1547,7 +1547,7 @@ ggplot(dft_data1, aes(x = year, y = dft, label = iso2c, group = iso2c)) +
   scale_y_continuous(limits=c(0, 50),
                      breaks=seq(0, 50, by = 10)) +
   labs(x = NULL, y = "National Quota, De Facto Threshold") +
-  plot_annotation(caption = "To facilitate identifying developments within countries, adopted quotas and their subsequent reforms are joined by dotted lines.  Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).")
+  plot_annotation(caption = str_wrap("To facilitate identifying developments within countries, adopted quotas and their subsequent reforms are joined by dotted lines.  Sources: Hughes et al. (2019); International Institute for Democracy and Electoral Assistance (2023).", 120))
 ```
 
 Figure&nbsp;\ref{qarot} shows the adoption and reform of national legislative gender quotas over time in the rich democratic countries of our study.
