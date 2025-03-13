@@ -61,7 +61,9 @@ wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five",
 
 Vignettes of the 2022 Korean and 2024 Mexican presidential elections.
 
-Some observers see in events like these signs of a recurring backlash in the public against gender equality.
+Both countries experienced transitions to democracy in the 1990s, and both enjoyed economic expansion that saw them rise to the ranks of the world's most advanced economies.  Both notoriously patriarchical.
+
+Some observers see in events like the Korean election as signs of a recurring backlash in the public against gender equality.
 
 @Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.] 
 
@@ -72,11 +74,9 @@ More on backlash: @Bishin2016; @Flores2016; @Redman2018 and works cited
 @Bishin2016, 625: "In some cases, the term [backlash] is used to refer to a sharply negative change in public opinion in response to policy change, while in others, backlash merely reflects actions (e.g., protests, voting) taken by those who have always held negative opinions toward the group."
 @Bishin2016, 626: "We define opinion backlash as a large, negative, and enduring shift in opinion against a policy or group that occurs in response to some event that threatens the status quo. Backlash may be evidenced by changes in any of several aspects of opinion, including policy positions, the intensity of feeling about an issue, or the attitudes expressed toward members of the group."
 
-
 Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [see @Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
 
-In its original formulation, the theory requires citizens to possess a level of knowledge of politics that a long line of public opinion research shows is unrealistic, and as recently re-elaborated it requires the issue in question to be debated by political parties so as to provide cues to the broader public as to what is going on (Atkinson et al. 2021, 5–6).
-
+Re thermostatic: "In its original formulation, the theory requires citizens to possess a level of knowledge of politics that a long line of public opinion research shows is unrealistic, and as recently re-elaborated it requires the issue in question to be debated by political parties so as to provide cues to the broader public as to what is going on [@Atkinson2021, 5–6]."
 
 But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it. 
 @Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
@@ -666,13 +666,13 @@ Thanks to the long time series the PGE data make available to us to examine, we 
 ![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
 We bolster confidence in our conclusions in two additional ways.
-@Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time-series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized and the theoretical concepts of interest.
+@Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time-series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.
 Therefore, we pay careful attention to the measurement validation of the PGE data as our operationalization of the concept of macroegalitarianism, public opinion toward gender roles in politics and the workplace.
-And with regard to what constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness, we employ multiple indicators.
-We examine women's descriptive representation in national legislatures, a measure of gender equality in politics; the policy most closely linked to advancing gender equality in politics, the adoption and reform of gender quotas; and the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace.
+And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators.
+We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.
+The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
 
-
-Multilevel @Lieberman2005 @Findley2021 @Snyder2001
+**Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001**
 
 
 ## Plan of the Book
