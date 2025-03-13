@@ -1,4 +1,4 @@
-# Dynamic Substantive Representation
+# Dynamic Democracy and Policy Adoption
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -477,8 +477,8 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "United Kingdom", "United States")
 ```
 
-Definitions of substantive representation and dynamic representation, how do we get to dynamic substantive representation.
-<!-- @Weeks2022a [,16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic -->
+Distinguish substantive representation and dynamic representation.
+@Weeks2022a [, 16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic.
 
 In this chapter, we consider policies that advance gender equality, first in  politics and then in the workplace.
 
@@ -610,7 +610,7 @@ Belgium and Costa Rica adopted their 50% requirements in two steps, previously r
 Clearly quota adoption and reform has varied greatly across countries and over time.
 
 
-### Substantive Representation in National Gender Quota Adoption
+### Policy Representation in National Gender Quota Adoption
 
 Does macroegalitarianism help us to explain these policy differences?
 The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
@@ -677,7 +677,7 @@ To measure descriptive representation here, we use the same data from QAROT and 
 
 Two other potential influences on legislative quota adoption and reform are also familiar from our previous chapter: feminist movement strength and electoral lists.
 Feminist movements are frequently argued to be important to the success of the adoption and reform of national quotas [see @Paxton2021, 196].
-As before, we rely on the Feminist Movement Index (FMI) [@Forester2022] as our measure of the strength of these movements (see Figure 4.5).
+As before, we rely on the Feminist Movement Index [FMI, @Forester2022] as our measure of the strength of these movements (see Figure 4.5).
 And consistent with arguments that electoral systems with at least a party-list component are more "woman-friendly" [@Rule1994, 27] and provide better opportunity structures for feminist activists, such electoral systems may make quota adoption and subsequent strengthening more likely as well [@Paxton2021, 195-196].
 We again draw data on whether elections are held with a list component from the Democratic Electoral Systems Around the World dataset [@Bormann2022].
 
@@ -1122,7 +1122,7 @@ The results are mixed.
 On the one hand, countries that have had higher average quotas over the years examined exhibit more macroegalitarianism than countries that had lower average quotas.
 A country with a mean quota of 9.6%, a value similar to those of Spain and South Korea, is estimated to have PGE scores `r get_coef("pge_mean", coef_data_nqsem)` points higher than an otherwise similar country that never adopted a national legislative gender quota; over time, this estimated difference grows to `r get_coef("pge_mean", coef_data_nqsem_total)` points.
 So, with all of the caveats that should now be familiar regarding cross-national differences and potential omitted variables, this result points to a positive reinforcement of macroegalitarianism by national legislative quotas.
-On the other hand, quota adoptions _within_ a country's timeline do not appear to influence later macroegalitarianism at all: the dashed vertical line a zero bisects the posterior distribution for this estimate very nearly perfectly.
+On the other hand, quota adoptions _within_ a country's timeline do not appear to influence later macroegalitarianism at all: the dashed vertical line at zero bisects the posterior distribution for this estimate very nearly perfectly.
 The one conclusion that is safe to draw from these results is that the adoption and reform of national legislative gender quotas do _not_ provoke a negative response in the public.
 There is no evidence whatsoever of anti-egalitarian backlash.
 
@@ -1315,7 +1315,7 @@ Over the countries and years we analyze here, gender equality policymaking progr
 Both the extent to which these countries have passed these laws and the pace at which they have done so varies considerably.
 
 
-### Substantive Representation in Policies Advancing Workplace Gender Equality
+### Policy Representation in Policies Advancing Workplace Gender Equality
 
 Our first question is whether growing gender egalitarianism among citizens prompts their representatives to adopt policies that enhance gender equality in employment.
 As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and the WBL policy index is very strong.
@@ -2457,7 +2457,7 @@ Our findings with regard to policy representation are unequivocal.
 As the public adopts more gender egalitarian views, legislators are more likely to pass more demanding mandatory gender quotas, laws that require women to make up a specified share of parties' candidates for the legislature.
 Such circumstances also make lawmakers more likely to adopt more of the policies that work to place women on equal footing to men in employment.
 Even enrollments in childcare among the very young---a complex outcome reflecting policies that influence the cost, accessibility, and quality of center-based care as well as the private decisions of parents---responds to shifts in macroegalitarianism.
-Regardless of the particular policy examined, both differences across countries and changes within countries indicate that dynamic substantive representation occurs in policies advancing gender equality.
+Regardless of the particular policy examined, both differences across countries and changes within countries indicate that dynamic representation occurs in policies advancing gender equality.
 
 The results of our investigation of public responsiveness to policy are less consistent but still allow some conclusions to be drawn.
 Cross-national differences in the adoption of the gender-equality policies we considered have a positive relationship with differences in macroegalitarianism, suggesting that at least over the long term these policies work to bolster their own support.
