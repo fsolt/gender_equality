@@ -307,7 +307,7 @@ Spread horizontally along the bottom of the plot, over a third of the sample con
 Not surprisingly given its position in @fig-proj-kt, the WVS is the most frequently used source among articles in the lower right of @fig-gr.
 The highest number of countries is examined in the much-cited work of @Alesina2013, which collapses data from three waves of the WVS for a total of 79 countries into one cross-section to examine whether traditions of plow-based agriculture have a negative influence on the extent of egalitarian gender attitudes.
 
-The observation of four decades ago of @Stimson1985 [, 914] regarding political science that "[w]e do comparative analyses across space, dynamic analyses over time, but almost never do we do dynamic comparison" holds true among these prominent and interdisciplinary works on attitudes toward gender equality.
+The observation of four decades ago of @Stimson1985 [, 914] that "[w]e do comparative analyses across space, dynamic analyses over time, but almost never do we do dynamic comparison," made with regard to political science, also holds true among these prominent and interdisciplinary works on attitudes toward gender equality.
 Research considering data from two or more countries _and_ two or more years per country encompass just one-tenth of these articles.
 @Arpino2015 uses changes in attitudes toward gender equality in the labor market---and the gap between men and women in these attitudes---to predict the total fertility rate in 27 European and North American countries drawing on data from three waves of the combined WVS and European Values Survey.
 The resulting 81 observations is the largest number of country-years analyzed in any of these prominent works. 
@@ -587,7 +587,7 @@ At the other end, the United States is included in `r countries %>% filter(count
 Indeed, among these works, the United States has been the subject of more _single-country_ studies---over one-fourth of our sample---than the number of articles even including any other single country.
 It is a truism that the cases examined influence the conclusions reached [e.g., @Geddes1990], and as @Wilson2022 [, 1037] points out, geographic bias of the sort found in this literature makes the scope conditions of even cross-national studies difficult to discern.
 In sum, a lack of data enabling researchers to look at developments over long stretches of time across many countries has prevented much research on how public opinion, politics, and policy interact with regard to questions of gender equality, and what scholarship exists is further undermined by pervasive geographic bias. 
-
+Addressing the absence of cross-national time-series data on attitudes toward gender equality is the first of the contributions of this book.
 
 ```{r eval=FALSE, include=FALSE}
 # @Inglehart2003:
@@ -635,12 +635,12 @@ mean_years <- pge_summary %>%
 
 ```
 
-Addressing the absence of cross-national time-series data on attitudes toward gender equality is the first of the contributions of this book.
-Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
+Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update and expand the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
 The resulting data include information on `r n_countries` countries, with a mean number of consecutive years per country of `r mean_years`.
-In terms of @fig-proj-kt, the updated PGE dataset lands beyond the right hand border and toward the top, with more countries than any of the surveys and a greater mean number of years per country than all but two single-country surveys: Sweden's SOM and the U.S. GSS.
+In terms of @fig-proj-kt, the revised PGE dataset lands beyond the right hand border and toward the top, with more countries than any of the surveys and a greater mean number of years per country than all but two single-country surveys: Sweden's SOM and the U.S. GSS.
 Moreover, the careful attention to the cross-national comparability of the PGE data reassures that a principal weakness of large-_n_ research is mitigated: weak internal validity due to the difficulties of measurement across countries [see @Jackman1985, 161; @Pepinsky2019, 193-194].
-These new data on macroegalitarianism, based on thousands of surveys conducted in countries around the world, allows us to examine the causes and consequences of macroegalitarianism together in comparative and dynamic perspective.
+These new data on macroegalitarianism, based on thousands of surveys conducted in countries around the world, provides a description of macroegalitarianism's levels across countries and regions and its trends over time that is far more comprehensive than any previously available.
+In turn, this comprehensive dataset allows us to examine the causes and consequences of macroegalitarianism---for present purposes, public responsiveness and democratic representation---together in comparative and dynamic perspective.
 
 That our perspective is _broadly comparative_ is crucial.
 These new data allows us to take a cross-national, cross-regional comparative approach and examine the experiences of all of the countries around the world to which the theories of representation and responsiveness mentioned above clearly apply.
@@ -649,14 +649,28 @@ The same question is raised by even cross-national comparative studies that are 
 By allowing us to look at advanced democracies in North America, Oceania, Europe, east Asia, west Asia, and Latin America, the PGE data increases the likelihood that our conclusions regarding macroegalitarianism will not be limited to the context of a single country or region.
 
 The _dynamic_ perspective of our analyses is no less important.
-It has long been known that cross-sectional associations, that is, those established by looking only across countries at a single time, have several weaknesses that are not ameliorated no matter how broadly comparative the sample.
+It has long been understood that cross-sectional associations, that is, those established by looking only across countries at a single time, have several weaknesses that are not ameliorated no matter how broadly comparative the sample may be.
 If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether policy adoptions represent the public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result some other, unobserved cause [see, e.g., @Rustow1968, 48].
 Because democratic representation and public responsiveness are necessarily processes that unfold over time, our evidence for these processes should look over time as well [e.g., @Stimson1995, 543; @Soroka2010, 22-23].
-Pooling data across countries and over time in analyses that are both comparative _and_ dynamic has been long recognized as "an extraordinarily robust research design" for drawing causal inferences [@Stimson1985, 916] and given the inability to experimentally manipulate any of our variables of interest---public opinion, women in office, or policy---provides the best possible evidence of causation.
+Pooling data across countries and over time in analyses that are both comparative _and_ dynamic has been long recognized as "an extraordinarily robust research design" for drawing causal inferences [@Stimson1985, 916; see also @Western1998; @Shor2007; @Bell2015; @Bell2019], and given the inability to experimentally manipulate any of our variables of interest---public opinion, women in office, or policy---it provides the best possible evidence of causation.
 
-Considers party and policy representation alongside public responsiveness.  
+Moreover, a dynamic perspective examining change over time allows us to consider democratic representation _together with_ public responsiveness.
+For representation to occur, changes in public opinion must be reflected in who is elected and the policies adopted; as macroegalitarianism increases, more gender equality should result.
+The public's responsiveness involves an arrow running the opposite direction: changes in officeholding and policy influence the attitudes toward gender equality.
 Previous works tend to look at either one side of this loop or the other.
-The hazard of a one-sided approach is the risk of simultaneity bias due to endogeneity.
+The hazard of such a one-sided approach is the risk of simultaneity bias due to endogeneity.
+This is a more subtle version of the direction-of-causality problem with cross-sectional work identified by @Rustow1968 [, 48].
+If macroegalitarianism rises as a result of a gender egalitarian policy, then considering only whether public opinion causes policy can result in mistaking the former process for the latter.
+Thanks to the long time series the PGE data make available to us to examine, we are able to disentangle these effects with confidence.
+
+![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
+
+We bolster confidence in our conclusions in two additional ways.
+@Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time-series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized and the theoretical concepts of interest.
+Therefore, we pay careful attention to the measurement validation of the PGE data as our operationalization of the concept of macroegalitarianism, public opinion toward gender roles in politics and the workplace.
+And with regard to what constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness, we employ multiple indicators.
+We examine women's descriptive representation in national legislatures, a measure of gender equality in politics; the policy most closely linked to advancing gender equality in politics, the adoption and reform of gender quotas; and the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace.
+
 
 Multilevel @Lieberman2005 @Findley2021 @Snyder2001
 
@@ -665,8 +679,6 @@ Multilevel @Lieberman2005 @Findley2021 @Snyder2001
 
 The book proceeds as follows.
 In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
-
-![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
