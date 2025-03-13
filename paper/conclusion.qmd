@@ -55,7 +55,7 @@ tibble(` ` = c("Women's Descriptive\nRepresentation",
                     "National Legislative\nGender Quotas",
                     "Laws Advancing\nEquality in Employment",
                     "Childcare\nEnrollments"),
-       `Policy\nRepresentation` = c("++", "++", "++", "+"),
+       `Democratic\nRepresentation` = c("++", "++", "++", "+"),
        `Public\nResponsiveness` = c("++", "+", "++", "0")) %>% 
   modelsummary::datasummary_df(output = "kableExtra",
                                align = "lcc",
