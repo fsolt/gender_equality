@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   dpi = 300,
-  fig.width=7
+  fig.width = 7
 )
 
 if (!require(pacman))
@@ -32,6 +32,8 @@ if (!require(pacman))
 library(pacman)
 
 p_install(janitor, force = FALSE)
+
+devtools::install_github("devincaughey/dbmm", ref = "2ae8b62")
 
 p_load(
   # analysis
@@ -53,6 +55,7 @@ p_load(
   broom,
   countrycode,
   DCPOtools,
+  dbmm,
   glue,
   here,
   imputeTS,
@@ -484,29 +487,30 @@ mex05_dir <- here::here("paper", "mexico", "data-raw", "censo2005")
 mex10_dir <- here::here("paper", "mexico", "data-raw", "censo2010")
 mex20_dir <- here::here("paper", "mexico", "data-raw", "censo2020")
 
-censo_regions <- tibble(state = c("Aguascalientes", "Baja California", 
-                                  "Baja California Sur", "Campeche", "Chiapas",
-                                  "Chihuahua", "Ciudad de México", 
-                                  "Coahuila", "Colima", "Durango", "Guanajuato",
-                                  "Guerrero", "Hidalgo", 
-                                  "Jalisco", "Michoacán", "Morelos", "México",
-                                  "Nayarit", "Nuevo León", 
-                                  "Oaxaca", "Puebla", "Querétaro",
-                                  "Quintana Roo", "San Luis Potosí", "Sinaloa",
-                                  "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
-                                  "Veracruz", "Yucatán", "Zacatecas",
-                                  "Distrito Federal"),
-                        region = structure(c(2L, 1L, 1L, 4L, 
-                                             4L, 1L, 3L, 1L, 2L, 1L, 2L, 4L, 3L,
-                                             2L, 2L, 3L, 3L, 2L, 1L, 4L, 
-                                             3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
-                                           4L, 4L, 1L, 3L), 
-                                         levels = c("Norte",
-                                                    "Centro Occidente",
-                                                    "Centro", 
-                                                    "Sur"), class = "factor"))
+circunscripciones <- tibble(state = c("Aguascalientes", "Baja California", 
+                                     "Baja California Sur", "Campeche", "Chiapas",
+                                     "Chihuahua", "Ciudad de México", 
+                                     "Coahuila", "Colima", "Durango", "Guanajuato",
+                                     "Guerrero", "Hidalgo", 
+                                     "Jalisco", "Michoacán", "Morelos", "México",
+                                     "Nayarit", "Nuevo León", 
+                                     "Oaxaca", "Puebla", "Querétaro",
+                                     "Quintana Roo", "San Luis Potosí", "Sinaloa",
+                                     "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala",
+                                     "Veracruz", "Yucatán", "Zacatecas",
+                                     "Distrito Federal"),
+                        circunscripcion = structure(c(2L, 1L, 1L, 3L, 
+                                             3L, 1L, 4L, 2L, 5L, 1L, 2L, 4L, 5L,
+                                             1L, 5L, 4L, 5L, 1L, 2L, 3L, 
+                                             4L, 2L, 3L, 2L, 1L, 1L, 3L, 2L, 4L,
+                                           3L, 3L, 2L, 4L), 
+                                         levels = c("I",
+                                                    "II",
+                                                    "III", 
+                                                    "IV",
+                                                    "V"), class = "factor"))
 
-amb_regions <- tibble(var_state = 1:32,
+amb_regions <- tibble(var_state = c(1:32, 10000),
                       state = c("Aguascalientes", "Baja California", 
                                 "Baja California Sur", "Campeche", "Chiapas",
                                 "Chihuahua", "Coahuila", "Colima", 
@@ -518,16 +522,84 @@ amb_regions <- tibble(var_state = 1:32,
                                 "Oaxaca", "Puebla", "Querétaro", "Quintana Roo",
                                 "San Luis Potosí", "Sinaloa", "Sonora",
                                 "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz",
-                                "Yucatán", "Zacatecas"),
-                      region = structure(c(2L, 1L, 1L, 4L, 
-                                           4L, 1L, 1L, 2L, 3L, 1L, 2L, 4L, 3L,
-                                           2L, 2L, 3L, 3L, 2L, 1L, 4L, 
-                                           3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
-                                           4L, 4L, 1L), 
-                                         levels = c("Norte",
-                                                    "Centro Occidente",
-                                                    "Centro", 
-                                                    "Sur"), class = "factor"))
+                                "Yucatán", "Zacatecas", "National"),
+                      region = c(2L, 1L, 1L, 4L, 
+                                 4L, 1L, 1L, 2L, 3L, 1L, 2L, 4L, 3L,
+                                 2L, 2L, 3L, 3L, 2L, 1L, 4L, 
+                                 3L, 3L, 4L, 1L, 1L, 1L, 4L, 1L, 3L,
+                                 4L, 4L, 1L, 100L),
+                      region3 = c(2L, 1L, 1L, 3L, 
+                                 3L, 1L, 1L, 2L, 3L, 1L, 2L, 3L, 2L,
+                                 2L, 2L, 2L, 2L, 2L, 1L, 3L, 
+                                 2L, 2L, 3L, 1L, 1L, 1L, 3L, 1L, 2L,
+                                 3L, 3L, 1L, 100L),
+                      circunscripcion = c(2L, 1L, 1L, 3L, 3L, 1L,
+                                          2L, 5L, 4L, 1L, 2L, 4L,
+                                          5L, 1L, 5L, 4L, 5L, 1L,
+                                          2L, 3L, 4L, 2L, 3L, 2L,
+                                          1L, 1L, 3L, 2L, 4L, 3L,
+                                          3L, 2L, 100L)) %>% # region and circunscripcion
+  bind_rows(tibble(var_state = c(2003006001000250026,
+                                 140018, 70019002400280032,
+                                 10011,
+                                 400500200023002700300031, 9001600210029,
+                                 80015, 130017),
+                   state = c("Baja California, Baja California Sur, Chihuahua, Durango, Sinaloa, Sonora",
+                             "Jalisco, Nayarit", "Coahuila, Nuevo León, San Luis Potosí, Tamaulipas, Zacatecas", 
+                             "Aguascalientes, Guanajuato",
+                             "Campeche, Chiapas, Oaxaca, Quintana Roo, Tabasco, Veracruz, Yucatán", "Distrito Federal, Puebla, Tlaxcala",
+                             "Colima, Michoacán", "Hidalgo, México"),
+                   region = c(1L, 
+                              2L, 1L,
+                              2L,
+                              4L, 3L,
+                              2L, 3L),
+                   region3 = c(1L, 
+                               2L, 1L,
+                               2L,
+                               3L, 2L,
+                               2L, 2L),
+                   circunscripcion = c(1L, 1L, 2L, 2L, 3L, 4L, 5L, 5L))) %>% # circunscripcion only
+  bind_rows(tibble(circunscripcion = c(1L, 2L, 3L, 4L, 5L),
+                   state = c("Baja California, Baja California Sur, Chihuahua, Durango, Jalisco, Nayarit, Sinaloa, Sonora",
+                             "Aguascalientes, Coahuila, Guanajuato, Nuevo León, Queretaro, San Luis Potosi, Tamaulipas, Zacatecas", 
+                             "Campeche, Chiapas, Oaxaca, Quintana Roo, Tabasco, Veracruz, Yucatán", 
+                             "Distrito Federal, Guerrero, Morelos, Puebla, Tlaxcala", 
+                             "Colima, Hidalgo, Michoacan, Mexico"),
+                   region = c(5L, 5L, 4L, 6L, 7L),
+                   region3 = c(6L, 7L, 3L, 2L, 2L),
+                   var_state = c(200300600100014001800250026,
+                                 1007001100190022002400280032,
+                                 400500200023002700300031, 
+                                 9001200160021002900,
+                                 8001300150017))) %>% 
+  bind_rows( # region only
+    full_join(tibble(region = c(1L, 2L, 3L, 4L, 5L),
+                   state = c("Baja California, Baja California Sur, Chihuahua, Coahuila, Durango, Nuevo León, San Luis Potosí, Sinaloa, Sonora, Tamaulipas, Zacatecas",
+                             "Aguascalientes, Colima, Guanajuato, Jalisco, Michoacán, Nayarit", 
+                             "Distrito Federal, Hidalgo, Morelos, México, Puebla, Querétaro, Tlaxcala", 
+                             "Campeche, Chiapas, Guerrero, Oaxaca, Quintana Roo, Tabasco, Veracruz, Yucatán",
+                             "Aguascalientes, Colima, Guanajuato, Jalisco, Michoacán, Nayarit, Distrito Federal, Hidalgo, Morelos, México, Puebla, Querétaro, Tlaxcala"), 
+                   circunscripcion = c(6, 7, 8, 9, 10),
+                   var_state = c(20030060070010001900240025002600280032,
+                                 10080011001400150018, 
+                                 9001300160017002100220029,
+                                 4005001200200023002700300031,
+              10080011001400150018009001300160017002100220029)),
+              # region3 only
+  tibble(region3 = c(1L, 3L, 2L, 4L, 5L),
+                   state = c("Baja California, Baja California Sur, Chihuahua, Coahuila, Durango, Nuevo León, San Luis Potosí, Sinaloa, Sonora, Tamaulipas, Zacatecas",
+                             "Campeche, Chiapas, Guerrero, Oaxaca, Quintana Roo, Tabasco, Veracruz, Yucatán",
+                             "Aguascalientes, Colima, Guanajuato, Jalisco, Michoacán, Nayarit, Distrito Federal, Hidalgo, Morelos, México, Puebla, Querétaro, Tlaxcala",
+                             "Aguascalientes, Colima, Guanajuato, Jalisco, Michoacán, Nayarit", 
+                             "Distrito Federal, Hidalgo, Morelos, México, Puebla, Querétaro, Tlaxcala"), 
+                   circunscripcion = c(6, 9, 10, 7, 8),
+                   var_state = c(20030060070010001900240025002600280032,
+                                 4005001200200023002700300031,                             10080011001400150018009001300160017002100220029,
+                                 10080011001400150018, 
+                                 9001300160017002100220029)),
+  by = join_by(state, circunscripcion, var_state))) %>% 
+  distinct()
 ```
 
 ```{r get_censo1990, eval=FALSE}
@@ -891,7 +963,10 @@ iter2020 <- read_feather(file.path(mex20_dir, "iter2020.arrow")) %>%
   filter(LOC == "0000") %>% 
   transmute(ENT = ENTIDAD,
             NOM_ENT,
-            state = str_remove(NOM_ENT, " de .*"),
+            state = str_replace(NOM_ENT, 
+                                "Ciudad de México",
+                                "Distrito Federal") %>% 
+                                str_remove(" de .*"),
             MUN,
             NOM_MUN,
             POBTOT = as.numeric(POBTOT)) %>% 
@@ -1211,7 +1286,7 @@ for (i in seq(nrow(vars_table))) {
            item = v$item,
            thres = as.numeric(str_extract(v$item, "\\d+"))) %>% 
     bind_cols(t_data1) %>%
-    left_join(amb_regions2, by = join_by(var_state))
+    left_join(amb_regions, by = join_by(var_state))
   
   all_sets_list[[i]] <- vars1
   rm(vars1)
@@ -1221,8 +1296,13 @@ all_sets <- list_rbind(all_sets_list) %>%
   filter(complete.cases(.)) %>% 
   transmute(Intercept = 1,
             item = factor(item),
+            response = target,
             state = factor(state),
+            region,
+            region3,
+            circunscripcion,
             year,
+            survey,
             var_agegrp = cut(var_age, 
                              breaks = c(17, 24, 44, 64, 150),
                              labels = c("18 to 24", "25 to 44", "45 to 64", "65+")),
@@ -1291,6 +1371,7 @@ write_feather(all_sets, here::here("paper",
 
 ```
 
+## Not good, I don't think
 ```{r mr, eval=FALSE}
 library(brms)
 
@@ -1419,6 +1500,53 @@ m11 <- brm(target | thres(thres, gr = item) ~ Intercept +
           backend = "cmdstanr",
           file_refit = "on_change", # on_change
           file = "data/m1")
+
+m12 <- brm(target | thres(thres, gr = item) ~ Intercept +
+            item + 
+             region +
+             stratum +
+             state +
+             region * stratum +
+             state * stratum +
+             var_indig +
+             var_female +
+             var_educ +
+            s(year),
+          data = all_sets,
+          family = cumulative("probit", threshold = "sum_to_zero"),
+          prior = prior(normal(0, 1.5), class = "b") +
+            prior(normal(0, 2), class = "sds") +
+            prior(normal(0, 1.5), class = "Intercept"),
+          iter = 1500,
+          warmup = 1000,
+          chains = 4, 
+          cores = 4, 
+          control = list(adapt_delta = 0.99, max_treedepth = 14),
+          backend = "cmdstanr",
+          file_refit = "on_change", # on_change
+          file = "data/m12")
+
+m13 <- brm(target | thres(thres, gr = item) ~ Intercept +
+             item + 
+             region +
+             stratum +
+             state +
+             region * stratum +
+             state * stratum +
+             s(year),
+           data = all_sets,
+           family = cumulative("probit", threshold = "sum_to_zero"),
+           prior = prior(normal(0, 1.5), class = "b") +
+             prior(normal(0, 2), class = "sds") +
+             prior(normal(0, 1.5), class = "Intercept"),
+           iter = 1500,
+           warmup = 1000,
+           chains = 4, 
+           cores = 4, 
+           control = list(adapt_delta = 0.99, max_treedepth = 14),
+           backend = "cmdstanr",
+           file_refit = "on_change", # on_change
+           file = "data/m13")
 ```
 
 ```{r national_est, eval=FALSE}
@@ -1430,16 +1558,26 @@ item_ph <- all_sets %>%
 
 thres_ph <- as.numeric(str_extract(item_ph, "\\d+"))
 
+state_levels <- levels(all_sets$state)
+
 poststrat_df <- read_feather(file.path(mex20_dir,
                                         "..",
                                         "poststrat_all.arrow")) %>% 
   ungroup() %>% 
-  transmute(year, # numeric
-            region, # factor
-            stratum, # factor
-            state = factor(state),
-            var_indig = indig, # logical
-            var_female = female, # numeric
+  mutate(year, # numeric
+         region = as.numeric(region), # numeric
+         stratum, # factor
+         state = factor(state,
+                        levels = levels(all_sets$state)),
+         # var_indig = if_else(indig, 2, 1),
+         var_indig = factor(indig + 1,
+                            levels = c(1, 2),
+                            labels = c("non-indig",
+                                       "indig")),
+            var_female = factor(female + 1,
+                                levels = c(1, 2),
+                                labels = c("male",
+                                           "female")), # numeric
             var_agegrp = agegrp, # factor
             var_educ = factor(educ,
                               labels = c("Less than primary",
@@ -1447,13 +1585,28 @@ poststrat_df <- read_feather(file.path(mex20_dir,
                                          "Complete middle",
                                          "Complete high",
                                          "University or more")),
+            # item = item_ph,
+            Intercept = 1)
+
+poststrat_df13 <- read_feather(file.path(mex20_dir,
+                                         "..",
+                                         "poststrat_all.arrow")) %>% 
+  ungroup() %>% 
+  transmute(year, # numeric
+            region, # factor
+            stratum, # factor
+            state = factor(state),
             item = item_ph,
             thres = thres_ph,
             Intercept = 1)
 
-epred_mat <- posterior_epred(m02, 
+m1 <- readRDS("~/Documents/Projects/gender_equality/data/m1.rds")
+
+lmr2 <- read_rds(here::here("paper/mexico/data/lmr/lmr2/lmr2.rds"))
+
+epred_mat <- posterior_epred(lmr2, 
                              newdata = poststrat_df,
-                             draws = 1000,
+                             draws = 10,
                              allow_new_levels = TRUE)
 
 
@@ -1481,9 +1634,156 @@ cat("MRP estimate mean, sd: ", round(mrp_estimate, 3))
 
 ```
 
+## dbmm
 
+```{r, eval=FALSE}
+all_sets <- read_feather(here::here("paper",
+                                   "mexico",
+                                   "data",
+                                   "all_sets.arrow"))
+
+time_var <- "year"          
+geo_var <- "state"              
+demo_vars <- c("var_agegrp",
+               "var_rural",
+               "var_female",
+               "var_indig",
+               "var_educ",
+               "stratum",
+               "circunscripcion",
+               "region",
+               "region3") 
+group_vars <- c(geo_var, demo_vars)
+
+all_sets <- all_sets %>% 
+  mutate(GROUP = interaction(all_sets[group_vars], sep = " & "),
+         TIME = factor(all_sets[[time_var]]))
+
+shaped_data <- shape_data_modgirt(
+  long_data = all_sets, #%>% 
+    #filter(state %in% c("Distrito Federal", "Baja California",
+    #                    "Michoacán", "Yucatán")),
+  time_var = "TIME",
+  unit_var = "GROUP",
+  item_var = "item",
+  value_var = "response"
+)
+
+modgirt_out <- fit_modgirt(
+  stan_data = shaped_data,
+  parallel_chains = 4,
+  iter_warmup = 500, 
+  iter_sampling = 500,
+  adapt_delta = .99,
+  max_treedepth = 16,
+  refresh = 10,
+  seed = 324)
+
+modgirt_out$fit$save_output_files(dir = here::here("paper",
+                                                   "mexico",
+                                                   "data",
+                                                   "modgirt"),
+                    random = FALSE)
+
+modgirt_out$fit$diagnostic_summary()
+
+# gather inputs
+# model fit
+use_draws <- posterior::as_draws_df(modgirt_out$fit$draws())
+
+# modgirt_out
+group_labels <- attr(modgirt_out$stan_data, "unit_labels")
+item_labels <- attr(modgirt_out$stan_data, "item_labels")
+time_labels <- attr(modgirt_out$stan_data, "time_labels")
+
+# model information
+Q <- modgirt_out$stan_data$Q
+
+# pop proportions
+pop_prop <- read_feather(here::here("paper",
+                                  "mexico",
+                                  "data-raw",
+                                  "poststrat_all.arrow")) %>%
+  mutate(var_agegrp = agegrp,
+         # var_rural = factor(var_rural,
+         #                    levels = c(FALSE, TRUE),
+         #                    labels = c("urban", "rural")),
+         var_female = factor(female,
+                             levels = c(0, 1),
+                             labels = c("male", "female"))) %>% 
+            # var_indig = factor(var_indig,
+            #                    levels = c(FALSE, TRUE),
+            #                    labels = c("non-indig", "indig")),
+            # var_educ = if_else(var_educ == 0,
+            #                    1,
+            #                    var_educ) %>% 
+            #   factor(levels = 1:5,
+            #          labels = c("Less than primary",
+            #                     "Complete primary",
+            #                     "Complete middle",
+            #                     "Complete high",
+            #                     "University or more"))
+  mutate(GROUP = interaction(.[group_vars], sep = " & "),
+         TIME = factor(.[[time_var]])) %>% 
+  group_by(TIME, state) %>% 
+  mutate(n_state = sum(n)) %>% 
+  group_by(TIME, GROUP) %>% 
+  reframe(prop = sum(n)/n_state) %>% 
+  ungroup() %>% 
+  distinct()
+
+# apply to each theta draw
+theta_draws <- use_draws %>% 
+  tidybayes::spread_draws(bar_theta[period, group, dimension]) %>% 
+  ungroup() %>% 
+  mutate(group = factor(group, labels = group_labels),
+         time = factor(period, labels = time_labels))
+
+# separate group columns
+theta_draws2 <- theta_draws %>%
+  tidyfast::dt_separate(col = group,
+                        into = group_vars,
+                        sep = " & ",
+                        remove = FALSE) %>%
+  as_tibble() 
+
+# add population proportions
+theta_draws3 <- theta_draws2 %>% 
+  left_join(pop_prop,
+            by = c("time" = "TIME", "group" = "GROUP")) 
+
+# region-period plot -------------------------------
+period_plot_data <- theta_draws3 |> 
+  summarise(
+    .by = c(time, state, .draw),
+    group_ave = weighted.mean(bar_theta, prop)
+  ) %>%
+  group_by(time, state) |> 
+  summarise(across(
+    group_ave,
+    list(
+      est = mean,
+      err = sd,
+      q025 = ~ quantile(.x, .025),
+      q975 = ~ quantile(.x, .975)
+    )
+  )) |> 
+  ungroup() 
+
+```
+
+
+
+## Descriptive Representation and Policy
 ```{r bd_leg_old_propietary, eval=FALSE}
-state_files_dir <- here::here("paper/mexico/data-raw/from_des_to_subs_rep-main/01_data/ch_3/electoral_results/electas")
+state_files_dir <- here::here("paper",
+                              "mexico",
+                              "data-raw",
+                              "from_des_to_subs_rep-main",
+                              "01_data",
+                              "ch_3",
+                              "electoral_results",
+                              "electas")
 
 state_files <- list.files(state_files_dir)
 
@@ -1518,13 +1818,18 @@ bd_leg_old_propietary <- map(state_files, \(file) {
   filter(propietary_alternate == "Propietary")
 
 save(bd_leg_old_propietary, 
-     file = here::here("paper", "mexico",
-                       "data-raw", "bd_leg_old_propietary.rda"))
+     file = here::here("paper",
+                       "mexico",
+                       "data-raw",
+                       "bd_leg_old_propietary.rda"))
 ```
 
 ```{r bd_leg_all, eval=FALSE}
-bd_leg_old_propietary <- rio::import(here::here("paper", "mexico",
-                       "data-raw", "bd_leg_old_propietary.rda"))
+bd_leg_old_propietary <- rio::import(here::here("paper", 
+                                                "mexico",
+                                                "data-raw",
+                                                "bd_leg_old_propietary.rda"),
+                                     trust = TRUE)
 
 # Both principles ----
 bd_leg_old_propietary_all <- 
@@ -1665,7 +1970,13 @@ bd_leg_all <-
   # Create lagged version of prop_female_legislators
   group_by(state) %>% 
   mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
-  ungroup() 
+  ungroup() %>% 
+  mutate(state = case_match(state,
+                            "BCS" ~ "Baja California Sur",
+                            "Ciudad de México" ~ "Distrito Federal",
+                            "EDOMEX" ~ "México",
+                            "Estado de México" ~ "México",
+                            .default = state))
 
 # Majority rule ----
 bd_leg_mr <- 
@@ -1684,7 +1995,13 @@ bd_leg_mr <-
   # Create lagged version of prop_female_legislators
   group_by(state) %>% 
   mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
-  ungroup() 
+  ungroup() %>% 
+  mutate(state = case_match(state,
+                            "BCS" ~ "Baja California Sur",
+                            "Ciudad de México" ~ "Distrito Federal",
+                            "EDOMEX" ~ "México",
+                            "Estado de México" ~ "México",
+                            .default = state))
 
 # Proportional representation ----
 bd_leg_pr <- 
@@ -1703,7 +2020,19 @@ bd_leg_pr <-
   # Create lagged version of prop_female_legislators
   group_by(state) %>% 
   mutate(prop_female_legislators_lag = lag(prop_female_legislators)) %>% 
-  ungroup() 
+  ungroup() %>% 
+  mutate(state = case_match(state,
+                            "BCS" ~ "Baja California Sur",
+                            "Ciudad de México" ~ "Distrito Federal",
+                            "EDOMEX" ~ "México",
+                            "Estado de México" ~ "México",
+                            .default = state))
 
-
+save(bd_leg_all,
+     bd_leg_mr,
+     bd_leg_pr,
+     file = here::here(mex20_dir,
+                       "..",
+                       "bd_leg.rdata"))
 ```
+
