@@ -57,18 +57,19 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", " seventeen", "eighteen", "nineteen"), 1:19)[x]
 ```
 
-# Introduction [Still Very Drafty]
+# Introduction [Still Drafty]
 
-Vignettes of the 2022 Korean and 2024 Mexican presidential elections.
+Vignette of the 2022 Korean presidential election.  Conservative appeals to anti-egalitarian sentiment and pledge to abandon policies advancing equality.  Opponent initially does too but eventually abandons "lite" strategy, and argues for gender equality.  Many observers view the election as a referendum on gender equality.  Conservative wins, restricts the Women's Institute, and so on.  Did these results really represent the views on gender equality of the Korean public?
 
-Both countries experienced transitions to democracy in the 1990s, and both enjoyed economic expansion that saw them rise to the ranks of the world's most advanced economies.  Both notoriously patriarchical.
+<!-- Both countries experienced transitions to democracy in the 1990s, and both enjoyed economic expansion that saw them rise to the ranks of the world's most advanced economies.  Both notoriously patriarchical. -->
 
-Some observers see in events like the Korean election as signs of a recurring backlash in the public against gender equality.
+If Korean public opinion was represented in the election results, that raises the question of why the Korean public is so anti-egalitarian.
+Some observers see events like these as signs of a recurring backlash in the public against gender equality.
 
 @Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.] 
 
 A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
-The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against the policy [@Wlezien1995].
+The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
 More on backlash: @Bishin2016; @Flores2016; @Redman2018 and works cited
 
 @Bishin2016, 625: "In some cases, the term [backlash] is used to refer to a sharply negative change in public opinion in response to policy change, while in others, backlash merely reflects actions (e.g., protests, voting) taken by those who have always held negative opinions toward the group."
@@ -92,18 +93,34 @@ Collective attitudes toward the appropriate roles of women and men in society---
 
 Public opinion research is often at least somewhat more skeptical of representation.
 Some contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
-Plenty of reasons why representation may not _ever_ happen: sexist or even just skeptical party gatekeepers, institutional veto players, opposition among the wealthy.
+**Plenty of reasons why representation may not _ever_ happen: sexist or even just skeptical party gatekeepers, institutional veto players, opposition among the wealthy.**
 
 Before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
 To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
 Specifically, we will call egalitarian public opinion toward gender roles in politics and the workplace as macroegalitarianism.
 
+Another point of clarification is perhaps warranted.
+The question of women's representation in all its dimensions is vitally important, and it is the topic of a large and vibrant body of research [see, among recent additions, @Betz2023; @Wang2023; @Klay2025].
+It is not however the exact question we investigate here.
+We start instead from the scholarship on public opinion and so rather ask about the representation and responsiveness of the public as a whole with regard to gender role attitudes.
+These inquiries overlap, of course.
+When women gain elected office is one point that falls into the shared area.
+The former body of research has generated a great deal of scholarship on this topic, including some studies that directly address how gender egalitarian public opinion matters.
+But these inquiries also diverge.
+As a result, we avoid some issues that are central to the study of women's representation.
+For example, defining and measuring what constitutes the substantive representation of women's interests is a serious and ongoing challenge for research [see, e.g., @Weeks2022a].
+As @Young1997 [, 351] observes, "women are everywhere, and differ so vastly along so many dimensions that it seems absurd to suggest" that they agree on some set of interests that could be represented.
+For our purposes, though, we need not assume that women's interests are served by, for instance, policies advancing gender equality in employment because no such assumption is needed to determine whether and how these policies reflect the entire public's views.
+Still, both vantages are crucial to understanding democracy, and we hope readers coming from both perspectives will find that the answers we reach here speak to their concerns.
 
-## A Scholarship Limited by the Existing Data {#sec-scholarship}
 
-Much of the reason the questions posed above have yet to be fully answered is that data on macroegalitarianism is scant.
+## A Scholarship Limited by the Available Data {#sec-scholarship}
+
+Are the public's views on gender roles in the public sphere represented in what parties and policymakers do?
+And how does the extent of gender egalitarianism in the public change in response?
+Much of the reason these questions have yet to be fully answered is that data on the concept of macroegalitarianism is scant.
 Even a half century after @RuleKrauss1974 [, 1719] called for more and better data on collective attitudes on gender roles, what we have available to us remains inadequate for fully examining their causes and consequences.
-In the decades since, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
+In the decades since that call, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2019a] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
 
 ```{r}
@@ -307,7 +324,7 @@ Spread horizontally along the bottom of the plot, over a third of the sample con
 Not surprisingly given its position in @fig-proj-kt, the WVS is the most frequently used source among articles in the lower right of @fig-gr.
 The highest number of countries is examined in the much-cited work of @Alesina2013, which collapses data from three waves of the WVS for a total of 79 countries into one cross-section to examine whether traditions of plow-based agriculture have a negative influence on the extent of egalitarian gender attitudes.
 
-The observation of four decades ago of @Stimson1985 [, 914] that "[w]e do comparative analyses across space, dynamic analyses over time, but almost never do we do dynamic comparison," made with regard to political science, also holds true among these prominent and interdisciplinary works on attitudes toward gender equality.
+The observation of four decades ago of @Stimson1985 [, 914] that "[w]e do comparative analyses across space, dynamic analyses over time, but almost never do we do dynamic comparison," made with regard to political science, also holds true among these discipline-spanning prominent works on attitudes toward gender equality.
 Research considering data from two or more countries _and_ two or more years per country encompass just one-tenth of these articles.
 @Arpino2015 uses changes in attitudes toward gender equality in the labor market---and the gap between men and women in these attitudes---to predict the total fertility rate in 27 European and North American countries drawing on data from three waves of the combined WVS and European Values Survey.
 The resulting 81 observations is the largest number of country-years analyzed in any of these prominent works. 
@@ -587,7 +604,7 @@ At the other end, the United States is included in `r countries %>% filter(count
 Indeed, among these works, the United States has been the subject of more _single-country_ studies---over one-fourth of our sample---than the number of articles even including any other single country.
 It is a truism that the cases examined influence the conclusions reached [e.g., @Geddes1990], and as @Wilson2022 [, 1037] points out, geographic bias of the sort found in this literature makes the scope conditions of even cross-national studies difficult to discern.
 In sum, a lack of data enabling researchers to look at developments over long stretches of time across many countries has prevented much research on how public opinion, politics, and policy interact with regard to questions of gender equality, and what scholarship exists is further undermined by pervasive geographic bias. 
-Addressing the absence of cross-national time-series data on attitudes toward gender equality is the first of the contributions of this book.
+That it addresses the absence of cross-national time-series data on attitudes toward gender equality is the first of the advantages of this book.
 
 ```{r eval=FALSE, include=FALSE}
 # @Inglehart2003:
@@ -618,7 +635,7 @@ Addressing the absence of cross-national time-series data on attitudes toward ge
 # This book seeks to remedy this problem through the new Public Gender Egalitarianism (PGE) dataset, which provides a comparable time-series cross-national index for 124 countries over the years from 1972 to 2022, as well as other novel data.
 ```
 
-## Our Contributions
+## Advantages of This Book
 
 ```{r pge_stats}
 load(here("data", "pge_summary.rda"))
@@ -635,6 +652,8 @@ mean_years <- pge_summary %>%
 
 ```
 
+This work has several advantages over the existing scholarship on public opinion toward gender roles in the public sphere.
+As just mentioned, the first involves data.
 Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update and expand the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
 The resulting data include information on `r n_countries` countries, with a mean number of consecutive years per country of `r mean_years`.
 In terms of @fig-proj-kt, the revised PGE dataset lands beyond the right hand border and toward the top, with more countries than any of the surveys and a greater mean number of years per country than all but two single-country surveys: Sweden's SOM and the U.S. GSS.
@@ -650,7 +669,7 @@ By allowing us to look at advanced democracies in North America, Oceania, Europe
 
 The _dynamic_ perspective of our analyses is no less important.
 It has long been understood that cross-sectional associations, that is, those established by looking only across countries at a single time, have several weaknesses that are not ameliorated no matter how broadly comparative the sample may be.
-If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether policy adoptions represent the public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result some other, unobserved cause [see, e.g., @Rustow1968, 48].
+If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether the policy adoptions represent public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result some other, unobserved cause [see, e.g., @Rustow1968, 48].
 Because democratic representation and public responsiveness are necessarily processes that unfold over time, our evidence for these processes should look over time as well [e.g., @Stimson1995, 543; @Soroka2010, 22-23].
 Pooling data across countries and over time in analyses that are both comparative _and_ dynamic has been long recognized as "an extraordinarily robust research design" for drawing causal inferences [@Stimson1985, 916; see also @Western1998; @Shor2007; @Bell2015; @Bell2019], and given the inability to experimentally manipulate any of our variables of interest---public opinion, women in office, or policy---it provides the best possible evidence of causation.
 
@@ -665,23 +684,26 @@ Thanks to the long time series the PGE data make available to us to examine, we 
 
 ![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
-We bolster confidence in our conclusions in two additional ways.
-@Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time-series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.
-Therefore, we pay careful attention to the measurement validation of the PGE data as our operationalization of the concept of macroegalitarianism, public opinion toward gender roles in politics and the workplace.
-And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators.
-We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.
+We further bolster confidence in our conclusions with attention to another source of bias.
+@Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.
+The PGE dataset, our operationalization of the concept of macroegalitarianism, incorporates the broad range of survey items that have been employed to measure public opinion toward gender roles in politics and the workplace, and we pay careful attention to its measurement validation.
+And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators of gender equality in the traditionally masculine public sphere of politics and paid employment.
+**@Beer2009 [, 217]: "there is some scholarly consensus that gender equality should be assessed in terms of three domains: capabilities, opportunities, and empowerment/agency" @Bericat2012: "education, work and power"**
+We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.^[
+The policies we consider, then, are among those @Htun2010 [, 210, 209] calls _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
+One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform.]
 The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
 
-**Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001**
+Finally, we complement our expansive cross-national over-time analyses with an in-depth case study.  **Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001**
 
 
 ## Plan of the Book
 
 The book proceeds as follows.
-In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policy on gender equality.
+In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policies advancing gender equality.
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
-After describing how this measure, the Public Gender Egalitarianism scores, are estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
+After describing how this measure, the Public Gender Egalitarianism scores, is estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
 
 Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the advanced democracies that constitute the OECD.
 There, we explore the implications of these theories for women's descriptive representation, and in particular, women's success in winning election to national legislatures.
