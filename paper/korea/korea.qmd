@@ -143,11 +143,11 @@ Hypothesis 1: The increase in public gender egalitarianism leads legislators to 
 Rather than only testing the relationship between public gender egalitarianism and the adoption of women-friendly policies, we also investigate the conditional effect of the gender of individual legislators on the link between public gender egalitarianism and the policy adoption. 
 It has been regarded that female legislators are more likely to pay attention to women’s issues including violence against women and women’s integrity [@RN232; @RN231; @RN19; @RN22; @RN221].
 
-The theoretical background of the strong association between women’s descriptive and substantive representation can be traced back to @RN233. 
-@RN233’s explanation of women’s descriptive and substantive representation gives a clue to the conducive influence of women’s descriptive representation on the adoption and implementation of laws and public policies related to violence against women. 
+The theoretical background of the strong association between women’s descriptive and substantive representation can be traced back to @Pitkin1967. 
+Pitkin’s explanation of women’s descriptive and substantive representation gives a clue to the conducive influence of women’s descriptive representation on the adoption and implementation of laws and public policies related to violence against women. 
 She defines political representation as an activity that makes voters “present” in policy-making processes, descriptive representation as a body mirroring the characteristics including gender and race of the represented groups, and substantive representation as a body reflecting the interests of the community. 
 Put simply, substantive representation is “acting for” representation and descriptive representation is “standing for” representation [@RN77]. 
-@RN233 argues that an increase in “descriptive representation” tends to lead to greater “substantive representation” [@RN234].
+@Pitkin1967 argues that an increase in “descriptive representation” tends to lead to greater “substantive representation” [@RN234].
 
 In a similar vein, the politics of presence theory developed by @RN64 asserts that the gender of representatives is an influential factor in representative democracy [@RN66; @RN65; @RN67; @RN68; @RN69]. 
 Based on the assumption that female legislators and female citizens have shared life experiences such as child-rearing or exposure to violence, Phillips (1995, pp. 67–68) underlines that the entrance of women into politics is a prerequisite for the politicization of women’s issues. 
