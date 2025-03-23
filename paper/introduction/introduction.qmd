@@ -81,7 +81,7 @@ Re thermostatic: "In its original formulation, the theory requires citizens to p
 
 But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it. 
 @Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
-For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds that, in fact, the U.S. public has consistently favored the continued expansion of the program.
+<!-- Used in theory: For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds that, in fact, the U.S. public has consistently favored the continued expansion of the program. -->
 
 So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt a 'thermostatic' backlash?
 
@@ -681,8 +681,6 @@ The hazard of such a one-sided approach is the risk of simultaneity bias due to 
 This is a more subtle version of the direction-of-causality problem with cross-sectional work identified by @Rustow1968 [, 48].
 If macroegalitarianism rises as a result of a gender egalitarian policy, then considering only whether public opinion causes policy can result in mistaking the former process for the latter.
 Thanks to the long time series the PGE data make available to us to examine, we are able to disentangle these effects with confidence.
-
-![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
 We further bolster confidence in our conclusions with attention to another source of bias.
 @Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.

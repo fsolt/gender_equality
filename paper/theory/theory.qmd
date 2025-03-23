@@ -53,10 +53,12 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 **Defining dynamic democracy: democratic representation and public responsiveness**
 
-**consider moving that figure here**
 
-As we previewed in the introduction (see again #fig-diagram), these are reciprocal relationships.
-We think it makes the most sense to start the inquiry with democratic representation, the consequences of public opinion for politics and policy. 
+![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
+
+As depicted in #fig-diagram, these are theorized to be reciprocal relationships, each influencing the other.
+We will start our inquiry with democratic representation, the consequences of public opinion for politics and policy. 
+
 
 ## Democratic Representation: From Public Opinion to Politics and Policy
 
@@ -91,7 +93,6 @@ On the one hand, there are prominent studies that conclude that democratic repre
 Looking at a broad aggregation of policies over time in the United States at the national level, @Erikson2002 concludes similarly.
 In a study of more than three decades in Denmark, the United Kingdom, and the United States, @Hobolt2008 finds that both the promises made by chief executives in annual speeches and the share of budgetary spending follow the public's preferences.
 @Soroka2010 examines budgetary policy with regard to defense and social welfare in the United States, Canada, and the United Kingdom and finds in each case that changes in spending levels over time represent public preferences.
-<!-- Examining votes taken over 12 years in the Council of the European Union, @Hagemann2017 finds that national governments were more likely to oppose proposals expanding EU authority when domestic support for the EU was higher. -->
 @Rasmussen2019 examines 20 specific policy issues in a cross-section of 31 countries and finds a strong relationship between public support for a policy and whether the policy was in place.
 
 On the other hand, there are also many studies indicating that policy representation does not always occur.
@@ -145,7 +146,7 @@ Adaptation would mean men legislators also respond to changes in macroegalitaria
 As noted above, there is some evidence that gender egalitarian public opinion leads to more women in office.
 And there is also abundant evidence that women legislators matter for the passage of policies advancing gender equality [see, among many, @Gerrity2007; @Betz2020; @Weeks2022; @Kim2022].
 Together, these two strands of research suggest that selection is important.
-But the fact that in the latter works public opinion is measured with weak proxies or more often absent entirely raises the possibility that the relationship between women in office and equality-enhancing policy may be spurious.
+But the fact that in the latter works public opinion is measured with weak proxies or, more often, absent entirely raises the possibility that the relationship between women in office and equality-enhancing policy may be spurious.
 That is, the relationship between women's descriptive representation and policies advancing gender equality may be driven by both being the product of public opinion.
 Were that true, adaptation would be the exclusive mechanism by which democratic representation occurs with regard to gender equality.
 This seems unlikely.
