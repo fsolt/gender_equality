@@ -54,7 +54,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 **Defining dynamic democracy: democratic representation and public responsiveness**
 
 
-![This Book's Analyses](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
+![Dynamic Democracy](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
 
 As depicted in #fig-diagram, these are theorized to be reciprocal relationships, each influencing the other.
 We will start our inquiry with democratic representation, the consequences of public opinion for politics and policy. 
@@ -63,7 +63,7 @@ We will start our inquiry with democratic representation, the consequences of pu
 ## Democratic Representation: From Public Opinion to Politics and Policy
 
 Democratic representation is multifaceted, but at its most straightforward it means to make citizens' preferences present in politics and policymaking [@Pitkin1967].
-In public opinion scholarship, there is considerable debate about the extent to which representation occurs, and while the research on how the public's gender egalitarianism matters is perhaps more sanguine, there are findings that suggest that representation may be limited on this topic as well.
+In public opinion scholarship, there is considerable debate about the extent to which democratic representation occurs across issues, and while the research on how the public's gender egalitarianism matters in particular is perhaps more sanguine, there are findings that suggest that representation may be limited on this topic as well.
 
 We here understand democratic representation as incorporating both electoral and policy outcomes that correspond to citizen preferences [see, e.g., @Powell2004].
 Citizens generally agree that those in power should listen to public opinion rather than attempt to lead it, and they pay attention to whether they do [see, e.g., @Bowler2017; @Rosset2017].
