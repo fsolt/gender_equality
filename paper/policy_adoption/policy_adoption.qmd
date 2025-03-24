@@ -606,7 +606,7 @@ Belgium and Costa Rica adopted their 50% requirements in two steps, previously r
 Clearly quota adoption and reform has varied greatly across countries and over time.
 
 
-### Policy Representation in National Gender Quota Adoption
+### Democratic Representation in National Gender Quota Adoption
 
 Does macroegalitarianism help us to explain these policy differences?
 The bivariate relationship between the PGE scores and national legislative quotas in our data, depicted in @fig-nq-plot, is only weak.
