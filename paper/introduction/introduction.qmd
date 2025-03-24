@@ -61,41 +61,49 @@ wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five",
 
 Vignette of the 2022 Korean presidential election.  Conservative appeals to anti-egalitarian sentiment and pledge to abandon policies advancing equality.  Opponent initially does too but eventually abandons "lite" strategy, and argues for gender equality.  Many observers view the election as a referendum on gender equality.  Conservative wins, restricts the Women's Institute, and so on.  Did these results really represent the views on gender equality of the Korean public?
 
+@Kim2022a
+
 <!-- Both countries experienced transitions to democracy in the 1990s, and both enjoyed economic expansion that saw them rise to the ranks of the world's most advanced economies.  Both notoriously patriarchical. -->
 
-If Korean public opinion was represented in the election results, that raises the question of why the Korean public is so anti-egalitarian.
-Some observers see events like these as signs of a recurring backlash in the public against gender equality.
-
-@Faludi1991 on the United States in 1980s, and subsequent work [@Kerevel2017; @OBrien2019; @Grady2023; @Shiran2024, etc.] 
-
-A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
-The theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
-More on backlash: @Bishin2016; @Flores2016; @Redman2018 and works cited
-
-@Bishin2016, 625: "In some cases, the term [backlash] is used to refer to a sharply negative change in public opinion in response to policy change, while in others, backlash merely reflects actions (e.g., protests, voting) taken by those who have always held negative opinions toward the group."
-@Bishin2016, 626: "We define opinion backlash as a large, negative, and enduring shift in opinion against a policy or group that occurs in response to some event that threatens the status quo. Backlash may be evidenced by changes in any of several aspects of opinion, including policy positions, the intensity of feeling about an issue, or the attitudes expressed toward members of the group."
-
-Example of attitudes toward abortion in the United States after _Roe_ (1973), _Webster_ (1989) [see @Wlezien1993], _Casey_ (1992), and _Dobbs_ (2022).
-
-Re thermostatic: "In its original formulation, the theory requires citizens to possess a level of knowledge of politics that a long line of public opinion research shows is unrealistic, and as recently re-elaborated it requires the issue in question to be debated by political parties so as to provide cues to the broader public as to what is going on [@Atkinson2021, 5–6]."
-
-But public opinion scholars have also found that many 'policies create their own constituencies,' that is, after a policy is adopted, public opinion moves to support rather than oppose it. 
-@Schattschneider1935 [, 288]: "new policies create a new politics" (note: this work isn't about public opinion).
-<!-- Used in theory: For example, @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds that, in fact, the U.S. public has consistently favored the continued expansion of the program. -->
-
-So which is it that holds true: Does greater gender equality 'create its own constituency' or does it prompt a 'thermostatic' backlash?
-
-The public's responsiveness to rising gender equality is really only part of the relationship between opinion and policy: if and how parties and governments represent the public's attitudes is the other part.
-Do parties and governments respond to gender egalitarian public opinion by running more successful women candidates and adopting policies that advance gender equality?
-
+Do parties and governments represent growing gender egalitarian public opinion by running higher numbers of successful women candidates and adopting policies that advance gender equality?
 There is a lot of theory and empirical research on gender politics to suggest that they do.
 Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
+Still, there are doubts.
+Parties are well understood to be gatekeepers between aspiring candidates and political power [see, e.g., @Caul1999], and the party elites who control access to viable candidacies appear to frequently underestimate the public's desire to vote for women [see, e.g., @Norris1995].
+And the multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater relative power of men to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
 
-Public opinion research is often at least somewhat more skeptical of representation.
-Some contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
-**Plenty of reasons why representation may not _ever_ happen: sexist or even just skeptical party gatekeepers, institutional veto players, opposition among the wealthy.**
+Public opinion research, too, is often skeptical of whether democratic representation occurs.
+Some works contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
+Political institutions including presidentialism, bicameral legislatures, and even, in some circumstances, coalition governments empower political minorities to block the enactment of policies favored by public opinion [see, e.g., Powell2000; Tsebelis2002].
+There is considerable evidence, too, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 in the case of the United States; @Persson2024 across Europe].
 
-Before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
+But if we assume for the moment that Korean views on gender equality were represented in the results of Korea's 2022 "incel election," it raises the question of why the Korean public is so anti-egalitarian.
+Some observers see events like these as signs of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality.
+The foundational book, _Backlash: The Undeclared War Against American Women_, argues that shifts in mass attitudes against gender equality in the United States "have always been triggered by the perception \ldots that women are making great strides" [@Faludi1991, xix].
+@Shiran2024 describes how "moral panics" against women in politics spread after the adoption of gender quotas, the most effective policy for quickly shifting politics in a gender egalitarian direction.
+Showing the opposite side of the coin, @Wlezien1993 documents how support for reproductive rights increased in the United States during the 1980s as successive court opinions and state laws made access to abortion more restrictive.
+
+A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
+The influential theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
+Arguments for such "self-undermining" feedback, in which policies create opposition to their own continued provision [@Busemeyer2021, 144], are common across the study of public opinion on topics as diverse as budgetary policy [see, e.g., @Soroka2010], marriage equality and gay rights [for an overview, see @Bishin2021, 3-10], and public pension reform [see, e.g., @Weaver2010; @Fernandez2013].
+
+But public opinion scholars have also found that many policies create their own constituencies, that is, after a policy is adopted, public opinion moves further in its support rather than swinging to oppose it. 
+Drawing on the observation that "new policies create a new politics" [@Schattschneider1935, 288], an extensive literature in public opinion research proposes such "accelerating" feedback [@Busemeyer2021, 144].
+For example, despite a lingering partisan cleavage, U.S. public opinion toward the Affordable Care Act grew steadily more favorable after its adoption [@Jacobs2018; @Brodie2020].
+Arguments that public opinion toward gender equality in politics and employment reacts positively to the election of women and gender egalitarian policy adoption are common as well [see, e.g., @Barnes2016; @Lomazzi2019; @Kim2023].
+
+All of this is to say that, despite substantial theorizing, these two questions---the extent of democratic representation of gender egalitarian public opinion and the nature of public responsiveness to developments toward gender equality in politics and policy---remain unsettled.
+This is surprising given their importance.
+Democracy itself depends on democratic representation, that a government's policies reflect "the preferences of its citizens, considered as political equals" [Dahl1973, 1].
+If purportedly democratic countries diverge from these preferences in matters directly affecting the lives of half of their populations and scarcely a step away from those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
+And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in any country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
+
+In the next section, we document that one reason these questions remain open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
+Remedying this shortcoming of the extant surveys and the existing literature is perhaps the biggest advantage of the research presented in this book.
+Doing so allows us to find that, happily for the state of democracy but---as in the case of Korea---not always so for women's rights, the governments of the world's rich democratic countries do represent public opinion with regard to gender equality.
+Moreover, we find that public responsiveness on this matter follows a pattern of accelerating feedback, in which gains presage additional gains.
+
+But before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
 To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
 Specifically, we will call egalitarian public opinion toward gender roles in politics and the workplace as macroegalitarianism.
 
@@ -635,7 +643,7 @@ That it addresses the absence of cross-national time-series data on attitudes to
 # This book seeks to remedy this problem through the new Public Gender Egalitarianism (PGE) dataset, which provides a comparable time-series cross-national index for 124 countries over the years from 1972 to 2022, as well as other novel data.
 ```
 
-## Advantages of This Book
+## Advantages of This Research
 
 ```{r pge_stats}
 load(here("data", "pge_summary.rda"))
@@ -652,7 +660,7 @@ mean_years <- pge_summary %>%
 
 ```
 
-This work has several advantages over the existing scholarship on public opinion toward gender roles in the public sphere.
+The research presented in this book has several advantages over the existing scholarship on public opinion toward gender roles in the public sphere.
 As just mentioned, the first involves data.
 Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update and expand the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
 The resulting data include information on `r n_countries` countries, with a mean number of consecutive years per country of `r mean_years`.
@@ -718,4 +726,4 @@ As we suggested in the opening pages, Mexico is a case that has seen rapid and d
 Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality.
 
 Chapter 8 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
-It considers our findings' implications for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
+It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
