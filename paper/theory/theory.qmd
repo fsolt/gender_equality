@@ -92,7 +92,7 @@ One reason is that politics is multidimensional.
 Voters may agree with---and support---a party on one set of policy issues while disagreeing with it on others.
 Democratic representation should not be expected on policies that are not prioritized [see, e.g., @Powell2004, 290-291; @Costello2021].
 Competing issues may be brought forward strategically, what @Lukes1974, following @Bachrach1962, calls the second face of power.
-The wealthy are one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Goodin1980, 297-298; @Solt2008, 49; @Erikson2015, 26].
+The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Goodin1980, 297-298; @Solt2008, 49; @Erikson2015, 26; Witko2021].
 Strategic agenda setting may help explain the findings that the preferences of the rich are better represented in policy than those of their poorer fellow citizens in the United States [e.g., @Bartels2008; @Rigby2011a; @Gilens2014] and Europe [e.g., @Giger2012; @Peters2015; @Schakel2021; @Persson2024].
 
 Another argument against consistent democratic representation centers on political institutions.
@@ -214,7 +214,7 @@ Looking across 28 European countries surveyed as many as five times over eight y
 @Abou-Chadi2019 extends the period of time examined and reaches similar results, as does the analysis of a much broader sample of countries and years presented in @Woo2025 [, 9].
 In the United States, state-level bans on same-sex marriage also exhibited accelerating feedback, with public opinion viewing gay and lesbian people more negatively after they were adopted [@Donovan2013].
 
-If the previous two paragraphs seems contradictory, @Busemeyer2021 [, 138] notes that the works finding evidence of self-undermining feedback and those that point to accelerating feedback "so far have largely ignored each other."
+If the two previous paragraphs seems contradictory, @Busemeyer2021 [, 138] notes that the works finding evidence of self-undermining feedback and those that point to accelerating feedback "so far have largely ignored each other."
 There is, of course, a third possibility: that public opinion does not respond to policy change at all.
 @Soss2007 finds that the dramatic cuts to benefits for low-income citizens in the United States in 1996 did nothing to change public opinion on welfare policy, welfare recipients, and the poor.
 @Atkinson2021 finds that U.S. trends in preferences regarding spending on cities, spending on police, legalizing marijuana, and protecting unions bore no relationship to the position of the president's party.
@@ -225,7 +225,7 @@ We continue our discussion of the theories and evidence for public responsivenes
 
 ### Public Responsiveness to Women in Office and Policies Advancing Gender Equality
 
-Empirical research on how women in office influence gender egalitarian public opinion is scant [see @OBrien2019, 59], likely again due to data issues.
+The argument for public opinion backlash against women in office has drawn calls for research [see @Sanbonmatsu2008], but empirical studies on how women in office influence gender egalitarian public opinion is scant [see @OBrien2019, 59], likely again due to data issues.
 While there is some suggestive evidence from research looking to women's political behavior [for an overview, see @Paxton2021, 131-133], the direct evidence is decidedly mixed.
 @Kim2023 examines four waves of the WVS in 87 countries for a total of 187 observed country-years; in multilevel models of individuals with varying intercepts for country-years and countries, it finds strong evidence that women's officeholding positively influences attitudes toward women in politics.
 @Alexander2012, again working with 25 countries at two points in time, finds that growing women's descriptive representation yielded increases in belief that men are not better political leaders than women _among women_ but did not change attitudes among men.
