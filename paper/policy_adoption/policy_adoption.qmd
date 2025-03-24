@@ -477,12 +477,8 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
                     "United Kingdom", "United States")
 ```
 
-Distinguish substantive representation and dynamic representation.
-@Weeks2022a [, 16]: measuring substantive representation is inherently difficult because intersectionality means women aren't monolithic.
-
 In this chapter, we consider policies that advance gender equality, first in  politics and then in the workplace.
-
-We find
+**more intro**
 
 ## Policies Advancing Gender Equality in Politics
 
