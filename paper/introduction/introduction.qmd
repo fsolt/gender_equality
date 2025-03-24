@@ -57,31 +57,33 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", " seventeen", "eighteen", "nineteen"), 1:19)[x]
 ```
 
-# Introduction [Still Drafty]
+# Introduction
 
 Vignette of the 2022 Korean presidential election.  Conservative appeals to anti-egalitarian sentiment and pledge to abandon policies advancing equality.  Opponent initially does too but eventually abandons "lite" strategy, and argues for gender equality.  Many observers view the election as a referendum on gender equality.  Conservative wins, restricts the Women's Institute, and so on.  Did these results really represent the views on gender equality of the Korean public?
 
 @Kim2022a
 
-<!-- Both countries experienced transitions to democracy in the 1990s, and both enjoyed economic expansion that saw them rise to the ranks of the world's most advanced economies.  Both notoriously patriarchical. -->
+The election result was widely regarded as driven by men who, in reaction to their failures to attract the women who had enjoyed gains in the workplace and politics, described themselves as involuntarily celibate---incels.
+These men, and, it was said, many of their mothers, were determined to see the reversal of the country's halting progress towards gender equality.
 
-Do parties and governments represent growing gender egalitarian public opinion by running higher numbers of successful women candidates and adopting policies that advance gender equality?
+Korea's election raises the two more general questions.
+First, whether parties and democratic governments represent run higher numbers of successful women candidates and adopt policies that advance gender equality when public opinion favors more gender equality.
 There is a lot of theory and empirical research on gender politics to suggest that they do.
 Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
 Still, there are doubts.
-Parties are well understood to be gatekeepers between aspiring candidates and political power [see, e.g., @Caul1999], and the party elites who control access to viable candidacies appear to frequently underestimate the public's desire to vote for women [see, e.g., @Norris1995].
-And the multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater relative power of men to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
+Parties are well understood to be gatekeepers between aspiring women candidates and political power [see, e.g., @Caul1999], and the party elites who control access to viable candidacies appear to frequently underestimate the public's desire to vote for women [see, e.g., @Norris1995].
+And the multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater power of men relative to women to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
 
 Public opinion research, too, is often skeptical of whether democratic representation occurs.
 Some works contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
 Political institutions including presidentialism, bicameral legislatures, and even, in some circumstances, coalition governments empower political minorities to block the enactment of policies favored by public opinion [see, e.g., Powell2000; Tsebelis2002].
 There is considerable evidence, too, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 in the case of the United States; @Persson2024 across Europe].
 
-But if we assume for the moment that Korean views on gender equality were represented in the results of Korea's 2022 "incel election," it raises the question of why the Korean public is so anti-egalitarian.
-Some observers see events like these as signs of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality.
+The election raises a second general question: Do steps toward equality for historically marginalized groups provoke public opinion to move in the opposite direction?
+Some observers see events like Korea's 2022 "incel election" as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality.
 The foundational book, _Backlash: The Undeclared War Against American Women_, argues that shifts in mass attitudes against gender equality in the United States "have always been triggered by the perception \ldots that women are making great strides" [@Faludi1991, xix].
 @Shiran2024 describes how "moral panics" against women in politics spread after the adoption of gender quotas, the most effective policy for quickly shifting politics in a gender egalitarian direction.
-Showing the opposite side of the coin, @Wlezien1993 documents how support for reproductive rights increased in the United States during the 1980s as successive court opinions and state laws made access to abortion more restrictive.
+Showing the opposite side of the coin, @Wlezien1993 documents how support for women's reproductive rights increased in the United States during the 1980s as successive court opinions and state laws worked to restrict access to abortion.
 
 A prominent line of public opinion research, in fact, suggests that backlash may be a general phenomenon.
 The influential theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
@@ -717,13 +719,14 @@ Our analyses show that increases in macroegalitarianism predict subsequent gains
 
 Chapter 5 turns to the adoption of policies advancing gender equality in the public sphere, both in politics and in paid employment.
 Looking again across the OECD, it finds that governments represent the views of their citizens: when macroegalitarianism increases, laws setting national legislative gender quotas and policies that put women on equal footing in the workforce are more likely to be adopted.
-Intriguingly, these effects do not appear to work through improvements in descriptive representation: when the public becomes more egalitarian, it seems that both men and women legislators represent their constituents by favoring policies that advance gender equality.
+Intriguingly, these effects do not appear to work through improvements in women's officeholding: when the public becomes more egalitarian, it seems that both men and women legislators represent their constituents by favoring more policies that advance gender equality.
 We find some evidence of public responsiveness in this chapter as well.
-All of this evidence indicates that policymaking and public opinion constitute a virtuous circle, that the adoption of policies advancing gender equality leads, if anything, to more macroegalitarianism rather than to the backlash of a thermostatic response.
+All of this evidence indicates that policymaking and public opinion constitute a virtuous circle, that the adoption of policies advancing gender equality leads, if anything, to more macroegalitarianism rather than mass opinion backlash.
 
-In Chapters 6 and 7, we further examine the relationships between public opinion, descriptive representation, and policy outcomes in case studies of Mexico and South Korea, delving into the processes by which gender egalitarian attitudes are, and are not, converted into political outcomes that further gender equality.
-As we suggested in the opening pages, Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades while Korea, on the other hand, has not witnessed such developments.
-Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality.
+In Chapter 6, we further examine the relationships between public opinion, women's officeholding, and policy outcomes in a case study of South Korea.
+Taking advantage of the strengths of case study research, the chapter delves into the processes by which gender egalitarian attitudes in the public are, and are not, converted into political outcomes that further gender equality, and how those outcomes in turn shape public opinion.
+<!-- As we suggested in the opening pages, Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades while Korea, on the other hand, has not witnessed such developments. -->
+<!-- Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality. -->
 
-Chapter 8 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
+Chapter 7 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
 It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
