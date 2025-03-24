@@ -67,13 +67,13 @@ tibble(` ` = c("Women's Descriptive\nRepresentation",
 \pagebreak
 ## Implications for the Study of Public Opinion
 
-[Debates on policy representation and political responsiveness.]
+[Debates on democratic representation and public responsiveness.]
 
-It could well be that the public still might respond thermostatically to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce---but only once these work to the absolute, rather than merely relative, disadvantage of men.
+It could well be that the public's response to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 Of course, were such a policy adopted, we would again be speaking of policies of gender \emph{in}equality.
 In any event, as yet few countries have even parity quotas, and---for better or worse---there is no sign of policies designed to allow men less than an equal share of descriptive representation in any countries.
-As a practical matter, there is no reason to think that public opinion will ever backlash against gender equality.
+As a practical matter, the findings reported here suggest that there is no reason to think that public opinion will ever backlash against gender equality.
 
 We only look at average effects.
 Whether the representation and responsiveness found here vary with such features as institutional arrangements [see, e.g., @Powell2000] or socioeconomic structure [see, e.g., @Solt2008] remain questions for future investigation.
@@ -88,12 +88,12 @@ Nevertheless, the lack of appropriate data has led to the exclusion of macroegal
 This can be problematic.
 For example, the finding of @Kim2022 that greater women's descriptive representation yields the adoption of more policies advancing gender equality in employment appears, in light of our findings, to be spurious.
 Changes in women's share of the national legislature are predicted by changes in gender egalitarian public opinion (see @fig-m1-dr).
-Trends in macroegalitarianism also predict policy adoption, even when descriptive representation is controlled, while descriptive representation does not (see @fig-m1-wbl).
+Trends in macroegalitarianism also predict policy adoption, even when women's share of officeholding is controlled, while women's officeholding does not (see @fig-m1-wbl).
 These results suggest a very different mechanism through which policies advancing gender equality are adopted.
-These policy gains are not achieved by women legislators working alone, but rather by both women and men legislators seeking to bring policy into better alignment with the egalitarian views of the public.
+These policy gains are not achieved by women legislators working alone, but rather by both women and men legislators seeking to bring policy into better alignment with the egalitarian views of the public: adaptation, not selection, dominates in this case.
 More generally, they suggest that the close relationships among these variables means that well-grounded conclusions can only be reached when all of them are included in our analyses.
 
-It is worth noting that we focused our inquiry on politics and policy in relatively rich democracies.
+It is worth noting that we focused our inquiry on politics and policy in relatively rich democracies of the OECD.
 This choice was based in long-standing theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
 That is, the countries of the OECD collectively constitute a 'most likely case.'
 Whether our findings hold in other contexts remains an open question.
