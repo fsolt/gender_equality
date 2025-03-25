@@ -67,7 +67,7 @@ Her conviction led Yoon to be named Prosecutor General, a post in which he clash
 Capitalizing on the notoriety gained through his high profile confrontations with powerful women, Yoon made the issue of gender equality central to his campaign, repeatedly denouncing---and pledging to close---Korea's Ministry of Gender Equality and Family.
 After initially taking a similar line, the Democratic Party's candidate, Lee Jae-myung, pivoted to championing women's rights and ostentatiously celebrated International Women's Day on the eve of the election.
 Lee's moves were seen as nakedly tactical, but feminist voters rallied to his side nonetheless, making the election a referendum on gender equality.
-The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had made gains in the workplace and in politics, described themselves as involuntarily celibate---that is, as 'incels.'
+The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had been making gains in the workplace and in politics, described themselves as involuntarily celibate---that is, as "incels."
 These men, and, it was believed, most of their mothers, were determined to see the reversal of the country's halting progress towards gender equality and voted specifically on those grounds.
 
 Yoon's victory raises two questions that go far beyond the Korean case.
@@ -75,17 +75,17 @@ The first has to do with democratic representation.
 It concerns whether parties run greater numbers of successful women candidates and democratic governments adopt more policies that advance gender equality when public opinion favors more gender equality---and, like Yoon's People Power Party, pledge the opposite when public opinion favors less.
 There is a great deal of theory and empirical research on the politics of gender to suggest that they do.
 Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
-Still, there are doubts.
+Still, there are some good reasons for doubt.
 Parties are well understood to be gatekeepers between aspiring women candidates and political power [see, e.g., @Caul1999], and the party elites who control access to viable candidacies appear to frequently underestimate the public's desire to vote for women [see, e.g., @Norris1995].
 And the multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater power of men relative to women to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
 
 Public opinion research, too, is often skeptical of whether democratic representation occurs.
 Some works contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
 Political institutions including presidentialism, bicameral legislatures, and even, in some circumstances, coalition governments empower political minorities to block the enactment of policies favored by public opinion [see, e.g., @Powell2000; @Tsebelis2002].
-There is considerable evidence, too, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 in the case of the United States; @Persson2024 across Europe].
+There is considerable evidence, as well, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 for the case of the United States; @Persson2024 across Europe].
 
 The second general question has to do with public responsiveness, whether steps toward---or away from---equality for historically marginalized groups provoke public opinion to move in the opposite direction.
-Some observers see events like Korea's 2022 "incel election" as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality.
+Some observers see events like Korea's 2022 "incel election" as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality there.
 The foundational book, _Backlash: The Undeclared War Against American Women_, argues that shifts in mass attitudes against gender equality in the United States "have always been triggered by the perception \ldots that women are making great strides" [@Faludi1991, xix].
 @Shiran2024 describes how "moral panics" against women in politics spread after the adoption of gender quotas, the most effective policy for quickly shifting politics in a gender egalitarian direction.
 Showing the opposite side of the coin, @Wlezien1993 documents how support for women's reproductive rights increased in the United States during the 1980s as successive court opinions and state laws worked to restrict access to abortion.
@@ -101,8 +101,8 @@ Arguments that public opinion toward gender equality in politics and employment 
 
 All of this is to say that, despite substantial theorizing, these two questions---the extent of democratic representation of gender egalitarian public opinion and the nature of public responsiveness to developments toward gender equality in politics and policy---remain unsettled.
 This is surprising given their importance.
-Democracy itself depends on democratic representation, that a government's policies reflect "the preferences of its citizens, considered as political equals" [Dahl1973, 1].
-If purportedly democratic countries diverge from these preferences in matters directly affecting the lives of half of their populations and scarcely a step away from those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
+Democracy itself depends on democratic representation, that a government's policies reflect "the preferences of its citizens, considered as political equals" [@Dahl1971, 1].
+If purportedly democratic countries diverge from these preferences in matters profoundly affecting the lives of half of their populations and scarcely less those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
 And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in any country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
 
 In the next section, we document that one reason these questions remain open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
@@ -209,7 +209,7 @@ It plots, for each survey project, the number of countries for which data on gen
 Some survey projects ask more than one question on the topic, but here, only the most frequently asked single question on the topic is shown.
 An 'L' shape is readily evident.
 Many surveys, clustered in the lower left at the bend in the L, ask questions about support for gender equality in only a few different country-year contexts.
-Some though, such as the U.S. General Social Survey (GSS) and the Swedish Society, Opinion, and Media (SOM) project in the top left, have fielded such questions repeatedly over many years in a single country, although even these efforts fall short of complete time series.
+Some though, such as the U.S. General Social Survey (GSS) and the Swedish Society, Opinion, and Media (SOM) project in the top left, have fielded such questions repeatedly over many years in a single country, although even these efforts fall short of complete annual time series.
 Others, including the World Values Survey (WVS) and the Pew International Religion Surveys along the bottom and towards the right, provide information about many countries across one or a few years.
 The International Social Survey Program (ISSP), which surveyed respondents in 52 countries in as many as nine years (mean: 4.3 years) over two decades, provides the most over-time data for the most countries.
 No single survey combines broad, cross-regional country coverage with longitudinal time-series data.
@@ -700,14 +700,16 @@ Thanks to the long time series the PGE data make available to us to examine, we 
 We further bolster confidence in our conclusions with attention to another source of bias.
 @Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.
 The PGE dataset, our operationalization of the concept of macroegalitarianism, incorporates the broad range of survey items that have been employed to measure public opinion toward gender roles in politics and the workplace, and we pay careful attention to its measurement validation.
-And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators of gender equality in the traditionally masculine public sphere of politics and paid employment.
-**@Beer2009 [, 217]: "there is some scholarly consensus that gender equality should be assessed in terms of three domains: capabilities, opportunities, and empowerment/agency" @Bericat2012: "education, work and power"**
+And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators of gender equality in the traditionally masculine public sphere of politics and paid employment [cf. @Beer2009, 217; @Bericat2012, 4].
 We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.^[
-The policies we consider, then, are among those @Htun2010 [, 210, 209] calls _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
+The policies we consider, then, are among those @Htun2010 [, 210, 209] identifies as _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
 One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform.]
 The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
 
-Finally, we complement our expansive cross-national over-time analyses with an in-depth case study.  **Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001**
+Finally, we complement our expansive cross-national over-time analyses with an in-depth case study.
+Our research on a single country allows us to assess evidence of additional aspects of the theories on democratic representation and public responsiveness, evidence that is unavailable cross-nationally.
+That we find consistent results across these nested levels of analysis further bolsters our confidence [@King1994; @Lieberman2005].
+<!-- **Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001** -->
 
 
 ## Plan of the Book

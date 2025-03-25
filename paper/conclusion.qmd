@@ -1,4 +1,4 @@
-# Conclusions [Still Very Drafty Too]
+# Conclusions [Still Drafty]
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -51,8 +51,8 @@ p_load(
 #| label: tbl-summary
 #| tbl-cap: Summary of Evidence
 
-tibble(` ` = c("Women's Descriptive\nRepresentation",
-                    "National Legislative\nGender Quotas",
+tibble(` ` = c("Women in Office",
+                    "Legislative\nGender Quotas",
                     "Laws Advancing\nEquality in Employment",
                     "Childcare\nEnrollments"),
        `Democratic\nRepresentation` = c("++", "++", "++", "+"),
