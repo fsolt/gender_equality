@@ -1311,7 +1311,7 @@ Over the countries and years we analyze here, gender equality policymaking progr
 Both the extent to which these countries have passed these laws and the pace at which they have done so varies considerably.
 
 
-### Policy Representation in Policies Advancing Workplace Gender Equality
+### Democratic Representation in Policies Advancing Workplace Gender Equality
 
 Our first question is whether growing gender egalitarianism among citizens prompts their representatives to adopt policies that enhance gender equality in employment.
 As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and the WBL policy index is very strong.

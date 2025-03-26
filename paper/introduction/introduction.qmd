@@ -64,14 +64,14 @@ The winner was the candidate of the People Power Party, Yoon Seok-yeol.
 Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after months of protests.
 Her conviction led Yoon to be named Prosecutor General, a post in which he clashed repeatedly with the country's Minister of Justice, Choo Mi-ae, the second woman to serve in that capacity and the first woman to lead the Democratic Party, the People Power Party's primary rival.
 
-Capitalizing on the notoriety gained through his high profile confrontations with powerful women, Yoon made the issue of gender equality central to his campaign, repeatedly denouncing---and pledging to close---Korea's Ministry of Gender Equality and Family.
+Capitalizing on the notoriety he had gained through his high profile confrontations with powerful women, Yoon made the issue of gender equality central to his campaign, repeatedly denouncing---and pledging to close---Korea's Ministry of Gender Equality and Family.
 After initially taking a similar line, the Democratic Party's candidate, Lee Jae-myung, pivoted to championing women's rights and ostentatiously celebrated International Women's Day on the eve of the election.
-Lee's moves were seen as nakedly tactical, but feminist voters rallied to his side nonetheless, making the election a referendum on gender equality.
+Lee's moves were seen as nakedly tactical, but feminist voters rallied to his side nonetheless, turning the election into a referendum on gender equality.
 The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had been making gains in the workplace and in politics, described themselves as involuntarily celibate---that is, as "incels."
 These men, and, it was believed, most of their mothers, were determined to see the reversal of the country's halting progress towards gender equality and voted specifically on those grounds.
 
 Yoon's victory raises two questions that go far beyond the Korean case.
-The first has to do with democratic representation.
+One has to do with democratic representation.
 It concerns whether parties run greater numbers of successful women candidates and democratic governments adopt more policies that advance gender equality when public opinion favors more gender equality---and, like Yoon's People Power Party, pledge the opposite when public opinion favors less.
 There is a great deal of theory and empirical research on the politics of gender to suggest that they do.
 Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
@@ -84,18 +84,18 @@ Some works contend that it happens only very slowly, on the scale of decades [se
 Political institutions including presidentialism, bicameral legislatures, and even, in some circumstances, coalition governments empower political minorities to block the enactment of policies favored by public opinion [see, e.g., @Powell2000; @Tsebelis2002].
 There is considerable evidence, as well, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 for the case of the United States; @Persson2024 across Europe].
 
-The second general question has to do with public responsiveness, whether steps toward---or away from---equality for historically marginalized groups provoke public opinion to move in the opposite direction.
-Some observers see events like Korea's 2022 "incel election" as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality there.
+The other question raised by Korea's "incel election" has to do with public responsiveness, whether steps toward---or away from---equality for historically marginalized groups provoke public opinion to move in the opposite direction.
+Some observers see events like these as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality there.
 The foundational book, _Backlash: The Undeclared War Against American Women_, argues that shifts in mass attitudes against gender equality in the United States "have always been triggered by the perception \ldots that women are making great strides" [@Faludi1991, xix].
 @Shiran2024 describes how "moral panics" against women in politics spread after the adoption of gender quotas, the most effective policy for quickly shifting politics in a gender egalitarian direction.
 Showing the opposite side of the coin, @Wlezien1993 documents how support for women's reproductive rights increased in the United States during the 1980s as successive court opinions and state laws worked to restrict access to abortion.
 
-A prominent line of research, in fact, suggests that public opinion backlash may be a general phenomenon.
+A prominent line of research suggests that public opinion backlash may in fact be a general phenomenon.
 The influential theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
 Arguments for such "self-undermining" feedback, in which policies create opposition to their own continued provision [@Busemeyer2021, 144], are common across the study of public opinion on topics as diverse as budgetary policy [see, e.g., @Soroka2010], marriage equality and gay rights [for an overview, see @Bishin2021, 3-10], and public pension reform [see, e.g., @Weaver2010; @Fernandez2013].
 
 But public opinion scholars have also found that many policies create their own constituencies, that is, after a policy is adopted, public opinion moves further in its support rather than swinging to oppose it. 
-Drawing on the observation that "new policies create a new politics" [@Schattschneider1935, 288], an extensive literature in public opinion research proposes such "accelerating" feedback [@Busemeyer2021, 144].
+Drawing on the insight that "new policies create a new politics" [@Schattschneider1935, 288], an extensive literature in public opinion research proposes such "accelerating" feedback [@Busemeyer2021, 144].
 For example, despite a lingering partisan cleavage, U.S. public opinion toward the Affordable Care Act grew steadily more favorable after its adoption [@Jacobs2018; @Brodie2020].
 Arguments that public opinion toward gender equality in politics and employment reacts positively to the election of women and gender egalitarian policy adoption are common as well [see, e.g., @Barnes2016; @Lomazzi2019; @Kim2023].
 
@@ -677,7 +677,7 @@ These new data on macroegalitarianism, based on thousands of surveys conducted i
 In turn, this comprehensive dataset allows us to examine the causes and consequences of macroegalitarianism---for present purposes, public responsiveness and democratic representation---together in comparative and dynamic perspective.
 
 That our perspective is _broadly comparative_ is crucial.
-These new data allows us to take a cross-national, cross-regional comparative approach and examine the experiences of all of the countries around the world to which the theories of representation and responsiveness mentioned above clearly apply.
+These new data allows us to take a cross-national, cross-regional comparative approach and examine the experiences of all of the countries around the world to which the theories of representation and responsiveness mentioned above clearly apply (more on this in section @sec-oecd).
 Single-country studies have long been the dominant research design in comparative politics [see, e.g., @Munck2007, 22; @Schedler2010, 421; @Pepinsky2019, 192], as in the interdisciplinary sample of prominent works on attitudes toward gender roles we presented above, but such works often struggle to address concerns regarding external validity, that is, whether the findings reached in the country studied generalize to anywhere else [see, e.g., @Jackman1985, 164; @Lieberman2005, 441; @Findley2021, 381].
 The same question is raised by even cross-national comparative studies that are regionally concentrated: there is not necessarily reason to suppose that their conclusions hold elsewhere.
 By allowing us to look at advanced democracies in North America, Oceania, Europe, east Asia, west Asia, and Latin America, the PGE data increases the likelihood that our conclusions regarding macroegalitarianism will not be limited to the context of a single country or region.
@@ -703,12 +703,12 @@ The PGE dataset, our operationalization of the concept of macroegalitarianism, i
 And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators of gender equality in the traditionally masculine public sphere of politics and paid employment [cf. @Beer2009, 217; @Bericat2012, 4].
 We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.^[
 The policies we consider, then, are among those @Htun2010 [, 210, 209] identifies as _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
-One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform.]
+One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform, a concept we suspect poses particularly steep challenges to cross-cultural measurement.]
 The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
 
 Finally, we complement our expansive cross-national over-time analyses with an in-depth case study.
 Our research on a single country allows us to assess evidence of additional aspects of the theories on democratic representation and public responsiveness, evidence that is unavailable cross-nationally.
-That we find consistent results across these nested levels of analysis further bolsters our confidence [@King1994; @Lieberman2005].
+That we find consistent results across these nested levels of analysis further bolsters our confidence [@King2021; @Lieberman2005].
 <!-- **Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001** -->
 
 

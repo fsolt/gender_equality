@@ -173,7 +173,7 @@ Returning to the principal subject of this section, there are in short convincin
 To see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
 
 
-## Public Responsiveness: From Politics and Policy to Opinion
+## Public Responsiveness: From Politics and Policy to Public Opinion
 
 How the public responds to policy change is, if anything, an even less settled question.
 The key point of debate is whether public opinion moves against a policy after it is adopted or rather moves further in its support.
@@ -252,7 +252,7 @@ Indeed, the assumption that gender egalitarian public opinion is simply causally
 As with democratic representation, to get answers to whether and how macroegalitarianism in the public responds to political and policy developments, we will have to look. 
 
 
-## The Scope of These Theories
+## The Scope of These Theories {#sec-oecd}
 
 Before we proceed further, we need to define the universe for our study.
 As always, there are competing concerns.
