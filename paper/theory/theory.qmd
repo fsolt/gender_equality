@@ -92,7 +92,7 @@ One reason is that politics is multidimensional.
 Voters may agree with---and support---a party on one set of policy issues while disagreeing with it on others.
 Democratic representation should not be expected on policies that are not prioritized [see, e.g., @Powell2004, 290-291; @Costello2021].
 Competing issues may be brought forward strategically, what @Lukes1974, following @Bachrach1962, calls the second face of power.
-The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Goodin1980, 297-298; @Solt2008, 49; @Erikson2015, 26; Witko2021].
+The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Solt2008, 49; @Erikson2015, 26; Witko2021].
 Strategic agenda setting may help explain the findings that the preferences of the rich are better represented in policy than those of their poorer fellow citizens in the United States [e.g., @Bartels2008; @Rigby2011a; @Gilens2014] and Europe [e.g., @Giger2012; @Peters2015; @Schakel2021; @Persson2024].
 
 Another argument against consistent democratic representation centers on political institutions.
@@ -151,7 +151,7 @@ Analogous slippage has also been pointed out as problematic to works on democrat
 Reassuringly, though, there is scholarship that finds strong relationships between preferences for gender equality and support for gender quotas across Latin America [@Barnes2016], in Ireland [@Keenan2017], and in Australia [@Beauregard2018].
 Still, we acknowledge that given that we conceptualize and measure macroegalitarianism with normative preferences (see Appendix B), the potential for slippage would have complicated the interpretation of a null result had we found one.]
 
-The severe limitations in the available public opinion data that we described in the previous chapter have limited researchers' ability to test these arguments directly [@Paxton2021, 127].
+The severe limitations in the available public opinion data that we described in the previous chapter have sharply restricted researchers' ability to test these arguments directly [@Paxton2021, 127].
 Still, what works do exist indicate democratic representation occurs, at least with regard to women in office.
 @Norris2001 finds that across dozens of democratic and authoritarian countries surveyed at the end of the twentieth century, gender egalitarian attitudes toward political leaders were strongly correlated to the proportion of women in national parliaments.
 @Paxton2003 examines a cross-section of 46 countries and finds that where the public's disagreement that men make better political leaders than women was higher, more women were elected to legislatures.
