@@ -59,30 +59,30 @@ wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five",
 
 # Introduction
 
-South Korea's 2022 election was the most closely fought presidential race in the country's history, decided by less than a percentage point.  
+South Korea's 2022 election was the most closely fought presidential race in the country's history.  
 The winner was the candidate of the People Power Party, Yoon Seok-yeol.
-Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after months of protests.
+Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after many months of protests.
 Her conviction led Yoon to be named Prosecutor General, a post in which he clashed repeatedly with the country's Minister of Justice, Choo Mi-ae, the second woman to serve in that capacity and the first woman to lead the Democratic Party, the People Power Party's primary rival.
 
-Capitalizing on the notoriety he had gained through his high profile confrontations with powerful women, Yoon made the issue of gender equality central to his campaign, repeatedly denouncing---and pledging to close---Korea's Ministry of Gender Equality and Family.
-After initially taking a similar line, the Democratic Party's candidate, Lee Jae-myung, pivoted to championing women's rights and ostentatiously celebrated International Women's Day on the eve of the election.
+Capitalizing on the notoriety he had gained through his high profile confrontations with powerful women, Yoon made the issue of gender equality central to his campaign, repeatedly denouncing---and pledging to shutter---Korea's Ministry of Gender Equality and Family.
+After initially taking a similar line, the Democratic Party's candidate, Lee Jae-myung, pivoted to championing women's rights, and he ostentatiously celebrated International Women's Day on the eve of the election.
 Lee's moves were seen as nakedly tactical, but feminist voters rallied to his side nonetheless, turning the election into a referendum on gender equality.
-The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had been making gains in the workplace and in politics, described themselves as involuntarily celibate---that is, as "incels."
-These men, and, it was believed, most of their mothers, were determined to see the reversal of the country's halting progress towards gender equality and voted specifically on those grounds.
+The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had been making gains in the workplace and in politics, described themselves as involuntarily celibate, that is, as "incels."
+These men---and, it was believed, most of their mothers---were determined to see the reversal of the country's halting progress towards gender equality and voted specifically on those grounds.
 
 Yoon's victory raises two questions that go far beyond the Korean case.
 One has to do with democratic representation.
-It concerns whether parties run greater numbers of successful women candidates and democratic governments adopt more policies that advance gender equality when public opinion favors more gender equality---and, like Yoon's People Power Party, pledge the opposite when public opinion favors less.
+It asks whether parties run greater numbers of successful women candidates and democratic governments adopt more policies that advance gender equality when public opinion favors more gender equality---and, like Yoon's People Power Party, pledge the opposite when public opinion favors less.
 There is a great deal of theory and empirical research on the politics of gender to suggest that they do.
 Collective attitudes toward the appropriate roles of women and men in society---whether labeled culture, norms, ideology, or public opinion---constitute one of the primary explanations for the extent of women's inclusion in the traditionally masculine public sphere of the workforce, political power, and policy influence [see, e.g., @Paxton2021, 113-114].
-Still, there are some good reasons for doubt.
+Still, there are good reasons for doubt.
 Parties are well understood to be gatekeepers between aspiring women candidates and political power [see, e.g., @Caul1999], and the party elites who control access to viable candidacies appear to frequently underestimate the public's desire to vote for women [see, e.g., @Norris1995].
 And the multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater power of men relative to women to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
 
 Public opinion research, too, is often skeptical of whether democratic representation occurs.
 Some works contend that it happens only very slowly, on the scale of decades [see, e.g., @Caughey2022].
 Political institutions including presidentialism, bicameral legislatures, and even, in some circumstances, coalition governments empower political minorities to block the enactment of policies favored by public opinion [see, e.g., @Powell2000; @Tsebelis2002].
-There is considerable evidence, as well, that it is the preferences of the rich, rather than those of the public as a whole, that influence policymakers [see, e.g., @Bartels2008 for the case of the United States; @Persson2024 across Europe].
+There is considerable evidence, as well, that it is the preferences of the rich, rather than those of the public as a whole, that most consistently influence policymakers [see, e.g., @Bartels2008 for the case of the United States; @Persson2024 across Europe].
 
 The other question raised by Korea's "incel election" has to do with public responsiveness, whether steps toward---or away from---equality for historically marginalized groups provoke public opinion to move in the opposite direction.
 Some observers see events like these as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality there.
