@@ -1,4 +1,4 @@
-# Conclusions [Still Drafty]
+# Conclusions \[Still Drafty\]
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -45,43 +45,77 @@ p_load(
 ```
 
 
+
+
+
+<!-- ```{r summary_table} -->
+<!-- #| label: tbl-summary -->
+<!-- #| tbl-cap: Summary of Evidence -->
+
+<!-- tibble(` ` = c("Women in Office", -->
+<!--                     "Legislative\nGender Quotas", -->
+<!--                     "Laws Advancing\nEquality in Employment", -->
+<!--                     "Childcare\nEnrollments"), -->
+<!--        `Democratic\nRepresentation` = c("++", "++", "++", "+"), -->
+<!--        `Public\nResponsiveness` = c("++", "+", "++", "0")) %>%  -->
+<!--   modelsummary::datasummary_df(output = "kableExtra", -->
+<!--                                align = "lcc", -->
+<!--                                notes = c("++ Strong evidence of positive relationship; + some evidence of positive relationship;", "0 no evidence of relationship; — some evidence of negative relationship; — — strong", "evidence of negative relationship.")) %>%  -->
+<!--   kableExtra::column_spec(1, width = "15em") %>% -->
+<!--   kableExtra::column_spec(c(2,3), width = "8em") -->
+<!-- ``` -->
+
++---------------------------------------+----------------+----------------+
+|                                       | Democratic     | Public         |
+|                                       |                |                |
+|                                       | Representation | Responsiveness |
++=======================================+:==============:+:==============:+
+| Women in Office                       | ++             | ++             |
++---------------------------------------+----------------+----------------+
+| Legislative Gender Quotas             | ++             | \+             |
++---------------------------------------+----------------+----------------+
+| Laws Advancing Equality in Employment | ++             | ++             |
++---------------------------------------+----------------+----------------+
+| Childcare Enrollments                 | \+             | 0              |
++---------------------------------------+----------------+----------------+
+
+: Summary of Evidence {#tbl-summary} {tbl-colwidths="\[60,20,20\]"}
+
 @tbl-summary summarizes these findings.
 
-```{r summary_table}
-#| label: tbl-summary
-#| tbl-cap: Summary of Evidence
-
-tibble(` ` = c("Women in Office",
-                    "Legislative\nGender Quotas",
-                    "Laws Advancing\nEquality in Employment",
-                    "Childcare\nEnrollments"),
-       `Democratic\nRepresentation` = c("++", "++", "++", "+"),
-       `Public\nResponsiveness` = c("++", "+", "++", "0")) %>% 
-  modelsummary::datasummary_df(output = "kableExtra",
-                               align = "lcc",
-                               notes = c("++ Strong evidence of positive relationship; + some evidence of positive relationship;", "0 no evidence of relationship; — some evidence of negative relationship; — — strong", "evidence of negative relationship.")) %>% 
-  kableExtra::column_spec(1, width = "15em") %>%
-  kableExtra::column_spec(c(2,3), width = "8em")
-```
-
 \pagebreak
+
 ## Implications for the Study of Public Opinion
 
-[Debates on democratic representation and public responsiveness.]
+Representation: conditions
+how--selection and adaptation
 
-It could well be that the public's response to increased descriptive representation for women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
-For example, it would not be surprising for even a very egalitarian public to view a quota that required _more_ than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
+Responsiveness: conditions
+
+
+@Soss2007 [, 121] contends that public responsiveness should be expected when policies are both salient (as opposed to obscure) and a direct and tangible presence in people's lives (as opposed to distant in geographic, social, or temporal terms).
+Salient policies are highly visible and attract attention.
+Women in office and policies advancing gender equality are the opposite of obscure: they attract attention by challenging the masculine status quo of the public sphere in very visible ways that provoke a response [see @Weeks2022].
+Highly tangible policies are those most citizens personally experience on a recurrent basis.
+Such policies define target populations by expanding or protecting citizens' rights; educate the public about what is socially acceptable by reshaping norms; and, by clearly linking the policy's effects to government action, generate additional support for analogous policies [@Pacheco2013, 716-718].
+In a world in which the public sphere is traditionally dominated by men, policies advancing gender equality in politics and employment are undoubtedly tangible as well.
+In the absence of the pervasive notion of public opinion backlash, there would be little reason to doubt that movement with regard to gender equality in politics and policy would generate accelerating, not self-undermining, feedback.
+
+It could well be that the public's response to increased officeholding women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
+For example, it would not be surprising for even a very egalitarian public to view a quota that required *more* than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 Of course, were such a policy adopted, we would again be speaking of policies of gender \emph{in}equality.
-In any event, as yet few countries have even parity quotas, and---for better or worse---there is no sign of policies designed to allow men less than an equal share of descriptive representation in any countries.
-As a practical matter, the findings reported here suggest that there is no reason to think that public opinion will ever backlash against gender equality.
+In any event, as yet few countries have even parity quotas, and---for worse or better---there is no sign of policies designed to allow men less than an equal share of descriptive representation in any countries.
+As a practical matter, then, the findings reported here suggest that there is no reason to think that public opinion will ever consistently backlash against gender equality.
 
-We only look at average effects.
-Whether the representation and responsiveness found here vary with such features as institutional arrangements [see, e.g., @Powell2000] or socioeconomic structure [see, e.g., @Solt2008] remain questions for future investigation.
+Note that _consistently_ is doing some work in that last sentence.
+In our investigation we have only looked at average effects.
+Whether the democratic representation and public responsiveness we find in this book vary with such features as institutional arrangements [see, e.g., @Powell2000; @Soroka2010] or socioeconomic structure [see, e.g., @Solt2008, 49; @Erikson2015, 26] remain questions for future investigation.
+Establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work.
 
 
 ## Implications for the Study of the Politics of Gender
 
-The processes of representation of macroegalitarian public opinion documented here constitutes a confirmation of theories long put forward by scholars of gender politics.
+The processes of democratic representation of macroegalitarian public opinion documented here constitutes a confirmation of theories long put forward by scholars of gender politics.
 Whether labelled culture, ideology, or attitudes, these scholars have pointed to the importance of collective views on gender roles to politics and policy for many decades.
 
 Nevertheless, the lack of appropriate data has led to the exclusion of macroegalitarianism from much empirical work.
@@ -95,8 +129,7 @@ More generally, they suggest that the close relationships among these variables 
 
 It is worth noting that we focused our inquiry on politics and policy in relatively rich democracies of the OECD.
 This choice was based in long-standing theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
-That is, the countries of the OECD collectively constitute a 'most likely case.'
-Whether our findings hold in other contexts remains an open question.
+That is, the countries of the OECD collectively constitute a 'most likely case.' Whether our findings hold in other contexts remains an open question.
 Whether women's descriptive representation and policies advancing equality depend dynamically on macroegalitarianism across democracies among developing countries or in autocracies are promising lines of future inquiry.
 
 ## Implications for Policy
