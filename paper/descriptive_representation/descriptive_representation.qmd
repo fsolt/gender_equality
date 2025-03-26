@@ -11,6 +11,11 @@ And success in gaining office remains uneven.
 At this writing, gender parity---equal numbers of men and women---has been achieved in the lower legislative houses of only two of these countries, Mexico and New Zealand.
 But women continue to number fewer than one in five legislators in twice as many of these rich democratic countries.
 
+A note before continuing: the large and productive body of scholarship on women's officeholding, following @Pitkin1967, speaks in terms of women's _descriptive representation_.
+It does so, in part, to facilitate engagement with the study of officeholding by members of other historically disadvantaged groups, such as ethnic minorities [see, e.g., @Mansbridge1999; @Wolak2018] and the working class [see, e.g., @Carnes2016].
+We eschew that term here in the hope of avoiding confusion with our interest in _democratic_ representation---whether the preferences of the public are made present in who holds office---which in Pitkin's typology is better classified as an example of "substantive representation."^[
+We thank Stephan Haggard for raising the concern for this confusion at the 2024 International Conference on Inequality and Social Policy in South Korea, hosted by the Korea Inequality Research Lab on the campus of Yonsei University in Seoul, August 19 and 20, 2024.]
+
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
 
