@@ -92,7 +92,7 @@ One reason is that politics is multidimensional.
 Voters may agree with---and support---a party on one set of policy issues while disagreeing with it on others.
 Democratic representation should not be expected on policies that are not prioritized [see, e.g., @Powell2004, 290-291; @Costello2021].
 Competing issues may be brought forward strategically, what @Lukes1974, following @Bachrach1962, calls the second face of power.
-The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Solt2008, 49; @Erikson2015, 26; Witko2021].
+The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Solt2008, 49; @Erikson2015, 26; @Witko2021].
 Strategic agenda setting may help explain the findings that the preferences of the rich are better represented in policy than those of their poorer fellow citizens in the United States [e.g., @Bartels2008; @Rigby2011a; @Gilens2014] and Europe [e.g., @Giger2012; @Peters2015; @Schakel2021; @Persson2024].
 
 Another argument against consistent democratic representation centers on political institutions.
@@ -102,13 +102,13 @@ Institutions such as presidential executives, bicameral legislatures, and federa
 Still, there is a substantial body of research that suggests that the public does get what it wants.
 With regard to officeholding, a vast literature on "ideological congruence" finds that the left-right preferences of the public are well represented in national legislatures, especially those elected via proportional representation [see, e.g., @Golder2010].
 It is telling that the debate on this topic is primarily about whether elections held using proportional representation also deliver more democratic representation when the ideology of the government instead of the legislature is considered [see, e.g., @Powell2000; @Ferland2016] rather than whether representation occurs at all.
-Contested elections prove to be very effective at generating a body of office holders that reflect citizen preferences in this regard.
+Contested elections prove to be very effective at generating a body of officeholders that reflect citizen preferences in this regard.
 
 With regard to policy, however, there is much less scholarly consensus.
 On the one hand, there are prominent studies that conclude that democratic representation of the public's policy preferences is strong.
 @Erikson1993 [, 80], in a much-quoted finding, reports that the correspondence between opinion and policy in a cross-section of the U.S. states around 1980 was "awesome."
 Looking at a broad aggregation of policies over time in the United States at the national level, @Erikson2002 concludes similarly.
-In a study of more than three decades in Denmark, the United Kingdom, and the United States, @Hobolt2008 finds that both the promises made by chief executives in annual speeches and the share of budgetary spending follow the public's preferences.
+In a study of more than three decades in Denmark, the United Kingdom, and the United States, @Hobolt2008 finds that both promises made by chief executives in annual speeches and shares of budgetary spending follow the public's preferences.
 @Soroka2010 examines budgetary policy with regard to defense and social welfare in the United States, Canada, and the United Kingdom and finds in each case that changes in spending levels over time represent public preferences.
 @Rasmussen2019 examines 20 specific policy issues in a cross-section of 31 countries and finds a strong relationship between public support for a policy and whether the policy was in place.
 
@@ -205,7 +205,7 @@ Given our focus, we concentrate here on works that directly consider public opin
 @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds instead that the U.S. public has since its inception consistently favored its expansion.
 @Svallfors2010 shows that in 1990, attitudes toward the role of government were starkly different in eastern and western Germany, but while attitudes barely changed in the Federal Republic's preexisting territory over the next 16 years, the wholesale policy change toward smaller government in the former East Germany that accompanied reunification triggered a dramatic shift away from preferences for state intervention among people living there.
 In contrast to its other findings on pension reform in Europe, @Fernandez2013 found that opposition to raising retirement ages was stronger where those ages were already lower.
-@Pacheco2013 finds that after the adoption by U.S. states of smoking bans in restaurants public opinion expressed less sympathy for smokers, higher perceptions of the risk of secondhand smoke, and more support for smoking restrictions in other public places.
+@Pacheco2013 finds that after U.S. states adopted smoking bans in restaurants, public opinion in those states expressed less sympathy for smokers, higher perceptions of the risk of secondhand smoke, and more support for smoking restrictions in other public places.
 The influence of marriage equality on views toward gay and lesbian people has been extensively studied and repeatedly found to follow this pattern.^[
 One exception is @Redman2018, which examined trends in 70 countries and found that public opinion toward gay people did not shift with the adoption of legislation recognizing same-sex couples.
 The measure of policy employed in this work conflates marriage equality with the recognition of civil unions, two policies found to have opposite effects on public opinion in @Abou-Chadi2019, which may explain this non-result.]
@@ -219,7 +219,7 @@ There is, of course, a third possibility: that public opinion does not respond t
 @Soss2007 finds that the dramatic cuts to benefits for low-income citizens in the United States in 1996 did nothing to change public opinion on welfare policy, welfare recipients, and the poor.
 @Atkinson2021 finds that U.S. trends in preferences regarding spending on cities, spending on police, legalizing marijuana, and protecting unions bore no relationship to the position of the president's party.
 That work also identifies six other important issues that were not politicized over the period examined and finds they did not respond in an accelerating or self-undermining fashion either.
-Intriguingly given our present purpose, @Atkinson2021 further argues that gender egalitarian public opinion should not exhibit responsiveness.
+Intriguingly given present purposes, @Atkinson2021 further argues that gender egalitarian public opinion should not exhibit responsiveness.
 Instead, attitudes toward gender equality, along with racial equality and gay rights, constitute cultural shifts: "Our explanation for these is that absolute opinion change---that is, permanent opinion change that is not responsive to changes in policy---is going on" [@Atkinson2021, 40].
 We continue our discussion of the theories and evidence for public responsiveness in macroegalitarianism in the next section.
 
