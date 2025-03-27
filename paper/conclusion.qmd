@@ -87,30 +87,43 @@ p_load(
 
 ## Implications for the Study of Public Opinion
 
+Scholars of public opinion have long argued that democratic representation depends on the _salience_ of the issue, that is, "its importance to the public and its prominence in public discourse" [@Lax2012, 157; see also, e.g., @Page1983].
+
+@Wlezien2004 [, 8] argues instead that "From the point of view of representation in different domains, what matters is importance" rather than salience.^[
+@Wlezien2004 [, 8] makes this point in regard to 
+]
+In light of the fact that representation may occur through adaptation as well as by selection [per @Caughey2022, 99]; there is no need to expect an issue's representation to depend on its politicization by parties and a resulting prominence in political discourse.
+
+contrary to those who  that an issue need not be considered a problem, or the _most_ important to the public.
+
+^[
+]
+The evidence an issue is important is when public opinion responds to what policymakers do
+Here, too, given that we find 
+
 Representation: conditions
 how--selection and adaptation
 
-Responsiveness: conditions
-
-
-@Soss2007 [, 121] contends that public responsiveness should be expected when policies are both salient (as opposed to obscure) and a direct and tangible presence in people's lives (as opposed to distant in geographic, social, or temporal terms).
-Salient policies are highly visible and attract attention.
-Women in office and policies advancing gender equality are the opposite of obscure: they attract attention by challenging the masculine status quo of the public sphere in very visible ways that provoke a response [see @Weeks2022].
+@Soss2007 [, 121] suggests that public responsiveness in the form of accelerating feedback should be expected when policies are both (a) visible rather than obscure and (b) tangible in people's lives as opposed to distant in geographic, social, or temporal terms.
+Women in office and policies advancing gender equality are the opposite of obscure: they attract attention by challenging the masculine status quo of the public sphere in very visible ways that provoke a response [cf. @Weeks2022].
 Highly tangible policies are those most citizens personally experience on a recurrent basis.
 Such policies define target populations by expanding or protecting citizens' rights; educate the public about what is socially acceptable by reshaping norms; and, by clearly linking the policy's effects to government action, generate additional support for analogous policies [@Pacheco2013, 716-718].
-In a world in which the public sphere is traditionally dominated by men, policies advancing gender equality in politics and employment are undoubtedly tangible as well.
-In the absence of the pervasive notion of public opinion backlash, there would be little reason to doubt that movement with regard to gender equality in politics and policy would generate accelerating, not self-undermining, feedback.
+In a world in which the public sphere is traditionally dominated by men, policies advancing gender equality in politics and employment are undoubtedly tangible in this sense as well.
+Our results neatly align with the prediction that positive feedback should occur in such circumstances.^[
+It should also be noted that @Soss2007 [, 122], while briefly alluding to the possibility of "more complicated feedback dynamics," mainly contrasts the potential for accelerating feedback with _no_ feedback, not self-undermining feedback.
+Although we find support for accelerating feedback here, we agree with @Busemeyer2021 that a better understanding of the conditions that structure the existence and nature of public responsiveness will depend on more work pulling together both research traditions and considering the full range of potential outcomes.]
 
+Still, one can imagine a reversal on this point.
 It could well be that the public's response to increased officeholding women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required *more* than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 Of course, were such a policy adopted, we would again be speaking of policies of gender \emph{in}equality.
 In any event, as yet few countries have even parity quotas, and---for worse or better---there is no sign of policies designed to allow men less than an equal share of descriptive representation in any countries.
-As a practical matter, then, the findings reported here suggest that there is no reason to think that public opinion will ever consistently backlash against gender equality.
+As a practical matter, then, the findings reported here suggest that there is no reason to think that public opinion will ever consistently lash back against gender equality.
 
-Note that _consistently_ is doing some work in that last sentence.
+Note that the word _consistently_ is doing some work in that last sentence.
 In our investigation we have only looked at average effects.
 Whether the democratic representation and public responsiveness we find in this book vary with such features as institutional arrangements [see, e.g., @Powell2000; @Soroka2010] or socioeconomic structure [see, e.g., @Solt2008, 49; @Erikson2015, 26] remain questions for future investigation.
-Establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work.
+Still, establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work.
 
 
 ## Implications for the Study of the Politics of Gender
