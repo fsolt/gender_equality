@@ -87,33 +87,34 @@ p_load(
 
 ## Implications for the Study of Public Opinion
 
+In addition to providing another example in favor of democratic representation in at least some circumstances, our finds here provide some light on ongoing debates on which issues it should be expected to occur while leaving others yet unlit.
 Scholars of public opinion have long argued that democratic representation depends on the _salience_ of the issue, that is, "its importance to the public and its prominence in public discourse" [@Lax2012, 157; see also, e.g., @Page1983].
+@Wlezien2004 [, 8] argues instead that, "[f]rom the point of view of representation in different domains, what matters is importance" alone rather than salience---and that an issue's importance is demonstrated by whether the public responds to policymakers' actions addressing it.
+In light of the fact that representation may occur through adaptation as well as by selection [per @Caughey2022, 99], it would seem as a matter of theory that there is no need to expect an issue's representation to depend on its politicization by parties and a resulting prominence in political discourse so long as the issue is in fact important to the public.
+When, as with gender equality, the public attends to officeholders' actions, officeholders have an incentive to attend to the public's views.
 
-@Wlezien2004 [, 8] argues instead that "From the point of view of representation in different domains, what matters is importance" rather than salience.^[
-@Wlezien2004 [, 8] makes this point in regard to 
-]
-In light of the fact that representation may occur through adaptation as well as by selection [per @Caughey2022, 99]; there is no need to expect an issue's representation to depend on its politicization by parties and a resulting prominence in political discourse.
+Our findings do not weigh in directly on the salience versus mere importance debate: we made no attempt to incorporate into our models the extent to which matters of gender equality are politicized.
+However, all three of our analyses of policies advancing gender equality---legislative gender quotas, the WBL index collecting policies advancing gender equality in employment, and early childcare provision---indicate that _adaptation_ is the mechanism by which democratic representation occurs on this issue.
+While in this instance adaptation occurs within men in the legislature, rather than within parties, this fact is nevertheless at least suggestive that the politicization of gender equality, the second half of salience, may not be necessary to democratic representation on this issue.
+Additional research will be needed to support this conjecture.
 
-contrary to those who  that an issue need not be considered a problem, or the _most_ important to the public.
+One might add that neither do our findings of democratic representation of macroegalitarianism actually directly address the influential argument that it is the preferences of the wealthy, rather than those of the public as a whole, that are represented in policymaking [see, e.g., @Schattschneider1960; @Pateman1971; @Gilens2005; @Bartels2008; @Solt2008; @Gilens2012].
+This is because, like much work on public opinion, our analyses do not allow for, "or explicitly address, the impact of such variables as the preferences of wealthy individuals \ldots which may independently influence public policy while perhaps being positively associated with public opinion---thereby producing a spurious relationship between opinion and policy" [@Gilens2014, 565].
+Even this evidence would not entirely undermine the economic-elites thesis: wealth allows even just a few of its owners the ability to shape public opinion [see, e.g., @Domhoff2006; @Solt2008], as the actions of the multi-billionaire owners of newspapers and social media platforms have underscored in recent years.
+And as @Winters2011 [, 1] notes, the "existential motive of all oligarchs is the defense of wealth," and all other issues, including questions of gender equality, may be permitted to be decided by public opinion so long as they do not challenge wealth defense.
+There is much work remaining to be done on questions at the intersection of gender inequality and economic inequality.
 
-^[
-]
-The evidence an issue is important is when public opinion responds to what policymakers do
-Here, too, given that we find 
-
-Representation: conditions
-how--selection and adaptation
-
+Our findings of public responsiveness with regard to gender equality also go some distance to a better understanding of the conditions when the public will respond to the actions of parties and policymakers.
 @Soss2007 [, 121] suggests that public responsiveness in the form of accelerating feedback should be expected when policies are both (a) visible rather than obscure and (b) tangible in people's lives as opposed to distant in geographic, social, or temporal terms.
 Women in office and policies advancing gender equality are the opposite of obscure: they attract attention by challenging the masculine status quo of the public sphere in very visible ways that provoke a response [cf. @Weeks2022].
 Highly tangible policies are those most citizens personally experience on a recurrent basis.
 Such policies define target populations by expanding or protecting citizens' rights; educate the public about what is socially acceptable by reshaping norms; and, by clearly linking the policy's effects to government action, generate additional support for analogous policies [@Pacheco2013, 716-718].
 In a world in which the public sphere is traditionally dominated by men, policies advancing gender equality in politics and employment are undoubtedly tangible in this sense as well.
-Our results neatly align with the prediction that positive feedback should occur in such circumstances.^[
+Our results neatly align with the prediction that positive feedback should occur in these circumstances.^[
 It should also be noted that @Soss2007 [, 122], while briefly alluding to the possibility of "more complicated feedback dynamics," mainly contrasts the potential for accelerating feedback with _no_ feedback, not self-undermining feedback.
 Although we find support for accelerating feedback here, we agree with @Busemeyer2021 that a better understanding of the conditions that structure the existence and nature of public responsiveness will depend on more work pulling together both research traditions and considering the full range of potential outcomes.]
 
-Still, one can imagine a reversal on this point.
+Still, a reversal on this point can be imagined.
 It could well be that the public's response to increased officeholding women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required *more* than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 Of course, were such a policy adopted, we would again be speaking of policies of gender \emph{in}equality.
@@ -123,7 +124,7 @@ As a practical matter, then, the findings reported here suggest that there is no
 Note that the word _consistently_ is doing some work in that last sentence.
 In our investigation we have only looked at average effects.
 Whether the democratic representation and public responsiveness we find in this book vary with such features as institutional arrangements [see, e.g., @Powell2000; @Soroka2010] or socioeconomic structure [see, e.g., @Solt2008, 49; @Erikson2015, 26] remain questions for future investigation.
-Still, establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work.
+<!-- Still, establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work. -->
 
 
 ## Implications for the Study of the Politics of Gender
