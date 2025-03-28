@@ -1,6 +1,6 @@
 
 # Preface {.unnumbered}
 
-Thanks to KIRL (of course).
-Thanks too to OPVR and CLAS at Iowa.
-Also presented at Iowa, Konstanz, Purdue, Buffalo, Mizzou, EUI, UMKC, more?
+Thanks to KIRL and AKS (of course).
+Thanks too to OPVR and CLAS at University of Iowa.
+Presented at APSA, MPSA, plus Iowa, Konstanz, Purdue, Buffalo, Mizzou, EUI, UMKC, more?
