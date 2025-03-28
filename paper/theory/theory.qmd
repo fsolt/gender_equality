@@ -198,9 +198,10 @@ There is substantial empirical support for self-undermining feedback.
 Swedish citizens with more points of contact with the country's comprehensive and universalistic welfare policies had greater support for increasing welfare-state funding, while those who interacted with its targeted and means-tested programs had less [@Kumlin2002; @Kumlin2004].
 Looking at 18 politicized policy issues in the United States over at least forty years, @Atkinson2021 found that 13 moved in the opposite direction of the stance of the party in control of the White House.
 Across 27 European countries, @Fernandez2013 found that support for lowering pension benefits was higher where benefits were higher; support for raising contributions was higher where contributions were lower.
+A long line of works stretching from @Quillian1995 and @Scheepers2002a to @Claassen2022 argue that when governments permit more immigration, public opinion swings against immigrants and toward more restrictive immigration policy.
 Reviewing the literature, @Atkinson2021 [, 4], calls the thermostatic model "spectacularly successful," the "reigning model" of the process of opinion change in response to policy.
 
-Nevertheless, there is also much support for accelerating feedback.^[
+Nevertheless, there is also much empirical support for accelerating feedback.^[
 Given our focus, we concentrate here on works that directly consider public opinion, but a related body of research looks at behavior to assess how policy may cause self-reinforcing political mobilization; see @Campbell2012 for a review of this literature.]
 @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds instead that the U.S. public has since its inception consistently favored its expansion.
 @Svallfors2010 shows that in 1990, attitudes toward the role of government were starkly different in eastern and western Germany, but while attitudes barely changed in the Federal Republic's preexisting territory over the next 16 years, the wholesale policy change toward smaller government in the former East Germany that accompanied reunification triggered a dramatic shift away from preferences for state intervention among people living there.
