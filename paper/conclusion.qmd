@@ -1,4 +1,4 @@
-# Conclusions \[Still Drafty\]
+# Conclusions
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -44,9 +44,15 @@ p_load(
   wbstats)
 ```
 
+In this book, we have taken up two questions that have remained, despite their manifest importance, the subject of much debate in the scholarship of both public opinion and the politics of gender.
+Do politics and policy represent public opinion with regard to gender equality in the public sphere?
+And how does public opinion respond to politics and policy in this traditionally masculine domain?
+These questions have remained unsettled due in no small part to the available survey data, which provides observations of public opinion in either many years in one country or many countries in one or a few years.
 
-
-
+Our first contribution, then, was to use recent advances in latent variable modeling of public opinion and a comprehensive collection of the survey data on gender egalitarian attitudes in politics and employment to generate estimates of public opinion across many countries and years.
+These new data on the concept of macroegalitarianism allowed us to conduct a broadly comparative study of all thirty-eight countries of the OECD that maximizes the advantage of external validity enjoyed by such cross-national and cross-regional work.
+They also permitted us to look over time, crucial to an effective investigation of dynamic processes such as democratic representation and public responsiveness.
+Finally, these data allowed us to inquire into both of these phenomena together and so avoid the problems of simultaneity bias that arise in research that looks at one side or the other of this loop in isolation.
 
 <!-- ```{r summary_table} -->
 <!-- #| label: tbl-summary -->
@@ -70,24 +76,37 @@ p_load(
 |                                       |                |                |
 |                                       | Representation | Responsiveness |
 +=======================================+:==============:+:==============:+
-| Women in Office                       | ++             | ++             |
+| Women's Officeholding                 | ++             | ++             |
 +---------------------------------------+----------------+----------------+
 | Legislative Gender Quotas             | ++             | \+             |
 +---------------------------------------+----------------+----------------+
 | Laws Advancing Equality in Employment | ++             | ++             |
 +---------------------------------------+----------------+----------------+
-| Childcare Enrollments                 | \+             | 0              |
+| Early Childcare Enrollments           | ++             | 0              |
 +---------------------------------------+----------------+----------------+
 
 : Summary of Evidence {#tbl-summary} {tbl-colwidths="\[60,20,20\]"}
 
-@tbl-summary summarizes these findings.
+@tbl-summary reviews our findings.
+No matter which aspect of politics or policy we examined---women's officeholding, national legislative gender quotas, laws advancing equality in employment, or enrollments in early childhood education and care---we found strong evidence for democratic representation.
+Our analyses indicate that within-country changes in macroegalitarianism, the public's support for gender equality in the traditionally masculine public sphere of politics and employment, are followed by changes in each of these variables, providing the best possible evidence of causation.
+Despite substantial reasons for doubt raised by scholars working in both public opinion and the politics of gender, democratic representation occurs with respect to these public attitudes.
 
-\pagebreak
+We find similarly strong evidence for public responsiveness in the form of positive accelerating feedback for two of these four variables: women's officeholding and laws advancing gender equality in employment.
+Differences in mean national legislative gender quotas across countries are associated with higher levels of gender egalitarian public opinion, but within-country changes are not.
+This result suggests longer term effects of quotas on public opinion, but the possibility of omitted variable bias cannot be excluded.
+Enrollments in early childhood education and care showed no relationship with macroegalitarianism at all in our analyses.
+Taken as a group, then, these advances toward gender equality create a positive public response: gender equality generates more support for gender equality.
+There is no evidence at all for self-undermining feedback, no sign of either thermostatic response or public opinion backlash.
+
+These findings have implications for the study of public opinion, for the study of the politics of gender, for activism and policymaking, and---at a time when democratic institutions are under sustained attack in many countries---for democracy.
+They also highlight questions that continue to remain unanswered on these topics.
+We review these points in each of the four topics below.
+
 
 ## Implications for the Study of Public Opinion
 
-In addition to providing another example in favor of democratic representation in at least some circumstances, our finds here provide some light on ongoing debates on which issues it should be expected to occur while leaving others yet unlit.
+In addition to providing another example in favor of democratic representation in at least some circumstances, our findings here provide some light on ongoing debates on which issues it should be expected to occur while leaving others yet unlit.
 Scholars of public opinion have long argued that democratic representation depends on the _salience_ of the issue, that is, "its importance to the public and its prominence in public discourse" [@Lax2012, 157; see also, e.g., @Page1983].
 @Wlezien2004 [, 8] argues instead that, "[f]rom the point of view of representation in different domains, what matters is importance" alone rather than salience---and that an issue's importance is demonstrated by whether the public responds to policymakers' actions addressing it.
 In light of the fact that representation may occur through adaptation as well as by selection [per @Caughey2022, 99], it would seem as a matter of theory that there is no need to expect an issue's representation to depend on its politicization by parties and a resulting prominence in political discourse so long as the issue is in fact important to the public.
@@ -100,8 +119,8 @@ Additional research will be needed to support this conjecture.
 
 One might add that neither do our findings of democratic representation of macroegalitarianism actually directly address the influential argument that it is the preferences of the wealthy, rather than those of the public as a whole, that are represented in policymaking [see, e.g., @Schattschneider1960; @Pateman1971; @Gilens2005; @Bartels2008; @Solt2008; @Gilens2012].
 This is because, like much work on public opinion, our analyses do not allow for, "or explicitly address, the impact of such variables as the preferences of wealthy individuals \ldots which may independently influence public policy while perhaps being positively associated with public opinion---thereby producing a spurious relationship between opinion and policy" [@Gilens2014, 565].
-Even this evidence would not entirely undermine the economic-elites thesis: wealth allows even just a few of its owners the ability to shape public opinion [see, e.g., @Domhoff2006; @Solt2008], as the actions of the multi-billionaire owners of newspapers and social media platforms have underscored in recent years.
-And as @Winters2011 [, 1] notes, the "existential motive of all oligarchs is the defense of wealth," and all other issues, including questions of gender equality, may be permitted to be decided by public opinion so long as they do not challenge wealth defense.
+Even this evidence would not entirely undermine the economic-elites thesis: great wealth allows even just a few of its owners the ability to shape public opinion [see, e.g., @Domhoff2006; @Solt2008], as the actions of the multi-billionaire owners of newspapers and social media platforms have underscored in recent years.
+And as @Winters2011 [, 1] notes, the "existential motive of all oligarchs is the defense of wealth," and all other issues, including questions of gender equality, may be permitted to be decided by public opinion so long as they do not pose a challenge to continued wealth defense.
 There is much work remaining to be done on questions at the intersection of gender inequality and economic inequality.
 
 Our findings of public responsiveness with regard to gender equality also go some distance to a better understanding of the conditions when the public will respond to the actions of parties and policymakers.
@@ -123,7 +142,7 @@ As a practical matter, then, the findings reported here suggest that there is no
 
 Note that the word _consistently_ is doing some work in that last sentence.
 In our investigation we have only looked at average effects.
-Whether the democratic representation and public responsiveness we find in this book vary with such features as institutional arrangements [see, e.g., @Powell2000; @Soroka2010] or socioeconomic structure [see, e.g., @Solt2008, 49; @Erikson2015, 26] remain questions for future investigation.
+Whether the public responsiveness we find in this book vary with such features as institutional arrangements [see, e.g., @Powell2000; @Soroka2010] or socioeconomic structure [see, e.g., @Solt2008, 49; @Erikson2015, 26] remain questions for future investigation.
 <!-- Still, establishing these baselines---that with regard to public opinion on gender equality, on average across the advanced democracies and over four to five decades, democratic representation does occur even in the short term and the public response is not backlash but demand for even more of what has been just produced---is a crucial step toward that future work. -->
 
 
@@ -136,31 +155,70 @@ Nevertheless, the lack of appropriate data has led to the exclusion of macroegal
 This can be problematic.
 For example, the finding of @Kim2022 that greater women's descriptive representation yields the adoption of more policies advancing gender equality in employment appears, in light of our findings, to be spurious.
 Changes in women's share of the national legislature are predicted by changes in gender egalitarian public opinion (see @fig-m1-dr).
-Trends in macroegalitarianism also predict policy adoption, even when women's share of officeholding is controlled, while women's officeholding does not (see @fig-m1-wbl).
+These trends in macroegalitarianism also predict policy adoption, even when women's share of officeholding is controlled, while women's officeholding does not (see @fig-m1-wbl).
 These results suggest a very different mechanism through which policies advancing gender equality are adopted.
 These policy gains are not achieved by women legislators working alone, but rather by both women and men legislators seeking to bring policy into better alignment with the egalitarian views of the public: adaptation, not selection, dominates in this case.
 More generally, they suggest that the close relationships among these variables means that well-grounded conclusions can only be reached when all of them are included in our analyses.
 
-It is worth noting that we focused our inquiry on politics and policy in relatively rich democracies of the OECD.
+It is worth noting, though, that we have focused our inquiry on politics and policy in relatively rich democracies, the members of the OECD.
 This choice was based in long-standing theory that the pressure on parties and legislators to represent public opinion is most pervasive where access to power depends on success in contested elections.
 That is, the countries of the OECD collectively constitute a 'most likely case.' Whether our findings hold in other contexts remains an open question.
-Whether women's descriptive representation and policies advancing equality depend dynamically on macroegalitarianism across democracies among developing countries or in autocracies are promising lines of future inquiry.
+Whether women's officeholding and policies advancing equality depend dynamically on macroegalitarianism across democracies among developing countries or in autocracies are promising lines of future inquiry.
 
-## Implications for Policy
 
-There is no need to worry about backlash: our results indicate that policies that advance gender equality work instead to help create their own constituencies.
-@Bishin2016: it is not public opinion you need to fear, it is the power of mobilized opponents with money
+## Implications for Activism and Policymaking
 
-Research that incorporates the roles of both social movements and public opinion is relatively rare.
+Warnings to historically marginalized groups against triggering public opinion backlash by pushing 'too hard' to win office or gain policies advancing equality are common, and those who offer these admonitions---whether earnest or disingenuous---are quick to claim vindication at the first sign of setback.
+Looking across women's officeholding and a broad range of policies advancing gender equality in the public sphere, however, we find no evidence at all for self-undermining feedback in public responsiveness.
+Public opinion backlash with regard to gender egalitarianism is as much a myth as public opinon backlash against gay rights [see @Bishin2016; @Bishin2021].
+Instead, with the exception of early childcare enrollments---which as the outcome of individual decisions as well as policy, are less easily linked to government action and so less tangible [cf. @Pacheco2013]---we find _accelerating_ feedback.
+Rather than a thermostatic response, policies that advance gender equality work to help create their own constituencies.
+
+Our advice to activists, then, echoes that offered by @Bishin2021 [, 191] to the gay rights movement: "organize, mobilize, legislate, and litigate."
+Continue to push forward in as many venues as possible.
+Fight for candidacies within parties, success in elections, and policies that recognize and enable an equal role for women in politics and the workplace at every level of government.
+The costs in terms of public support and success in the longer run are overstated; in fact, gains in these areas produce public support for additional gains.
+
+This is not to say that these efforts will meet no opposition, or that opposition to gender equality will not continue after some success or other is achieved.
+Backlash occurs in many forms.
+Elites opposed to women's equality in the public sphere can use their money to mobilize other opponents in the wake of women's successes, and their reactions can escalate even to violence.
+This cannot be discounted.
+But it is important to distinguish their actions from the attitudes of the public as a whole.
+Our findings indicate that successes lay the groundwork in the public for more successes.
+
+We offer a final point regarding scholarship on this topic.
+Research that incorporates the roles of both social movements and public opinion in any field is relatively rare.
 @Burstein1998 concluded that social movements only succeed in gaining policy change through influencing public opinion.
 Our findings are that increases in both feminist movement strength and macroegalitarianism yield policies advancing gender equality.
+One implication of our work is that, as with research on the consequences of women's officeholding, studies seeking to understand the impacts of social movements should be sure to incorporate public opinion in their analyses.
+
 
 ## Implications for Democracy
 
-Gender equality is democracy.
+Our findings also speak to recent concerns for democracy.
+Evidence that public opinion leads to democratic deepening or prevents democratic backsliding has been scant. 
+The finding presented in @Claassen2020a that public support for democracy in the abstract plays this role, for example, has been demonstrated to depend on ignoring the uncertainty in estimating that aspect of public opinion [@Tai2024].
+The unrealized ideal of democracy, that citizens are "considered as political equals" [@Dahl1971, 1], suggests that the public's gender egalitarianism with regard to the public sphere---widespread beliefs that women and men are political equals, what we have called macroegalitarianism---may play this role.
+Our findings of democratic representation and public responsiveness indicate that macroegalitarianism is at least part of the story of how public opinion reinforces democracy once it is established.
+Whether it is sufficient alone to bring about greater democratization or to forestall backsliding, or if it works only as a component of a broader syndrome of  "self-expression" [@Inglehart2003] or "emancipative" [@Welzel2013] values, or in fact plays little or no role at all in explaining regime transitions remains an open question.
 
-Evidence that public opinion, considered as support for democracy in the abstract, leads to democratic deepening or prevents democratic backsliding has been scant [compare @Claassen2020a; @Tai2024].
+Intriguingly, the Korean experience suggests that it does.
+At the time of Yoon Seok-yeol's historically narrow victory in the "incel election" of 2022, the level of macroegalitarianism in South Korea indicated the country was evenly split.
+But attitudes favoring gender equality had been rising steadily over the previous three decades, and the ground continued to shift under Yoon's feet.
+In 2018, the year Yoon made his name by winning the criminal conviction of Park Geun-hye, just 48% of Koreans disagreed with the statement, "Men make better political leaders than women."^[
+World Values Survey, Wave 7.]
+This setback in public opinion triggered by the dramatic downfall of Korea's first woman president [@Woo2025a] would prove quite brief, however.
+By 2023, a year into Yoon's five-year presidential term, over 80% disagreed with that statement.^[
+Religion and Spirituality in East Asian Societies, Pew Research Center.
+This survey, unfortunately, was released too recently to be included in v1.1 of the PGE dataset, and so is not part of this book's analyses.]
+In the 2024 elections Korean voters sent a record number of women to the legislature, and Yoon's People Power Party suffered a resounding defeat, winning just 108 of the 300 seats in the National Assembly.
 
-Our findings indicate that macroegalitarianism is at least part of the story of how public opinion reinforces democracy.
+In the aftermath of the election, Yoon pledged to "be the first to listen carefully to the public sentiment" [@Lee2024].
+But with his public approval continuing to fall, Yoon declared martial law on December 3, 2024.
+It was a grave misjudgment of what the Korean public would by then accept.
+The declaration shocked the country, and protesters flooded the streets.
+Opposition lawmakers rushed to the National Assembly to vote to rescind Yoon's decree and succeeded, despite Yoon's orders to the military and police to stop them.
+Yoon was subsequently impeached _and removed from office [tbd]_ for his attempt to overthrow democracy.
+
 
 <!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->

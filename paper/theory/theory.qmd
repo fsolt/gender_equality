@@ -153,7 +153,7 @@ Still, we acknowledge that given that we conceptualize and measure macroegalitar
 
 The severe limitations in the available public opinion data that we described in the previous chapter have sharply restricted researchers' ability to test these arguments directly [@Paxton2021, 127].
 Still, what works do exist indicate democratic representation occurs, at least with regard to women in office.
-@Norris2001 finds that across dozens of democratic and authoritarian countries surveyed at the end of the twentieth century, gender egalitarian attitudes toward political leaders were strongly correlated to the proportion of women in national parliaments.
+@Norris2001 finds that across dozens of democratic and authoritarian countries surveyed at the end of the twentieth century, gender egalitarian attitudes toward political leaders were strongly correlated to the proportion of women in national parliaments [see also @Inglehart2003; @Inglehart2003a].
 @Paxton2003 examines a cross-section of 46 countries and finds that where the public's disagreement that men make better political leaders than women was higher, more women were elected to legislatures.
 @Alexander2012 adds some over-time perspective by looking at 25 countries in two time periods; where gender egalitarianism regarding political leaders increased, so did the share of women in the legislature.
 

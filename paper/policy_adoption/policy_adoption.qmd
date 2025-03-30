@@ -1108,7 +1108,7 @@ The latter interpretation is perhaps reinforced by the inconclusive posterior di
 There is no evidence that the strength of the feminist movement has a direct effect on macroegalitarianism in these results.
 Neither cross-country differences nor within-country year-to-year changes yield estimates that are little different from zero.
 
-As we have seen previously, the same cannot be said for women's officeholding
+As we have seen previously, the same cannot be said for women's officeholding.
 Countries that have elected more women over the timeframe examined here exhibit higher levels of macroegalitarianism on average than those that have elected fewer women, consistent with a long-term effect.
 A two-standard-deviation difference in cross-country means is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points higher PGE scores.
 Thanks to the strong influence of past values of macroegalitarianism on present and future values, this jump up is estimated to grow over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
