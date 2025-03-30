@@ -701,7 +701,7 @@ We further bolster confidence in our conclusions with attention to another sourc
 @Findley2021 [, 368] notes that even---and indeed especially---research designs drawing on representative pooled time series may yet fail to yield generalizable findings as a result of variable selection bias, that is, differences between the way variables are operationalized in an analysis and the theoretical concepts of interest.
 The PGE dataset, our operationalization of the concept of macroegalitarianism, incorporates the broad range of survey items that have been employed to measure public opinion toward gender roles in politics and the workplace, and we pay careful attention to its measurement validation.
 And with regard to advancements toward gender equality---which constitute the outcome when assessing the extent of democratic representation and the treatment from the standpoint of theories of public responsiveness---we employ multiple indicators of gender equality in the traditionally masculine public sphere of politics and paid employment [cf. @Beer2009, 217; @Bericat2012, 4].
-We examine (a) women's descriptive representation in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.^[
+We examine (a) women's election to office in national legislatures, the most commonly used measure of gender equality in politics; (b) the adoption and reform of gender quotas, the policy most closely linked to advancing gender equality in politics; (c) the World Bank’s Women, Business, and Law v1.0 policy index [@WorldBank2024], a count of thirty-five policies that advance gender equality in the workplace; and (d) childcare enrollments, a policy outcome closely linked to gender equality in paid employment.^[
 The policies we consider, then, are among those @Htun2010 [, 210, 209] identifies as _non-doctrinal_: they do not "touch upon the jurisdictional conflict between the state and other organizations over the administration of kinship relations, reproduction, and sexuality" and so do not "challenge religious doctrine or the codified tradition of a major cultural group."
 One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform, a concept we suspect poses particularly steep challenges to cross-cultural measurement.]
 The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
@@ -715,14 +715,14 @@ That we find consistent results across these nested levels of analysis further b
 ## Plan of the Book
 
 The book proceeds as follows.
-In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's descriptive representation, and public policies advancing gender equality.
+In the next chapter, we review the theories and existing evidence on the relationships among gender egalitarian public opinion, women's election to office, and public policies advancing gender equality.
 
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, is estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
 
 Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the advanced democracies that constitute the OECD.
-There, we explore the implications of these theories for women's descriptive representation, and in particular, women's success in winning election to national legislatures.
-Our analyses show that increases in macroegalitarianism predict subsequent gains in descriptive representation for women and that, in turn, the public responds to more women in office not with a backlash but instead by growing even more egalitarian in their views.
+There, we explore the implications of these theories for women's officeholding, and in particular, women's success in winning election to national legislatures.
+Our analyses show that increases in macroegalitarianism predict subsequent gains in women's officeholding and that, in turn, the public responds to more women in office not with a backlash but instead by growing even more egalitarian in their views.
 
 Chapter 5 turns to the adoption of policies advancing gender equality in the public sphere, both in politics and in paid employment.
 Looking again across the OECD, it finds that governments represent the views of their citizens: when macroegalitarianism increases, laws setting national legislative gender quotas and policies that put women on equal footing in the workforce are more likely to be adopted.
