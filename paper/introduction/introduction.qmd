@@ -736,4 +736,4 @@ Taking advantage of the strengths of case study research, the chapter delves int
 <!-- Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality. -->
 
 Chapter 7 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
-It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for policy and for democracy.
+It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for activism and policypolicy and for democracy.
