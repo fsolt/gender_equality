@@ -684,7 +684,7 @@ By allowing us to look at advanced democracies in North America, Oceania, Europe
 
 The _dynamic_ perspective of our analyses is no less important.
 It has long been understood that cross-sectional associations, that is, those established by looking only across countries at a single time, have several weaknesses that are not ameliorated no matter how broadly comparative the sample may be.
-If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether the policy adoptions represent public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result some other, unobserved cause [see, e.g., @Rustow1968, 48].
+If we see that countries where the public holds more gender egalitarian views consistently also have adopted policies that advance gender equality, we still do not know whether the policy adoptions represent public opinion, or public opinion responds to policy change, or both, or neither---policy and public opinion may both result from some other, unobserved cause [see, e.g., @Rustow1968, 48].
 Because democratic representation and public responsiveness are necessarily processes that unfold over time, our evidence for these processes should look over time as well [e.g., @Stimson1995, 543; @Soroka2010, 22-23].
 Pooling data across countries and over time in analyses that are both comparative _and_ dynamic has been long recognized as "an extraordinarily robust research design" for drawing causal inferences [@Stimson1985, 916; see also @Western1998; @Shor2007; @Bell2015; @Bell2019], and given the inability to experimentally manipulate any of our variables of interest---public opinion, women in office, or policy---it provides the best possible evidence of causation.
 
@@ -736,4 +736,4 @@ Taking advantage of the strengths of case study research, the chapter delves int
 <!-- Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality. -->
 
 Chapter 7 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
-It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for activism and policypolicy and for democracy.
+It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for activism, for policy, and for democracy.
