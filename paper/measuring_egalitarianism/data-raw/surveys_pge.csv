@@ -220,7 +220,7 @@ pew2012,poliequal3,q101,"c(1,3,2)","Which one of the following statements comes 
 pew2015,equalright4b,q56c,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
 pew2016,equalright4b,q33c,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
 pew2019,equalright4b,gender_equality,c(4:1),"For each of the following things, how important is it to have this in our country? women have the same rights as men",1,1
-pew2019,tradroles2,kind_of_marriage,c(1:4),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
+pew2019,tradroles2,kind_of_marriage,c(1:2),"What kind of marriage do you think is the more satisfying way of life, number 1 or number 2?   (SHOW CARD)",0,1
 pew2019,job4,women_job,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
 pewrel2006_10nat,job4,q27a,c(1:4),"When jobs are scarce, men should have more right to a job than women.",0,1
 pewrel2006_10nat,polileader4,q27b,c(1:4),"On the whole, men make better political leaders than women do",1,0
