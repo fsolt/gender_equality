@@ -497,10 +497,7 @@ walk(control_files, \(f)
      load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
 
 pge_summary <- rio::import(here("data",
-                                "pge_summary.rda")) %>% 
-  mutate(across(starts_with("p"),
-                ~ .x * 100,
-                .names = "{.col}"))
+                                "pge_summary.rda"))
   
 eee <- read_csv(file.path(descrep_path, "data-raw", "eee.csv"))
 
@@ -1579,8 +1576,8 @@ coef_plot_m1 + lag_plot_m1 +
 ```
 
 The results are displayed in @fig-m1-wbl.
-The are, perhaps, surprising.
-Even with OECD, a group of relatively high-income countries, the richer countries score higher on the WBL policy index than the poorer ones, by `r get_coef("gdppc_mean", coef_data_m1)` points immediately, and due to the strong dynamics in the adoption of these policies, `r get_coef("gdppc_mean", coef_data_m1_total)` points over time.
+They are perhaps surprising.
+Even within the OECD, a group of relatively high-income countries, the richer countries score higher on the WBL policy index than the poorer ones, by `r get_coef("gdppc_mean", coef_data_m1)` points immediately, and due to the strong dynamics in the adoption of these policies, `r get_coef("gdppc_mean", coef_data_m1_total)` points over time.
 This may indicate a long-term causal influence, but gains in GDP per capita do not evidence a similar effect so we are careful to not draw strong conclusions.
 
 National gender quotas bear little relationship to the adoption of these equality-enhancing policies in this model.
@@ -1870,10 +1867,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
        load(file.path(descrep_path, "data-raw", f), .GlobalEnv))
  
   pge_summary <- rio::import(here("data",
-                                  "pge_summary.rda")) %>% 
-    mutate(across(starts_with("p"),
-                  ~ .x * 100,
-                  .names = "{.col}"))
+                                  "pge_summary.rda"))
   
   ecec_data1 <- pge_summary %>% 
     filter(year >= 1999) %>% 
@@ -1912,10 +1906,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
   save(ecec_data1, file = file.path(policy_path, "data-raw", "ecec_data1.rda"))
 } else {
   pge_summary <- rio::import(here("data",
-                                  "pge_summary.rda")) %>% 
-    mutate(across(starts_with("p"),
-                  ~ .x * 100,
-                  .names = "{.col}"))
+                                  "pge_summary.rda"))
   
   ecec_data1 <- rio::import(file.path(policy_path,
                                       "data-raw", 
