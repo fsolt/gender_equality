@@ -989,10 +989,7 @@ pge <- rio::import(here("data",
                         "pge.rda"))
 
 pge_summary <- rio::import(here("data",
-                                "pge_summary.rda")) %>% 
-  mutate(across(starts_with("p"),
-                ~ .x * 100,
-                .names = "{.col}"))
+                                "pge_summary.rda"))
 
 # Party data
 interleave <- function(data, var) {
