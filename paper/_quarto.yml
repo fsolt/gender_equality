@@ -18,7 +18,6 @@ book:
     - /measuring_egalitarianism/measuring_egalitarianism.qmd
     - /descriptive_representation/descriptive_representation.qmd
     - /policy_adoption/policy_adoption.qmd
-    # - /mexico/mexico.qmd
     - /korea/korea.qmd
     - conclusion.qmd
   appendices:

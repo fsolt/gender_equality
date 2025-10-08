@@ -134,7 +134,7 @@ It should also be noted that @Soss2007 [, 122], while briefly alluding to the po
 Although we find support for accelerating feedback here, we agree with @Busemeyer2021 that a better understanding of the conditions that structure the existence and nature of public responsiveness will depend on more work pulling together both research traditions and considering the full range of potential outcomes.]
 
 Still, a reversal on this point can be imagined.
-It could well be that the public's response to increased officeholding women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
+It could well be that the public's response to more officeholding by women, to higher national legislative quotas for women, and to measures that improve women's roles in the workforce may eventually be self-undermining---but only once these work to the absolute, rather than merely relative, disadvantage of men.
 For example, it would not be surprising for even a very egalitarian public to view a quota that required *more* than 50% of legislative candidates to be women as 'too much' [see @Paxton2021, xvi].
 Of course, were such a policy adopted, we would again be speaking of policies of gender \emph{in}equality.
 In any event, as yet few countries have even parity quotas, and---for worse or better---there is no sign of policies designed to allow men less than an equal share of descriptive representation in any countries.
@@ -213,12 +213,12 @@ Religion and Spirituality in East Asian Societies, Pew Research Center.
 This survey, unfortunately, was released too recently to be included in v1.1 of the PGE dataset, and so is not part of this book's analyses.]
 In the 2024 elections Korean voters sent a record number of women to the legislature, and Yoon's People Power Party suffered a resounding defeat, winning just 108 of the 300 seats in the National Assembly.
 
-In the aftermath of the election, Yoon pledged to "be the first to listen carefully to the public sentiment" [@Lee2024].
+In the aftermath of the legislative election, Yoon pledged to "be the first to listen carefully to the public sentiment" [@Lee2024].
 But with his public approval continuing to fall, Yoon declared martial law on December 3, 2024.
 It was a grave misjudgment of what the Korean public would by then accept.
 The declaration shocked the country, and protesters flooded the streets.
 Opposition lawmakers rushed to the National Assembly to vote to rescind Yoon's decree and succeeded, despite Yoon's orders to the military and police to stop them.
-Yoon was subsequently impeached _and removed from office [tbd]_ for his attempt to overthrow democracy.
+Yoon was subsequently impeached and removed from office for his attempt to overthrow democracy.
 
 
 <!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
