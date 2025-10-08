@@ -542,11 +542,6 @@ pge_summary <- DCPOtools::summarize_dcpo_results(dcpo_input,
                 ~ .x * 100,
                 .names = "{.col}"))
 
-pge_summary <- pge_summary %>% 
-  mutate(across(starts_with("p"),
-                ~ .x * 100,
-                .names = "{.col}"))
-
 save(pge_summary, file = here("data",
                               "pge_summary.rda"))
 ```
