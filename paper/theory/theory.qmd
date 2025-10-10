@@ -258,7 +258,7 @@ As with democratic representation, to get answers to whether and how macroegalit
 Before we proceed further, we need to define the universe for our study.
 As always, there are competing concerns.
 On the one hand, we want to look as broadly as possible: we want to minimize sampling bias that could influence our results and conclusions [see, e.g., @King2021, 121].
-The Public Gender Egalitarianism scores we present in the next chapter are motivated by a desire to get beyond research designs that are limited to "just the U.S." or "just western Europe"---designs that are all too common, as we found at @sec-scholarship---that is, by a desire to enable cross-national, cross-regional work [see @Wilson2022].
+The Public Gender Egalitarianism scores we present in the next chapter are motivated by a desire to get beyond research designs that are limited to "just the United States" or "just western Europe"---designs that are all too common, as we found at @sec-scholarship---that is, by a desire to enable cross-national, cross-regional work [see @Wilson2022].
 But, on the other hand, we always need to avoid including cases to which the theory simply does not apply.
 The public opinion theories outlined above presuppose a certain minimum level of democracy---at least the minimal definition of democracy presented by @Przeworski2000 [, 14-16] as "a regime in which those who govern are selected through contested elections."
 Countries that do not clear that very low bar, therefore, should be excluded.^[
