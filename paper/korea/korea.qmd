@@ -5,9 +5,9 @@ Therefore, it would come as no surprise if there are, among those reading these 
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is the exact opposite of what many observers fear is true.
 
-Korea's recent political history provides a strong basis for these fears of public opinion backlash.
+Korea's recent political history provides a strong basis for their fears that public opinion lashes back against women's successes in winning office and other moves toward gender equality.
 If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold the office, and then, two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
-At least on its face, this sequence of events appears to stand in contrast to our conclusions.
+At least on its face, this sequence of events appears to contradict our conclusions.
 
 In this chapter, we [dive deeper into the Korean case to take advantage of strengths of case studies]
 
@@ -481,7 +481,7 @@ pge_summary %>%
                   linetype=NA),
               alpha = .2) +
   geom_line() +
-  geom_text(data = tibble(year = 2015.5,
+  geom_text(data = tibble(year = 2014.5,
                           pge = 96),
             label = "Park\nAdministration",
             size = 4) +
