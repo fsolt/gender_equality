@@ -1,8 +1,9 @@
 # Macroegalitarianism and Women as Chief Executives: The Case of Korea
 
-There are likely to be, among those reading these pages, some who will find some of the conclusions of the two previous chapters not entirely believable, in particular those regarding public responsiveness.
-Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing more egalitarian.
-Such accelerating feedback is the exact opposite of what many observers fear is true, that moves toward gender equality prompt backlashes in public opinion.
+As we noted in our opening chapters, perceptions that moves toward gender equality prompt backlashes in public opinion are widespread.
+Therefore, it would come as no surprise if there are, among those reading these pages, some who will find at least some of the conclusions of the two previous chapters too good to believe, in particular those regarding public responsiveness.
+Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
+Such accelerating feedback is the exact opposite of what many observers fear is true.
 
 Korea's recent political history provides a strong basis for these fears of public opinion backlash.
 If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold the office, and then, two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
@@ -369,10 +370,77 @@ narrowly loses 2007 primary
 takes over as party leader at end of 2011
 elected president in Dec 2012, 51.6% to 48.0%
 
+```{r eap}
+eap <- rio::import(here("paper",
+                        "korea",
+                        "data-raw",
+                        "EAD 3.0 Annual_11282023.dta"))
+
+eapq0 <- rio::import(here("paper",
+                         "korea",
+                         "data-raw",
+                         "EAD 3.0 Quarterly_11282023.dta")) %>% 
+  mutate(year = floor(qtr/4 + 1960),
+         quarter = qtr %% 4 * .25,
+         year_quarter = year + quarter)
+
+eapm0 <- rio::import(here("paper",
+                         "korea",
+                         "data-raw",
+                         "EAD 3.0 Monthly_11282023.dta")) %>% 
+  mutate(year = floor(monthly/12 + 1960),
+         month = monthly %% 12, # 0 to 11
+         year_month = year + month/12)
+```
+
+```{r eap_korea}
+# Park is in office from 2013/02/09 to 2016/12/09
+# Executive approval data for Feb 2013 seems to be for previous president, 
+# so start with March (month 2 from 0 to 11)
+
+caption <- "Source: Executive Approval Project (Carlin et al. 2025)"
+
+eapm0 %>% 
+  filter(country_name == "South Korea" &
+           between(year_month, 2013+2/12, 2016+11/12)) %>% 
+  mutate(approval_net = Approval_Not_Smoothed - Disapproval_Not_Smoothed) %>% 
+  ggplot(aes(x = year_month, y = approval_net)) +
+  theme_bw() +
+  geom_point() +
+  geom_line(linetype = "dotted") +
+    theme(legend.position = "none") +
+  coord_cartesian(xlim = c(2013, 2017.3)) +
+  geom_hline(aes(yintercept = 0),
+             color = "gray50",
+             linetype = "dashed") +
+  labs(x = NULL, y = "Net Presidential Approval,\nPark Geun-hye") +
+  geom_text(data = tibble(year_month = 2016.4,
+                          approval_net = -33),
+            label = "Choi Soon-sil\nscandal breaks",
+            size = 3) +
+  geom_text(data = tibble(year_month = 2016.2,
+                          approval_net = -53),
+            label = "Candlelight protests spread",
+            size = 3) +
+  geom_text(data = tibble(year_month = 2017.2,
+                          approval_net = -50),
+            label = "Impeachment",
+            size = 3) +
+  # theme(axis.text.x  = element_text(size = 8,
+  #                                   angle = 90,
+  #                                   vjust = .45),
+  #       plot.title = element_text(size=8)) + 
+  plot_annotation(caption = str_wrap(caption, 90))
+
+
+```
+
+
 2017 election moved up to May; Moon wins five-way race with 41.1% of vote and a decisive 17.1% margin of victory 
 <!-- https://en.wikipedia.org/wiki/2017_South_Korean_presidential_election -->
 
-2022 election again very close
+2022 election puts openly misogynistic Yoon Suk-yeol in office.  Backlash?
+
 
 ## A Backlash Against Gender Equality?
 
@@ -392,7 +460,7 @@ pge <- rio::import(here("data",
 ```{r, fig.cap="PGE Scores in Korea During the Park Administration", fig.height=4}
 #| label: fig-koreapge
 
-caption <- "The pale shaded region indicate the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2018. Darker shading indicates the 80% credible interval of the PGE scores."
+caption <- "The pale shaded region indicate the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016. Darker shading indicates the 80% credible interval of the PGE scores."
 
 pge_summary %>% 
   filter(country == "South Korea") %>% 
@@ -401,7 +469,7 @@ pge_summary %>%
   geom_rect(data = tibble(year = NA_integer_,
                           pge = NA_real_,
                           year_min = 2013,
-                          year_max = 2018),
+                          year_max = 2016),
             aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
             fill = "gray95",
             color = "gray95",
@@ -427,26 +495,12 @@ pge_summary %>%
 Did Park's success in winning the Blue House as Korea's first woman president cause a backlash in macroegalitarianism, public opinion toward gender equality in the public sphere?
 @fig-koreapge plots the evolution of Korea's PGE scores before, during, and after Park's time in office.
 The years during which Park held office are shaded in pale gray.
-The PGE scores provide no clear evidence of a decline in gender egalitarian attitudes during these years.
-When Park started her term in 2013, the country had a PGE score of 50.1 (80% credible interval: 46.2 to 52.2); when Park was removed from office in 2018, its PGE score was 51.6 (80% c.i.: 49.9 to 53.3).
+The PGE scores provide no clear evidence of a decline in gender egalitarian attitudes in Korea during these years.
+When Park started her term in 2013, the country had a PGE score of 50.1 (80% credible interval: 46.2 to 52.2); when Park was removed from office in December 2016, Korea's PGE score was 51.3 (80% c.i.: 48.1 to 54.5).
 
 But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
-While estimated to be positive, the difference in PGE scores over these years---1.5 points---is not credibly different from zero (80% c.i.: -2.1 to 5.1).
+While estimated to be positive, the difference in PGE scores over these years---1.2 points---is not credibly different from zero (80% c.i.: -1.0 to 4.0).
 
-```{r eap}
-eap <- rio::import(here("paper",
-                        "korea",
-                        "data-raw",
-                        "EAD 3.0 Annual_11282023.dta"))
-
-eapq0 <- rio::import(here("paper",
-                         "korea",
-                         "data-raw",
-                         "EAD 3.0 Quarterly_11282023.dta")) %>% 
-  mutate(year = floor(qtr/4 + 1960),
-         quarter = qtr %% 4 * .25,
-         year_quarter = year + quarter)
-```
 
 ```{r women_execs0, eval=FALSE}
 pge_years <- pge_summary %>% 
@@ -458,24 +512,36 @@ women_execs0 <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_elected_
   rvest::html_table(fill=TRUE) %>% 
   first() %>% 
   janitor::clean_names() %>% 
-  filter(str_detect(executiveor_non_executive, "Exec") &
+  filter((str_detect(executiveor_non_executive, "Exec") |
+            country == "Poland" & office == "Prime Minister") &
            country %in% oecd_countries) %>% 
-  mutate(mandateend = if_else(mandateend == "Incumbent",
+  mutate(mandateend = case_when(mandateend == "Incumbent" ~
                               "4 August 2025",
-                              mandateend) %>% 
-           str_remove("Suspended.*"),
+                              str_detect(mandateend, "Suspended") ~
+                                str_remove(mandateend, ".*Suspended "),
+                              TRUE ~ mandateend),
          start_year = parse_date_time(mandate_start, "d m y") %>% 
            year(),
          start_quarter = (parse_date_time(mandate_start, "d m y") %>% 
            quarter() - 1) * .25,
+         start_month = parse_date_time(mandate_start, "d m y") %>% 
+           month(),
+         start_day = parse_date_time(mandate_start, "d m y") %>% 
+           day(),
+         start_month = if_else(start_day > 15, start_month + 1, start_month),
          end_year = parse_date_time(mandateend, "d m y") %>% 
            year(),
          end_quarter = (parse_date_time(mandateend, "d m y") %>% 
-           quarter() - 1) * .25) %>%
+           quarter() - 1) * .25,
+         end_month = parse_date_time(mandateend, "d m y") %>% 
+           month(),
+         end_day = parse_date_time(mandateend, "d m y") %>% 
+           day(),
+         end_month = if_else(end_day < 15, end_month - 1, end_month)) %>%
   select(country, name, starts_with("start_"), starts_with("end_")) %>% 
   left_join(pge_years, by = "country") %>% 
   filter(!(start_year > last_year | end_year < first_year) &
-           (end_year - start_year > 1)) %>% 
+           (end_year - start_year >= 1)) %>% 
   left_join(pge_summary, by = join_by(country == country,
                                       start_year == year)) %>% 
   rename(pge_start = pge,
@@ -499,7 +565,7 @@ women_execs0 <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_elected_
          diff = pge_end - pge_start,
          diff_se = sqrt(pge_start_se^2 + pge_end_se^2)/2,
          t_val = diff/diff_se,
-         p_val = pnorm(t_val, lower.tail = FALSE),
+         p_val = pnorm(abs(t_val), lower.tail = FALSE)*2,
          start_yq = start_year + start_quarter,
          end_yq = end_year + end_quarter) %>% 
   select(-pge, -pge_se, -matches("p\\d|world")) %>% 
@@ -527,7 +593,7 @@ women_execs_long <- women_execs %>%
   select(country, start_year, end_year) %>% 
   left_join(pge_years, by = "country") %>% 
   mutate(include = !(start_year > last_year | end_year < first_year) &
-           (end_year - start_year > 1)) %>%
+           (end_year - start_year >= 1)) %>%
   filter(include) %>% 
   expand_grid(year = min(pge_summary$year):max(pge_summary$year)) %>%
   transmute(country,
@@ -611,16 +677,34 @@ women_execs_long0 <- women_execs %>%
          year_quarter = year,
          year = floor(year_quarter)) %>%
   ungroup() %>% 
-  select(country, name, name2, year, year_quarter) %>% 
-  left_join(pge_summary %>% 
-              select(country, year, pge, pge_se, p10, p90),
-            by = join_by(country, year)) %>% 
-  filter(!is.na(pge)) %>% 
+  select(country, name, name2, year, year_quarter) 
+
+women_execs1 <- women_execs_long0 %>% 
   group_by(country, name2) %>% 
-  mutate(n = n(),
-         diff = pge - first(pge),
-         diff_se = sqrt(pge_se^2 + first(pge_se)^2)/2) %>% 
-  left_join(eapq0 %>% 
+  filter(year == first(year) | year == last(year)) %>% 
+  select(-year_quarter) %>% 
+  distinct()
+
+pge_diff <- pge %>%
+  split(pge$draw) %>%
+  map(~.x %>%
+        right_join(women_execs1,
+                   by = join_by(country, year)) %>% 
+        group_by(country, name2) %>% 
+        summarize(diff0 = last(pge) - first(pge),
+                  .groups = "keep")) %>% 
+  list_rbind() %>% 
+  summarize(diff = mean(diff0, na.rm = TRUE),
+         diff_se = sd(diff0, na.rm = TRUE),
+         diff_p10 = quantile(diff0, probs = .1, na.rm = TRUE),
+         diff_p90 = quantile(diff0, probs = .9, na.rm = TRUE),
+         .groups = "drop") %>% 
+  filter(!is.na(diff) & !diff == 0)
+
+women_execs_long1 <- women_execs_long0 %>%
+  inner_join(pge_diff,
+            by = join_by(country, name2)) %>%
+  inner_join(eapq0 %>% 
               transmute(country = if_else(country_name == "Poland_PM",
                                           "Poland",
                                           country_name),
@@ -628,28 +712,7 @@ women_execs_long0 <- women_execs %>%
                         approval = Approval_Not_Smoothed,
                         disapproval = Disapproval_Not_Smoothed,
                         approval_net = approval - disapproval),
-            by = join_by(country, year_quarter)) %>% 
-  filter(n > 1)
-
-women_execs_long1 <- women_execs_long0 %>% 
-  group_by(name2, year) %>% 
-  mutate(full_year = n() == 4) %>% 
-  ungroup() %>% 
-  left_join(eap %>% 
-              transmute(country = country_name,
-                     year, 
-                     approval_annual = Approval_Not_Smoothed,
-                     disapproval_annual = Disapproval_Not_Smoothed,
-                     approval_annual_net = approval_annual -
-                       disapproval_annual) %>% 
-              filter(!is.na(approval_annual_net) &
-                       approval_annual + disapproval_annual < 100),
-            by = c("country", "year")) %>% 
-  mutate(approval_net = if_else(full_year &
-                                  !is.na(approval_annual) &
-                                  !is.na(disapproval_annual),
-                                approval_annual - disapproval_annual,
-                                approval_net))
+            by = join_by(country, year_quarter))
 
 ```
 
@@ -691,24 +754,21 @@ pge_summary %>%
 
 caption = "Note: Leaders' terms are ordered by the change in PGE scores over the years in office; whiskers represent 80% credible intervals."
 
-trends_women_execs <- women_execs_long1 %>%
-    group_by(name2) %>% 
-    summarize(pge_change = last(pge) - first(pge),
-              pge_change_se = sqrt(last(pge_se)^2 + first(pge_se)^2),
-              name3 = paste0(first(name2 %>% 
+trends_women_execs <- pge_diff %>% 
+    mutate(name3 = paste0(name2 %>% 
                                      str_remove("^\\S+( Harlem)?") %>% 
-                                     str_replace("Geun-hye", "Park")),
+                                     str_replace("Geun-hye", "Park"),
                                    " (", 
-                                   countrycode(first(country),
+                                   countrycode(country,
                                                "country.name",
                                                "iso2c"),
                                    ")")) %>% 
-  arrange(-pge_change) %>%
+  arrange(-diff) %>%
   mutate(name3 = as_factor(name3) %>% 
-           fct_reorder(-pge_change)) %>% 
-  ggplot(aes(x = pge_change, y = name3)) +
-  geom_segment(aes(x = pge_change - qnorm(.9)*pge_change_se,
-                   xend = pge_change + qnorm(.9)*pge_change_se,
+           fct_reorder(-diff)) %>% 
+  ggplot(aes(x = diff, y = name3)) +
+  geom_segment(aes(x = diff_p10,
+                   xend = diff_p90,
                    y = name3,
                    yend = name3),
                na.rm = TRUE,
@@ -757,6 +817,8 @@ knitr::include_graphics(here("paper",
 @fig-trends_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
 During these 28 terms in office, the change is estimated to be positive---that is, toward more macroegalitarianism---more than twice as often as it is negative.
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however, so only rarely are these positive changes credible with 80% confidence.
+
+
 
 
 \pagebreak
@@ -873,14 +935,14 @@ kd1_means <- map(c("gender", "gen", "uni"), function(var) {
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Korea", fig.height = 9}
 #| label: fig-kd1allplot1
 
-caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2018."
+caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
 
 kd1_poli_summary <- kd1_means_all %>% 
               filter(item_type == "Politics") %>% 
               mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
   group_by(q) %>% 
   summarize(year_min = 2013,
-            year_max = 2018,
+            year_max = 2016,
             mean = mean(mean))
 
 kd1_work_summary <- kd1_means_all %>% 
@@ -888,7 +950,7 @@ kd1_work_summary <- kd1_means_all %>%
               mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
   group_by(q) %>% 
   summarize(year_min = 2013,
-            year_max = 2018,
+            year_max = 2016,
             mean = mean(mean))
 
 poli_all <- kd1_means_all %>%
@@ -966,8 +1028,6 @@ Among the questions on equality in politics, all but one suggest a decline durin
 Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly unusual.
 We found in Chapter 3 that items about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
 That they are not in this case suggests that something interesting is going on.
-
-### By Item, Cross-National
 
 ```{r surveys_oecd_political, cache=TRUE}
 dcpo_input_raw_pge <- read_csv(here("paper",
@@ -1137,11 +1197,16 @@ surveys_oecd_political %>%
    plot_annotation(caption = str_wrap(caption, 90))
 ```
 
+To help figure out what that might be, we first turn to other countries that have had women chief executives.
 @fig-xc_polileader4 shows how mean disagreement with the statement "men make better political leaders than women" changed over time in the eleven countries for which these series intersected with the terms of women chief executives.
 These data are very thin---recall that in Chapter 3, we explained that the sparsity of the existing data was an important motivation for creating the PGE scores---but they show very little evidence of declines during the years in which women held office.^[
 Among the surveys we used in Chapter 3 to generate the PGE scores, there are five other country-items asking about gender equality in politics that intersect with the time in office of women chief executives: three items of one country each, and a fourth with two countries.
+All but one of these country-item series consist of just two time points, and the other has only three.
 None of these five very short series exhibit discernibly declining levels of gender egalitarianism in the public during women's terms as chief executive.]
 There is one exception to this rule: Michelle Bachelet's second term as president of Chile.
+
+
+
 
 
 ### Polarization: By Item, By Demografic
@@ -1149,7 +1214,7 @@ There is one exception to this rule: Michelle Bachelet's second term as presiden
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
 #| label: fig-kd1mplot1
 
-caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2018."
+caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
 
 annote_text <- tibble(
   q = factor(levels(kd1_means %>% 
@@ -1286,7 +1351,7 @@ kd1_means %>%
                                 "No Uni" = "grey70",
                                 "Uni" = "grey30"),
                      aesthetics = c("colour", "fill"))  +
-  plot_annotation(caption = str_wrap("Shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2018", 120))
+  plot_annotation(caption = str_wrap("Shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016", 120))
 
 ```
 
@@ -1331,7 +1396,8 @@ pge_eap_label <- tibble(pge_diff = 12,
 pge_eap1 <- pge_eap %>% 
   list_rbind() %>% 
   group_by(country, name2) %>% 
-  summarize(pge_diff_se = sd(pge_diff),
+  summarize(pge_diff_p10 = quantile(pge_diff, probs = .1),
+            pge_diff_p90 = quantile(pge_diff, probs = .9),
             pge_diff = mean(pge_diff),
             approval_net_mean = mean(approval_net_mean),
             .groups = "drop") 
@@ -1341,11 +1407,13 @@ caption = "Note: Whiskers represent 80% credible intervals."
 pge_eap_plot <- pge_eap1 %>% 
   ggplot(aes(y = pge_diff,
              x = approval_net_mean)) +
-  geom_smooth(method = 'lm', se = FALSE) +
+  geom_smooth(method = 'lm',
+              formula = 'y ~ x',
+              se = FALSE) +
   geom_text(aes(label = name2),
             size = 2.5) +
-  geom_segment(aes(y = pge_diff - 1.28*pge_diff_se,
-               yend = pge_diff + 1.28*pge_diff_se),
+  geom_segment(aes(y = pge_diff_p10,
+                   yend = pge_diff_p90),
                alpha = .2) +
   theme_bw() +
   labs(x = "Mean Net Executive Approval", 
@@ -1357,7 +1425,7 @@ pge_eap_plot <- pge_eap1 %>%
 ggsave(here("paper", "korea", "data", "pge_eap_plot.png"),
        pge_eap_plot,
        width = 6.5,
-       height = 8.25)
+       height = 9)
 ```
 
 ```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", cache=FALSE}
