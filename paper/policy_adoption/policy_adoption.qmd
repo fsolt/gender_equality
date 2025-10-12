@@ -761,7 +761,7 @@ if (!file.exists(file.path(policy_path,  "data", "m1_nq_results.rda"))) {
 }
 ```
 
-```{r m1nqplot, fig.cap="Predicting National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
+```{r, fig.cap="Predicting National Quotas in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-m1-nq
 
 ordered <- c("Macroegalitarianism, Difference",
@@ -996,7 +996,7 @@ if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {
 }
 ```
 
-```{r m2nqplot, fig.cap="Predicting National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Predicting National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-m2-nq
 
 ordered_nqsem <- c("Macroegalitarianism, Difference",
@@ -1276,7 +1276,7 @@ read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoptio
   kableExtra::column_spec(2, width = "20em")
 ```
 
-```{r wblplot, fig.cap="The WBL Policy Index in the OECD", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="The WBL Policy Index in the OECD", fig.height = 9, fig.width = 7.5}
 #| label: fig-wblplot
 
 wbl_data %>%
@@ -1314,7 +1314,7 @@ Both the extent to which these countries have passed these laws and the pace at 
 Our first question is whether growing gender egalitarianism among citizens prompts their representatives to adopt policies that enhance gender equality in employment.
 As can be seen in @fig-wbl-corr, the correlation between macroegalitarianism and the WBL policy index is very strong.
 
-```{r wblplot, fig.cap="Macroegalitarianism and Policies Advancing Gender Equality in Employment in the OECD", fig.height = 7, fig.width = 7.5}
+```{r, fig.cap="Macroegalitarianism and Policies Advancing Gender Equality in Employment in the OECD", fig.height = 7, fig.width = 7.5}
 #| label: fig-wbl-corr
 
 pge <- rio::import(here("data",
@@ -1505,7 +1505,7 @@ if (!file.exists(file.path(policy_path,
 }
 ```
 
-```{r m1wblplot, fig.cap="Predicting the WBL Policy Index in OECD Countries \\label{m1_wbl_plot}", fig.height = 7, fig.width = 7.5}
+```{r, fig.cap="Predicting the WBL Policy Index in OECD Countries \\label{m1_wbl_plot}", fig.height = 7, fig.width = 7.5}
 #| label: fig-m1-wbl
 
 ordered <- c("Macroegalitarianism, Difference",
@@ -1718,7 +1718,7 @@ if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {
 }
 ```
 
-```{r m2wblplot, fig.cap="Predicting the WBL Policy Index and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Predicting the WBL Policy Index and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-m2-wbl
 
 ordered_wblsem <- c("Macroegalitarianism, Difference",
@@ -1914,7 +1914,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "ecec_data1.rda"))) {
 }
 ```
 
-```{r enrplot, fig.cap="Enrollment in Early Childhood Education and Care, Ages 0-2, in the OECD", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Enrollment in Early Childhood Education and Care, Ages 0-2, in the OECD", fig.height = 9, fig.width = 7.5}
 #| label: fig-enrplot
 
 ecec_data1 %>%
@@ -1943,7 +1943,7 @@ ecec_data1 %>%
   plot_annotation(caption = str_wrap("Source: OECD (2024).", 85))
 ```
 
-```{r ececenrplot, fig.cap="Macroegalitarianism and Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Macroegalitarianism and Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-ecec-enrplot
 
 pge <- rio::import(here("data",
@@ -2139,7 +2139,7 @@ if (!file.exists(file.path(policy_path,
 }
 ```
 
-```{r m1enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 7, fig.width = 7.5}
+```{r, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, in OECD Countries", fig.height = 7, fig.width = 7.5}
 #| label: fig-m1-enr
 
 ordered <- c("Macroegalitarianism, Difference",
@@ -2341,7 +2341,7 @@ if (!file.exists(file.path(policy_path, "data", "enrsem_results.rda"))) {
 }
 ```
 
-```{r m2enrplot, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Predicting Enrollment in Early Childhood Education and Care, Ages 0-2, and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-m2-enr
 
 ordered_enrsem <- c("Macroegalitarianism, Difference",

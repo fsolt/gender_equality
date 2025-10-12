@@ -1338,7 +1338,7 @@ if (!file.exists(file.path(descrep_path, "data", "wr_results.rda"))) {
 }
 ```
 
-```{r wrts, fig.cap="Women's Officeholding in the OECD", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Women's Officeholding in the OECD", fig.height = 9, fig.width = 7.5}
 #| label: fig-wrts
 
 by_country0 %>%
@@ -1645,7 +1645,7 @@ In other words, incumbency matters.
 But the unstandardized coefficient is less than one, which suggests that absent the actions of elites and the support of the public as considered in the model, officeholding would decline rather than grow over time.
 This provides suggestive evidence that women in office are held to a higher standard than their male colleagues.
 
-```{r m1plot, fig.cap="Predicting Women's Officeholding in OECD Democratic Elections", fig.height = 7, fig.width = 7.5}
+```{r, fig.cap="Predicting Women's Officeholding in OECD Democratic Elections", fig.height = 7, fig.width = 7.5}
 #| label: fig-m1-dr
 
 ordered <- c("Macroegalitarianism, Difference",
@@ -2297,7 +2297,7 @@ if (!file.exists(file.path(descrep_path, "data", "wrsem_results.rda"))) {
 }
 ```
 
-```{r m3plot, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections", fig.height = 9, fig.width = 7.5}
+```{r, fig.cap="Predicting Women's Parliamentary Representation in OECD Democratic Elections", fig.height = 9, fig.width = 7.5}
 #| label: fig-m3-wr
 
 ordered_wrsem <- c("Macroegalitarianism, Difference",

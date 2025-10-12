@@ -288,7 +288,7 @@ Those countries do include the usual suspects of most of Europe plus the United 
 As @fig-oecdmap makes clear, there are still many other, unshaded countries to better understand also.
 But the theories outlined in this chapter apply to the shaded countries, so they will be the subject of this book.
 
-```{r oecdmap, fig.cap="The Cases Examined in This Book: The OECD", fig.width = 7.5}
+```{r, fig.cap="The Cases Examined in This Book: The OECD", fig.width = 7.5}
 #| label: fig-oecdmap
 
 world1 <- rnaturalearth::ne_countries(scale = "small", returnclass = "sf") %>%
