@@ -29,7 +29,8 @@ knitr::opts_chunk$set(
   cache = TRUE,
   dpi = 1000,
   fig.width = 7.5,
-  fig.height = 4
+  fig.height = 4,
+  dev = "cairo_pdf"
 )
 
 if (!require(pacman))
@@ -498,9 +499,8 @@ The years during which Park held office are shaded in pale gray.
 The PGE scores provide no clear evidence of a decline in gender egalitarian attitudes in Korea during these years.
 When Park started her term in 2013, the country had a PGE score of 50.1 (80% credible interval: 46.2 to 52.2); when Park was removed from office in December 2016, Korea's PGE score was 51.3 (80% c.i.: 48.1 to 54.5).
 
-But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
+But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's legislative officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
 While estimated to be positive, the difference in PGE scores over these years---1.2 points---is not credibly different from zero (80% c.i.: -1.0 to 4.0).
-
 
 ```{r women_execs0, eval=FALSE}
 pge_years <- pge_summary %>% 
@@ -508,7 +508,7 @@ pge_years <- pge_summary %>%
   summarize(first_year = first(year),
             last_year = last(year))
 
-women_execs0 <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_elected_and_appointed_female_heads_of_state_and_government") %>% 
+women_execs00 <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_elected_and_appointed_female_heads_of_state_and_government") %>% 
   rvest::html_table(fill=TRUE) %>% 
   first() %>% 
   janitor::clean_names() %>% 
@@ -529,16 +529,22 @@ women_execs0 <- rvest::read_html("https://en.wikipedia.org/wiki/List_of_elected_
          start_day = parse_date_time(mandate_start, "d m y") %>% 
            day(),
          start_month = if_else(start_day > 15, start_month + 1, start_month),
-         end_year = parse_date_time(mandateend, "d m y") %>% 
+         end_year = parse_date_time(mandateend, "d m y",
+                                    quiet = TRUE) %>% 
            year(),
-         end_quarter = (parse_date_time(mandateend, "d m y") %>% 
+         end_quarter = (parse_date_time(mandateend, "d m y",
+                                    quiet = TRUE) %>% 
            quarter() - 1) * .25,
-         end_month = parse_date_time(mandateend, "d m y") %>% 
+         end_month = parse_date_time(mandateend, "d m y",
+                                    quiet = TRUE) %>% 
            month(),
-         end_day = parse_date_time(mandateend, "d m y") %>% 
+         end_day = parse_date_time(mandateend, "d m y",
+                                    quiet = TRUE) %>% 
            day(),
          end_month = if_else(end_day < 15, end_month - 1, end_month)) %>%
-  select(country, name, starts_with("start_"), starts_with("end_")) %>% 
+  select(country, name, starts_with("start_"), starts_with("end_")) 
+
+women_execs0 <- women_execs00 %>% 
   left_join(pge_years, by = "country") %>% 
   filter(!(start_year > last_year | end_year < first_year) &
            (end_year - start_year >= 1)) %>% 
@@ -699,12 +705,13 @@ pge_diff <- pge %>%
          diff_p10 = quantile(diff0, probs = .1, na.rm = TRUE),
          diff_p90 = quantile(diff0, probs = .9, na.rm = TRUE),
          .groups = "drop") %>% 
-  filter(!is.na(diff) & !diff == 0)
+  filter(!is.na(diff) & !diff == 0) %>% 
+  arrange(-diff)
 
 women_execs_long1 <- women_execs_long0 %>%
   inner_join(pge_diff,
             by = join_by(country, name2)) %>%
-  inner_join(eapq0 %>% 
+  left_join(eapq0 %>% 
               transmute(country = if_else(country_name == "Poland_PM",
                                           "Poland",
                                           country_name),
@@ -716,54 +723,48 @@ women_execs_long1 <- women_execs_long0 %>%
 
 ```
 
-```{r, fig.cap="Trends in Macroegalitarianism in OECD Countries That Have Had Women Chief Executives", fig.height=4}
+```{r, fig.cap="Trends in Macroegalitarianism in OECD Countries That Have Had Women Leaders", fig.height=9, dev='cairo_pdf'}
 #| label: fig-pge_women_execs
 
 # Trend in PGE in countries other than Korea that have had women chief executives, ordered by change in PGE during mandate
 
-caption <- "The pale shaded regions indicate the years during which women served as chief executives in these countries. Darker shading indicates the 80% credible interval of the PGE scores."
+caption <- "Notes: The pale shaded regions in the plots on the left-hand side indicate the years during which women served as chief executives in these countries. Darker shading (in the plots to the left) and the whiskers (in the plot to the right) indicate the 80% credible interval of the PGE scores."
 
-pge_summary %>% 
-  filter(country %in% women_execs$country &
-           !country == "South Korea") %>%
+pge_women_execs <- pge_summary %>% 
+  filter(country %in% pge_diff$country &
+           !country == "South Korea" &
+           !country == "Lithuania") %>%
   ggplot() +
   geom_rect(aes(xmin = start_yq, xmax = end_yq),
             fill = "grey70",
             ymin = -Inf, ymax = Inf, alpha = 0.2,
             data = women_execs %>% 
-              filter(!country == "South Korea")) +
+              filter(!country == "South Korea" &
+                       !country == "Lithuania")) +
   geom_line(aes(x = year, y = pge)) +
   geom_ribbon(aes(x = year, ymin = p10, ymax = p90), 
               alpha = .2) +
-  facet_wrap(. ~ factor(country, levels = rev(unique(women_execs$country))),
-             ncol = 4) +
-  labs(x = NULL, y = "PGE Score") +
+  facet_wrap(. ~ factor(country, levels = unique(pge_diff$country)),
+             ncol = 2) +
+  labs(x = NULL, y = NULL) +
   theme_bw() +
   theme(strip.background = element_blank(),
         axis.text.x  = element_text(size = 8,
                                     angle = 90,
                                     vjust = .45),
         plot.title = element_text(size=8)) + 
+  ggtitle("Trends in PGE Scores\nin OECD Countries\nOver Women Leaders' Terms") +
   plot_annotation(caption = str_wrap(caption, 90))
 
-```
-
-```{r trends_women_execs}
-# saved and loaded because some characters in leaders' names 
-# don't render correctly through pandoc
-
-caption = "Note: Leaders' terms are ordered by the change in PGE scores over the years in office; whiskers represent 80% credible intervals."
-
 trends_women_execs <- pge_diff %>% 
-    mutate(name3 = paste0(name2 %>% 
-                                     str_remove("^\\S+( Harlem)?") %>% 
-                                     str_replace("Geun-hye", "Park"),
-                                   " (", 
-                                   countrycode(country,
-                                               "country.name",
-                                               "iso2c"),
-                                   ")")) %>% 
-  arrange(-diff) %>%
+  mutate(name3 = paste0(name2 %>% 
+                          str_remove("^\\S+( Harlem)?") %>% 
+                          str_replace("Geun-hye", "Park"),
+                        " (", 
+                        countrycode(country,
+                                    "country.name",
+                                    "iso2c"),
+                        ")")) %>% 
   mutate(name3 = as_factor(name3) %>% 
            fct_reorder(-diff)) %>% 
   ggplot(aes(x = diff, y = name3)) +
@@ -773,51 +774,45 @@ trends_women_execs <- pge_diff %>%
                    yend = name3),
                na.rm = TRUE,
                alpha = .4) +
-    geom_vline(xintercept = 0,
-               linetype = "dashed",
-               alpha = .25) +
+  geom_vline(xintercept = 0,
+             linetype = "dashed",
+             alpha = .25) +
   geom_point(fill = "black", shape = 21, size = .5, na.rm = TRUE) +
-    theme_bw() + 
-    theme(legend.position="none",
-          # axis.text.x  = element_text(size = 9,
-          #                             angle = 0,
-          #                             vjust = .45,
-          #                             hjust = .95),
-          axis.text.y  = element_text(size = 9),
-          axis.title = element_blank(),
-          strip.background = element_blank(), 
-          strip.text = element_blank(),
-          panel.grid.major = element_line(linewidth = .3),
-          panel.grid.minor = element_line(linewidth = .15),
-          plot.title = element_text(size=8)) +
-    scale_y_discrete(limits = rev) +
-    ggtitle("Change in PGE,\nFirst to Last Year of Term") +
+  theme_bw() + 
+  theme(legend.position="none",
+        # axis.text.x  = element_text(size = 9,
+        #                             angle = 0,
+        #                             vjust = .45,
+        #                             hjust = .95),
+        axis.text.y  = element_text(size = 9),
+        axis.title = element_blank(),
+        strip.background = element_blank(), 
+        strip.text = element_blank(),
+        panel.grid.major = element_line(linewidth = .3),
+        panel.grid.minor = element_line(linewidth = .15),
+        plot.title = element_text(size=8)) +
+  scale_y_discrete(limits = rev) +
+  ggtitle("Change in PGE Scores\nFrom First to Last Year\nof Women Leaders' Terms") +
   plot_annotation(caption = str_wrap(caption, 90))
 
-ggsave(here("paper", "korea", "data", "trends_women_execs.png"),
-       trends_women_execs,
-       width = 6.5,
-       height = 4.5)
-```
-
-```{r, fig.cap="Changes in Macroegalitarianism Over the Terms of OECD Woman Chief Executives", cache=FALSE}
-#| label: fig-trends_women_execs
-
-# saved and loaded because some characters in leaders' names 
-# don't render correctly through pandoc
-
-knitr::include_graphics(here("paper",
-                             "korea",
-                             "data",
-                             "trends_women_execs.png"),
-                        dpi = 400)
+pge_women_execs + trends_women_execs
 
 ```
 
-@fig-trends_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
-During these 28 terms in office, the change is estimated to be positive---that is, toward more macroegalitarianism---more than twice as often as it is negative.
-Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however, so only rarely are these positive changes credible with 80% confidence.
+Looking more broadly across the OECD allows us another opportunity to test the hypothesis that women chief executives, in contrast to the legislators we examined in Chapter 4, trigger public opinion backlash. 
+Although women's successes in winning the chief executive's office remain decidedly the exception rather than the rule, they have been growing more frequent over time across these countries.
+Including Park, our dataset includes PGE scores during the time in office of 21 women leaders who governed in Korea and fourteen other OECD countries.
+Trends in macroegalitarianism in these additional countries are depicted on the left side of @fig-pge_women_execs.^[
+Israel, where Golda Meir was prime minister from 1969 to 1974, and Portugal, where Maria de Lourdes Pintasilgo was prime minister from 1979 to 1980, are excluded from the figure because these terms in office predate our earliest PGE scores for those countries.
+Because the PGE scores are measured at the annual level, Kim Campbell's four-month term as Canada's prime minister in 1993 and Anneli Jäätteenmäki's two months as Finland's prime minister in 2003 are too short to observe changes in this variable.
+A number of additional OECD countries have elected women chief executives after the last year for which data on macroegalitarianism is currently available.]
+The pale gray rectangles indicate the years during which a woman served as chief executive in each of these countries.
 
+The right side of @fig-pge_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
+During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
+Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
+On the other hand, the 80% credible intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
+Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis of public opinion backlash triggered by women's successes at the highest levels of politics. 
 
 
 
@@ -1359,9 +1354,8 @@ kd1_means %>%
 
 ## Executive Approval
 
-```{r pge_eap}
-# saved and loaded because some characters in leaders' names 
-# don't render correctly through pandoc
+```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", cache=FALSE, dev='cairo_pdf'}
+#| label: fig-pge_eap
 
 pge_eap <- pge %>% 
   split(pge$draw) %>% 
@@ -1426,19 +1420,6 @@ ggsave(here("paper", "korea", "data", "pge_eap_plot.png"),
        pge_eap_plot,
        width = 6.5,
        height = 9)
-```
-
-```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", cache=FALSE}
-#| label: fig-pge_eap
-
-# saved and loaded because some characters in leaders' names 
-# don't render correctly through pandoc
-knitr::include_graphics(here("paper",
-                             "korea",
-                             "data",
-                             "pge_eap_plot.png"),
-                        dpi = 400)
-
 ```
 
 The bivariate relationship between the change in PGE scores during a term of a woman chief executive and her mean net approval during that term is displayed in @fig-pge_eap.
