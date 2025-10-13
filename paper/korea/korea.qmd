@@ -373,9 +373,9 @@ elected president in Dec 2012, 51.6% to 48.0%
 
 @Seo2021 on scandal and impeachment
 
-@Lee2023: no backlash in public opinion
+@Lee2023: not much backlash in public opinion, because Park was primarily seen as a dynastic candidate rather than a woman candidate
 @Woo2025a: backlash in public opinion
-@Kim2022b: backlash re gender quota
+@Kim2022b: backlash in Korea re gender quota
 
 ```{r eap}
 eap <- rio::import(here("paper",
@@ -1362,7 +1362,7 @@ kd1_means %>%
 
 ## Executive Approval
 
-```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", cache=FALSE, dev='cairo_pdf'}
+```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
 #| label: fig-pge_eap
 
 pge_eap <- pge %>% 
@@ -1406,7 +1406,7 @@ pge_eap1 <- pge_eap %>%
 
 caption = "Note: Whiskers represent 80% credible intervals."
 
-pge_eap_plot <- pge_eap1 %>% 
+pge_eap1 %>% 
   ggplot(aes(y = pge_diff,
              x = approval_net_mean)) +
   geom_smooth(method = 'lm',
@@ -1424,10 +1424,6 @@ pge_eap_plot <- pge_eap1 %>%
   geom_label(data = pge_eap_label, aes(label = label), size = 3) +
   plot_annotation(caption = caption)
 
-ggsave(here("paper", "korea", "data", "pge_eap_plot.png"),
-       pge_eap_plot,
-       width = 6.5,
-       height = 9)
 ```
 
 The bivariate relationship between the change in PGE scores during a term of a woman chief executive and her mean net approval during that term is displayed in @fig-pge_eap.
