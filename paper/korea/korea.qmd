@@ -371,6 +371,12 @@ narrowly loses 2007 primary
 takes over as party leader at end of 2011
 elected president in Dec 2012, 51.6% to 48.0%
 
+@Seo2021 on scandal and impeachment
+
+@Lee2023: no backlash in public opinion
+@Woo2025a: backlash in public opinion
+@Kim2022b: backlash re gender quota
+
 ```{r eap}
 eap <- rio::import(here("paper",
                         "korea",
@@ -440,10 +446,11 @@ eapm0 %>%
 2017 election moved up to May; Moon wins five-way race with 41.1% of vote and a decisive 17.1% margin of victory 
 <!-- https://en.wikipedia.org/wiki/2017_South_Korean_presidential_election -->
 
-2022 election puts openly misogynistic Yoon Suk-yeol in office.  Backlash?
+2022 election puts openly misogynistic Yoon Suk-yeol in office [@Kim2022a].  Backlash?
 
 
-## A Backlash Against Gender Equality?
+
+## Does the Election of a Women Chief Executive Spark a Backlash in the Public?
 
 ```{r pge}
 pge_summary <- rio::import(here("data",
@@ -804,15 +811,16 @@ Although women's successes in winning the chief executive's office remain decide
 Including Park, our dataset includes PGE scores during the time in office of 21 women leaders who governed in Korea and fourteen other OECD countries.
 Trends in macroegalitarianism in these additional countries are depicted on the left side of @fig-pge_women_execs.^[
 Israel, where Golda Meir was prime minister from 1969 to 1974, and Portugal, where Maria de Lourdes Pintasilgo was prime minister from 1979 to 1980, are excluded from the figure because these terms in office predate our earliest PGE scores for those countries.
-Because the PGE scores are measured at the annual level, Kim Campbell's four-month term as Canada's prime minister in 1993 and Anneli Jäätteenmäki's two months as Finland's prime minister in 2003 are too short to observe changes in this variable.
-A number of additional OECD countries have elected women chief executives after the last year for which data on macroegalitarianism is currently available.]
+Because the PGE scores are measured at the annual level, Kim Campbell's four-month term as Canada's prime minister in 1993 and Anneli Jäätteenmäki's two months as Finland's prime minister in 2003 are too short to observe changes in this variable; these leaders' terms are excluded as well.
+A number of additional OECD countries have elected women chief executives after the last year for which data on macroegalitarianism is currently available.
+Regrettably, we cannot include these leaders either.]
 The pale gray rectangles indicate the years during which a woman served as chief executive in each of these countries.
 
 The right side of @fig-pge_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
 During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
 On the other hand, the 80% credible intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
-Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis of public opinion backlash triggered by women's successes at the highest levels of politics. 
+Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality among the public. 
 
 
 
