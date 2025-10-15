@@ -1024,13 +1024,21 @@ poli_all + work_all +
   plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-Our focus on Korea in this chapter allows us to look more closely than we could when we took the broad comparative vantage that we adopted earlier in the book.
+One advantage of our focus on Korea in this chapter is that it allows us to look at individual survey items in ways that are not possible when taking the broad comparative vantage that we adopted earlier in the book.
 @fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
-The years that Park held the presidency, 2013--2018, are again shaded in pale gray.
+The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
 Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years.
-Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly unusual.
-We found in Chapter 3 that items about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
-That they are not in this case suggests that something interesting is going on.
+
+Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly atypical.
+Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
+That they are not in this case suggests that something unusual---and so interesting---is going on.
+
+We also pause to note that the two exceptions appear upon closer examination to be perhaps not that exceptional.
+With regard to political equality, the only item that intersects with Park's years in office that shows an increase is "in general, men and women make equally good political leaders."
+The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
+Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
+And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views of women in positions of power, if only in the short run.
 
 ```{r surveys_oecd_political, cache=TRUE}
 dcpo_input_raw_pge <- read_csv(here("paper",
@@ -1096,71 +1104,6 @@ surveys_oecd_political <- surveys_oecd %>%
               select(country, start_yq, end_yq)) %>% 
   arrange(-item_n, -last_mean) %>% 
   mutate(country = fct_inorder(country))
-```
-
-```{r, fig.cap="Trends in Mean Survey Responses on Gender Equality in Politics in OECD Countries That Have Had Women Chief Executives", fig.height = 9, fig.width = 3.75, eval=FALSE}
-# #| label: fig-xc_polileader4
-
-# caption <- "Pale shaded regions indicate the years during which women served as chief executives in each country."
-# 
-# terms <- surveys_oecd_political %>% 
-#   select(country, ends_with("_yq")) %>% 
-#   distinct()
-# 
-# poli_plots <- surveys_oecd_political %>% 
-#   split(surveys_oecd_political$item) %>% 
-#   map(~.x %>% 
-#         mutate(country = fct_drop(country)) %>% 
-#         ggplot() +
-#         geom_rect(aes(xmin = start_yq, xmax = end_yq),
-#                   fill = "grey70",
-#                   ymin = -Inf, ymax = Inf, alpha = 0.2,
-#                   data = .x %>% 
-#                     select(country, ends_with("_yq")) %>% 
-#                     distinct()) +
-#         geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
-#                         fatten = 1, 
-#                         alpha = .5) +
-#         geom_line(aes(x = year, y = mean),
-#                   linetype = "dotted") +
-#         facet_grid(country~
-#                      item_text,
-#                    scales = "free",
-#                    switch = "y",
-#                    labeller = label_wrap_gen(31)) +
-#         theme_bw() +
-#         theme(strip.background = element_blank(),
-#               axis.text.x  = element_text(size = 8,
-#                                           angle = 90,
-#                                           vjust = .45),
-#               plot.title = element_text(size=8),
-#               strip.text.y.left = element_text(angle = 0)) +   
-#         scale_y_continuous(position = "right") +
-#         labs(x = NULL, y = NULL))
-
-# layout <- "AB
-#            AB
-#            AB
-#            AC
-#            AC
-#            AD
-#            AD
-#            AE
-#            AE
-#            A#
-#            A#"
-# 
-# poli_plots[[2]] + 
-#   poli_plots[[1]] + 
-#   poli_plots[[3]] + 
-#   poli_plots[[4]] + 
-#   poli_plots[[5]] +
-#   plot_layout(design = layout) +
-#   plot_annotation(caption = str_wrap(caption, 90))
-
-# poli_plots[[2]] +
-#    plot_annotation(caption = str_wrap(caption, 60))
-
 ```
 
 ```{r, fig.cap="Trends in Mean Survey Responses on Gender Equality in Politics in OECD Countries That Have Had Women Chief Executives"}
@@ -1362,7 +1305,10 @@ kd1_means %>%
 
 ## Executive Approval
 
-```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Woman Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
+Re Theresa May @Rifkin2018
+
+
+```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Women Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
 #| label: fig-pge_eap
 
 pge_eap <- pge %>% 
@@ -1427,8 +1373,12 @@ pge_eap1 %>%
 ```
 
 The bivariate relationship between the change in PGE scores during a term of a woman chief executive and her mean net approval during that term is displayed in @fig-pge_eap.
-Even with the large uncertainties in the change in PGE scores and the small number of observations---executive approval data is only available for 23 terms of women chief executives in the Executive Approval Project dataset---the positive relationship is still evident.
+Even with the large uncertainties in the change in PGE scores and the limited number of observations---executive approval data is only available for 23 terms of women chief executives in the Executive Approval Project dataset---the positive relationship is still evident.
 High positive net approval ratings for women chief executives are associated with increases over their terms in the public's gender egalitarian attitudes.
 Negative net approval ratings are associated with flat or declining macroegalitarianism.
+
+https://statmodeling.stat.columbia.edu/2017/02/06/not-kill-statistical-significance-makes-stronger-fallacy/
+
+
 
 > heteroskedasticity here? incorporate legislatures somehow
