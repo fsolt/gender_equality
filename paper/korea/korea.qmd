@@ -450,7 +450,7 @@ eapm0 %>%
 
 
 
-## Does the Election of a Women Chief Executive Spark a Backlash in the Public?
+## Did Park's Election Trigger Backlash in Korean Public Opinion?
 
 ```{r pge}
 pge_summary <- rio::import(here("data",
@@ -508,6 +508,377 @@ When Park started her term in 2013, the country had a PGE score of 50.1 (80% cre
 
 But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's legislative officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
 While estimated to be positive, the difference in PGE scores over these years---1.2 points---is not credibly different from zero (80% c.i.: -1.0 to 4.0).
+
+
+
+```{r korea_data0, eval=FALSE}
+korea_data0 <- read_csv(here("paper",
+                             "korea",
+                             "data-raw",
+                             "korea_surveys.csv"),
+                        col_types = "cccccccc") %>% 
+  survey_setup() %>% 
+  filter(country == "South Korea") %>% 
+  filter(between(age, 18, 98))
+
+rio::export(korea_data0, 
+            here("paper",
+                 "korea",
+                 "data",
+                 "korea_data0.RData"))
+```
+
+```{r korea_data1, eval=FALSE}
+korea_data0 <- rio::import(here("paper",
+                                "korea",
+                                "data",
+                                "korea_data0.RData"))
+
+korea_data1 <- korea_data0 %>% 
+  remove_val_labels() %>% 
+  pivot_longer(cols = politics4:equalright4,
+               names_to = "item") %>% 
+  filter(!is.na(value) & !(str_detect(item, "5$") & year==2018)) %>% 
+  mutate(item_year = paste(item, year),
+         gender = factor(female, 
+                         levels = c(0, 1),
+                         labels = c("Men", "Women")),
+         year_birth = year - age,
+         gen = factor(case_when(year_birth <= 1965 ~ "Boomer",
+                         between(year_birth, 1966, 1981) ~ "GenX",
+                         year_birth >= 1982 & !year_birth==9999 ~ "GenMZ"),
+                      levels = c("Boomer", "GenX", "GenMZ")),
+         uni = factor(if_else(university == 1, "Uni", "No Uni")),
+         gen_gen_edu = factor(gender:gen:uni),
+         gge = as.numeric(factor(gen_gen_edu)))
+
+rio::export(korea_data1, 
+            here("paper",
+                 "korea",
+                 "data",
+                 "korea_data1.RData"))
+```
+
+```{r load_data}
+korea_data1 <- rio::import(here("paper",
+                                "korea",
+                                "data",
+                                "korea_data1.RData"))
+
+korea_questions <- read_csv(here("paper",
+                                 "korea",
+                                 "data-raw",
+                                 "korea_questions.csv"),
+                            col_types = "cc") %>% 
+  mutate(item_type = if_else(str_detect(item, "poli|^equal"),
+                             "Politics",
+                             "Workplace"))
+
+```
+
+```{r kd1_means_all}
+kd1_means_all <- korea_data1 %>% 
+  group_by(item, year) %>% 
+  summarize(mean = mean(value),
+            se = sd(as.numeric(value), na.rm = TRUE)/sqrt(n()),
+            low = mean - qnorm(.915)*se, #83% ci for 95% stat.sig. difference
+            hi = mean + qnorm(.915)*se,
+            .groups = "drop_last") %>% 
+  mutate(n = n()) %>% 
+  ungroup() %>% 
+  filter(!item == "income4") %>% 
+  arrange(-n) %>% 
+  left_join(korea_questions,
+            by = join_by(item)) %>% 
+  mutate(q = fct_reorder(question, n, .desc = TRUE))
+
+```
+
+```{r kd1_means}
+kd1_means <- map(c("gender", "gen", "uni"), function(var) {
+    korea_data1 %>%
+      group_by(year, item, .data[[var]]) %>% 
+      summarize(mean = mean(value),
+                se = sd(as.numeric(value), na.rm = TRUE)/sqrt(n()),
+                low = mean - se*1.372204, #83% ci for 95% stat.sig. difference
+                hi = mean + se*1.372204,
+                .groups = "drop")
+  }) %>% 
+  list_rbind() %>% 
+  pivot_longer(cols = c("gender", "gen", "uni"),
+               names_to = "variable") %>% 
+  filter(!is.na(value)) %>% 
+  group_by(item) %>% 
+  mutate(variable = factor(variable,
+                      levels = c("gender", "gen", "uni"),
+                      labels = c("Gender", "Generation", "Education")),
+         n = n()) %>%
+  ungroup() %>% 
+  filter(!item == "income4" & se < .3) %>% 
+  left_join(korea_questions, by = "item") %>% 
+  mutate(q = fct_reorder(question, n, .desc = TRUE))
+```
+
+```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Korea", fig.height = 9}
+#| label: fig-kd1allplot1
+
+caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
+
+kd1_poli_summary <- kd1_means_all %>% 
+              filter(item_type == "Politics") %>% 
+              mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
+  group_by(q) %>% 
+  summarize(year_min = 2013,
+            year_max = 2016,
+            mean = mean(mean))
+
+kd1_work_summary <- kd1_means_all %>% 
+              filter(item_type == "Workplace") %>% 
+              mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
+  group_by(q) %>% 
+  summarize(year_min = 2013,
+            year_max = 2016,
+            mean = mean(mean))
+
+poli_all <- kd1_means_all %>%
+  filter(item_type == "Politics") %>% 
+  mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
+  ggplot() +
+  geom_rect(data = kd1_poli_summary,
+            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
+            fill = "gray95",
+            color = "gray95",
+            alpha = .6) +
+  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
+                  fatten = 1, 
+                  alpha = .5) +
+  geom_line(aes(x = year, y = mean),
+            linetype = "dotted") +
+  facet_grid(q ~ item_type,
+             scales = "free_y",
+             switch = "y",
+             labeller = label_wrap_gen(31)) +
+  theme_bw() +
+  theme(legend.position="none",
+        strip.background = element_blank(),
+        strip.text.y.left = element_text(angle = 0),
+        axis.text.x = element_text(angle = 90)) +
+  scale_x_continuous(limits = c(1995, 2026),
+                     breaks = seq(1995, 2025, by = 5),
+                     labels = seq(1995, 2025, by = 5)) +
+  scale_y_continuous(position = "right") +
+  labs(x = NULL, y = NULL)
+
+work_all <- kd1_means_all %>%
+  filter(item_type == "Workplace") %>% 
+  mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
+  ggplot() +
+  geom_rect(data = kd1_work_summary,
+            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
+            fill = "gray95",
+            color = "gray95",
+            alpha = .6)  +
+  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
+                  fatten = 1, 
+                  alpha = .5) +
+  geom_line(aes(x = year, y = mean),
+            linetype = "dotted") +
+  facet_grid(q ~ item_type,
+             scales = "free_y",
+             # switch = "y",
+             labeller = label_wrap_gen(31)) +
+  theme_bw() +
+  theme(legend.position="none",
+        strip.background = element_blank(),
+        strip.text.y.right = element_text(angle = 0),
+        axis.text.x = element_text(angle = 90)) +
+  scale_x_continuous(limits = c(1995, 2026),
+                     breaks = seq(1995, 2025, by = 5),
+                     labels = seq(1995, 2025, by = 5)) +
+  # scale_y_continuous(position = "right") +
+  labs(x = NULL, y = NULL)
+
+layout <- c(
+  area(t = 1, l = 1, b = 697, r = 2),
+  area(t = 1, l = 3, b = 1000, r = 4)
+)
+
+poli_all + work_all + 
+  plot_layout(design = layout) + 
+  plot_annotation(caption = str_wrap(caption, 90))
+```
+
+We can dig even deeper, though.
+One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not possible when taking the broad comparative vantage that we adopted earlier in the book.
+@fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
+The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
+Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years.
+
+Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly atypical.
+Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
+That they are not in this case suggests that something unusual---and so interesting---is going on.
+
+We also pause to note that the two exceptions appear upon closer examination to be perhaps not that exceptional.
+With regard to political equality, the only item that intersects with Park's years in office that shows an increase is "in general, men and women make equally good political leaders."
+The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
+Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
+And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.
+
+### Polarization: By Item, By Demografic
+
+```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
+#| label: fig-kd1mplot1
+
+caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
+
+annote_text <- tibble(
+  q = factor(levels(kd1_means %>% 
+                      filter(item_type == "Politics") %>% 
+                      pull(q) %>% 
+                      fct_drop())[4], 
+  levels = levels(kd1_means %>% 
+                    filter(item_type == "Politics") %>% 
+                    pull(q) %>%
+                    fct_drop())),
+  variable = factor(c("Gender", "Gender",
+                      "Generation", "Generation", "Generation",
+                      "Education", "Education"),
+                    levels = c("Gender", "Generation", "Education"),
+                    labels = c("Gender", "Generation", "Education")),
+  value = factor(levels(kd1_means$value),
+                 levels = levels(kd1_means$value)),
+                 label = levels(kd1_means$value),
+  year = c(2003.25, 2001.5, # politics plot
+           2001.75, 2002.25, 2001.75,
+           2002, 2003),
+  mean = c(1.71, 1.87,
+           1.71, 1.84, 1.92,
+           1.77, 1.82))
+
+kd1_means %>%
+  filter(item_type == "Politics") %>% 
+  ggplot() +
+  geom_rect(data = kd1_poli_summary,
+            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
+            fill = "gray95",
+            color = "gray95",
+            alpha = .6) +
+  geom_text(data = annote_text,
+            aes(x = year, y = mean, label = label, color = value),
+            size = 3,
+            alpha = .9) +
+  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi, color = value),
+                  fatten = 1, 
+                  alpha = .5) +
+  geom_line(aes(x = year, y = mean, color = value),
+            linetype = "dotted") +
+  facet_grid(q ~ variable,
+             scales = "free_y",
+             switch = "y",
+             labeller = label_wrap_gen(31)) +
+  theme_bw() +
+  theme(legend.position="none",
+        strip.background = element_blank(),
+        strip.text.y.left = element_text(angle = 0),
+        axis.text.x = element_text(angle = 90)) +
+  scale_x_continuous(limits = c(1995, 2026),
+                     breaks = seq(1995, 2025, by = 5),
+                     labels = seq(1995, 2025, by = 5)) +
+  scale_y_continuous(position = "right") +
+  labs(x = NULL, y = NULL) +
+  scale_color_manual(values = c("Men" = "grey65",
+                                "Women" = "grey30",
+                                "Boomer" = "grey65",
+                                "GenX" = "grey50",
+                                "GenMZ" = "grey30",
+                                "No Uni" = "grey65",
+                                "Uni" = "grey30"),
+                     aesthetics = c("colour", "fill"))  +
+  plot_annotation(caption = str_wrap(caption, 120))
+
+```
+
+```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in the Workplace by Demographic Groups in Korea", fig.height = 9}
+#| label: fig-kd1mplot2
+
+annote_text <- tibble(
+  q = factor(levels(kd1_means %>% 
+                      filter(!item_type == "Politics") %>% 
+                      pull(q) %>% 
+                      fct_drop())[6], 
+  levels = levels(kd1_means %>% 
+                    filter(!item_type == "Politics") %>% 
+                    pull(q) %>%
+                    fct_drop())),
+  variable = factor(c("Gender", "Gender",
+                      "Generation", "Generation", "Generation",
+                      "Education", "Education"),
+                    levels = c("Gender", "Generation", "Education"),
+                    labels = c("Gender", "Generation", "Education")),
+  value = factor(levels(kd1_means$value),
+                 levels = levels(kd1_means$value)),
+  label = levels(kd1_means$value),
+  year = c(2006, 2004.5,  # workplace plot
+           2005, 2005.5, 2005,
+           2005, 2007),
+  mean = c(2.15, 2.4,
+           2.15, 2.33, 2.5,
+           2.2, 2.33))
+
+kd1_means %>%
+  filter(!item_type == "Politics") %>% 
+  ggplot() +
+  geom_rect(data = kd1_work_summary,
+            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
+            fill = "gray95",
+            color = "gray95",
+            alpha = .6) +
+  geom_text(data = annote_text,
+            aes(x = year, y = mean, color = value, label = label),
+            size = 3,
+            alpha = .9) +
+  geom_pointrange(aes(x = year, y = mean, 
+                      ymin = low, ymax = hi,
+                      color = value),
+                  fatten = 1, 
+                  alpha = .4) +
+  geom_line(aes(x = year, y = mean, color = value),
+            linetype = "dotted") +
+  facet_grid(q ~ variable,
+             scales = "free_y",
+             switch = "y",
+             labeller = label_wrap_gen(31)) +
+  theme_bw() +
+  theme(legend.position="none",
+        strip.background = element_blank(),
+        strip.text.y.left = element_text(angle = 0),
+        axis.text.x = element_text(angle = 90)) +
+  scale_x_continuous(limits = c(1995, 2026),
+                     breaks = seq(1995, 2025, by = 5),
+                     labels = seq(1995, 2025, by = 5)) +
+  scale_y_continuous(position = "right") +
+  labs(x = NULL, y = NULL) +
+  scale_color_manual(values = c("Men" = "grey70",
+                                "Women" = "grey30",
+                                "Boomer" = "grey70",
+                                "GenX" = "grey50",
+                                "GenMZ" = "grey30",
+                                "No Uni" = "grey70",
+                                "Uni" = "grey30"),
+                     aesthetics = c("colour", "fill"))  +
+  plot_annotation(caption = str_wrap("Shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016", 120))
+
+```
+
+
+
+
+
+
+## Do Women Chief Executives Trigger Backlash in the Public Elsewhere?
+
+[intro needed]
 
 ```{r women_execs0, eval=FALSE}
 pge_years <- pge_summary %>% 
@@ -806,6 +1177,7 @@ pge_women_execs + trends_women_execs
 
 ```
 
+Did the election of women to their country's presidency or premiership provoke negative movements in macroegalitarianism in other countries?
 Looking more broadly across the OECD allows us another opportunity to test the hypothesis that women chief executives, in contrast to the legislators we examined in Chapter 4, trigger public opinion backlash. 
 Although women's successes in winning the chief executive's office remain decidedly the exception rather than the rule, they have been growing more frequent over time across these countries.
 Including Park, our dataset includes PGE scores during the time in office of 21 women leaders who governed in Korea and fourteen other OECD countries.
@@ -820,225 +1192,7 @@ The right side of @fig-pge_women_execs shows how attitudes toward gender equalit
 During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
 On the other hand, the 80% credible intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
-Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality among the public. 
-
-
-
-\pagebreak
-### By Item
-
-```{r korea_data0, eval=FALSE}
-korea_data0 <- read_csv(here("paper",
-                             "korea",
-                             "data-raw",
-                             "korea_surveys.csv"),
-                        col_types = "cccccccc") %>% 
-  survey_setup() %>% 
-  filter(country == "South Korea") %>% 
-  filter(between(age, 18, 98))
-
-rio::export(korea_data0, 
-            here("paper",
-                 "korea",
-                 "data",
-                 "korea_data0.RData"))
-```
-
-```{r korea_data1, eval=FALSE}
-korea_data0 <- rio::import(here("paper",
-                                "korea",
-                                "data",
-                                "korea_data0.RData"))
-
-korea_data1 <- korea_data0 %>% 
-  remove_val_labels() %>% 
-  pivot_longer(cols = politics4:equalright4,
-               names_to = "item") %>% 
-  filter(!is.na(value) & !(str_detect(item, "5$") & year==2018)) %>% 
-  mutate(item_year = paste(item, year),
-         gender = factor(female, 
-                         levels = c(0, 1),
-                         labels = c("Men", "Women")),
-         year_birth = year - age,
-         gen = factor(case_when(year_birth <= 1965 ~ "Boomer",
-                         between(year_birth, 1966, 1981) ~ "GenX",
-                         year_birth >= 1982 & !year_birth==9999 ~ "GenMZ"),
-                      levels = c("Boomer", "GenX", "GenMZ")),
-         uni = factor(if_else(university == 1, "Uni", "No Uni")),
-         gen_gen_edu = factor(gender:gen:uni),
-         gge = as.numeric(factor(gen_gen_edu)))
-
-rio::export(korea_data1, 
-            here("paper",
-                 "korea",
-                 "data",
-                 "korea_data1.RData"))
-```
-
-```{r load_data}
-korea_data1 <- rio::import(here("paper",
-                                "korea",
-                                "data",
-                                "korea_data1.RData"))
-
-korea_questions <- read_csv(here("paper",
-                                 "korea",
-                                 "data-raw",
-                                 "korea_questions.csv"),
-                            col_types = "cc") %>% 
-  mutate(item_type = if_else(str_detect(item, "poli|^equal"),
-                             "Politics",
-                             "Workplace"))
-
-```
-
-```{r kd1_means_all}
-kd1_means_all <- korea_data1 %>% 
-  group_by(item, year) %>% 
-  summarize(mean = mean(value),
-            se = sd(as.numeric(value), na.rm = TRUE)/sqrt(n()),
-            low = mean - qnorm(.915)*se, #83% ci for 95% stat.sig. difference
-            hi = mean + qnorm(.915)*se,
-            .groups = "drop_last") %>% 
-  mutate(n = n()) %>% 
-  ungroup() %>% 
-  filter(!item == "income4") %>% 
-  arrange(-n) %>% 
-  left_join(korea_questions,
-            by = join_by(item)) %>% 
-  mutate(q = fct_reorder(question, n, .desc = TRUE))
-
-```
-
-```{r kd1_means}
-kd1_means <- map(c("gender", "gen", "uni"), function(var) {
-    korea_data1 %>%
-      group_by(year, item, .data[[var]]) %>% 
-      summarize(mean = mean(value),
-                se = sd(as.numeric(value), na.rm = TRUE)/sqrt(n()),
-                low = mean - se*1.372204, #83% ci for 95% stat.sig. difference
-                hi = mean + se*1.372204,
-                .groups = "drop")
-  }) %>% 
-  list_rbind() %>% 
-  pivot_longer(cols = c("gender", "gen", "uni"),
-               names_to = "variable") %>% 
-  filter(!is.na(value)) %>% 
-  group_by(item) %>% 
-  mutate(variable = factor(variable,
-                      levels = c("gender", "gen", "uni"),
-                      labels = c("Gender", "Generation", "Education")),
-         n = n()) %>%
-  ungroup() %>% 
-  filter(!item == "income4" & se < .3) %>% 
-  left_join(korea_questions, by = "item") %>% 
-  mutate(q = fct_reorder(question, n, .desc = TRUE))
-```
-
-```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Korea", fig.height = 9}
-#| label: fig-kd1allplot1
-
-caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
-
-kd1_poli_summary <- kd1_means_all %>% 
-              filter(item_type == "Politics") %>% 
-              mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
-  group_by(q) %>% 
-  summarize(year_min = 2013,
-            year_max = 2016,
-            mean = mean(mean))
-
-kd1_work_summary <- kd1_means_all %>% 
-              filter(item_type == "Workplace") %>% 
-              mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
-  group_by(q) %>% 
-  summarize(year_min = 2013,
-            year_max = 2016,
-            mean = mean(mean))
-
-poli_all <- kd1_means_all %>%
-  filter(item_type == "Politics") %>% 
-  mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
-  ggplot() +
-  geom_rect(data = kd1_poli_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6) +
-  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
-                  fatten = 1, 
-                  alpha = .5) +
-  geom_line(aes(x = year, y = mean),
-            linetype = "dotted") +
-  facet_grid(q ~ item_type,
-             scales = "free_y",
-             switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.left = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL)
-
-work_all <- kd1_means_all %>%
-  filter(item_type == "Workplace") %>% 
-  mutate(q = fct_reorder(question, n, .desc = TRUE)) %>% 
-  ggplot() +
-  geom_rect(data = kd1_work_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6)  +
-  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
-                  fatten = 1, 
-                  alpha = .5) +
-  geom_line(aes(x = year, y = mean),
-            linetype = "dotted") +
-  facet_grid(q ~ item_type,
-             scales = "free_y",
-             # switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.right = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  # scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL)
-
-layout <- c(
-  area(t = 1, l = 1, b = 697, r = 2),
-  area(t = 1, l = 3, b = 1000, r = 4)
-)
-
-poli_all + work_all + 
-  plot_layout(design = layout) + 
-  plot_annotation(caption = str_wrap(caption, 90))
-```
-
-One advantage of our focus on Korea in this chapter is that it allows us to look at individual survey items in ways that are not possible when taking the broad comparative vantage that we adopted earlier in the book.
-@fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
-The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
-Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years.
-
-Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly atypical.
-Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
-That they are not in this case suggests that something unusual---and so interesting---is going on.
-
-We also pause to note that the two exceptions appear upon closer examination to be perhaps not that exceptional.
-With regard to political equality, the only item that intersects with Park's years in office that shows an increase is "in general, men and women make equally good political leaders."
-The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
-Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
-And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
-It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views of women in positions of power, if only in the short run.
+Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere across the entire public.
 
 ```{r surveys_oecd_political, cache=TRUE}
 dcpo_input_raw_pge <- read_csv(here("paper",
@@ -1112,13 +1266,15 @@ surveys_oecd_political <- surveys_oecd %>%
 caption <- "Pale shaded regions indicate the years during which women served as chief executives in each country."
 
 surveys_oecd_political %>% 
-  filter(item == "polileader4") %>% 
+  filter(item == "polileader4" &
+           !country == "Lithuania") %>% # no overlap with woman in office
   ggplot() +
   geom_rect(aes(xmin = start_yq, xmax = end_yq),
             fill = "grey70",
             ymin = -Inf, ymax = Inf, alpha = 0.2,
             data = surveys_oecd_political %>% 
-              filter(item == "polileader4") %>% 
+              filter(item == "polileader4" &
+                       !country == "Lithuania") %>% 
               select(country, ends_with("_yq")) %>% 
               distinct()) +
   geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
@@ -1149,163 +1305,13 @@ These data are very thin---recall that in Chapter 3, we explained that the spars
 Among the surveys we used in Chapter 3 to generate the PGE scores, there are five other country-items asking about gender equality in politics that intersect with the time in office of women chief executives: three items of one country each, and a fourth with two countries.
 All but one of these country-item series consist of just two time points, and the other has only three.
 None of these five very short series exhibit discernibly declining levels of gender egalitarianism in the public during women's terms as chief executive.]
+
 There is one exception to this rule: Michelle Bachelet's second term as president of Chile.
-
-
-
-
-
-### Polarization: By Item, By Demografic
-
-```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
-#| label: fig-kd1mplot1
-
-caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
-
-annote_text <- tibble(
-  q = factor(levels(kd1_means %>% 
-                      filter(item_type == "Politics") %>% 
-                      pull(q) %>% 
-                      fct_drop())[4], 
-  levels = levels(kd1_means %>% 
-                    filter(item_type == "Politics") %>% 
-                    pull(q) %>%
-                    fct_drop())),
-  variable = factor(c("Gender", "Gender",
-                      "Generation", "Generation", "Generation",
-                      "Education", "Education"),
-                    levels = c("Gender", "Generation", "Education"),
-                    labels = c("Gender", "Generation", "Education")),
-  value = factor(levels(kd1_means$value),
-                 levels = levels(kd1_means$value)),
-                 label = levels(kd1_means$value),
-  year = c(2003.25, 2001.5, # politics plot
-           2001.75, 2002.25, 2001.75,
-           2002, 2003),
-  mean = c(1.71, 1.87,
-           1.71, 1.84, 1.92,
-           1.77, 1.82))
-
-kd1_means %>%
-  filter(item_type == "Politics") %>% 
-  ggplot() +
-  geom_rect(data = kd1_poli_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6) +
-  geom_text(data = annote_text,
-            aes(x = year, y = mean, label = label, color = value),
-            size = 3,
-            alpha = .9) +
-  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi, color = value),
-                  fatten = 1, 
-                  alpha = .5) +
-  geom_line(aes(x = year, y = mean, color = value),
-            linetype = "dotted") +
-  facet_grid(q ~ variable,
-             scales = "free_y",
-             switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.left = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL) +
-  scale_color_manual(values = c("Men" = "grey65",
-                                "Women" = "grey30",
-                                "Boomer" = "grey65",
-                                "GenX" = "grey50",
-                                "GenMZ" = "grey30",
-                                "No Uni" = "grey65",
-                                "Uni" = "grey30"),
-                     aesthetics = c("colour", "fill"))  +
-  plot_annotation(caption = str_wrap(caption, 120))
-
-```
-
-```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in the Workplace by Demographic Groups in Korea", fig.height = 9}
-#| label: fig-kd1mplot2
-
-annote_text <- tibble(
-  q = factor(levels(kd1_means %>% 
-                      filter(!item_type == "Politics") %>% 
-                      pull(q) %>% 
-                      fct_drop())[6], 
-  levels = levels(kd1_means %>% 
-                    filter(!item_type == "Politics") %>% 
-                    pull(q) %>%
-                    fct_drop())),
-  variable = factor(c("Gender", "Gender",
-                      "Generation", "Generation", "Generation",
-                      "Education", "Education"),
-                    levels = c("Gender", "Generation", "Education"),
-                    labels = c("Gender", "Generation", "Education")),
-  value = factor(levels(kd1_means$value),
-                 levels = levels(kd1_means$value)),
-  label = levels(kd1_means$value),
-  year = c(2006, 2004.5,  # workplace plot
-           2005, 2005.5, 2005,
-           2005, 2007),
-  mean = c(2.15, 2.4,
-           2.15, 2.33, 2.5,
-           2.2, 2.33))
-
-kd1_means %>%
-  filter(!item_type == "Politics") %>% 
-  ggplot() +
-  geom_rect(data = kd1_work_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6) +
-  geom_text(data = annote_text,
-            aes(x = year, y = mean, color = value, label = label),
-            size = 3,
-            alpha = .9) +
-  geom_pointrange(aes(x = year, y = mean, 
-                      ymin = low, ymax = hi,
-                      color = value),
-                  fatten = 1, 
-                  alpha = .4) +
-  geom_line(aes(x = year, y = mean, color = value),
-            linetype = "dotted") +
-  facet_grid(q ~ variable,
-             scales = "free_y",
-             switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.left = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL) +
-  scale_color_manual(values = c("Men" = "grey70",
-                                "Women" = "grey30",
-                                "Boomer" = "grey70",
-                                "GenX" = "grey50",
-                                "GenMZ" = "grey30",
-                                "No Uni" = "grey70",
-                                "Uni" = "grey30"),
-                     aesthetics = c("colour", "fill"))  +
-  plot_annotation(caption = str_wrap("Shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016", 120))
-
-```
-
 
 
 ## Executive Approval
 
-Re Theresa May @Rifkin2018
+Re Theresa May @Rifkind2018
 
 
 ```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Women Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
@@ -1380,5 +1386,3 @@ Negative net approval ratings are associated with flat or declining macroegalita
 https://statmodeling.stat.columbia.edu/2017/02/06/not-kill-statistical-significance-makes-stronger-fallacy/
 
 
-
-> heteroskedasticity here? incorporate legislatures somehow
