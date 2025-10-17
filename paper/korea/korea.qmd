@@ -1,11 +1,11 @@
 # Macroegalitarianism and Women as Chief Executives: The Case of Korea
 
-As we noted in our opening chapters, perceptions that moves toward gender equality prompt backlashes in public opinion are widespread.
+The perception that moves toward gender equality prompt backlashes in public opinion is, as we noted in our opening chapters, widespread.
 Therefore, it would come as no surprise if there are, among those reading these pages, some who will find at least some of the conclusions of the two previous chapters too good to believe, in particular those regarding public responsiveness.
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is the exact opposite of what many observers fear is true.
 
-Korea's recent political history provides a strong basis for their fears that public opinion lashes back against women's successes in winning office and other moves toward gender equality.
+Korea's recent political history seems to provide a strong basis for these fears that public opinion lashes back against women's successes in winning office and other moves toward gender equality.
 If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold the office, and then, two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
 At least on its face, this sequence of events appears to contradict our conclusions.
 
@@ -509,8 +509,6 @@ When Park started her term in 2013, the country had a PGE score of 50.1 (80% cre
 But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's legislative officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
 While estimated to be positive, the difference in PGE scores over these years---1.2 points---is not credibly different from zero (80% c.i.: -1.0 to 4.0).
 
-
-
 ```{r korea_data0, eval=FALSE}
 korea_data0 <- read_csv(here("paper",
                              "korea",
@@ -600,8 +598,8 @@ kd1_means <- map(c("gender", "gen", "uni"), function(var) {
       group_by(year, item, .data[[var]]) %>% 
       summarize(mean = mean(value),
                 se = sd(as.numeric(value), na.rm = TRUE)/sqrt(n()),
-                low = mean - se*1.372204, #83% ci for 95% stat.sig. difference
-                hi = mean + se*1.372204,
+                low = mean - se*qnorm(.9),
+                hi = mean + se*qnorm(.9),
                 .groups = "drop")
   }) %>% 
   list_rbind() %>% 
@@ -679,7 +677,7 @@ work_all <- kd1_means_all %>%
             color = "gray95",
             alpha = .6)  +
   geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
-                  fatten = 1, 
+                  size = 1, 
                   alpha = .5) +
   geom_line(aes(x = year, y = mean),
             linetype = "dotted") +
@@ -712,7 +710,7 @@ We can dig even deeper, though.
 One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not possible when taking the broad comparative vantage that we adopted earlier in the book.
 @fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
 The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
-Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years.
+Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years---if anything, they typically show a drop before Park took office followed by a recovery during her term.
 
 Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly atypical.
 Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
@@ -725,7 +723,8 @@ Indeed, the survey on which this observation is based, Pew Research Center's 202
 And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
 It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.
 
-### Polarization: By Item, By Demografic
+One more point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions.
+As we have been looking at _average_ responses, if this is true, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and counterbalanced by others.
 
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
 #| label: fig-kd1mplot1
@@ -871,14 +870,17 @@ kd1_means %>%
 
 ```
 
+@fig-kd1mplot1 breaks down the responses to the four survey items on gender equality in politics by gender, age, and education, with darker lines representing women, younger generations, and those with university educations, respectively.^[
+Following common practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., Koo2024].]
+There is little sign of polarization.
 
 
+\pagebreak
 
+## Have Women Leaders Triggered Public Opinion Backlash Elsewhere?
 
-
-## Do Women Chief Executives Trigger Backlash in the Public Elsewhere?
-
-[intro needed]
+In the previous section, we found that the Korean public's general attitudes toward gender equality in the public sphere did not decline over Park's presidency, but that its views toward women's _leadership_ specifically did fall during those years.
+Moreover, these patterns, if evidently fairly short-lived, were broadly shared across men and women, young and old, and more and less educated.
 
 ```{r women_execs0, eval=FALSE}
 pge_years <- pge_summary %>% 
@@ -1131,7 +1133,7 @@ pge_women_execs <- pge_summary %>%
                                     angle = 90,
                                     vjust = .45),
         plot.title = element_text(size=8)) + 
-  ggtitle("Trends in PGE Scores\nin OECD Countries\nOver Women Leaders' Terms") +
+  ggtitle("Trends in PGE Scores\nin Other OECD Countries\nOver Women Leaders' Terms") +
   plot_annotation(caption = str_wrap(caption, 90))
 
 trends_women_execs <- pge_diff %>% 
@@ -1177,7 +1179,7 @@ pge_women_execs + trends_women_execs
 
 ```
 
-Did the election of women to their country's presidency or premiership provoke negative movements in macroegalitarianism in other countries?
+Did the election of women to the presidency or premiership provoke negative movements in macroegalitarianism in other countries?
 Looking more broadly across the OECD allows us another opportunity to test the hypothesis that women chief executives, in contrast to the legislators we examined in Chapter 4, trigger public opinion backlash. 
 Although women's successes in winning the chief executive's office remain decidedly the exception rather than the rule, they have been growing more frequent over time across these countries.
 Including Park, our dataset includes PGE scores during the time in office of 21 women leaders who governed in Korea and fourteen other OECD countries.
