@@ -1,12 +1,12 @@
 # Macroegalitarianism and Women as Chief Executives: The Case of Korea
 
 The perception that moves toward gender equality prompt backlashes in public opinion is, as we noted in our opening chapters, widespread.
-Therefore, it would come as no surprise if there are, among those reading these pages, some who will find at least some of the conclusions of the two previous chapters too good to believe, in particular those regarding public responsiveness.
+Therefore, it would come as no surprise if there are, among those reading these pages, some who will find at least some of the conclusions of our two previous chapters on dynamic democracy too good to believe, in particular those regarding public responsiveness.
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is the exact opposite of what many observers fear is true.
 
 Korea's recent political history seems to provide a strong basis for these fears that public opinion lashes back against women's successes in winning office and other moves toward gender equality.
-If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold the office, and then, two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
+If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold that office, and then, just two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
 At least on its face, this sequence of events appears to contradict our conclusions.
 
 In this chapter, we [dive deeper into the Korean case to take advantage of strengths of case studies]
@@ -400,48 +400,6 @@ eapm0 <- rio::import(here("paper",
          year_month = year + month/12)
 ```
 
-```{r eap_korea}
-# Park is in office from 2013/02/09 to 2016/12/09
-# Executive approval data for Feb 2013 seems to be for previous president, 
-# so start with March (month 2 from 0 to 11)
-
-caption <- "Source: Executive Approval Project (Carlin et al. 2025)"
-
-eapm0 %>% 
-  filter(country_name == "South Korea" &
-           between(year_month, 2013+2/12, 2016+11/12)) %>% 
-  mutate(approval_net = Approval_Not_Smoothed - Disapproval_Not_Smoothed) %>% 
-  ggplot(aes(x = year_month, y = approval_net)) +
-  theme_bw() +
-  geom_point() +
-  geom_line(linetype = "dotted") +
-    theme(legend.position = "none") +
-  coord_cartesian(xlim = c(2013, 2017.3)) +
-  geom_hline(aes(yintercept = 0),
-             color = "gray50",
-             linetype = "dashed") +
-  labs(x = NULL, y = "Net Presidential Approval,\nPark Geun-hye") +
-  geom_text(data = tibble(year_month = 2016.4,
-                          approval_net = -33),
-            label = "Choi Soon-sil\nscandal breaks",
-            size = 3) +
-  geom_text(data = tibble(year_month = 2016.2,
-                          approval_net = -53),
-            label = "Candlelight protests spread",
-            size = 3) +
-  geom_text(data = tibble(year_month = 2017.2,
-                          approval_net = -50),
-            label = "Impeachment",
-            size = 3) +
-  # theme(axis.text.x  = element_text(size = 8,
-  #                                   angle = 90,
-  #                                   vjust = .45),
-  #       plot.title = element_text(size=8)) + 
-  plot_annotation(caption = str_wrap(caption, 90))
-
-
-```
-
 
 2017 election moved up to May; Moon wins five-way race with 41.1% of vote and a decisive 17.1% margin of victory 
 <!-- https://en.wikipedia.org/wiki/2017_South_Korean_presidential_election -->
@@ -677,7 +635,7 @@ work_all <- kd1_means_all %>%
             color = "gray95",
             alpha = .6)  +
   geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi),
-                  size = 1, 
+                  fatten = 1, 
                   alpha = .5) +
   geom_line(aes(x = year, y = mean),
             linetype = "dotted") +
@@ -871,7 +829,7 @@ kd1_means %>%
 ```
 
 @fig-kd1mplot1 breaks down the responses to the four survey items on gender equality in politics by gender, age, and education, with darker lines representing women, younger generations, and those with university educations, respectively.^[
-Following common practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., Koo2024].]
+Following popular and scholarly practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., Koo2024].]
 There is little sign of polarization.
 
 
@@ -1312,6 +1270,52 @@ There is one exception to this rule: Michelle Bachelet's second term as presiden
 
 
 ## Executive Approval
+
+
+
+```{r eap_korea, fig.cap="Korean Presidential Approval During the Park Administration", fig.height=4}
+#| label: fig-park_eap 
+# Park is in office from 2013/02/09 to 2016/12/09
+# Executive approval data for Feb 2013 seems to be for previous president, 
+# so start with March (month 2 from 0 to 11)
+
+caption <- "Source: Executive Approval Project (Carlin et al. 2025)"
+
+eapm0 %>% 
+  filter(country_name == "South Korea" &
+           between(year_month, 2013+2/12, 2016+11/12)) %>% 
+  mutate(approval_net = Approval_Not_Smoothed - Disapproval_Not_Smoothed) %>% 
+  ggplot(aes(x = year_month, y = approval_net)) +
+  theme_bw() +
+  geom_point() +
+  geom_line(linetype = "dotted") +
+    theme(legend.position = "none") +
+  coord_cartesian(xlim = c(2013, 2017.3)) +
+  geom_hline(aes(yintercept = 0),
+             color = "gray50",
+             linetype = "dashed") +
+  labs(x = NULL, y = "Net Presidential Approval,\nPark Geun-hye") +
+  geom_text(data = tibble(year_month = 2016.4,
+                          approval_net = -33),
+            label = "Choi Soon-sil\nscandal breaks",
+            size = 3) +
+  geom_text(data = tibble(year_month = 2016.2,
+                          approval_net = -53),
+            label = "Candlelight protests spread",
+            size = 3) +
+  geom_text(data = tibble(year_month = 2017.2,
+                          approval_net = -50),
+            label = "Impeachment",
+            size = 3) +
+  # theme(axis.text.x  = element_text(size = 8,
+  #                                   angle = 90,
+  #                                   vjust = .45),
+  #       plot.title = element_text(size=8)) + 
+  plot_annotation(caption = str_wrap(caption, 90))
+```
+
+Park's presidential approval is shown in 
+
 
 Re Theresa May @Rifkind2018
 
