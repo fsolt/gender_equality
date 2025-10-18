@@ -462,7 +462,7 @@ Did Park's success in winning the Blue House as Korea's first woman president ca
 @fig-koreapge plots the evolution of Korea's PGE scores before, during, and after Park's time in office.
 The years during which Park held office are shaded in pale gray.
 The PGE scores provide no clear evidence of a decline in gender egalitarian attitudes in Korea during these years.
-When Park started her term in 2013, the country had a PGE score of 50.1 (80% credible interval: 46.2 to 52.2); when Park was removed from office in December 2016, Korea's PGE score was 51.3 (80% c.i.: 48.1 to 54.5).
+When Park started her term in 2013, the country had a PGE score of 50.1 (80% credible interval: 46.2 to 52.2); when Park was removed from office in December 2016, Korea's PGE score was estimated to have _risen_ to 51.3 (80% c.i.: 48.1 to 54.5).
 
 But neither do these data show clear evidence of the _increase_ in macroegalitarianism that the cross-national results on women's legislative officeholding we presented in Chapter 4 would lead us to expect to occur during a time when the highest political office in the country was held by a woman. 
 While estimated to be positive, the difference in PGE scores over these years---1.2 points---is not credibly different from zero (80% c.i.: -1.0 to 4.0).
@@ -670,9 +670,9 @@ One advantage of our focus on Korea in this chapter is that it facilitates looki
 The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
 Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years---if anything, they typically show a drop before Park took office followed by a recovery during her term.
 
-Before exploring further, it is worth pausing a moment to remember that this pattern is distinctly atypical.
+Before exploring further, it is worth pausing a moment to recall that this pattern is distinctly atypical.
 Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are typically tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
-That they are not in this case suggests that something unusual---and so interesting---is going on.
+That they are not in this case suggests that something unusual---and therefore interesting---is going on.
 
 We also pause to note that the two exceptions appear upon closer examination to be perhaps not that exceptional.
 With regard to political equality, the only item that intersects with Park's years in office that shows an increase is "in general, men and women make equally good political leaders."
@@ -682,7 +682,7 @@ And with regard to equality in the workplace, the only item for which egalitaria
 It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.
 
 One more point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions.
-As we have been looking at _average_ responses, if this is true, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and counterbalanced by others.
+If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, in the entire public's opinion, counterbalanced by other groups.
 
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
 #| label: fig-kd1mplot1
@@ -828,7 +828,7 @@ kd1_means %>%
 
 ```
 
-@fig-kd1mplot1 breaks down the responses to the four survey items on gender equality in politics by gender, age, and education, with darker lines representing women, younger generations, and those with university educations, respectively.^[
+@fig-kd1mplot1 breaks down the responses to the four survey items on gender equality in politics by gender, generation, and education, with darker lines representing women, younger generations, and those with university educations, respectively.^[
 Following popular and scholarly practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., Koo2024].]
 There is little sign of polarization.
 
