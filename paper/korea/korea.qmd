@@ -5,7 +5,7 @@ Therefore, it would come as no surprise if there are, among those reading these 
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is the exact opposite of what many observers fear is true.
 
-Korea's recent political history seems to provide a strong basis for these fears that public opinion lashes back against women's successes in winning office and other moves toward gender equality.
+Korea's recent political history seems to provide a strong basis for these fears that public opinion lashes back against women's successes in winning office and against other moves toward gender equality.
 If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold that office, and then, just two campaigns later, electing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
 At least on its face, this sequence of events appears to contradict our conclusions.
 
@@ -682,7 +682,7 @@ And with regard to equality in the workplace, the only item for which egalitaria
 It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.
 
 One more point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions.
-If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, in the entire public's opinion, counterbalanced by other groups.
+If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, within the entire public's opinion, counterbalanced by the views of other groups.
 
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
 #| label: fig-kd1mplot1
@@ -828,9 +828,69 @@ kd1_means %>%
 
 ```
 
-@fig-kd1mplot1 breaks down the responses to the four survey items on gender equality in politics by gender, generation, and education, with darker lines representing women, younger generations, and those with university educations, respectively.^[
-Following popular and scholarly practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., Koo2024].]
-There is little sign of polarization.
+We investigate this possibility in @fig-kd1mplot1.
+Its plots breaks down the responses to the four survey items on gender equality in politics by gender, generation, and education, with darker lines representing women, younger cohorts, and those with university educations, respectively.^[
+Following popular and scholarly practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., @Koo2024].]
+There are few signs that polarization is working to obscure backlash within these groups.
+Instead, responses to most items tend to move similarly across groups.  
+
+```{r, diff_functions}
+
+rssq <- function(x) {
+  sqrt(x[1]^2+x[2]^2)
+}
+
+mean_text <- function(item1, value1, years) {
+  kd1_means %>% 
+    filter(item == item1 &
+             value == value1 &
+             year %in% years) %>% 
+    pull(mean) %>% 
+    diff() %>% 
+    abs() %>% 
+    sprintf("%.2f", .)
+}
+
+ci_text <- function(item1, value1, years) {
+  point_estimate <- kd1_means %>% 
+    filter(item == item1 &
+             value == value1 &
+             year %in% years) %>% 
+    pull(mean) %>%
+    diff() %>% 
+    abs()
+  
+  whisker <- kd1_means %>% 
+    filter(item == item1 &
+             value == value1 &
+             year %in% years) %>% 
+    pull(se) %>% 
+    rssq() %>% 
+    `*`(qnorm(.9))
+  
+  paste("80% c.i.:",
+        sprintf("%.2f", point_estimate - whisker),
+        "to",
+        sprintf("%.2f", point_estimate + whisker))
+}
+
+```
+
+
+A possible partial exception to the lack of evidence of polarization is the item, "Women should not be involved in politics as much as men," and shown in the second row of the figure.
+This item was asked in the third wave of the AsianBarometer, fielded in Korea in 2011, two years before Park's election; its fourth wave, fielded in 2015, two years into her term; and its fifth wave, fielded in 2019, two years after Korea's Constitutional Court confirmed her impeachment.
+For that item, women's views did not decline much over this time (`r mean_text("politics4", "Women", c(2011, 2019))` points on the item's four-point scale; `r ci_text("politics4", "Women", c(2011, 2019))`).
+Men, on the other hand, were sharply less likely to disagree with the statement in 2015 (by `r mean_text("politics4", "Men", c(2011, 2015))` points; `r ci_text("politics4", "Men", c(2011, 2015))`) and 2019 (by `r mean_text("politics4", "Men", c(2011, 2019))` points; 80% c.i.: `r ci_text("politics4", "Men", c(2011, 2019))`) than in 2011.
+But even this item showed more convergence than divergence across generations (in the center column) and levels of education (on the right-hand side).
+And, in any event, it was not necessary to look separately at men's and women's responses to see a decline in the public's gender egalitarianism on this item; this decline is already visible in @fig-kd1allplot1.
+
+@fig-kd1mplot2 provides hints of backlash that were not previously visible by expanding this analysis to groups' responses to survey questions on gender equality in the workplace.
+Here there are a few signs that polarization concealed backlash in some subsets of the entire public.
+First, the hint of a decline in egalitarian responses from 2016 to 2018 to the statement "it is more important for a wife to help her husband's career to have her own," when all respondents are considered in @fig-kd1allplot1 is revealed in the third row of this plot to have been the combination of steeper falls among baby boomers and those without university education and modest rises within people in other demographic groups. 
+And second, baby boomers were less likely to disagree that "when jobs are scarce, men should have more right to a job than women" (in the bottom-most row) by `r mean_text("job4", "Boomer", c(2010, 2019))` points on that question's four point scale (`r ci_text("job4", "Boomer", c(2010, 2019))`) in 2019 than in 2010, a decline in egalitarianism outweighed by the increases among younger cohorts.
+Some negative reactions to Park's presidency are evident, then.
+But it does not appear that there was a widespread backlash to gender equality triggered by Park's presidency that was hidden by polarization in the public's views.
+
 
 
 \pagebreak
@@ -838,7 +898,7 @@ There is little sign of polarization.
 ## Have Women Leaders Triggered Public Opinion Backlash Elsewhere?
 
 In the previous section, we found that the Korean public's general attitudes toward gender equality in the public sphere did not decline over Park's presidency, but that its views toward women's _leadership_ specifically did fall during those years.
-Moreover, these patterns, if evidently fairly short-lived, were broadly shared across men and women, young and old, and more and less educated.
+Moreover, these patterns, if evidently fairly short-lived, were broadly shared across men and women, young and old, and those with more and less education.
 
 ```{r women_execs0, eval=FALSE}
 pge_years <- pge_summary %>% 
@@ -1152,7 +1212,7 @@ The right side of @fig-pge_women_execs shows how attitudes toward gender equalit
 During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
 On the other hand, the 80% credible intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
-Taken as a whole, then, the evidence from the PGE scores does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere across the entire public.
+Taken as a whole, then, the evidence from the PGE scores across the OECD, like that for Korea, does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere across the entire public.
 
 ```{r surveys_oecd_political, cache=TRUE}
 dcpo_input_raw_pge <- read_csv(here("paper",
@@ -1259,7 +1319,7 @@ surveys_oecd_political %>%
    plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-To help figure out what that might be, we first turn to other countries that have had women chief executives.
+**REVISE here** To help figure out what that might be, we first turn to other countries that have had women chief executives.
 @fig-xc_polileader4 shows how mean disagreement with the statement "men make better political leaders than women" changed over time in the eleven countries for which these series intersected with the terms of women chief executives.
 These data are very thin---recall that in Chapter 3, we explained that the sparsity of the existing data was an important motivation for creating the PGE scores---but they show very little evidence of declines during the years in which women held office.^[
 Among the surveys we used in Chapter 3 to generate the PGE scores, there are five other country-items asking about gender equality in politics that intersect with the time in office of women chief executives: three items of one country each, and a fourth with two countries.
