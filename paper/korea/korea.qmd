@@ -1,4 +1,4 @@
-# Macroegalitarianism and Women as Chief Executives: The Case of Korea
+# Macroegalitarianism and Women as Chief Executives: The Case of South Korea
 
 The perception that moves toward gender equality prompt backlashes in public opinion is, as we noted in our opening chapters, widespread.
 Therefore, it would come as no surprise if there are, among those reading these pages, some who will find at least some of the conclusions of our two previous chapters on dynamic democracy too good to believe, in particular those regarding public responsiveness.
@@ -573,6 +573,12 @@ kd1_means <- map(c("gender", "gen", "uni"), function(var) {
   filter(!item == "income4" & se < .3) %>% 
   left_join(korea_questions, by = "item") %>% 
   mutate(q = fct_reorder(question, n, .desc = TRUE))
+
+rio::export(kd1_means, 
+            here::here("paper",
+                       "korea",
+                       "data-raw",
+                       "kd1_means.rda"))
 ```
 
 ```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Korea", fig.height = 9}
@@ -679,219 +685,12 @@ With regard to political equality, the only item that intersects with Park's yea
 The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
 Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
 And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
-It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.
-
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.^[
 One more point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions.
 If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, within the entire public's opinion, counterbalanced by the views of other groups.
-
-```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in Politics by Demographic Groups in Korea", fig.height = 9}
-#| label: fig-kd1mplot1
-
-caption <- "All survey items are coded so that more egalitarian responses have higher values. The shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016."
-
-annote_text <- tibble(
-  q = factor(levels(kd1_means %>% 
-                      filter(item_type == "Politics") %>% 
-                      pull(q) %>% 
-                      fct_drop())[4], 
-  levels = levels(kd1_means %>% 
-                    filter(item_type == "Politics") %>% 
-                    pull(q) %>%
-                    fct_drop())),
-  variable = factor(c("Gender", "Gender",
-                      "Generation", "Generation", "Generation",
-                      "Education", "Education"),
-                    levels = c("Gender", "Generation", "Education"),
-                    labels = c("Gender", "Generation", "Education")),
-  value = factor(levels(kd1_means$value),
-                 levels = levels(kd1_means$value)),
-                 label = levels(kd1_means$value),
-  year = c(2003.25, 2001.5, # politics plot
-           2001.75, 2002.25, 2001.75,
-           2002, 2003),
-  mean = c(1.71, 1.87,
-           1.71, 1.84, 1.92,
-           1.77, 1.82))
-
-kd1_means %>%
-  filter(item_type == "Politics") %>% 
-  ggplot() +
-  geom_rect(data = kd1_poli_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6) +
-  geom_text(data = annote_text,
-            aes(x = year, y = mean, label = label, color = value),
-            size = 3,
-            alpha = .9) +
-  geom_pointrange(aes(x = year, y = mean, ymin = low, ymax = hi, color = value),
-                  fatten = 1, 
-                  alpha = .5) +
-  geom_line(aes(x = year, y = mean, color = value),
-            linetype = "dotted") +
-  facet_grid(q ~ variable,
-             scales = "free_y",
-             switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.left = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL) +
-  scale_color_manual(values = c("Men" = "grey65",
-                                "Women" = "grey30",
-                                "Boomer" = "grey65",
-                                "GenX" = "grey50",
-                                "GenMZ" = "grey30",
-                                "No Uni" = "grey65",
-                                "Uni" = "grey30"),
-                     aesthetics = c("colour", "fill"))  +
-  plot_annotation(caption = str_wrap(caption, 120))
-
-```
-
-```{r, fig.cap="Trends in Mean Responses to Survey Items on Gender Equality in the Workplace by Demographic Groups in Korea", fig.height = 9}
-#| label: fig-kd1mplot2
-
-annote_text <- tibble(
-  q = factor(levels(kd1_means %>% 
-                      filter(!item_type == "Politics") %>% 
-                      pull(q) %>% 
-                      fct_drop())[6], 
-  levels = levels(kd1_means %>% 
-                    filter(!item_type == "Politics") %>% 
-                    pull(q) %>%
-                    fct_drop())),
-  variable = factor(c("Gender", "Gender",
-                      "Generation", "Generation", "Generation",
-                      "Education", "Education"),
-                    levels = c("Gender", "Generation", "Education"),
-                    labels = c("Gender", "Generation", "Education")),
-  value = factor(levels(kd1_means$value),
-                 levels = levels(kd1_means$value)),
-  label = levels(kd1_means$value),
-  year = c(2006, 2004.5,  # workplace plot
-           2005, 2005.5, 2005,
-           2005, 2007),
-  mean = c(2.15, 2.4,
-           2.15, 2.33, 2.5,
-           2.2, 2.33))
-
-kd1_means %>%
-  filter(!item_type == "Politics") %>% 
-  ggplot() +
-  geom_rect(data = kd1_work_summary,
-            aes(xmin = year_min, xmax = year_max, ymin = -Inf, ymax = Inf),
-            fill = "gray95",
-            color = "gray95",
-            alpha = .6) +
-  geom_text(data = annote_text,
-            aes(x = year, y = mean, color = value, label = label),
-            size = 3,
-            alpha = .9) +
-  geom_pointrange(aes(x = year, y = mean, 
-                      ymin = low, ymax = hi,
-                      color = value),
-                  fatten = 1, 
-                  alpha = .4) +
-  geom_line(aes(x = year, y = mean, color = value),
-            linetype = "dotted") +
-  facet_grid(q ~ variable,
-             scales = "free_y",
-             switch = "y",
-             labeller = label_wrap_gen(31)) +
-  theme_bw() +
-  theme(legend.position="none",
-        strip.background = element_blank(),
-        strip.text.y.left = element_text(angle = 0),
-        axis.text.x = element_text(angle = 90)) +
-  scale_x_continuous(limits = c(1995, 2026),
-                     breaks = seq(1995, 2025, by = 5),
-                     labels = seq(1995, 2025, by = 5)) +
-  scale_y_continuous(position = "right") +
-  labs(x = NULL, y = NULL) +
-  scale_color_manual(values = c("Men" = "grey70",
-                                "Women" = "grey30",
-                                "Boomer" = "grey70",
-                                "GenX" = "grey50",
-                                "GenMZ" = "grey30",
-                                "No Uni" = "grey70",
-                                "Uni" = "grey30"),
-                     aesthetics = c("colour", "fill"))  +
-  plot_annotation(caption = str_wrap("Shaded region indicates the years of Korea's first woman president, Park Geun-hye, from her election in 2013 to her impeachment and removal for corruption in 2016", 120))
-
-```
-
-We investigate this possibility in @fig-kd1mplot1.
-Its plots breaks down the responses to the four survey items on gender equality in politics by gender, generation, and education, with darker lines representing women, younger cohorts, and those with university educations, respectively.^[
-Following popular and scholarly practice in Korea, younger adults---millenials and members of Generation Z---are combined here into "Generation MZ" [see, e.g., @Koo2024].]
-There are few signs that polarization is working to obscure backlash within these groups.
-Instead, responses to most items tend to move similarly across groups.  
-
-```{r, diff_functions}
-
-rssq <- function(x) {
-  sqrt(x[1]^2+x[2]^2)
-}
-
-mean_text <- function(item1, value1, years) {
-  kd1_means %>% 
-    filter(item == item1 &
-             value == value1 &
-             year %in% years) %>% 
-    pull(mean) %>% 
-    diff() %>% 
-    abs() %>% 
-    sprintf("%.2f", .)
-}
-
-ci_text <- function(item1, value1, years) {
-  point_estimate <- kd1_means %>% 
-    filter(item == item1 &
-             value == value1 &
-             year %in% years) %>% 
-    pull(mean) %>%
-    diff() %>% 
-    abs()
-  
-  whisker <- kd1_means %>% 
-    filter(item == item1 &
-             value == value1 &
-             year %in% years) %>% 
-    pull(se) %>% 
-    rssq() %>% 
-    `*`(qnorm(.9))
-  
-  paste("80% c.i.:",
-        sprintf("%.2f", point_estimate - whisker),
-        "to",
-        sprintf("%.2f", point_estimate + whisker))
-}
-
-```
-
-
-A possible partial exception to the lack of evidence of polarization is the item, "Women should not be involved in politics as much as men," and shown in the second row of the figure.
-This item was asked in the third wave of the AsianBarometer, fielded in Korea in 2011, two years before Park's election; its fourth wave, fielded in 2015, two years into her term; and its fifth wave, fielded in 2019, two years after Korea's Constitutional Court confirmed her impeachment.
-For that item, women's views did not decline much over this time (`r mean_text("politics4", "Women", c(2011, 2019))` points on the item's four-point scale; `r ci_text("politics4", "Women", c(2011, 2019))`).
-Men, on the other hand, were sharply less likely to disagree with the statement in 2015 (by `r mean_text("politics4", "Men", c(2011, 2015))` points; `r ci_text("politics4", "Men", c(2011, 2015))`) and 2019 (by `r mean_text("politics4", "Men", c(2011, 2019))` points; 80% c.i.: `r ci_text("politics4", "Men", c(2011, 2019))`) than in 2011.
-But even this item showed more convergence than divergence across generations (in the center column) and levels of education (on the right-hand side).
-And, in any event, it was not necessary to look separately at men's and women's responses to see a decline in the public's gender egalitarianism on this item; this decline is already visible in @fig-kd1allplot1.
-
-@fig-kd1mplot2 provides hints of backlash that were not previously visible by expanding this analysis to groups' responses to survey questions on gender equality in the workplace.
-Here there are a few signs that polarization concealed backlash in some subsets of the entire public.
-First, the hint of a decline in egalitarian responses from 2016 to 2018 to the statement "it is more important for a wife to help her husband's career to have her own," when all respondents are considered in @fig-kd1allplot1 is revealed in the third row of this plot to have been the combination of steeper falls among baby boomers and those without university education and modest rises within people in other demographic groups. 
-And second, baby boomers were less likely to disagree that "when jobs are scarce, men should have more right to a job than women" (in the bottom-most row) by `r mean_text("job4", "Boomer", c(2010, 2019))` points on that question's four point scale (`r ci_text("job4", "Boomer", c(2010, 2019))`) in 2019 than in 2010, a decline in egalitarianism outweighed by the increases among younger cohorts.
-Some negative reactions to Park's presidency are evident, then.
-But it does not appear that there was a widespread backlash to gender equality triggered by Park's presidency that was hidden by polarization in the public's views.
-
-
+Appendix D breaks down the responses to the available survey items on gender equality in Korea by gender, generation, and education.
+Responses generally move similarly across these groups.
+There are few signs that polarization worked to obscure backlash in gender egalitarianism in Korea.]
 
 \pagebreak
 
@@ -1326,14 +1125,15 @@ Among the surveys we used in Chapter 3 to generate the PGE scores, there are fiv
 All but one of these country-item series consist of just two time points, and the other has only three.
 None of these five very short series exhibit discernibly declining levels of gender egalitarianism in the public during women's terms as chief executive.]
 
-There is one exception to this rule: Michelle Bachelet's second term as president of Chile.
+There is one exception to this rule: Michelle Bachelet's second term as president of Chile. **More**
 
 
 ## Executive Approval
 
+These patterns suggest some support for the view that when women hold chief executive office, their high visibility in a traditionally masculine domain may trigger a distinctive response in macroegalitarianism.
+However, the case of Park in South Korea---along with that of Bachelet in Chile---suggest that public opinion backlash is not triggered by women's successes but instead by their failures.
 
-
-```{r eap_korea, fig.cap="Korean Presidential Approval During the Park Administration", fig.height=4}
+```{r, fig.cap="Korean Presidential Approval During the Park Administration", fig.height=4}
 #| label: fig-park_eap 
 # Park is in office from 2013/02/09 to 2016/12/09
 # Executive approval data for Feb 2013 seems to be for previous president, 
@@ -1374,7 +1174,11 @@ eapm0 %>%
   plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-Park's presidential approval is shown in 
+EAP data
+
+Park's presidential approval is shown in @fig-park_eap.
+
+
 
 
 Re Theresa May @Rifkind2018
@@ -1386,9 +1190,12 @@ Re Theresa May @Rifkind2018
 pge_eap <- pge %>% 
   split(pge$draw) %>% 
   map(. %>% right_join(women_execs_long1 %>% 
+                         group_by(name) %>%
+                         filter(last(year_quarter) - 
+                                  first(year_quarter) >= 2) %>% 
                          ungroup() %>% 
                          mutate(name2 = str_extract(name2,
-                                                   "[A-Z][a-złóðáč-]*[A-Z]?[a-z]* ?I*V?$") %>% 
+                                                   "[A-Z][a-złóðáčš-]*[A-Z]?[a-z]* ?I*V?$") %>% 
                                   str_replace("Geun-hye", "Park")) %>% 
                          select(country, year, name2, approval_net), 
                        by = c("country", "year")) %>%
@@ -1406,7 +1213,7 @@ pge_eap_cor <- map(pge_eap,
                                         use = "pairwise.complete.obs"))) %>% 
   unlist() %>% 
   mean() %>% 
-  round(2) %>% 
+  sprintf("%.2f", .) %>% 
   paste0("R = ", .)
 
 pge_eap_label <- tibble(pge_diff = 12,
@@ -1445,7 +1252,7 @@ pge_eap1 %>%
 ```
 
 The bivariate relationship between the change in PGE scores during a term of a woman chief executive and her mean net approval during that term is displayed in @fig-pge_eap.
-Even with the large uncertainties in the change in PGE scores and the limited number of observations---executive approval data is only available for 23 terms of women chief executives in the Executive Approval Project dataset---the positive relationship is still evident.
+Even with the large uncertainties in the change in PGE scores and the limited number of observations---the Executive Approval Project dataset includes executive approval data for the terms of only `r nrow(pge_eap1)` women chief executives who served at least two years in office---the positive relationship is still evident.
 High positive net approval ratings for women chief executives are associated with increases over their terms in the public's gender egalitarian attitudes.
 Negative net approval ratings are associated with flat or declining macroegalitarianism.
 
