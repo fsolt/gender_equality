@@ -17,7 +17,7 @@ In this chapter, we [dive deeper into the Korean case to take advantage of stren
 > Justifications of doing a case study of _Korea_: a particularly challenging case for our conclusions/poorly explained by our model.  (outlier per VanEvera1998; deviant per Seawright2008)
 Others?
 
-> Hypotheses: i. Maybe woman _chief executives_ like Park are so much more visible that they trigger public opinion backlash? We don't test this in Chapter 4. ii. Maybe chief executives with family ties [Jalalzai2008], because they can be easily viewed as not having been elected on their own merits?  iii. Maybe _bad_ chief executives trigger backlash?  
+> Hypotheses: i. Maybe woman _chief executives_ like Park are so much more visible that they trigger public opinion backlash?  We don't test this in Chapter 4.  ii. Maybe _bad_ chief executives trigger backlash?  
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -365,6 +365,8 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 
 
+
+
 ## Park's Rise and Fall
 
 The Park Geun-hye’s case in South Korea is one of the ideal cases to examine the influence of the performance of female political leaders on public opinion toward gender egalitarianism. Given that she was the first female president of South Korea, she has a symbolic significance related to gender stereotypes and gendered perceptions (Schwindt-Bayer & Reyes-Housholder, 2017). Moreover, the impeachment of Park Geun-hye makes the case of Park as a undisputable case of the failure of a female political leader (Woo et al., 2025).
@@ -704,7 +706,7 @@ With regard to political equality, the only item that intersects with Park's yea
 The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
 Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
 And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
-It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in positions of power_, if only in the short run.^[
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in politics and positions of power_, if only in the short run.^[
 One additional point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions.
 If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, within the entire public's opinion, counterbalanced by the views of other groups.
 Appendix D breaks down the responses to the available survey items on gender equality in Korea by gender, generation, and education.
@@ -1043,13 +1045,14 @@ Israel, where Golda Meir was prime minister from 1969 to 1974, and Portugal, whe
 Because the PGE scores are measured at the annual level, Kim Campbell's four-month term as Canada's prime minister in 1993 and Anneli Jäätteenmäki's two months as Finland's prime minister in 2003 are too short to observe changes in this variable; these leaders' terms are excluded as well.
 A number of additional OECD countries have elected women chief executives after the last year for which data on macroegalitarianism is currently available.
 Regrettably, we cannot include these leaders in our analysis either.]
-The pale gray rectangles indicate the years during which a woman served as chief executive in each of these countries.
+The pale gray shading indicates the years during which a woman served as chief executive in each of these countries.
 
 The right side of @fig-pge_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
 During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
-On the other hand, the 80% credible intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
-Taken as a whole, then, the evidence from the PGE scores across the OECD, like that for Korea, does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere across the entire public.
+On the other hand, the 80% credibility intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
+Taken as a whole, then, the evidence from the PGE scores across the OECD, like that for Korea, does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere among the members of the public.
+Macroegalitarianism has increased during the terms in office of many women chief executives.
 
 ```{r surveys_oecd_political, cache=TRUE}
 dcpo_input_raw_pge <- read_csv(here("paper",
@@ -1156,23 +1159,41 @@ surveys_oecd_political %>%
    plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-**REVISE here** To help figure out what that might be, we first turn to other countries that have had women chief executives.
+But as we saw in Korea during Park's presidency, the public's views on women in politics and positions of leadership may diverge from its general views on gender equality in the public sphere when a women serves as chief executive.
 @fig-xc_polileader4 shows how mean disagreement with the statement "men make better political leaders than women" changed over time in the eleven countries for which these series intersected with the terms of women chief executives.
-These data are very thin---recall that in Chapter 3, we explained that the sparsity of the existing data was an important motivation for creating the PGE scores---but they show very little evidence of declines during the years in which women held office.^[
+Although this is the survey item on gender equality in politics with the greatest overlap with women leaders, these data are very thin---recall that in Chapter 3, we explained that the sparsity of the existing data was an important motivation for creating the PGE scores.
+Still, they show very little evidence of declines during the years in which women held office.^[
 Among the surveys we used in Chapter 3 to generate the PGE scores, there are five other country-items asking about gender equality in politics that intersect with the time in office of women chief executives: three items of one country each, and a fourth with two countries.
 All but one of these country-item series consist of just two time points, and the other has only three.
 None of these five very short series exhibit discernibly declining levels of gender egalitarianism in the public during women's terms as chief executive.]
 
 There is one exception to this rule: Michelle Bachelet's second term as president of Chile. **More**
+Bachelet, a physician who also earned a graduate degree in military strategy, served first as Minister of Health and then Minister of Defense before being elected Chile's first woman president.
+
+
 
 
 ## Executive Approval
 
-These patterns suggest some support for the view that when a woman holds a country's chief executive office, her high visibility in what is traditionally among most masculine domains may trigger a distinctive response in macroegalitarianism.
+These patterns suggest some support for the view that when a woman holds a country's chief executive office, her high visibility in what is among the most traditionally masculine domains _may_ trigger a distinctive negative response in macroegalitarianism.
 However, the case of Park in South Korea as well as that of Bachelet in Chile suggest that public opinion backlash is not triggered by women making "great strides," as @Faludi1991 [, xix] puts it. 
-These cases indicate that the public lashes back against gender equality not when women chief executives succeed but rather when they fail.
+These cases indicate that the public lashes back against gender equality not when women chief executives succeed but instead when they fail.
 
-EAP data
+To assess this possibility, we turn to executive public approval, a crucial measure of leaders' success.
+Public approval, it turns out, is a particularly good measure of the success of leaders who are women: scandals and policy failures have been found to have especially strong negative effects on the macro-approval of women presidents relative to men presidents [see, e.g., @Carlin2020; @Reyes-Housholder2020].
+Specifically, we use the data provided by the Executive Approval Project [@Carlin2025], which combines "numerous disparate public opinion sources" that include various assessments "into a single unidimensional series capturing the public's view of the executive" in each country [@Carlin2020, 1366].
+
+@fig-park_eap shows Park's net presidential approval---that is, the difference between her approval rating and her disapproval rating---for each month of her time in office.
+Park, like most newly elected leaders, began her term with positive net approval; considerably more of the public approved then disapproved during her first year in office.
+Park's 'honeymoon' period was clearly at an end with the sinking of the Sewol ferry in April 2014 [@Son2021, 774].
+That tragedy resulted in the loss of 304 lives. 
+It also exposed the extent of regulatory capture that had persisted since the state corporatism of Park Chung-hee [@You2017].
+In August 2015, North and South Korea exchanged artillery and rocket fire across the demilitarized zone.
+No casualties were reported, but this clash triggered a "rally &rsquo;round the flag" effect in Park's approval ratings [@Hur2023, 505; on these rally effects more generally, see @Mueller1970, 21-22] that briefly returned her net approval to positive territory.
+By spring 2016, however, her net approval had returned to its earlier deeply negative levels.
+Then, in late October, with the revelations of the extent of Choi Soon-sil's involvement in government decision making, Park's net public approval fell off a cliff.
+The protests that followed evidenced---and perhaps even deepened---the public's anger. 
+By the time of her impeachment by the Korean National Assembly in December, Park's disapproval rate exceeded her approval rate by more than fifty points.
 
 ```{r, fig.cap="Korean Presidential Approval During the Park Administration", fig.height=4}
 #| label: fig-park_eap 
@@ -1198,11 +1219,19 @@ eapm0 %>%
              color = "gray50",
              linetype = "dashed") +
   labs(x = NULL, y = "Net Presidential Approval,\nPark Geun-hye") +
+  geom_text(data = tibble(year_month = 2014.68,
+                          approval_net = 11.3),
+            label = "Sewol ferry accident",
+            size = 3) +
+    geom_text(data = tibble(year_month = 2015.56,
+                          approval_net = 10.75),
+            label = "Clash with\nNorth Korea",
+            size = 3) +
   geom_text(data = tibble(year_month = 2016.4,
                           approval_net = -33),
             label = "Choi Soon-sil\nscandal breaks",
             size = 3) +
-  geom_text(data = tibble(year_month = 2016.2,
+  geom_text(data = tibble(year_month = 2016.25,
                           approval_net = -53),
             label = "Candlelight protests spread",
             size = 3) +
@@ -1210,19 +1239,20 @@ eapm0 %>%
                           approval_net = -50),
             label = "Impeachment",
             size = 3) +
-  # theme(axis.text.x  = element_text(size = 8,
-  #                                   angle = 90,
-  #                                   vjust = .45),
-  #       plot.title = element_text(size=8)) + 
+  annotate(geom = "segment",
+           x = 2015.567, xend = 2015.567, 
+           y = 8, yend = 1, 
+           arrow = arrow(length = unit(0.3, "char")),
+           linewidth = 0.25) +
   plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-Park's net presidential approval is shown in @fig-park_eap.
+
 
 
 ```{r, fig.cap="Executive Approval of Women Leaders in OECD Countries", fig.height=5}
 #| label: fig-eap_oecd
-caption <- "Note: Black lines trace trends over the terms in office covered in the next analysis; gray lines extend to terms that were not included. Source: Executive Approval Project (Carlin et al. 2025)."
+caption <- "Note: Black lines trace trends over the terms in office covered in the next analysis; gray lines extend to terms that were not included. Panels are grouped by country. Source: Executive Approval Project (Carlin et al. 2025)."
 
 integer_breaks <- function(n = 5, ...) {
   fxn <- function(x) {
@@ -1300,8 +1330,8 @@ women_execs_long2 %>%
 The deeply negative approval ratings of Park's time in office and of Bachelet's second term are matched or exceeded by those of only two other women chief executives: Margaret Thatcher and Theresa May.
 Thatcher famously pursued a series of policies that were deeply unpopular with much of the public of the United Kingdom over three terms as prime minister; the combination of parliamentary government, legislative elections in single-member districts, and a divided opposition allowed her to pursue her expansive free-market agenda in the face of public disapproval despite her Conservative Party never winning more than 44% of the vote under her leadership [see, e.g., @Crewe1988; @Norpoth1992].
 After the narrow victory of Leave in the Brexit referendum, May was charged with the unenviable responsibility of negotiating the departure of the United Kingdom from the European Union, a predicament memorably analogized as being tasked by a slender majority of the electorate to "build a submarine out of cheese" [@Rifkind2018].
-With nearly half of the public opposed to the project from the start and the remainder unlikely to be satisfied with the inevitably shabby results, for her entire time in office May's approval ratings were predictably under water  [see, e.g., @Byrne2021].^[
-In the end May's successor, Boris Johnson, was only able to 'get Brexit done'  "by agreeing that Northern Ireland would continue to follow the EU’s rules and regulations on goods trade" and being "economical with the truth" [@Brusenbauch-Meislova2024, 275, 281]: in other words, by accepting that the Brexit cheese submarine would never really be seaworthy and lying about it.]
+With nearly half of the public opposed to the project from the start and the remainder unlikely to be satisfied with the inevitably shabby results, May's approval ratings for her entire time in office were predictably under water [see, e.g., @Byrne2021].^[
+In the end May's successor, Boris Johnson, was only able to 'get Brexit done'  "by agreeing that Northern Ireland would continue to follow the EU’s rules and regulations on goods trade" and being "economical with the truth" [@Brusenbauch-Meislova2024, 275, 281]: in other words, by accepting that the Brexit cheese submarine would never actually be seaworthy and lying about it.]
 
 ```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Women Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
 #| label: fig-pge_eap
