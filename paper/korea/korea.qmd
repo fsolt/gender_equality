@@ -1167,17 +1167,22 @@ Among the surveys we used in Chapter 3 to generate the PGE scores, there are fiv
 All but one of these country-item series consist of just two time points, and the other has only three.
 None of these five very short series exhibit discernibly declining levels of gender egalitarianism in the public during women's terms as chief executive.]
 
-There is one exception to this rule: Michelle Bachelet's second term as president of Chile. **More**
+There is one exception to this rule: Michelle Bachelet's second term as president of Chile.
 Bachelet, a physician who also earned a graduate degree in military strategy, served first as Minister of Health and then Minister of Defense before being elected Chile's first woman president.
-
-
+In her first term, from 2006 to 2010, Bachelet avoided scandal and achieved a number of policy successes, notably including the expansion of state childcare [see, e.g., @Reyes-Housholder2019].
+Barred by law from serving consecutive terms, Bachelet ran and won again in the Chile's late 2013 general elections.
+Just under a year after Bachelet took office, and while she was away from the capital on vacation, scandal erupted.
+The breaking story centered on a company half-owned by her daughter-in-law, which was struggling to complete a land deal.
+Banks seemed unwilling to lend the needed funds, but on the day after her election victory, a meeting with a Banco de Chile executive that her son attended finalized a loan.
+Just after the company completed the purchase, rezoning went into effect that permitted the land to be developed, and the land was quickly resold for a multi-million dollar profit.
+Bachelet was slow to respond, but amid accusations of influence peddling and misuse of privileged information, she leaned on her reputation as an "honest mother" to 
 
 
 ## Executive Approval
 
 These patterns suggest some support for the view that when a woman holds a country's chief executive office, her high visibility in what is among the most traditionally masculine domains _may_ trigger a distinctive negative response in macroegalitarianism.
 However, the case of Park in South Korea as well as that of Bachelet in Chile suggest that public opinion backlash is not triggered by women making "great strides," as @Faludi1991 [, xix] puts it. 
-These cases indicate that the public lashes back against gender equality not when women chief executives succeed but instead when they fail.
+Rather than showing that the public lashes back against gender equality when women chief executives succeed, these cases instead indicate that it does so  when they fail.
 
 To assess this possibility, we turn to executive public approval, a crucial measure of leaders' success.
 Public approval, it turns out, is a particularly good measure of the success of leaders who are women: scandals and policy failures have been found to have especially strong negative effects on the macro-approval of women presidents relative to men presidents [see, e.g., @Carlin2020; @Reyes-Housholder2020].
@@ -1187,12 +1192,12 @@ Specifically, we use the data provided by the Executive Approval Project [@Carli
 Park, like most newly elected leaders, began her term with positive net approval; considerably more of the public approved then disapproved during her first year in office.
 Park's 'honeymoon' period was clearly at an end with the sinking of the Sewol ferry in April 2014 [@Son2021, 774].
 That tragedy resulted in the loss of 304 lives. 
-It also exposed the extent of regulatory capture that had persisted since the state corporatism of Park Chung-hee [@You2017].
+It also exposed the extent of regulatory capture that had persisted since the state corporatism of Park's father, Park Chung-hee [@You2017].
 In August 2015, North and South Korea exchanged artillery and rocket fire across the demilitarized zone.
 No casualties were reported, but this clash triggered a "rally &rsquo;round the flag" effect in Park's approval ratings [@Hur2023, 505; on these rally effects more generally, see @Mueller1970, 21-22] that briefly returned her net approval to positive territory.
 By spring 2016, however, her net approval had returned to its earlier deeply negative levels.
 Then, in late October, with the revelations of the extent of Choi Soon-sil's involvement in government decision making, Park's net public approval fell off a cliff.
-The protests that followed evidenced---and perhaps even deepened---the public's anger. 
+The widespread protests that followed evidenced---and perhaps even deepened---the public's anger. 
 By the time of her impeachment by the Korean National Assembly in December, Park's disapproval rate exceeded her approval rate by more than fifty points.
 
 ```{r, fig.cap="Korean Presidential Approval During the Park Administration", fig.height=4}
