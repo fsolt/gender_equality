@@ -1179,10 +1179,11 @@ Bachelet was slow to respond to the story, but amid accusations of influence ped
 Opposition politicians seized on the scandal to raise a series of heavily gendered criticisms: that Bachelet as a mother must have known about her son's presumed misdeeds and so was lying to the Chilean public, that by not insisting on her son's immediate resignation from his ceremonial position she put her role as mother ahead of her role as president, and that by crying over the matter in press conferences she acted without the rationality and strength the situation---and her office---demanded [see @Reyes-Housholder2020, 544-545].
 The scandal and this discourse dogged Bachelet for the rest of her term.
 They appear to have also influenced public opinion. 
-The average disagreement of Chileans with the statement that men make better political leaders than women fell by more than a tenth of the item's range during these years, returning to levels typical of the period before Bachelet's first term.^[
-As in Korea, however, the decline appears to have been short-lived.
-@fig-xc_polileader4 also shows that in 2019, a year after Bachelet left office, average disagreement with this item had rebounded to a score indistinguishable from its previous high, reached the year before Bachelet was elected to the presidency for the second time.]
+The average disagreement of Chileans with the statement that men make better political leaders than women fell by more than a tenth of the item's range during these years, returning to levels typical of the period before Bachelet's first term.
 
+As in Korea, it appears this decline was short-lived.
+@fig-xc_polileader4 also shows that in 2019, a year after Bachelet left office, average disagreement with this item had rebounded to a score indistinguishable from its previous high, reached the year before Bachelet was elected to the presidency for the second time.
+Still, even these brief episodes of apparent backlash contradict the findings we presented earlier.
 
 
 ## Executive Approval
@@ -1259,7 +1260,7 @@ eapm0 %>%
   plot_annotation(caption = str_wrap(caption, 90))
 ```
 
-```{r, fig.cap="Executive Approval of Women Leaders in OECD Countries", fig.height=5}
+```{r, fig.cap="Executive Approval of Women Leaders in OECD Countries", fig.height=7}
 #| label: fig-eap_oecd
 caption <- "Note: Black lines trace trends over the terms in office covered in the next analysis; gray lines extend to terms that were not included. Panels are grouped by country. Source: Executive Approval Project (Carlin et al. 2025)."
 
@@ -1300,13 +1301,10 @@ wel2 <- women_execs_long2 %>%
                         countrycode(country,
                                     "country.name",
                                     "iso2c"),
-                        ")"),
-         frame_color = "1",
-         dot_color = as.numeric(!is.na(diff))) %>% 
-  add_row(name_last = "", approval_net = 0, country = "",
-          frame_color = "2") %>% 
-  add_row(name_last = " ", approval_net = 0, country = " ", 
-          frame_color = "2") %>% 
+                        ")")) %>% 
+  add_row(name_last = "", approval_net = 0, country = "") %>% 
+  add_row(name_last = " ", approval_net = 0, country = " ") %>% 
+  add_row(name_last = "  ", approval_net = 0, country = "  ") %>% 
   arrange(name_last, year) %>% 
   group_by(name_last) %>%
   filter(!country == "South Korea" &
@@ -1323,17 +1321,15 @@ wel2 <- women_execs_long2 %>%
   arrange(mean_app_net, country, year) %>% 
   ungroup() %>% 
   mutate(name_last = factor(name_last, 
-                            levels = c("Thatcher (GB)", "May (GB)",
-                                       "Chinchilla (CR)", "Bachelet (CL)", 
-                                       "Straujuma (LV)", 
-                                       "Gillard (AU)",
-                                       "Szydło (PL)",
-                                       "",
-                                       "Thorning-Schmidt (DK)", "Merkel (DE)",
-                                       "Solberg (NO)",
-                                       " ",
-                                       "Shipley (NZ)", "Clark (NZ)",
-                                       "Ardern (NZ)")))
+                            levels = c("May (GB)", "Chinchilla (CR)",
+                                       "Bachelet (CL)", "",
+                                       "Thatcher (GB)", "Straujuma (LV)", 
+                                       "Gillard (AU)", " ",
+                                       "Shipley (NZ)", "Szydło (PL)",
+                                       "Thorning-Schmidt (DK)", "  ",
+                                       
+                                       "Merkel (DE)", "Solberg (NO)",
+                                       "Clark (NZ)", "Ardern (NZ)")))
 
 p <- ggplot(aes(x = year_quarter), data = wel2) +
   theme_bw() +
@@ -1362,7 +1358,7 @@ p <- ggplot(aes(x = year_quarter), data = wel2) +
         plot.title = element_text(size=8),
         legend.position = "none")
 
-a <- c("aaaa
+a <- c("aaa#
         aaa#
         aaa#
         aaaa")
@@ -1372,10 +1368,13 @@ remove_facets(p, a) +
 
 ```
 
-@fig-eap_oecd shows the quarterly net approval of the women chief executives for whom data are available from the Executive Approval Project.
-The deeply negative approval ratings of Park's time in office and of Bachelet's second term are matched or exceeded by those of only three other women chief executives.
-Two were prime ministers of the United Kingdom, Margaret Thatcher and Theresa May.
-Thatcher famously pursued a series of policies that were deeply unpopular with much of the public of the United Kingdom over three terms as prime minister; the combination of parliamentary government, legislative elections in single-member districts, and a divided opposition allowed her to pursue her expansive free-market agenda in the face of public disapproval despite her Conservative Party never winning more than 44% of the vote under her leadership [see, e.g., @Crewe1988; @Norpoth1992].
+@fig-eap_oecd shows the quarterly net public approval of the women chief executives for whom data are available from the Executive Approval Project.
+The panels are ordered by the average net approval for each executive.
+The deeply negative approval ratings of Park's time in office and of Bachelet's second term are matched or exceeded by those of only two other women chief executives.
+The trends in their public approval appear in the top row of the plot, along with those over Bachelet's two terms.
+
+Do these very negative net approval ratings reflect poor performance of these two women in chief executive office?
+Public approval of Theresa May, prime minister of the United Kingdom, comes closest to Park's disastrous ratings.
 After the narrow victory of the Leave campaign in the Brexit referendum, May, also a Conservative, was charged with the unenviable responsibility of negotiating the departure of the United Kingdom from the European Union, a predicament memorably analogized as being tasked by a slender majority of the electorate to "build a submarine out of cheese" [@Rifkind2018].
 With nearly half of the public opposed to the project from the start and the remainder unlikely to be satisfied with the inevitably shabby results, May's approval ratings for her entire time in office were predictably under water [see, e.g., @Byrne2021].^[
 In the end May's successor, Boris Johnson, was only able to achieve his promise to 'get Brexit done' "by agreeing that Northern Ireland would continue to follow the EU’s rules and regulations on goods trade" and being "economical with the truth" [@Brusenbauch-Meislova2024, 275, 281]: in other words, by accepting that the Brexit cheese submarine would never actually be seaworthy and lying about it.]
@@ -1383,8 +1382,10 @@ In the end May's successor, Boris Johnson, was only able to achieve his promise 
 The third woman chief executive to experience public approval as low as Park and Bachelet is Laura Chinchilla, of Costa Rica's center-right National Liberation Party.
 Chinchilla was elected to the presidency in 2010 on a platform of fighting crime, raising taxes to lower the national debt, and complete major infrastructure projects.
 Numerous scandals---including Chinchilla repeatedly flying on planes owned by drug cartels, tax evasion among by cabinet members, and corruption in contract awards---thwarted all of these policy goals [see @Hand2020, 121-125].
-Her central campaign promise to dramatically expand childcare also came to naught for insufficient funding, cementing perceptions of "widespread mismanagement and corruption within Chinchilla's administration" [@Hand2020, 125].
-With the exception of Thatcher, who succeeded in achieving goals the majority of the British public did not share, the low public approval of these women chief executives reflect the weight of policy failures and scandals.
+Her central campaign promise to dramatically expand childcare also came to naught for insufficient funding, cementing perceptions of "widespread mismanagement and corruption within Chinchilla's administration" [@Hand2020, 125].^[
+Margaret Thatcher comes close to matching the dismal record of Bachelet's second term.
+Thatcher famously pursued a series of policies that were deeply unpopular with much of the public of the United Kingdom over her three terms as prime minister; the combination of parliamentary government, legislative elections in single-member districts, and a divided opposition allowed her to pursue her expansive free-market agenda in the face of public disapproval despite the Conservative Party never winning more than 44% of the vote under her leadership [see, e.g., @Crewe1988; @Norpoth1992].
+Although Thatcher's lowest public approval at the end of her premiership corresponded to her failure to forge a consensus position on Europe's Exchange Rate Mechanism among her fellow Conservatives [see, e.g., @Matthijs2014, 94], it is likely that her consistently low public approval generally reflects her success in achieving goals the majority of the British public simply did not share.]
 
 ```{r, fig.cap="Macroegalitarianism and Executive Approval by Term for Women Chief Executives", fig.height=9, cache=FALSE, dev='cairo_pdf'}
 #| label: fig-pge_eap
