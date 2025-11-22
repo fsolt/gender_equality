@@ -171,7 +171,7 @@ Whether women's officeholding and policies advancing equality depend dynamically
 Warnings to historically marginalized groups against triggering public opinion backlash by pushing 'too hard' to win office or gain policies advancing equality are common, and those who offer these admonitions---whether earnest or disingenuous---are quick to claim vindication at the first sign of setback.
 Looking across women's officeholding and a broad range of policies advancing gender equality in the public sphere, however, we find no evidence at all for self-undermining feedback in public responsiveness.
 Public opinion backlash with regard to gender egalitarianism is as much a myth as public opinon backlash against gay rights [see @Bishin2016; @Bishin2021].
-Instead, with the exception of early childcare enrollments---which as the outcome of individual decisions as well as policy, are less easily linked to government action and so less tangible [cf. @Pacheco2013]---we find _accelerating_ feedback.
+Instead, with the exception of early childcare enrollments---which, as the outcome of individual decisions as well as policy, are less easily linked to government action and so less tangible [cf. @Pacheco2013]---we find _accelerating_ feedback.
 Rather than a thermostatic response, policies that advance gender equality work to help create their own constituencies.
 
 Our advice to activists, then, echoes that offered by @Bishin2021 [, 191] to the gay rights movement: "organize, mobilize, legislate, and litigate."
@@ -220,5 +220,3 @@ The declaration shocked the country, and protesters flooded the streets.
 Opposition lawmakers rushed to the National Assembly to vote to rescind Yoon's decree and succeeded, despite Yoon's orders to the military and police to stop them.
 Yoon was subsequently impeached and removed from office for his attempt to overthrow democracy.
 
-
-<!-- Combining recognition that gender equality is democracy (e.g., Krook2022 in APSA-CP; @Piscopo2024 (which also cites Archenti and Tula 2017; Palma 2021)) with debates on how public opinion affects democracy (Claassen and DCPO) yields the understanding that public gender egalitarianism is democratic support (see, maybe, Welzel2013) -->
