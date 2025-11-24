@@ -88,7 +88,7 @@ The other question raised by Korea's "incel election" has to do with public resp
 Some observers see events like these as episodes of a recurring backlash in the public against women in the public sphere and policy efforts to promote gender equality there.
 The foundational book, _Backlash: The Undeclared War Against American Women_, argues that shifts in mass attitudes against gender equality in the United States "have always been triggered by the perception \ldots that women are making great strides" [@Faludi1991, xix].
 @Shiran2024 describes how "moral panics" against women in politics spread after the adoption of gender quotas, the most effective policy for quickly shifting politics in a gender egalitarian direction.
-Showing the opposite side of the coin, @Wlezien1993 documents how support for women's reproductive rights increased in the United States during the 1980s as successive court opinions and state laws worked to restrict access to abortion.
+Showing perhaps the opposite side of the coin, @Wlezien1993 documents how support for women's reproductive rights increased in the United States during the 1980s as successive court opinions and state laws worked to restrict access to abortion.
 
 A prominent line of research suggests that public opinion backlash may in fact be a general phenomenon.
 The influential theory of thermostatic public opinion contends that policy change triggers the public to revise attitudes in the opposite direction---that as the government provides more of anything, public demand for that thing will become sated and so preferences will shift against additional provision [@Wlezien1995].
