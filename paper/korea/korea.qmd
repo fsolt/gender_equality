@@ -5,8 +5,8 @@ Therefore, it would come as no surprise to us if there are, among those reading 
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is the exact opposite of what many observers fear is true.
 
-Korea's recent political history seems to provide a strong basis for these fears that public opinion lashes back against women's successes in winning office and against other moves toward gender equality.
-If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold that office, and then, just two elections later, choosing Yoon Seok-yeol, a man who built his political ascent around his anti-egalitarian views?
+Korea's recent political history seems to provide a strong basis for the apprehension that public opinion lashes back against women's successes in winning office and against other moves toward gender equality.
+If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold that office, and then, just two elections later, choosing Yoon Suk Yeol, a man who built his political ascent around his anti-egalitarian views?
 At least on its face, this sequence of events appears to contradict our conclusions.
 
 In this chapter, we [dive deeper into the Korean case to take advantage of strengths of case studies]
@@ -365,26 +365,63 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 ```
 
 
-## Park's Rise and Fall
+## Park Geun-hye
 
 <!-- The Park Geun-hye’s case in South Korea is one of the ideal cases to examine the influence of the performance of female political leaders on public opinion toward gender egalitarianism. Given that she was the first female president of South Korea, she has a symbolic significance related to gender stereotypes and gendered perceptions (Schwindt-Bayer & Reyes-Housholder, 2017). Moreover, the impeachment of Park Geun-hye makes the case of Park as a undisputable case of the failure of a female political leader (Woo et al., 2025). -->
 
-Park Geun-hye’s trajectory in South Korean politics represents a profound case study in the intersection of dynastic legacy, democratic transition, and the abuse of executive power. Her rise to the presidency in 2013 was celebrated as a historical milestone—the nation’s first female head of state—yet her removal from office just four years later by a unanimous constitutional court ruling remains the most dramatic political scandal in modern South Korean history, demonstrating the robust power of its civil society and democratic institutions to purge corruption (Lee & Park, 2021; Turner et al., 2018).
+<!-- Park Geun-hye’s trajectory in South Korean politics represents a profound case study in the intersection of dynastic legacy, democratic transition, and the abuse of executive power. Her rise to the presidency in 2013 was celebrated as a historical milestone—the nation’s first female head of state—yet her removal from office just four years later by a unanimous constitutional court ruling remains the most dramatic political scandal in modern South Korean history, demonstrating the robust power of its civil society and democratic institutions to purge corruption (Lee & Park, 2021; Turner et al., 2018). -->
 
-Park Geun-hye is the eldest daughter of the former president Park Chung-hee. (1963-1979) who was the military general who seized power in 1961 through May 16th Military Coup. Park Chung-hee has been evaluated as the dictator leading the era of rapid economic modernization, famously known as the “Miracle on the Han River” (Kim, 2004; Park, 2014). This family background of Park Geun-hye was the foundational political identity of Park. She has been regarded as a symbol of economic progress to her conservative party base, and a reminder of dictatorial oppression to supporters for the liberal political party (Lee, 2017).
+Park Geun-hye is the daughter of Korea's former president, Park Chung-hee. 
+Park Chung-hee was a military general who seized power in a coup in 1961, narrowly won flawed elections in 1963, and then ruled the country until he was assassinated in 1979 [see, e.g., @Lee1980].
+He is credited as the architect of 'Miracle on the Han River,' an era of rapid economic growth and modernization [see, e.g., @Haggard1990; @Kim2004]. 
+This family background served as Park Geun-hye's foundational political identity.
+To her supporters in Korea's conservative political party, she was regarded as a symbol of spectacular economic progress; to her liberal opponents, she was a reminder of dictatorial oppression [@Lee2017].
 
-After the First Lady Yuk Young-soo was assassinated in 1974, Park Geun-hye at the age of 22 during the Park Chung-hee took the role of acting First Lady until Park Chung-hee’s own assassination in 1979 (Lee, 2023). After her father's death and the process of the democratization of South Korea, Park retreated from the public eye for nearly two decades, maintaining an image of reclusive principle. Her political career began in 1998. She enters the National Assembly as a representative for the conservative Grand National Party (GNP) in a by-election for the Dalseong district of Daegu often referred to as the citadel of conservatism or the conservative heartland (Jung, 2021).
-She was quickly recognized as a symbolic female political leader and establish a political persona centered on personal integrity and the virtue of keeping promises under the name of “trust politics” (Satake, 2025; Shin, 2020). She served twice as the party's chairwoman from 2004 to 2006. Also, it has been evaluated that she successfully navigated multiple crises and engineered improbable electoral victories, earning her the moniker “Queen of Elections” (Mun, 2015).
+Park Geun-hye was 22 years old when her mother was killed in an attempt on Park Chung-hee's life in 1974; she then took on the role of acting First Lady, making public appearances with her father and becoming involved in government initiatives [@Lee2017, 282].
+After her father's death and the process of the democratization of South Korea, Park retreated from the public eye for nearly two decades, maintaining an image of reclusive principle.
+Her career in electoral politics began in 1998.
+She entered the National Assembly as a representative for the conservative Grand National Party (GNP) in a by-election for the Dalseong district of Daegu, where she was born; Daegu is part of the conservative heartland [@Jung2021, 75-77].
+She was quickly recognized as a powerfully symbolic political leader and---like many women in politics [see, e.g., @Reyes-Housholder2020, 542]---established a political persona centered on personal integrity and the virtue of keeping promises [see @Shin2020].
+She served twice as the party's chair from 2004 to 2006, navigating multiple crises and engineering improbable electoral victories; these feats earned her the moniker 'Queen of Elections' among her supporters [see, e.g., @Mun2015; @Lee2017].
 
-This reputation, combined with her father's enduring legacy among older, more conservative voters, propelled her to the forefront of national politics. In 2012, after spearheading the party's rebranding as the Saenuri Party (New Frontier Party), she secured the conservative presidential nomination and went on to win the 18th presidential election, becoming the first candidate since 1987 to win an outright majority of the popular vote (51.56%).
-After her inauguration in February 2013, she sold her vision as a leader “married to the nation” and she aims to restore the high growth rates of her father's era. However, her presidency has been flawed along with Choi Soon-sil Scandal. Choi Soon-sil is the daughter of Park Geun-hye’s late mentor, Choi Tae-min who is the controversial pseudo-religious leader (Kim, 2016). Even though Choi Soon-sil held no formal position within the government or the ruling party, she was found to have wielded astonishing influence over the President’s policy decisions, personnel appointments, and even her daily wardrobe. For instance, Choi Soon-sil was found to have received drafts of confidential presidential speeches and documents, influencing high-level government decisions, personnel appointments, and state affairs without any legal authorization or security clearance. This was seen as a severe breach of constitutional order and a profound betrayal of public trust.
+This reputation for success, combined with her father's enduring legacy among older, more conservative voters, propelled her to the forefront of national politics.
+In 2012, after spearheading the party's rebranding as the Saenuri Party (New Frontier Party), she secured the conservative presidential nomination.
+Campaigning as a leader "married to the nation" with the goal of restoring the high growth rates of her father's era, Park went on to win the presidential election and became the first candidate since 1987 to garner an outright majority of the popular vote (51.56%).
 
-The scandal began to unfold in mid-2016 with allegations concerning suspicious donations to two non-profit foundations, Mir and K-sports, ostensibly dedicated to promoting Korean culture and sports. Investigative reporting revealed that these organizations were a front, allegedly controlled by Choi Soon-sil (Jhee & Park, 2019). The special counsel investigation targeting Park Geun-hye led by the former prosecutor Park Young-soo was started in November 2016. The investigation team operated for 90 days and unveiled the Choi Soon-sil Scandal. Especially, the revelation of a discarded tablet PC belonging to Choi Soon-sil broke the public trust irrevocably (Min & Yun, 2019). The device contained evidence that Choi Soon-sil had received and edited dozens of classified, sensitive state documents, including advance drafts of presidential speeches and state policy papers (Hwang & Willis, 2020).
+Park's five-year term in office was, however, cut short by the 'Choi Soon-sil Gate' scandal.
+Choi Soon-sil is a long-time friend of Park Geun-hye and the daughter of the controversial cult leader, Choi Tae-min, who became a mentor to Park Geun-hye after her mother's death.
+Even though Choi Soon-sil held no formal position within the government or the ruling party, the scandal revealed that she wielded astonishing influence over the Park’s policy decisions, personnel appointments, and even her daily wardrobe.
+For instance, Choi Soon-sil was found to have received drafts of confidential presidential speeches and documents and to have influenced high-level government decisions, personnel appointments, and state affairs without any legal authorization or security clearance.
+This influence was widely viewed as a severe breach of constitutional order and a profound betrayal of public trust [@Kim2016].
 
-The public reaction was immediate and overwhelming. Millions of South Koreans took to the streets in what became known as the “Candlelight Protests” and demand the President’s resignation (Cho & Hwang, 2021; Doucette, 2017). After the 23rd Candlelight Protest, the Constitutional Court of South Korea, on March 10, 2017, unanimously upheld the impeachment and cited Park’s gross abuse of power, her violation of her constitutional duty to protect the public’s life, and her actions that severely harmed the principles of representative democracy.
+The scandal began to unfold in mid-2016 with allegations concerning suspicious donations to two non-profit foundations, Mir and K-Sports, ostensibly dedicated to promoting Korean culture and sports.
+Investigative reporting by a conservative newspaper revealed that these organizations were fronts controlled by Choi Soon-sil [@Jhee2019, 579].
+Park and Choi had both pressured Korean big business to make contributions to these organizations [@Kim2016].
+Other reporting disclosing the contents of a discarded tablet computer belonging to Choi Soon-sil broke the public trust irrevocably; Park's first public apology, delivered the following day, did nothing to quell public outrage.
+The device contained evidence that Choi Soon-sil had received and edited dozens of classified, sensitive state documents, including advance drafts of presidential speeches and state policy papers [@Min2019, 7].
 
-Removed from office immediately, Park was subsequently arrested, indicted on 18 criminal charges including bribery, coercion, and abuse of power, and later sentenced to a long term in prison (Schattle & Lee, 2019). Even though the impeachment of Park Geun-hye based on the role of civil society has been evaluated as an another advance of South Korea’s democracy, recent studies have revealed that the impeachment of Park Geun-hye negative affects public support toward female political leaders (Woo et al., 2025).
+The public reaction was immediate and overwhelming.
+Millions of South Koreans took to the streets bearing candles each Saturday evening to demand the President’s ouster [see, e.g., @Doucette2017; @Hwang2020; @Cho2021].
+A special counsel investigation into Park was opened in November 2016, the National Assembly voted to impeach her that December, and after twenty-three weeks of protests, the Constitutional Court of South Korea unanimously upheld the impeachment in March 2017, citing Park’s gross abuse of power, her violation of her constitutional duty to protect the public’s life, and her actions that severely harmed the principles of representative democracy.
 
+The Consitutional Court's ruling triggered a sequence of events.
+Park had already been removed from office provisionally upon her impeachment, and the court ruling ended her presidential term. 
+She was subsequently arrested; indicted on eighteen criminal charges including bribery, coercion, and abuse of power; and then convicted and sentenced to a decades-long term in prison.
+Additional trials added even more years to her sentence.
+The presidential election was brought forward from December to May 2017, and the candidate of Korea's liberal Democratic Party, Moon Jae-in, won decisively against a fragmented field.
+With Park's health failing after serving nearly five years in prison, Moon pardoned her near the end of his term [see, e.g., Shin2021].
+
+<!-- Even though the impeachment of Park Geun-hye based on the role of civil society has been evaluated as an another advance of South Korea’s democracy, recent studies have revealed that the impeachment of Park Geun-hye negative affects public support toward female political leaders (Woo et al., 2025). -->
+
+The winner was the candidate of the People Power Party, Yoon Suk Yeol.
+Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after many months of protests.
+Her conviction led Yoon to be named Prosecutor General, a post in which he clashed repeatedly with the country's Minister of Justice, Choo Mi-ae, the second woman to serve in that capacity and the first woman to lead the Democratic Party, the People Power Party's principal rival.
+
+Capitalizing on the notoriety he had gained through his high profile confrontations with powerful women, Yoon made his opposition to policies advancing gender equality central to his campaign, repeatedly denouncing---and pledging to shutter---Korea's Ministry of Gender Equality and Family.
+After initially taking a similar line, the Democratic Party's candidate, Lee Jae-myung, pivoted to championing women's rights, and he ostentatiously celebrated International Women's Day on the eve of the election.
+Lee's moves were seen as nakedly tactical, but feminist voters rallied to his side nonetheless, turning the election into a referendum on gender equality.
+The ultimate result was regarded as driven by men who, in reaction to their failures to attract the Korean women who had been making gains in the workplace and in politics, described themselves as involuntarily celibate, that is, as "incels."
+These men---and, it was believed, most of their mothers---were determined to see the reversal of the country's halting progress towards gender equality and voted specifically on those grounds.
 
 narrowly loses 2007 primary
 takes over as party leader at end of 2011
@@ -393,6 +430,7 @@ elected president in Dec 2012, 51.6% to 48.0%
 @Seo2021 on scandal and impeachment
 
 @Lee2023: not much backlash in public opinion, because Park was primarily seen as a dynastic candidate rather than a woman candidate
+
 @Woo2025a: backlash in public opinion
 @Kim2022b: backlash in Korea re gender quota
 
@@ -1242,7 +1280,7 @@ eapm0 %>%
             size = 3) +
   geom_text(data = tibble(year_month = 2016.4,
                           approval_net = -33),
-            label = "Choi Soon-sil\nscandal breaks",
+            label = "Choi Soon-sil Gate\nscandal breaks",
             size = 3) +
   geom_text(data = tibble(year_month = 2016.25,
                           approval_net = -53),
