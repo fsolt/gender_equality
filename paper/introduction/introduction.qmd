@@ -61,7 +61,7 @@ wordify_numeral <- function(x) setNames(c("one", "two", "three", "four", "five",
 
 South Korea's 2022 election was the most closely fought presidential race in the country's history.
 The winner was the candidate of the People Power Party, Yoon Suk-yeol.
-Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after many months of protests.
+Yoon had served as the chief of the Seoul Central District Prosecutors' Office, responsible for overseeing the indictment and prosecution of the first woman to be elected president of Korea, Park Geun-hye, who had been impeached and removed from office after months of protests.
 Her conviction led Yoon to be named Prosecutor General, a post in which he clashed repeatedly with the country's Minister of Justice, Choo Mi-ae, the second woman to serve in that capacity and the first woman to lead the Democratic Party, the People Power Party's principal rival.
 
 Capitalizing on the notoriety he had gained through his high profile confrontations with powerful women, Yoon made his opposition to policies advancing gender equality central to his campaign, repeatedly denouncing---and pledging to shutter---Korea's Ministry of Gender Equality and Family.
