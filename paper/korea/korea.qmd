@@ -1,6 +1,6 @@
-# Macroegalitarianism and Women as Chief Executives: The Case of South Korea
+# Women as Chief Executives and Macroegalitarianism: The Case of South Korea
 
-The perception that moves toward gender equality prompt backlashes in public opinion is widespread, as we noted in our opening chapters.
+The perception that moves toward gender equality prompt backlashes in public opinion is widespread, as we noted at the beginning of this book.
 It would come as no surprise to us if there are, among those reading these pages, some who will find at least some of the conclusions of our two previous chapters on dynamic democracy too good to believe, in particular those regarding public responsiveness.
 Recall that, across the countries of the OECD over several decades, we found evidence for not only democratic representation, politics and policy reflecting public opinion, but also _positive_ public responsiveness to politics and policy, that is, that public opinion responds to women's electoral success and the adoption of more gender egalitarian policies by growing _more_ egalitarian.
 Such accelerating feedback is exactly the opposite of what many observers fear is true.
@@ -10,14 +10,23 @@ If public opinion backlash does not occur, how are we to understand events like 
 At least on its face, this sequence of events appears to contradict our conclusions.
 
 In this chapter, we closely examine Park's presidency and the Korean public's reaction to it.
+As we noted in the introduction to this book, the prominent literature on attitudes toward gender equality is heavily weighted toward case-study and small-_n_ research designs to the detriment of generalizability and causal inference.
+We made much of the advantages offered by our broadly comparative and dynamic perspective.
+Indeed, the prior chapters capitalized on these advantages to disentangle and reveal the processes of democratic representation and public responsiveness with regard to gender equality in the public sphere across the OECD over several decades.
 
+But as is usual in cross-national research, our findings of robust democratic representation by parties and legislators of gender egalitarian public opinion and generally positive, self-reinforcing public responsiveness to advances toward gender equality represent averages across the observed countries and years.
+In consequence, one response to perceptions of backlash in Korea and elsewhere would be simply to accept the possibility that such self-undermining feedback may sometimes occur, but it is not typical.
+In other words, if the Korean public did lash back against progress toward gender equality as a result of Park's success in winning the presidency, that response was an anomaly, nothing more.
+The extent of women's success in winning office merely increases the probability that the public becomes more egalitarian, after all; it does not determine that result [cf. @Dion1998].
+Occasional exceptions to the rule are just to be expected.
 
-> Justifications of case studies: theory generating. VanEvera1998; Gerring2004
+However, leaving it at that---simply sweeping Korea, as an occasional exception, into the error term as it were---is not only unlikely to soothe the concerned, it also misses an opportunity: close study of cases that are poorly explained by existing models offers suggestions for theoretical development [see, e.g., @Stephens1979, XXX; @Ragin1987, 76-80; @Seawright2008, 302-303].
+In particular, a case in which the purported cause is present but the expected outcome is absent can illuminate antecedent conditions the original theory  requires to operate [@VanEvera1997, 86].
+If a woman achieves spectacular success in winning political office in Korea, but the country's public does not respond with growing support for gender equality in the public sphere as we found elsewhere but instead with backlash, it could be because some condition needed for accelerating feedback to occur is missing---or a condition that prevents accelerating feedback from occurring is present.
 
-> Justifications of doing a case study of _Korea_: a particularly challenging case for our conclusions/poorly explained by our model.  (outlier per @VanEvera1997; deviant per @Seawright2008)
-Others?
-
-> Hypotheses: i. Maybe woman _chief executives_ like Park are so much more visible that they trigger public opinion backlash?  We don't test this in Chapter 4.  ii. Maybe _bad_ chief executives trigger backlash?  
+One circumstance that clearly distinguishes Park from the elected women whose successes we previously examined is that she was elected to Korea's presidency while those we studied in Chapter 4 were legislators.
+The greater visibility of chief executives and the differing citizen expectations of legislators and executives [see @SweetCushman2022] could yield a different relationship between women's officeholding and gender egalitarian public opinion.
+We investigate this possibility in the next section. 
 
 ```{r setup, include=FALSE}
 options(tinytex.verbose = TRUE)
@@ -367,7 +376,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 ## The Election of Park Geun-hye and Korean Public Opinion
 
-Park Geun-hye was nine years old when her father, Major General Park Chung-hee, led the overthrew South Korea's elected government in 1961.
+Park Geun-hye was nine years old when her father, Major General Park Chung-hee, led the overthrow of South Korea's elected government in 1961.
 After first heading a military junta, Park Chung-hee narrowly won flawed elections to become president in 1963 and then ruled the country until he was assassinated in 1979 [see, e.g., @Lee1980].
 He is credited as the architect of 'Miracle on the Han River,' an era of rapid economic growth and modernization: real economic growth averaged over 10% per year during his rule [see, e.g., @Haggard1990; @Kim2004]. 
 This family background served as Park Geun-hye's foundational political identity.
@@ -380,13 +389,13 @@ She entered the National Assembly as a representative for the conservative Grand
 She was quickly recognized as a powerfully symbolic political leader and---like many women in politics [see, e.g., @Reyes-Housholder2020, 542]---established a political persona centered on personal integrity and the virtue of keeping promises [see @Shin2020].
 She served as the party's chair from 2004 to 2006, navigating multiple crises and engineering improbable electoral victories; these feats earned her the moniker 'Queen of Elections' among her supporters [see, e.g., @Mun2015; @Lee2017].
 
-This reputation for success, combined with her father's enduring legacy among older, more conservative voters, propelled her to the forefront of national politics.^[
+This reputation for success, combined with her father's enduring support among older, more conservative voters, propelled her to the forefront of national politics.^[
 Familial ties have been important to the election of many women chief executives, particularly in Asia and Latin America [see, e.g., @Jalalzai2008].
 Among OECD countries, however, Park is unique as a dynastic heir.
 The only other leader of an OECD country identified as having familial ties to politics by @Jalalzai2008 is Chile's Michelle Bachelet, whose father was an Air Force Brigadier General and, in 1972-1973, a member of President Salvador Allende's cabinet.]
 After spearheading the GNP's rebranding as the Saenuri (New Frontier) Party, she secured the conservative nomination for the 2012 presidential elections.
-Park campaigned as a leader "married to the nation" with the goals of restoring the high growth rates of her father's era and delivering on Korea's constitutional mandate for economic democracy.
-She went on to win the presidential election and became the first candidate since 1987 to garner an outright majority of the popular vote (51.56%).
+Park campaigned as a leader "married to the nation" with the goals of restoring the high growth rates of her father's era and---in a break from her party's orthodoxy---delivering on Korea's constitutional mandate for economic democracy.
+She went on to win the presidential election, becoming the first candidate since 1987 to garner an outright majority of the popular vote (51.56%).
 
 ```{r eap}
 eap <- rio::import(here("paper",
@@ -411,7 +420,7 @@ eapm0 <- rio::import(here("paper",
          year_month = year + month/12)
 ```
 
-Did Park's success in winning the Blue House as Korea's first woman president cause a backlash in macroegalitarianism, public opinion toward gender equality in the public sphere?
+Did Park's success in winning the Blue House as Korea's first woman president prompt a backlash in macroegalitarianism, public opinion toward gender equality in the public sphere?
 @fig-koreapge plots the evolution of Korea's PGE scores before, during, and after Park's time in office.
 The years during which Park held office are shaded in pale gray.
 The PGE scores provide no clear evidence of a decline in gender egalitarian attitudes in Korea during these years.
@@ -672,21 +681,21 @@ poli_all + work_all +
 ```
 
 We can dig even deeper, though.
-One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not possible when taking the broad comparative vantage that we adopt elsewhere in this book.
+One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not possible when taking the broad comparative perspective that we employ elsewhere in this book.
 @fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
 The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
 Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years---if anything, they typically show a drop before Park took office followed by a recovery during her term.
 
 Before exploring further, it is worth pausing a moment to recall that this pattern is distinctly atypical.
 Remember, we found in Chapter 3 that public opinion about equality in politics and in the workplace are usually tightly bound to each other (see, for example, @fig-pge_pwe_corr_plot).
-That they are not in this case suggests that something unusual---and therefore potentially interesting---is going on.
+That they are not in this case suggests that something unusual---and potentially interesting---is going on.
 
 We also pause to note that the two exceptions appear upon closer examination to be perhaps not that exceptional.
 With regard to political equality, the only item that intersects with Park's years in office that shows an increase is "in general, men and women make equally good political leaders."
 The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
 Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
 And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
-It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in politics and positions of power_, if only in the relatively short run.
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in politics and positions of power_, if only for a few years.
 
 One additional point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions [see, e.g., @Cheong2023, 1219].
 If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, within the entire public's opinion, counterbalanced by the views of other groups.
@@ -1019,7 +1028,7 @@ pge_women_execs + trends_women_execs
 
 Did the election of women to the presidency or premiership provoke negative movements in macroegalitarianism in other countries?
 Looking more broadly across the OECD allows us another opportunity to test the hypothesis that women chief executives, in contrast to the legislators we examined in Chapter 4, trigger public opinion backlash. 
-Although women's successes in winning the chief executive's office remain decidedly the exception rather than the rule, they have been growing more frequent over time across these countries.
+Although women's successes in winning the chief executive's office remain decidedly the exception rather than the rule [see, e.g., @Barnes2025, 175], they have been growing more frequent over time across these countries.
 Including Park, our dataset includes PGE scores during the time in office of 21 women leaders who governed in Korea and fourteen other OECD countries.
 Trends in macroegalitarianism in these additional countries are depicted on the left side of @fig-pge_women_execs.^[
 Israel, where Golda Meir was prime minister from 1969 to 1974, and Portugal, where Maria de Lourdes Pintasilgo was prime minister from 1979 to 1980, are excluded from the figure because these terms in office predate our earliest PGE scores for those countries.
