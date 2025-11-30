@@ -9,12 +9,12 @@ Korea's recent political history seems to provide a strong basis for the apprehe
 If public opinion backlash does not occur, how are we to understand events like Korea electing to its presidency Park Geun-hye, the country's first woman to hold that office, and then, just two elections later, choosing Yoon Suk-yeol, a man who built his political ascent around his anti-egalitarian views?
 At least on its face, this sequence of events appears to contradict our conclusions.
 
-In this chapter, we [dive deeper into the Korean case to take advantage of strengths of case studies]
+In this chapter, we closely examine Park's presidency and the Korean public's reaction to it.
 
 
 > Justifications of case studies: theory generating. VanEvera1998; Gerring2004
 
-> Justifications of doing a case study of _Korea_: a particularly challenging case for our conclusions/poorly explained by our model.  (outlier per VanEvera1998; deviant per Seawright2008)
+> Justifications of doing a case study of _Korea_: a particularly challenging case for our conclusions/poorly explained by our model.  (outlier per @VanEvera1997; deviant per @Seawright2008)
 Others?
 
 > Hypotheses: i. Maybe woman _chief executives_ like Park are so much more visible that they trigger public opinion backlash?  We don't test this in Chapter 4.  ii. Maybe _bad_ chief executives trigger backlash?  
@@ -367,13 +367,9 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 ## The Election of Park Geun-hye and Korean Public Opinion
 
-<!-- The Park Geun-hye’s case in South Korea is one of the ideal cases to examine the influence of the performance of female political leaders on public opinion toward gender egalitarianism. Given that she was the first female president of South Korea, she has a symbolic significance related to gender stereotypes and gendered perceptions (Schwindt-Bayer & Reyes-Housholder, 2017). Moreover, the impeachment of Park Geun-hye makes the case of Park as a undisputable case of the failure of a female political leader (Woo et al., 2025). -->
-
-<!-- Park Geun-hye’s trajectory in South Korean politics represents a profound case study in the intersection of dynastic legacy, democratic transition, and the abuse of executive power. Her rise to the presidency in 2013 was celebrated as a historical milestone—the nation’s first female head of state—yet her removal from office just four years later by a unanimous constitutional court ruling remains the most dramatic political scandal in modern South Korean history, demonstrating the robust power of its civil society and democratic institutions to purge corruption (Lee & Park, 2021; Turner et al., 2018). -->
-
-Park Geun-hye was nine years old when her father, Major General Park Chung-hee, led the overthrew South Korea's government in 1961.
-After first heading a military government, Park Chung-hee narrowly won flawed elections to become president in 1963 and then ruled the country until he was assassinated in 1979 [see, e.g., @Lee1980].
-He is credited as the architect of 'Miracle on the Han River,' an era of rapid economic growth and modernization---real economic growth averaged over 10% per year during his rule [see, e.g., @Haggard1990; @Kim2004]. 
+Park Geun-hye was nine years old when her father, Major General Park Chung-hee, led the overthrew South Korea's elected government in 1961.
+After first heading a military junta, Park Chung-hee narrowly won flawed elections to become president in 1963 and then ruled the country until he was assassinated in 1979 [see, e.g., @Lee1980].
+He is credited as the architect of 'Miracle on the Han River,' an era of rapid economic growth and modernization: real economic growth averaged over 10% per year during his rule [see, e.g., @Haggard1990; @Kim2004]. 
 This family background served as Park Geun-hye's foundational political identity.
 To her supporters in Korea's conservative political party, she was regarded as a symbol of spectacular economic progress; to her liberal opponents, she was a reminder of dictatorial oppression [@Lee2017].
 
@@ -384,7 +380,10 @@ She entered the National Assembly as a representative for the conservative Grand
 She was quickly recognized as a powerfully symbolic political leader and---like many women in politics [see, e.g., @Reyes-Housholder2020, 542]---established a political persona centered on personal integrity and the virtue of keeping promises [see @Shin2020].
 She served as the party's chair from 2004 to 2006, navigating multiple crises and engineering improbable electoral victories; these feats earned her the moniker 'Queen of Elections' among her supporters [see, e.g., @Mun2015; @Lee2017].
 
-This reputation for success, combined with her father's enduring legacy among older, more conservative voters, propelled her to the forefront of national politics.
+This reputation for success, combined with her father's enduring legacy among older, more conservative voters, propelled her to the forefront of national politics.^[
+Familial ties have been important to the election of many women chief executives, particularly in Asia and Latin America [see, e.g., @Jalalzai2008].
+Among OECD countries, however, Park is unique as a dynastic heir.
+The only other leader of an OECD country identified as having familial ties to politics by @Jalalzai2008 is Chile's Michelle Bachelet, whose father was an Air Force Brigadier General and, in 1972-1973, a member of President Salvador Allende's cabinet.]
 After spearheading the GNP's rebranding as the Saenuri (New Frontier) Party, she secured the conservative nomination for the 2012 presidential elections.
 Park campaigned as a leader "married to the nation" with the goals of restoring the high growth rates of her father's era and delivering on Korea's constitutional mandate for economic democracy.
 She went on to win the presidential election and became the first candidate since 1987 to garner an outright majority of the popular vote (51.56%).
@@ -1030,7 +1029,7 @@ Regrettably, we cannot include these leaders in our analysis here either.]
 The pale gray shading indicates the years during which a woman served as chief executive in each of these countries.
 
 The right side of @fig-pge_women_execs shows how attitudes toward gender equality in the public sphere changed over the terms in office of women chief executives in the OECD for which we have PGE scores.
-During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often (`r nrow(pge_diff %>% filter(diff > 0))` times) as it is negative (`r nrow(pge_diff %>% filter(diff < 0))` times).
+During these `r nrow(pge_diff)` terms in office, the change is estimated to be positive---that is, macroegalitarianism was higher at the end of the term than at its start---more than twice as often as it is negative (`r nrow(pge_diff %>% filter(diff > 0))` versus `r nrow(pge_diff %>% filter(diff < 0))` times).
 Calculating the difference between two quantities measured with uncertainty results in even more uncertainty, however: only `r nrow(pge_diff %>% filter(diff_p10 > 0))` of these changes are credibly positive with 80% confidence.
 On the other hand, the 80% credibility intervals indicate that none of the changes with negative point estimates are credibly different from zero. 
 Taken as a whole, then, the evidence from the PGE scores across the OECD, like that for Korea, does not support the hypothesis that the mere election of a woman to a country's highest office works to trigger a backlash against gender equality in the public sphere among the members of the public.
@@ -1164,10 +1163,10 @@ Still, even these two episodes of apparent backlash, brief and limited though th
 
 A closer look at Park's presidency suggests a possible explanation: that women chief executives who are mired in scandal and policy failure change the public's views about women in politics and positions of power [cf. @Woo2025].
 Park's economic policy disappointed many of her supporters.
-Upon taking office, Park abandoned her campaign-trail promises to deliver economic democratization and a Korean welfare state, pivoting instead to support for the 'creative economy' and further deregulation [see, e.g., Choi2018; Shin2018].
-Hopes for a return to the growth rates of the Park Chung-hee era were similarly unfulfilled.
+Upon taking office, Park abandoned her campaign-trail promises to deliver economic democratization and a universal welfare state, pivoting instead to support for the 'creative economy' and further deregulation [see, e.g., @Kwon2017; @Choi2018; @Shin2018].
+Hopes for a return to the spectacular economic growth of the Park Chung-hee era were similarly unfulfilled: GDP grew at annual rates of at most 3.2% during Park's presidency.
 
-More dramatically, Park's five-year term in office was cut short by the 'Choi Soon-sil Gate' scandal.
+Most dramatically, Park's five-year term in office was cut short by the 'Choi Soon-sil Gate' scandal.
 Choi Soon-sil is a long-time friend of Park Geun-hye and the daughter of the controversial cult leader, Choi Tae-min, who became a mentor to Park Geun-hye after her mother's death.
 Even though Choi Soon-sil held no formal position within the government or the ruling party, the scandal revealed that she wielded astonishing influence over Park’s policy decisions, personnel appointments, and even her daily wardrobe.
 Choi Soon-sil was found to have received drafts of confidential presidential speeches and documents and to have influenced high-level government decisions, personnel appointments, and state affairs without any legal authorization or security clearance.
@@ -1208,6 +1207,7 @@ The scandal and this discourse dogged Bachelet for the rest of her term.
 These patterns suggest some support for the view that when a woman holds a country's chief executive office, her high visibility in what is among the most traditionally masculine domains _may_ trigger a distinctive negative response in gender egalitarian public opinion.
 However, the case of Park in South Korea as well as that of Bachelet in Chile suggest that public opinion backlash is not triggered by women making "great strides," as @Faludi1991 [, xix] puts it. 
 Rather than showing that the public lashes back against gender equality when women chief executives succeed, these cases instead indicate that it does so  only when they fail.
+
 
 ### Executive Failure, Public Approval, and Macroegalitarianism
 
@@ -1407,14 +1407,14 @@ The panels are ordered by the average net approval for each executive.
 The deeply negative approval ratings of Park's time in office and of Bachelet's second term are matched or exceeded by those of only three other women chief executives.
 The trends in their public approval appear in the bottom row of the plot, along with those over Bachelet's two terms.
 
-Do these very negative net approval ratings reflect poor performance of these women in chief executive office?
+Do these very negative net approval ratings reflect poor performance on the part of these women in chief executive office?
 In short, yes.
-Public approval of Theresa May, prime minister of the United Kingdom, comes closest to Park's disastrous ratings.
+Public approval of Theresa May as prime minister of the United Kingdom comes closest to Park's disastrous ratings.
 After the narrow victory of the Leave campaign in the Brexit referendum, May was charged with the unenviable responsibility of negotiating the departure of the United Kingdom from the European Union, a predicament memorably analogized as being tasked by a slender majority of the electorate to "build a submarine out of cheese" [@Rifkind2018].
 With roughly half of the public opposed to the project from the start and the remainder unlikely to be satisfied with the necessarily shabby results, this inevitable policy failure pulled May's approval ratings under water for her entire time in office [see, e.g., @Byrne2021].^[
 In the end May's successor, Boris Johnson, was only able to achieve his promise to 'get Brexit done' "by agreeing that Northern Ireland would continue to follow the EU’s rules and regulations on goods trade" and being "economical with the truth" [@Brusenbauch-Meislova2024, 275, 281]: in other words, by accepting that the Brexit cheese submarine would never actually be seaworthy and lying about it.]
 
-Another woman chief executive to experience public approval in the same range as Park and Bachelet is Laura Chinchilla, of Costa Rica's center-right National Liberation Party.
+Another woman chief executive to experience public approval in the same range as Park and Bachelet is Laura Chinchilla of Costa Rica's center-right National Liberation Party.
 Chinchilla was elected to the presidency in 2010 on a platform of fighting crime, raising taxes to lower the national debt, and completing several major infrastructure projects.
 Numerous scandals---including Chinchilla repeatedly flying on planes owned by drug cartels; tax evasion among cabinet members, including the treasury minister; and corruption in contract awards---thwarted all of these policy goals [see @Hand2020, 121-125].
 Her central campaign promise to dramatically expand state childcare also came to naught for insufficient funding, cementing perceptions of "widespread mismanagement and corruption within Chinchilla's administration" [@Hand2020, 125].
@@ -1496,7 +1496,7 @@ The bivariate relationship between the change in PGE scores during a term of a w
 Even with the large uncertainties in the change in PGE scores and the limited number of observations---the Executive Approval Project includes data on net approval for only `r nrow(pge_eap1)` terms of women chief executives who served at least two years in office---a positive relationship is evident.
 High positive net approval ratings for women chief executives are associated with increases over their terms in the public's gender egalitarian attitudes.
 Negative net approval ratings are associated with flat or perhaps declining levels of macroegalitarianism.
-If gender egalitarian public opinion ever declines in response to a women chief executive, it does so in the rare instance of her failure, not on the more common occasion of her success.
+If gender egalitarian public opinion ever declines in response to a women chief executive, it would appear it does so in the rare instance of her failure, not on the more common occasion of her success.
 
 
 ## Korean Exceptionalism?
@@ -1507,11 +1507,11 @@ Here, we have pushed the limits of the available data in search of evidence that
 There is little sign that macroegalitarianism---attitudes toward women in the public sphere generally---consistently declines when women hold chief executive office.
 Indeed, the opposite is much more often the case.
 
-We do find hints of support for a more limited and conditional argument based on the Korean experience: views on gender equality in politics and women in leadership may fall briefly when women chief executives are implicated in scandal or suffer policy failure.
+We do find hints of support for a more limited and conditional argument based on the Korean experience: views on gender equality in politics and women in leadership may fall in the short run when women chief executives are implicated in scandal or suffer policy failure.
 Higher rates of public approval are associated with larger increases in macroegalitarianism during the terms of women chief executives.
 It would seem that public opinion does hold a woman's failure in high office against women in politics generally for as long as a few years before rebounding, though great caution is appropriate given this pattern is evinced in just a handful of observations beyond Korea: the second terms of Bachelet and May and the third of Thatcher.^[
 Iveta Radičová's scandal-shortened two-year term as prime minister of Slovakia [see @Wolchik2017, 247]---during which the estimated decline in macroegalitarianism was the largest observed during any woman's term (see @fig-pge_women_execs)---likely fits the pattern as well, although the lack of executive approval data prevented its inclusion in the analysis presented in @fig-pge_eap.]
-Chinchilla's scandal-wracked presidency of Costa Rica is a trenchant reminder on the latter point: despite her numerous policy failures and subterranean levels of executive approval, the increase in macroegalitarianism during her term is estimated to have been greater than that for any other woman leader (see again @fig-pge_women_execs). 
+Chinchilla's scandal-wracked presidency of Costa Rica is a trenchant reminder on the latter point: despite her numerous policy failures and scandals and her subterranean levels of executive approval, the increase in macroegalitarianism during her term is estimated to have been greater than that for any other woman leader (see @fig-pge_women_execs). 
 With relatively few woman chief executives and even fewer examples of their abject failure, the evidence for public opinion backlash against gender equality in the public sphere in even these circumstances cannot be considered conclusive.
 
 The turnabout between the election of Park Geun-hye as Korea's first woman president and the election of an avowed opponent of efforts to advance gender equality, Yoon Suk-yeol, was dramatic.
@@ -1519,9 +1519,9 @@ But it was not necessarily a sign of a backlash against the success of women in 
 Korea has some of the lowest levels of macroegalitarianism found in the OECD.
 In fact, as @fig-pge_women_start shows, when Park became president, Korea had the lowest PGE score of any woman chief executive's country at the start of her term.
 Park ran and won not so much as a woman candidate---an aspect of her candidacy that her campaign emphasized only in the final stretch before the election [@Lee2017]---but instead as a continuation of her father's political legacy, and the Korean public largely viewed her in that way [@Lee2023].
-Although she gained votes among those who felt it was time for a woman president, the strongest predictor of voting for Park was voters' feelings for her father and his record [@Kang2018].
+Although she gained votes among those who felt it was time for a woman president, her "political foundation was her partisan support by conservative" voters [@Hur2023, 501] and the strongest predictor of voting for Park was voters' feelings for her father and his record [@Kang2018].
 
-```{r, fig.cap="Women Chief Executives and Macroegalitarianism at Start of Term in OECD Countries", fig.height=9, dev='cairo_pdf'}
+```{r, fig.cap="Macroegalitarianism at the Start of Women Chief Executives' Terms in OECD Countries", fig.height=9, dev='cairo_pdf'}
 #| label: fig-pge_women_start
 
 caption <- "Note: Gray whiskers represent 80% credible intervals."
@@ -1568,10 +1568,6 @@ pge_start %>%
 
 ```
 
-It is not surprising, then, that Yoon's arguments against efforts to advance gender equality gained significant traction among much of the Korean public.
-Demand for gender equality in Korea had always been relatively low.
-Yoon's 
-
-Korea not exceptional in how the public reacted to a woman chief executive.
-What is in fact unusual about the Korean case is that, given public opinion toward women in the public sphere, a woman held the country's highest political office at all.
-
+It is not surprising, then, that Yoon's arguments against efforts to advance gender equality gained significant traction among much of the Korean public: demand for gender equality in Korea had been relatively low before Park's election and it remained relatively low after her impeachment.
+What is in fact unusual about the Korean case is that, given public opinion toward women in the public sphere, a woman was able to win the country's highest political office at all.
+Park, the 'princess of the nation' and the single woman with dynastic ties elected to chief executive office in the OECD, was likely the only woman able to achieve the feat.
