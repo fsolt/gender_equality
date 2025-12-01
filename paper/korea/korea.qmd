@@ -20,12 +20,12 @@ In other words, if the Korean public did lash back against progress toward gende
 The extent of women's success in winning office merely increases the probability that the public becomes more egalitarian, after all; it does not determine that result [cf. @Dion1998].
 Occasional exceptions to the rule are just to be expected.
 
-However, leaving it at that---simply sweeping Korea, as an occasional exception, into the error term as it were---is not only unlikely to soothe the concerned, it also misses an opportunity: close study of cases that are poorly explained by existing models offers suggestions for theoretical development [see, e.g., @Stephens1979, XXX; @Ragin1987, 76-80; @Seawright2008, 302-303].
+However, leaving it at that---simply treating Korea as an exception and relegating it to the error term, as it were---is not only unlikely to soothe the concerned, it also misses an opportunity: close study of cases that are poorly explained by existing models offers suggestions for theoretical development [see, e.g., @Stephens1979, 100; @Ragin1987, 76-80; @Seawright2008, 302-303].
 In particular, a case in which the purported cause is present but the expected outcome is absent can illuminate antecedent conditions the original theory  requires to operate [@VanEvera1997, 86].
 If a woman achieves spectacular success in winning political office in Korea, but the country's public does not respond with growing support for gender equality in the public sphere as we found elsewhere but instead with backlash, it could be because some condition needed for accelerating feedback to occur is missing---or a condition that prevents accelerating feedback from occurring is present.
 
 One circumstance that clearly distinguishes Park from the elected women whose successes we previously examined is that she was elected to Korea's presidency while those we studied in Chapter 4 were legislators.
-The greater visibility of chief executives and the differing citizen expectations of legislators and executives [see @SweetCushman2022] could yield a different relationship between women's officeholding and gender egalitarian public opinion.
+The greater visibility of chief executives and the differing citizen expectations of legislators and executives [see @SweetCushman2022] could yield a different response of gender egalitarian public opinion to women's executive officeholding than the one we found for women's legislative officeholding.
 We investigate this possibility in the next section. 
 
 ```{r setup, include=FALSE}
@@ -376,7 +376,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 ## The Election of Park Geun-hye and Korean Public Opinion
 
-Park Geun-hye was nine years old when her father, Major General Park Chung-hee, led the overthrow of South Korea's elected government in 1961.
+Park Geun-hye was just nine years old when her father, Major General Park Chung-hee, led the overthrow of South Korea's elected government in 1961.
 After first heading a military junta, Park Chung-hee narrowly won flawed elections to become president in 1963 and then ruled the country until he was assassinated in 1979 [see, e.g., @Lee1980].
 He is credited as the architect of 'Miracle on the Han River,' an era of rapid economic growth and modernization: real economic growth averaged over 10% per year during his rule [see, e.g., @Haggard1990; @Kim2004]. 
 This family background served as Park Geun-hye's foundational political identity.
@@ -1220,8 +1220,9 @@ Rather than showing that the public lashes back against gender equality when wom
 
 ### Executive Failure, Public Approval, and Macroegalitarianism
 
-To assess this possibility, we turn to executive public approval, a crucial measure of leaders' success.
-Public approval, it turns out, is a particularly good measure of the success of leaders who are women: scandals and policy failures have been found to have especially strong negative effects on the macro-approval of women presidents relative to men presidents [see, e.g., @Carlin2020; @Reyes-Housholder2020].
+To assess this possibility, we look to a crucial measure of leaders' success: executive public approval.
+Public approval, it turns out, is a particularly good measure of the success of leaders who are women.
+Scandals and policy failures have been found to have especially strong negative effects on the macro-approval of women presidents relative to men presidents [see, e.g., @Carlin2020; @Reyes-Housholder2020].
 Specifically, we use the data provided by the Executive Approval Project [@Carlin2025], which combines "numerous disparate public opinion sources" that include various assessments "into a single unidimensional series capturing the public's view of the executive" in each country [@Carlin2020, 1366].
 
 @fig-park_eap shows Park's net presidential approval---that is, the difference between her approval rating and her disapproval rating---for each month of her time in office.
