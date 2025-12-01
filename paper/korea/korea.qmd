@@ -1513,7 +1513,7 @@ If gender egalitarian public opinion ever declines in response to a women chief 
 
 The turnabout between the election of Korea's first woman president in 2012 and the "incel election" of 2020 challenges the findings of positive public responsiveness to gender equality that we presented in previous chapters.
 Is this turn of events paradigmatic of the manner in which the public lashes back against the movement toward gender equality constituted by the election of a woman to a country's highest political office?
-Here, we have pushed the limits of the available data in search of evidence that contradicts our earlier conclusion.
+Here, we have pushed the limits of the available data in search of evidence that contradicts our earlier conclusions.
 There is little sign that macroegalitarianism---attitudes toward women in the public sphere generally---consistently declines when women hold chief executive office.
 Indeed, the opposite is much more often the case.
 
@@ -1529,7 +1529,7 @@ But it was not necessarily a sign of a backlash against the success of women in 
 Korea has some of the lowest levels of macroegalitarianism found in the OECD.
 In fact, as @fig-pge_women_start shows, when Park became president, Korea had the lowest PGE score of any woman chief executive's country at the start of her term.
 Park ran and won not so much as a woman candidate---an aspect of her candidacy that her campaign emphasized only in the final stretch before the election [@Lee2017]---but instead as a continuation of her father's political legacy, and the Korean public largely viewed her in that way [@Lee2023].
-Although she gained votes among those who felt it was time for a woman president, her "political foundation was her partisan support by conservative" voters [@Hur2023, 501] and the strongest predictor of voting for Park was voters' feelings for her father and his record [@Kang2018].
+Although she gained votes among those who felt it was time for a woman president, her "political foundation was her partisan support" from conservative voters [@Hur2023, 501] and the strongest predictor of voting for Park was voters' feelings for her father and his record [@Kang2018].
 
 ```{r, fig.cap="Macroegalitarianism at the Start of Women Chief Executives' Terms in OECD Countries", fig.height=9, dev='cairo_pdf'}
 #| label: fig-pge_women_start
@@ -1580,4 +1580,4 @@ pge_start %>%
 
 It is not surprising, then, that Yoon's arguments against efforts to advance gender equality gained significant traction among much of the Korean public: demand for gender equality in Korea had been relatively low before Park's election and it remained relatively low after her impeachment.
 What is in fact unusual about the Korean case is that, given public opinion toward women in the public sphere, a woman was able to win the country's highest political office at all.
-Park, the 'princess of the nation' and the single woman with dynastic ties elected to chief executive office in the OECD, was likely the only woman able to achieve the feat.
+Park, the 'princess of the nation' and the single woman with dynastic ties elected to chief executive office in the OECD, was likely the only woman able to achieve that feat.
