@@ -53,7 +53,7 @@ oecd_countries <- c("Australia", "Austria", "Belgium",
 
 Democracy involves an interplay between, on one side, the preferences of the public and, on the other, the identity and policymaking of elected officeholders.
 This interplay has two components: democratic representation and public responsiveness.
-In one influential formulation, democracy requires that who holds power must be decided in contested elections with broad suffrage [@Przeworski2000], that is, by the preferences of the public. 
+In one influential formulation, democracy requires that who holds power must be decided in contested elections with broad suffrage [@Przeworski2000], that is, by the preferences of the public.
 But it also requires that the _actions taken_ by the people in power reflect, to some degree, what the public wants.
 As @Key1961 [, 7] observed, "Unless mass views have some place in the shaping of policy, all the talk about democracy is nonsense."
 Democratic representation, therefore, occurs when these two things---the identity of officeholders and the policies they make---result from public opinion.
@@ -67,14 +67,12 @@ A crucial aspect of both of these components is that they unfold over time, that
 This is fortunate not only as a matter of democratic theory [see @Disch2011], but also from an empirical standpoint, because otherwise a high association between, say, public opinion on an issue and the policy in effect with regard to that same issue may be evidence of either democratic representation or public responsiveness or both.
 The fact that causes must precede effects in time allows for the two components to be disentangled.
 
-![Dynamic Democracy and Gender Equality](diagram.jpeg){#fig-diagram fig.pos='h' height=3in}
-
 With reference to gender equality in the public sphere, dynamic democracy takes the form depicted in @fig-diagram.
 If democratic representation occurs, macroegalitarianism, our concept of public opinion toward gender equality in politics and the workplace, should drive how many women are elected as legislators and the extent to which policies advancing equality in politics---legislative gender quotas---and in employment are adopted.
 Public responsiveness entails macroegalitarianism in turn being driven by these political and policy outputs.
 
 In the remainder of this chapter, we discuss in more detail the theoretical arguments involving democratic representation and public responsiveness, both in general and specifically with regard to gender equality; we provide a brief review of existing empirical research on each as well.
-We start first with democratic representation, the consequences of public opinion for politics and policy. 
+We start first with democratic representation, the consequences of public opinion for politics and policy.
 
 
 ## Democratic Representation: From Public Opinion to Politics and Policy
@@ -127,7 +125,7 @@ A related open question to _if_ democratic representation occurs with regard to 
 Is electoral turnover necessary or do legislators of all stripes respond to the shifting opinion of the public?
 @Caughey2022 [, 99] refers to these two alternate mechanisms as 'selection' and 'adaptation.'
 That work finds that adaptation dominated the link between the preferences of the public and policy adoption "not because party control has no policy effects---they are in fact quite large and robust---but because they are quite weakly related to party control" yet quite strongly related to the ideological positions of both parties found across the U.S. states [@Caughey2022, 109].
-On the other hand, increased polarization between the parties has intensified the relationship between changes in party control of state governments and changes in policy over time in the states since the turn of the twenty-first century [@Grumbach2018]. 
+On the other hand, increased polarization between the parties has intensified the relationship between changes in party control of state governments and changes in policy over time in the states since the turn of the twenty-first century [@Grumbach2018].
 Selection, in other words, has become more important to what democratic representation occurs in the U.S. states.
 As such representation is only incremental, @Caughey2022 [, 109] speculate that this change may be evident "once we have another decade or two's worth of data."
 Whether representation occurs primarily via selection or adaptation elsewhere remains to be seen.
@@ -144,7 +142,8 @@ Indeed, @Beer2009 [, 214] declares that this story is so straightforward that it
 
 Yet there are reasons to expect that macroegalitarianism in particular is not represented in terms of either more women in office or the adoption of policies that advance gender equality.
 The multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater relative power of men to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
-And beyond the arguments presented in the previous section, parties are crucial gatekeepers between women and political power [see, e.g., @Caul1999], and the party elites who decide who may run appear to underestimate the public's willingness---or even preference---to vote for women [see, e.g., @Norris1995; @Kunovich2005; @Luhiste2015].^[@Sapiro2001 [, 7] points out a related but more fundamental issue: the potential for slippage between normative preferences for gender equality and perceptions that equality does not yet exist or endorsement for specific policies to advance it.
+And beyond the arguments presented in the previous section, parties are crucial gatekeepers between women and political power [see, e.g., @Caul1999], and the party elites who decide who may run appear to underestimate the public's willingness---or even preference---to vote for women [see, e.g., @Norris1995; @Kunovich2005; @Luhiste2015].^[
+@Sapiro2001 [, 7] points out a related but more fundamental issue: the potential for slippage between normative preferences for gender equality and perceptions that equality does not yet exist or endorsement for specific policies to advance it.
 Across respondents to the U.S. National Election Studies 1991 Pilot Survey, this article finds that gender egalitarian views are consistently but not very strongly correlated with support for government-sponsored child care and anti-discrimination policies.
 @Kim2022b argues similarly and in a study of Korean attitudes notes considerable differences between patterns of rejection of traditional gender norms and of support for policies advancing gender equality.
 Analogous slippage has also been pointed out as problematic to works on democratic representation that use left-right ideology as their measure of public opinion [see @Rasmussen2019, 414].
@@ -187,7 +186,7 @@ Acknowledging the differences in the proposed mechanisms, we will follow @Buseme
 
 There is reason, however, to also expect that political and policy outputs pull public opinion further in their own direction.
 The ways policies treat groups generate characterizations of those groups in public opinion, characterizations that then shape preferences for further policy change [@Schneider1993, 334].
-Policies may redistribute resources, generating constituencies whose preferences shift to protect their new self-interest [@Pierson1994]. 
+Policies may redistribute resources, generating constituencies whose preferences shift to protect their new self-interest [@Pierson1994].
 Even absent such distributive aspects, policies "influence beliefs about what is possible, desirable, and normal" [@Soss2007].
 In other words, policies make their own constituencies among the public, and create demand for more of the same.
 Again following the typology presented in @Busemeyer2021, we will call the dynamic in which policies generate support for additional change in the same direction as "accelerating" feedback.
@@ -237,7 +236,9 @@ There is also evidence that the public opinion supporting gender equality in pol
 In short, these works indicate that more women in office may yield more egalitarian opinion in the public, only among women, only among men, among no one at all, or indeed in some circumstances it may generate _less_ egalitarian opinion.
 
 Research focusing on public responsiveness to policy is more consistent.^[
-Perhaps surprisingly, evidence looking to political behavior runs counter to that which directly examines attitudes. @Clayton2015 finds living in a district randomly reserved for a woman community councilor decreased political engagement among women in Lesotho. @Kerevel2017 found that, in Mexico after the passage of gender quotas, women living in districts in which female candidates ran expressed lower political engagement.]
+Perhaps surprisingly, evidence looking to political behavior runs counter to that which directly examines attitudes.
+@Clayton2015 finds living in a district randomly reserved for a woman community councilor decreased political engagement among women in Lesotho.
+@Kerevel2017 found that, in Mexico after the passage of gender quotas, women living in districts in which female candidates ran expressed lower political engagement.]
 In a cross-section of 48 democracies, @Allen2018 finds that the presence of gender quotas are associated with more gender egalitarian views regarding politics.
 @Fernandez2021 finds across 28 European countries that where there are gender quotas, there is more support for increasing the number of women in political decision-making positions.
 Looking across 87 countries in as many as four years over two decades, @Kim2023 find that the presence of robust gender quotas---but not weaker ones---are associated with gender egalitarian attitudes toward politics.
@@ -250,7 +251,7 @@ All of these works on policies advancing gender equality in politics and the wor
 
 Still, the cross-sectional research designs dominant in these works leave doubt regarding the direction of causation.
 Indeed, the assumption that gender egalitarian public opinion is simply causally prior to women in office or policies advancing gender equality---the assumption that policy responsiveness is nonexistent---is common in the representation literature we discussed previously [see, e.g., @Schwindt-Bayer2005, 416].
-As with democratic representation, to get answers to whether and how macroegalitarianism in the public responds to political and policy developments, we will have to look. 
+As with democratic representation, to get answers to whether and how macroegalitarianism in the public responds to political and policy developments, we will have to look.
 
 
 ## The Scope of These Theories {#sec-oecd}

@@ -99,11 +99,13 @@ Drawing on the insight that "new policies create a new politics" [@Schattschneid
 For example, despite a lingering partisan cleavage, U.S. public opinion toward the Affordable Care Act grew steadily more favorable after its adoption [@Jacobs2018; @Brodie2020].
 Arguments that public opinion toward gender equality in politics and employment reacts positively to the election of women and gender egalitarian policy adoption are common as well [see, e.g., @Barnes2016; @Lomazzi2019; @Kim2023].
 
-All of this is to say that, despite substantial theorizing, these two questions---the extent of democratic representation of gender egalitarian public opinion and the nature of public responsiveness to developments toward gender equality in politics and policy---remain unsettled.
+![Dynamic Democracy and Gender Equality](diagram.jpeg){#fig-diagram fig.pos="h" height="3in"}
+
+All of this is to say that, despite substantial theorizing, these two questions---the extent of democratic representation of gender egalitarian public opinion and the nature of public responsiveness to developments toward gender equality in politics and policy, as depicted in @fig-diagram---remain unsettled.
 This is surprising given their importance.
 Democracy itself depends on democratic representation, that a government's policies reflect "the preferences of its citizens, considered as political equals" [@Dahl1971, 1].
 If purportedly democratic countries diverge from these preferences in matters profoundly affecting the lives of half of their populations and scarcely less those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
-And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in any country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
+And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in nearly every country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
 
 In the next section, we document that one reason these questions remain open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
 Remedying this shortcoming of the extant surveys and the existing literature is perhaps the biggest advantage of the research presented in this book.
