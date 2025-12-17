@@ -67,51 +67,60 @@ A crucial aspect of both of these components is that they unfold over time, that
 This is fortunate not only as a matter of democratic theory [see @Disch2011], but also from an empirical standpoint, because otherwise a high association between, say, public opinion on an issue and the policy in effect with regard to that same issue may be evidence of either democratic representation or public responsiveness or both.
 The fact that causes must precede effects in time allows for the two components to be disentangled.
 
-With reference to gender equality in the public sphere, dynamic democracy takes the form depicted in @fig-diagram.
+With reference to gender equality in the public sphere, dynamic democracy looks as follows.
 If democratic representation occurs, macroegalitarianism, our concept of public opinion toward gender equality in politics and the workplace, should drive how many women are elected as legislators and the extent to which policies advancing equality in politics---legislative gender quotas---and in employment are adopted.
 Public responsiveness entails macroegalitarianism in turn being driven by these political and policy outputs.
 
-In the remainder of this chapter, we discuss in more detail the theoretical arguments involving democratic representation and public responsiveness, both in general and specifically with regard to gender equality; we provide a brief review of existing empirical research on each as well.
+In the remainder of this chapter, we discuss in more detail the theoretical arguments on why democratic representation and public responsiveness may or may not occur, both in general and specifically with regard to gender equality.
+We provide a brief review of existing empirical research on each as well.
 We start first with democratic representation, the consequences of public opinion for politics and policy.
 
 
 ## Democratic Representation: From Public Opinion to Politics and Policy
 
 Democratic representation is multifaceted, but at its most straightforward it means to make citizens' preferences present in politics and policymaking [@Pitkin1967].
-In public opinion scholarship, there is considerable debate about the extent to which democratic representation occurs across issues, and while the research on how the public's gender egalitarianism matters in particular is perhaps more sanguine, there are findings that suggest that representation may be limited on this topic as well.
+In public opinion scholarship, there is considerable debate about the extent to which democratic representation occurs across issues, if at all, and while the research on how the public's gender egalitarianism matters in particular is perhaps more sanguine, there are findings that suggest that representation may be limited on this topic as well.
 
 We here understand democratic representation as incorporating both electoral and policy outcomes that correspond to citizen preferences [see, e.g., @Powell2004].
 Citizens generally agree that those in power should listen to public opinion rather than attempt to lead it, and they pay attention to whether they do [see, e.g., @Bowler2017; @Rosset2017].
 Politicians and parties that stray from public opinion grow increasingly likely to lose control of government and so the ability to make policy [see, e.g., @Wlezien2017b].
 That is, in democracies, free and contested elections provide an institutionalized process to reliably link public opinion to those who hold power and what they do with it [see, e.g., @Pitkin1967; @Powell2004].
 
-Still, there are theoretical reasons to expect that democratic representation with regard to policy may not occur.
-One reason is that politics is multidimensional.
+With regard to gender egalitarianism, the argument for democratic representation is straightforward: at least in democratic countries, when the public holds a more gender-egalitarian view of women's roles in the public sphere, these views create electoral incentives for parties to respond by running more women, more women will win election, and policies advancing gender equality will be more likely to pass.
+Conversely, when and where traditional attitudes relegating women to the private sphere of home and children are more dominant, parties will put forward fewer female candidates, fewer women will gain office, and anti-egalitarian public policy will not change.
+Indeed, @Beer2009 [, 214] declares that this story is so straightforward that it is in fact tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
+
+Still, there is also strong theoretical grounds to expect that democratic representation may _not_ occur: politics is multidimensional.
 Voters may agree with---and support---a party on one set of policy issues while disagreeing with it on others.
 Democratic representation should not be expected on policies that are not prioritized [see, e.g., @Powell2004, 290-291; @Costello2021].
 Competing issues may be brought forward strategically, what @Lukes1974, following @Bachrach1962, calls the second face of power.
 The wealthy constitute one group often identified as having greater relative power than others to set the agenda in this way [see, e.g., @Schattschneider1960, 105; @Pateman1971, 297-298; @Solt2008, 49; @Erikson2015, 26; @Witko2021].
 Strategic agenda setting may help explain the findings that the preferences of the rich are better represented in policy than those of their poorer fellow citizens in the United States [e.g., @Bartels2008; @Rigby2011a; @Gilens2014] and Europe [e.g., @Giger2012; @Peters2015; @Schakel2021; @Persson2024].
 
-Another argument against consistent democratic representation centers on political institutions.
-To the extent that institutions empower minorities to block the majority, policy should be expected to be less representative of public opinion [see, e.g., @Immergut1992; @Huber2001; @Tsebelis2002].
-Institutions such as presidential executives, bicameral legislatures, and federal systems all generate veto points that empower minorities in this way; coalition governments, common in parliamentary systems with legislatures elected by proportional representation, may as well with regard to some issues.
+Macroegalitarianism in particular may not be represented in terms of either more women in office or the adoption of policies that advance gender equality for this reason.
+The multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater relative power of men to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
+Moreover, given parties' crucial role as gatekeepers between women and political power [see, e.g., @Caul1999], the (male) party elites who decide who may run appear to underestimate the public's willingness---or even preference---to vote for women [see, e.g., @Norris1995; @Kunovich2005; @Luhiste2015].^[
+@Sapiro2001 [, 7] points out a related but more fundamental issue: the potential for slippage between normative preferences for gender equality and perceptions that equality does not yet exist or endorsement for specific policies to advance it.
+Across respondents to the U.S. National Election Studies 1991 Pilot Survey, this article finds that gender egalitarian views are consistently but not very strongly correlated with support for government-sponsored child care and anti-discrimination policies.
+@Kim2022b argues similarly and in a study of Korean attitudes notes considerable differences between patterns of rejection of traditional gender norms and of support for policies advancing gender equality.
+Analogous slippage has also been pointed out as problematic to works on democratic representation that use left-right ideology as their measure of public opinion [see @Rasmussen2019, 414].
+Reassuringly, though, there is scholarship that finds strong relationships between preferences for gender equality and support for gender quotas across Latin America [@Barnes2016], in Ireland [@Keenan2017], and in Australia [@Beauregard2018].
+Still, we acknowledge that given that we conceptualize and measure macroegalitarianism with normative preferences (see Appendix B), the potential for slippage would have complicated the interpretation of a null result had we found one.]
 
-Still, there is a substantial body of research that suggests that the public does get what it wants.
+There is a substantial body of empirical research that finds that the public does in fact get what it wants, supporting the theory of representation.
 With regard to officeholding, a vast literature on "ideological congruence" finds that the left-right preferences of the public are well represented in national legislatures, especially those elected via proportional representation [see, e.g., @Golder2010].
 It is telling that the debate on this topic is primarily about whether elections held using proportional representation also deliver more democratic representation when the ideology of the government instead of the legislature is considered [see, e.g., @Powell2000; @Ferland2016] rather than whether representation occurs at all.
 Contested elections prove to be very effective at generating a body of officeholders that reflect citizen preferences in this regard.
 
-With regard to policy, however, there is much less scholarly consensus.
-On the one hand, there are prominent studies that conclude that democratic representation of the public's policy preferences is strong.
+Albeit with much less scholarly consensus, there are prominent studies that conclude that democratic representation of the public's policy preferences is also strong.
 @Erikson1993 [, 80], in a much-quoted finding, reports that the correspondence between opinion and policy in a cross-section of the U.S. states around 1980 was "awesome."
 Looking at a broad aggregation of policies over time in the United States at the national level, @Erikson2002 concludes similarly.
 In a study of more than three decades in Denmark, the United Kingdom, and the United States, @Hobolt2008 finds that both promises made by chief executives in annual speeches and shares of budgetary spending follow the public's preferences.
 @Soroka2010 examines budgetary policy with regard to defense and social welfare in the United States, Canada, and the United Kingdom and finds in each case that changes in spending levels over time represent public preferences.
 @Rasmussen2019 examines 20 specific policy issues in a cross-section of 31 countries and finds a strong relationship between public support for a policy and whether the policy was in place.
 
-On the other hand, there are also many studies indicating that policy representation does not always occur.
-@Page1983, for one, is more restrained, finding that when U.S. policy changed over four decades, it was twice as likely to move in the same direction as shifting opinion as counter to it, with conservative changes and low-salience policy reforms particularly likely to be contrary to developments in public opinion.
+On the other hand, there are many studies indicating that policy representation does not always occur.
+@Page1983, for one, finds that when U.S. policy changed over four decades, it was twice as likely to move in the same direction as shifting opinion as counter to it, with conservative changes and low-salience policy reforms particularly likely to be contrary to developments in public opinion.
 Another work looking cross-sectionally at the U.S. states, @Lax2009, finds that policy adoptions recognizing specific gay rights were more likely where public opinion was more favorable to those rights but that policy matched the majority preference less than two-thirds of the time.
 Expanding on this work and pooling across 39 different policies, @Lax2012 similarly finds that states where public support for a policy is greater are more likely to have adopted the policy, but that the chance a state provided the policy with majority support was only as likely as not.
 The results presented in @Brooks2006 show that overall welfare state effort from 1988 to 2001 tracked changes in public opinion on government responsibility for providing employment and reducing income inequality in eight European countries with social democratic or Christian democratic welfare states, but that it did not among six countries with liberal democratic welfare states.
@@ -119,10 +128,19 @@ The results presented in @Brooks2006 show that overall welfare state effort from
 Inspecting eight policy domains in 22 countries and four time points, @Ferland2021 finds that citizens agreed that spending should be kept at "about the same level as now" scarcely more than a third of the time.
 One impressive---and to us, inspirational---work, @Caughey2022 looks across U.S. states over nearly a century and finds democratic representation occurs only incrementally: that is, state policies change in response to changing public preferences but that they can take _decades_ to do so.
 @Hooghe2019 considers social spending in 21 European countries over 34 years and finds that it bore no relationship to public opinion at all.
-The evidence on the extent to which democratic policy representation occurs is decidedly mixed.
 
-A related open question to _if_ democratic representation occurs with regard to policy adoption is _how_ it happens if it does.
-Is electoral turnover necessary or do legislators of all stripes respond to the shifting opinion of the public?
+The severe limitations in the available public opinion data that we described in the previous chapter have sharply restricted researchers' ability to test these theories directly with regard to gender equality [@Paxton2021, 127].
+Still, what works do exist indicate democratic representation occurs, at least with regard to women in office.
+@Norris2001 finds that across dozens of democratic and authoritarian countries surveyed at the end of the twentieth century, gender egalitarian attitudes toward political leaders were strongly correlated to the proportion of women in national parliaments [see also @Inglehart2003; @Inglehart2003a].
+@Paxton2003 examines a cross-section of 46 countries and finds that where the public's disagreement that men make better political leaders than women was higher, more women were elected to legislatures.
+@Alexander2012 adds some over-time perspective by looking at 25 countries in two time periods; where gender egalitarianism regarding political leaders increased, so did the share of women in the legislature.
+Combined with the 'file drawer problem,' in which null results are unlikely to be written up or published [@Franco2014], however, the relative paucity of studies renders this literature decidedly inconclusive.
+
+
+### Selection or Adaptation?
+
+A related open question to _if_ democratic representation occurs is _how_ it happens if it does.
+Is electoral turnover necessary for policy adoption or do legislators of all stripes respond to the shifting opinion of the public?
 @Caughey2022 [, 99] refers to these two alternate mechanisms as 'selection' and 'adaptation.'
 That work finds that adaptation dominated the link between the preferences of the public and policy adoption "not because party control has no policy effects---they are in fact quite large and robust---but because they are quite weakly related to party control" yet quite strongly related to the ideological positions of both parties found across the U.S. states [@Caughey2022, 109].
 On the other hand, increased polarization between the parties has intensified the relationship between changes in party control of state governments and changes in policy over time in the states since the turn of the twenty-first century [@Grumbach2018].
@@ -133,29 +151,6 @@ The conclusion of @OGrady2019 that "European parties do _not_ respond to shifts 
 Research like the study of seven European countries over three decades presented in @Adams2009, which indicates that parties in the center and on the right---but not on the left---shift their policy stances in response to changes in public opinion, suggest that both adaptation and selection are important.
 The results reported in @Dassonneville2024 that European parties in the twenty-first century have adapted to public opinion on an immigration-nationalism dimension but not otherwise reinforces this conjecture.
 
-
-### Democratic Representation of Gender Egalitarian Public Opinion
-
-With regard to gender egalitarianism, the story of democratic representation is straightforward: at least in democratic countries, when the electorate holds a more gender-egalitarian view of women's roles in the public sphere, parties will run more women, more women will win election, and policies advancing gender equality will be more likely to pass.
-Conversely, when and where traditional attitudes relegating women to the private sphere of home and children are more dominant, parties will put forward fewer female candidates, fewer women will gain office, and anti-egalitarian public policy will not change.
-Indeed, @Beer2009 [, 214] declares that this story is so straightforward that it is in fact tautological---that gender egalitarian public opinion itself "seems to be a very good measure of gender equality."
-
-Yet there are reasons to expect that macroegalitarianism in particular is not represented in terms of either more women in office or the adoption of policies that advance gender equality.
-The multidimensionality of politics raises the possibility that even parties ostensibly favoring gender equality may nevertheless put measures promoting it behind other issues; the greater relative power of men to set the agenda within party organizations only makes this possibility more likely [see, e.g., @Htun2012, 553].
-And beyond the arguments presented in the previous section, parties are crucial gatekeepers between women and political power [see, e.g., @Caul1999], and the party elites who decide who may run appear to underestimate the public's willingness---or even preference---to vote for women [see, e.g., @Norris1995; @Kunovich2005; @Luhiste2015].^[
-@Sapiro2001 [, 7] points out a related but more fundamental issue: the potential for slippage between normative preferences for gender equality and perceptions that equality does not yet exist or endorsement for specific policies to advance it.
-Across respondents to the U.S. National Election Studies 1991 Pilot Survey, this article finds that gender egalitarian views are consistently but not very strongly correlated with support for government-sponsored child care and anti-discrimination policies.
-@Kim2022b argues similarly and in a study of Korean attitudes notes considerable differences between patterns of rejection of traditional gender norms and of support for policies advancing gender equality.
-Analogous slippage has also been pointed out as problematic to works on democratic representation that use left-right ideology as their measure of public opinion [see @Rasmussen2019, 414].
-Reassuringly, though, there is scholarship that finds strong relationships between preferences for gender equality and support for gender quotas across Latin America [@Barnes2016], in Ireland [@Keenan2017], and in Australia [@Beauregard2018].
-Still, we acknowledge that given that we conceptualize and measure macroegalitarianism with normative preferences (see Appendix B), the potential for slippage would have complicated the interpretation of a null result had we found one.]
-
-The severe limitations in the available public opinion data that we described in the previous chapter have sharply restricted researchers' ability to test these arguments directly [@Paxton2021, 127].
-Still, what works do exist indicate democratic representation occurs, at least with regard to women in office.
-@Norris2001 finds that across dozens of democratic and authoritarian countries surveyed at the end of the twentieth century, gender egalitarian attitudes toward political leaders were strongly correlated to the proportion of women in national parliaments [see also @Inglehart2003; @Inglehart2003a].
-@Paxton2003 examines a cross-section of 46 countries and finds that where the public's disagreement that men make better political leaders than women was higher, more women were elected to legislatures.
-@Alexander2012 adds some over-time perspective by looking at 25 countries in two time periods; where gender egalitarianism regarding political leaders increased, so did the share of women in the legislature.
-
 Should we expect the democratic representation of macroegalitarianism to occur via selection or by adaptation?
 In this context, the selection mechanism involves gender egalitarian voters replacing men in office with women to gain the gender egalitarian policies they prefer.
 Adaptation would mean men legislators also respond to changes in macroegalitarianism.
@@ -163,24 +158,27 @@ As noted above, there is some evidence that gender egalitarian public opinion le
 And there is also abundant evidence that women legislators matter for the passage of policies advancing gender equality [see, among many, @Gerrity2007; @Betz2020; @Weeks2022; @Kim2022].
 Together, these two strands of research suggest that selection is important.
 But the fact that in the latter works public opinion is measured with weak proxies or, more often, absent entirely raises the possibility that the relationship between women in office and equality-enhancing policy may be spurious.
-That is, the relationship between women's descriptive representation and policies advancing gender equality may be driven by both being products of public opinion.
+That is, the relationship between women's officeholding and policies advancing gender equality may be driven by both being products of public opinion.
 Were that true, adaptation would be the exclusive mechanism by which democratic representation occurs with regard to gender equality.
 This seems unlikely.
-@Schwindt-Bayer2005, one work that does include a measure of public opinion along with women's descriptive representation, finds using a structural equation model that opinion influences the adoption of equality-enhancing policies only through its relationship to more women holding office---that is, through selection only.
+@Schwindt-Bayer2005, one work that does include a measure of public opinion along with women's officeholding, finds using a structural equation model of a cross-section of 31 democracies that opinion influences the adoption of equality-enhancing policies only through its relationship to more women holding office---that is, through selection only.
 
-Returning to the principal subject of this section, there are in short convincing arguments both for and against expecting democratic representation in this case.
-To see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look.
+In short, there are convincing arguments both for and against expecting democratic representation of the public's attitudes toward gender equality, and the evidence presented in the literature is mixed in its findings.
+Our contention, as we mentioned in the introductory chapter, is that the reason for the unresolved state of the current scholarship is the limits of the evidentiary base that existing studies have examined.
+Cross-sectional studies dominate this literature, making drawing causal conclusions unwarranted, a point sometimes acknowledged even by the works themselves [e.g., @Norris2001, 134-135], and the works that do examine change over time are mostly limited to the United States.
+To see if and to what extent the composition of legislatures and the content of policy represent the macroegalitarianism of the public, we are going to have to look with more and better data.
 
 
 ## Public Responsiveness: From Politics and Policy to Public Opinion
 
 How the public responds to policy change is, if anything, an even less settled question.
-The key point of debate is whether public opinion moves against a policy after it is adopted or rather moves further in its support.
-Arguments that public opinion reacts negatively to policy change are common.
+The key point of debate is whether public opinion moves against a newly elected political actor or a newly adopted policy or instead moves further in its support.
+Arguments that public opinion reacts negatively to political victors or policy changes are common.
+
 @Bishin2016 [, 627] points out that the idea of public opinion backlash implies "that on any controversial issue, the public as a whole, or some groups within it, may recoil at challenges to the status quo."
-And as mentioned in the introduction, the thermostatic model provides a generalized theory of backlash.
+And as mentioned in the introduction, the thermostatic model provides a generalized theory of public opinion backlash.
 The argument for thermostatic public opinion is that, as the level of any given political outcome or policy output moves further in a given direction, it will pass the desired level of an increasing share of the public.
-With their demand sated, some of the people who before this policy change wanted "more" will now want "less," and public opinion as a whole will trend away from the change that just occurred [@Wlezien1995; @Soroka2010].
+With their demand sated, some of the people who before this policy change wanted 'more' will now want 'less,' and public opinion as a whole will trend away from the change that just occurred [@Wlezien1995; @Soroka2010].
 @Weaver2010 [, 139] notes that the costs of policies may be simply be underappreciated or unforeseen by members of the public before adoption but become manifestly evident afterwards and so "undermine political support for those policies."
 Acknowledging the differences in the proposed mechanisms, we will follow @Busemeyer2021 in referring to these arguments collectively as describing "self-undermining" feedback to politics or policy.
 
@@ -192,7 +190,19 @@ In other words, policies make their own constituencies among the public, and cre
 Again following the typology presented in @Busemeyer2021, we will call the dynamic in which policies generate support for additional change in the same direction as "accelerating" feedback.
 
 There is substantial empirical support for self-undermining feedback.
-@Soroka2010 finds that as spending on defense and on social expenditure went up, public opinion favoring spending in each of these sectors subsequently went down---and as spending went down, demand for spending then went up---in the United States, Canada, and the United Kingdom.
+Consider the evidence on the political question of how voters respond to election results.
+That the party of the sitting U.S. president nearly always loses seats in the midterm legislative elections is a stylized fact of American politics.
+@Bafumi2010 looks over the course of the midterm year at the trend in party-vote preferences (the so-called 'generic ballot' that includes no names of candidates) in 16 midterm elections and concludes that a substantial portion of the electorate gradually decides to vote to reverse the trend in policy set off by their own choices in the previous election.
+The success of radical right parties in winning parliamentary seats for the first time, @Bischof2019 finds, pushes left-leaning voters to identify as even farther to the left.
+@Bustikova2014 concludes that in central and eastern Europe, the success of parties representing ethnic minorities in joining governing coalitions and so influencing policy triggers increased support for radical right parties that oppose policies of ethnic accommodation.
+In a study of Germany's Länder, @Arend2025 finds that Green Party success at the subnational level drives increased enmity for the Greens and more support for the country's conservative Christian Democratic parties.
+While the argument for public opinion backlash against women in office has drawn calls for more research [see @Sanbonmatsu2008], empirical studies on how women in office influence gender egalitarian public opinion is scant [see @OBrien2019, 59], likely again due to data issues.
+One exception, @Woo2025a finds that support for gender equality in politics among the Korean public declined during the presidency of Park Geun-hye, the first woman elected to be Korea's chief executive.^[
+We follow up on this finding in Chapter 6.]
+Providing additional suggestive evidence, @Kerevel2017 found that, in Mexico after the passage of gender quotas, women living in districts in which female candidates ran expressed lower political engagement, ostensibly because the imposition of quotas to advance gender equality reduces the public's gender egalitarian views [see also, e.g., @Clayton2015].^[
+Note that @Kerevel2017 [, 459-460] acknowledges that this result could also be due to sexist party elites starving women candidates of the resources needed to spur citizen engagement; unfortunately, the work is unable to distinguish between these possiblities.]
+
+With regard to policy, @Soroka2010 finds that as spending on defense and on social expenditure went up, public opinion favoring spending in each of these sectors subsequently went down---and as spending went down, demand for spending then went up---in the United States, Canada, and the United Kingdom.
 @Erikson2002 reports that when U.S. policymaking trended in a liberal direction, the response of U.S. public opinion was to grow more conservative, and vice versa.
 Swedish citizens with more points of contact with the country's comprehensive and universalistic welfare policies had greater support for increasing welfare-state funding, while those who interacted with its targeted and means-tested programs had less [@Kumlin2002; @Kumlin2004].
 Looking at 18 politicized policy issues in the United States over at least forty years, @Atkinson2021 found that 13 moved in the opposite direction of the stance of the party in control of the White House.
@@ -201,7 +211,8 @@ A long line of works stretching from @Quillian1995 and @Scheepers2002a to @Claas
 Reviewing the literature, @Atkinson2021 [, 4], calls the thermostatic model "spectacularly successful," the "reigning model" of the process of opinion change in response to policy.
 
 Nevertheless, there is also much empirical support for accelerating feedback.^[
-Given our focus, we concentrate here on works that directly consider public opinion, but a related body of research looks at behavior to assess how policy may cause self-reinforcing political mobilization; see @Campbell2012 for a review of this literature.]
+Given our focus, we concentrate here on works that directly consider public opinion, but a related body of research looks at behavior to assess how policy may cause self-reinforcing political mobilization; see @Campbell2012 for a review of this literature.
+There is also some suggestive evidence on self-reinforcing effects of women's officeholding from research looking to women's political behavior; for an overview, see @Paxton2021 [, 131-133].]
 @Campbell2003 [, 95] documents that "the growth of Social Security over time has met with little backlash from taxpaying nonrecipients" and finds instead that the U.S. public has since its inception consistently favored its expansion.
 @Svallfors2010 shows that in 1990, attitudes toward the role of government were starkly different in eastern and western Germany, but while attitudes barely changed in the Federal Republic's preexisting territory over the next 16 years, the wholesale policy change toward smaller government in the former East Germany that accompanied reunification triggered a dramatic shift away from preferences for state intervention among people living there.
 In contrast to its other findings on pension reform in Europe, @Fernandez2013 found that opposition to raising retirement ages was stronger where those ages were already lower.
@@ -214,44 +225,34 @@ Looking across 28 European countries surveyed as many as five times over eight y
 @Abou-Chadi2019 extends the period of time examined and reaches similar results, as does the analysis of a much broader sample of countries and years presented in @Woo2025 [, 9].
 In the United States, state-level bans on same-sex marriage also exhibited accelerating feedback, with public opinion viewing gay and lesbian people more negatively after they were adopted [@Donovan2013].
 
-If the two previous paragraphs seems contradictory, @Busemeyer2021 [, 138] notes that the works finding evidence of self-undermining feedback and those that point to accelerating feedback "so far have largely ignored each other."
+There is some evidence for accelerating feedback with regard to gender equality as well.
+@Kim2023 examines four waves of the WVS in 87 countries for a total of 187 observed country-years; in multilevel models of individuals with varying intercepts for country-years and countries, it finds strong evidence that women's officeholding positively influences attitudes toward women in politics.
+@Alexander2012, again working with 25 countries at two points in time, finds that growing women's officeholding yielded increases in belief that men are not better political leaders than women _among women_ but did not change attitudes among men.
+Conversely, @Kerevel2015 finds in a cross-section of Mexican municipalities that the presence of a woman mayor increased disagreement that men make better political leaders _among men_ but did not change attitudes among women.^[
+Similarly, where the chief councilor position in villages in West Bengal, India, were randomly reserved for women candidates, a vignette experiment revealed that among men identical fictional male and female politicians were judged to be similarly effective whereas men in villages that had not experienced female leadership judged the hypothetical male leader as significantly more effective; women in both settings expressed little bias [@Beaman2009, 1500].]
+In a cross-section of 48 democracies, @Allen2018 finds that the presence of gender quotas are associated with more gender egalitarian views regarding politics.
+@Fernandez2021 finds across 28 European countries that where there are gender quotas, there is more support for increasing the number of women in political decision-making positions.
+Looking across 87 countries in as many as four years over two decades, @Kim2023 find that the presence of robust gender quotas---but not weaker ones---are associated with more gender egalitarian attitudes toward politics.
+@Barnes2016 finds in a cross-section of 24 Latin American countries that people in countries that have adopted effective gender quota policies express more support for gender quotas.
+Across 20 Latin American countries, @Smith2017 reports that political gender stereotypes are less common where gender quotas are in place.
+@Banaszak2006 reveals that the extensive policies encouraging women's employment in the German Democratic Republic have resulted in attitudes supporting women in the workforce that are persistently higher in eastern Germany than in western Germany.
+In a cross-section of 28 European countries, @Lomazzi2019 found that people in countries with greater state support for formal childcare at ages zero to three had more egalitarian attitudes on gender roles.
+@Mohring2020 [, 575] examines support for gender quotas on corporate boards across 27 European countries and finds that support for boardroom quotas is higher in countries that have already enacted such measures.
+All of these works on policies advancing gender equality in politics and the workplace conclude that they reinforce their own support.
+
+
+If the foregoing discussions seem contradictory, it is because they are: @Busemeyer2021 [, 138] notes that the works finding evidence of self-undermining feedback and those that point to accelerating feedback "so far have largely ignored each other."
 There is, of course, a third possibility: that public opinion does not respond to policy change at all.
 @Soss2007 finds that the dramatic cuts to benefits for low-income citizens in the United States in 1996 did nothing to change public opinion on welfare policy, welfare recipients, and the poor.
 @Atkinson2021 finds that U.S. trends in preferences regarding spending on cities, spending on police, legalizing marijuana, and protecting unions bore no relationship to the position of the president's party.
 That work also identifies six other important issues that were not politicized over the period examined and finds they did not respond in an accelerating or self-undermining fashion either.
 Intriguingly given present purposes, @Atkinson2021 further argues that gender egalitarian public opinion should not exhibit responsiveness.
 Instead, attitudes toward gender equality, along with racial equality and gay rights, constitute cultural shifts: "Our explanation for these is that absolute opinion change---that is, permanent opinion change that is not responsive to changes in policy---is going on" [@Atkinson2021, 40].
-We continue our discussion of the theories and evidence for public responsiveness in macroegalitarianism in the next section.
+@Morgan2013 presents further evidence against any feedback of politics on the gender egalitarianism: in a cross-section of 19 Latin American countries, that study finds that the share of women in the legislature the public did _not_ predict support for gender equality in politics.
 
-### Public Responsiveness to Women in Office and Policies Advancing Gender Equality
-
-The argument for public opinion backlash against women in office has drawn calls for research [see @Sanbonmatsu2008], but empirical studies on how women in office influence gender egalitarian public opinion is scant [see @OBrien2019, 59], likely again due to data issues.
-While there is some suggestive evidence from research looking to women's political behavior [for an overview, see @Paxton2021, 131-133], the direct evidence is decidedly mixed.
-@Kim2023 examines four waves of the WVS in 87 countries for a total of 187 observed country-years; in multilevel models of individuals with varying intercepts for country-years and countries, it finds strong evidence that women's officeholding positively influences attitudes toward women in politics.
-@Alexander2012, again working with 25 countries at two points in time, finds that growing women's descriptive representation yielded increases in belief that men are not better political leaders than women _among women_ but did not change attitudes among men.
-On the other hand, @Kerevel2015 finds in a cross-section of Mexican municipalities that the presence of a woman mayor increased disagreement that men make better political leaders _among men_ but did not change attitudes among women.
-Similarly, when the chief councilor position in villages in West Bengal, India, were randomly reserved for women candidates, a vignette experiment revealed that _among men_ identical fictional male and female politicians were judged to be similarly effective whereas men in villages that had not experienced female leadership judged the hypothetical male leader as significantly more effective; women in both settings expressed little bias [@Beaman2009, 1500].
-And a study of a cross-section of 19 Latin American countries finds that in countries with more women in the legislature the public did not exhibit more support for gender equality in politics [@Morgan2013].
-There is also evidence that the public opinion supporting gender equality in politics responds _negatively_ to women in office if they are revealed to have engaged in corruption, the routine corruption of male politicians notwithstanding [@Woo2025a].
-In short, these works indicate that more women in office may yield more egalitarian opinion in the public, only among women, only among men, among no one at all, or indeed in some circumstances it may generate _less_ egalitarian opinion.
-
-Research focusing on public responsiveness to policy is more consistent.^[
-Perhaps surprisingly, evidence looking to political behavior runs counter to that which directly examines attitudes.
-@Clayton2015 finds living in a district randomly reserved for a woman community councilor decreased political engagement among women in Lesotho.
-@Kerevel2017 found that, in Mexico after the passage of gender quotas, women living in districts in which female candidates ran expressed lower political engagement.]
-In a cross-section of 48 democracies, @Allen2018 finds that the presence of gender quotas are associated with more gender egalitarian views regarding politics.
-@Fernandez2021 finds across 28 European countries that where there are gender quotas, there is more support for increasing the number of women in political decision-making positions.
-Looking across 87 countries in as many as four years over two decades, @Kim2023 find that the presence of robust gender quotas---but not weaker ones---are associated with gender egalitarian attitudes toward politics.
-@Barnes2016 finds in a cross-section of 24 Latin American countries that people in countries that have adopted effective gender quota policies express more support for gender quotas.
-Across 20 Latin American countries, @Smith2017 report that political gender stereotypes are less common where gender quotas are in place.
-@Banaszak2006 reveals that the extensive policies encouraging women's employment in the German Democratic Republic have resulted in attitudes supporting women in the workforce that are persistently higher in eastern Germany than in western Germany.
-In a cross-section of 28 European countries, @Lomazzi2019 found that people in countries with greater state support for formal childcare at ages zero to three had more egalitarian attitudes on gender roles.
-@Mohring2020 [, 575] examines support for gender quotas on corporate boards across 27 European countries and finds that support for boardroom quotas is higher in countries that have already enacted such measures.
-All of these works on policies advancing gender equality in politics and the workplace conclude that they reinforce their own support.
-
-Still, the cross-sectional research designs dominant in these works leave doubt regarding the direction of causation.
+Still, the cross-sectional research designs dominant in the works just reviewed leave doubt regarding the direction of causation.
 Indeed, the assumption that gender egalitarian public opinion is simply causally prior to women in office or policies advancing gender equality---the assumption that policy responsiveness is nonexistent---is common in the representation literature we discussed previously [see, e.g., @Schwindt-Bayer2005, 416].
-As with democratic representation, to get answers to whether and how macroegalitarianism in the public responds to political and policy developments, we will have to look.
+As with democratic representation, to get answers to whether and how macroegalitarianism in the public responds to political and policy developments, we will have to look at more and better data.
 
 
 ## The Scope of These Theories {#sec-oecd}

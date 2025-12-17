@@ -1374,8 +1374,9 @@ Along with Mexico, the Latin American countries of Costa Rica, Chile, and Colomb
 On the other hand, any movement toward gender equality in legislative officeholding has been slow and halting in a number of countries, from Ireland and Greece to South Korea and Japan. 
 
 These differences across countries in women's officeholding have been closely studied.
-Case studies and cross-national work alike have found support for the elite-led theory described in Chapter 2.
-Both ways in which this theory suggests the supply of women candidates may be increased appear to work.
+Two aspects of institutions, the rules of the game, have been repeatedly found important: party list electoral systems and national quota laws.
+<!-- Case studies and cross-national work alike have found support for the elite-led theory described in Chapter 2. -->
+<!-- Both ways in which this theory suggests the supply of women candidates may be increased appear to work. -->
 Countries that employ electoral systems that include party lists have been found to elect more women than those without, evidence that party lists provide better opportunities for feminist activists to convince party leaders to run more female candidates---or indeed to supplant those leaders and do it themselves [see, e.g., @Rule1994a, 18; @Matland2005, 101-105; @Paxton2021, 164-169].
 And the national quota laws advocated by these activists that, when adopted, require all parties to put forward a minimum share of women as candidates, likewise have been found generally to increase the share of women elected, if not typically by the amount their mandated candidate shares would perhaps lead one to expect [see, e.g., @Dahlerup2005; @Schwindt-Bayer2009; @Paxton2015].
 
