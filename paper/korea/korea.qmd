@@ -1,4 +1,4 @@
-# Women as Chief Executives and Macroegalitarianism: The Case of South Korea
+# Women Chief Executives and Macroegalitarianism: The Case of South Korea
 
 The perception that moves toward gender equality prompt backlashes in public opinion is widespread, as we noted at the beginning of this book.
 It would come as no surprise to us if there are, among those reading these pages, some who will find at least some of the conclusions of our two previous chapters on dynamic democracy too good to believe, in particular those regarding public responsiveness.
@@ -21,7 +21,7 @@ The extent of women's success in winning office merely increases the probability
 Occasional exceptions to the rule are just to be expected.
 
 However, leaving it at that---simply treating Korea as an exception and relegating it to the error term, as it were---is not only unlikely to soothe the concerned, it also misses an opportunity: close study of cases that are poorly explained by existing models offers suggestions for theoretical development [see, e.g., @Stephens1979, 100; @Ragin1987, 76-80; @Seawright2008, 302-303].
-In particular, a case in which the purported cause is present but the expected outcome is absent can illuminate antecedent conditions the original theory  requires to operate [@VanEvera1997, 86].
+In particular, a case in which the purported cause is present but the expected outcome is absent can illuminate antecedent conditions the original theory requires to operate [@VanEvera1997, 86].
 If a woman achieves spectacular success in winning political office in Korea, but the country's public does not respond with growing support for gender equality in the public sphere as we found elsewhere but instead with backlash, it could be because some condition needed for accelerating feedback to occur is missing---or a condition that prevents accelerating feedback from occurring is present.
 
 One circumstance that clearly distinguishes Park from the elected women whose successes we previously examined is that she was elected to Korea's presidency while those we studied in Chapter 4 were legislators.
