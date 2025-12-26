@@ -876,7 +876,7 @@ Adaptation, not selection, is the mechanism by which democratic representation w
 ### Public Responsiveness to National Gender Quota Adoption
 
 Does quota adoption trigger a backlash?
-Or do quotas work to help make gender equality salient, as @Weeks2022 puts it, and so increase macroegalitarianism?
+Or do quotas work to help make gender equality salient to the public, as @Weeks2022 revealed it does to legislators, and so increase macroegalitarianism?
 Or is the public simply unresponsive to policy change, leaving the relationship between opinion and policy flowing entirely from the former to the latter?
 The extensive data on macroegalitarianism that we presented in Chapter 3, stretching across decades in all of the OECD countries, allows us to investigate these questions.
 
@@ -1116,14 +1116,21 @@ The results are mixed.
 On the one hand, countries that have had higher average quotas over the years examined exhibit more macroegalitarianism than countries that had lower average quotas.
 A country with a mean quota of 9.6%, a value similar to those of Spain and South Korea, is estimated to have PGE scores `r get_coef("pge_mean", coef_data_nqsem)` points higher than an otherwise similar country that never adopted a national legislative gender quota; over time, this estimated difference grows to `r get_coef("pge_mean", coef_data_nqsem_total)` points.
 So, with all of the caveats that should now be familiar regarding cross-national differences and potential omitted variables, this result points to a positive reinforcement of macroegalitarianism by national legislative quotas.
-On the other hand, quota adoptions _within_ a country's timeline do not appear to influence later macroegalitarianism at all: the dashed vertical line at zero bisects the posterior distribution for this estimate very nearly perfectly.
-The one conclusion that is safe to draw from these results is that the adoption and reform of national legislative gender quotas do _not_ provoke a negative response in the public.
+On the other hand, quota adoptions _within_ a country's timeline do not appear to directly influence later macroegalitarianism at all: the dashed vertical line at zero bisects the posterior distribution for this estimate very nearly perfectly.
+It is important to remember, however, that this within-country result is net of quotas' indirect effect through women in office.
+We learned in @fig-m3-wr that the adoption of a higher quota leads to more women in office and that increases in women's officeholding yield subsequent gains in macroegalitarianism.
+A model identical to that presented in @fig-m2-nq but excluding women's officeholding yields a `r round({coef_data0_nqsem %>% filter(.variable=="b_pge_nq_diff" & .value > 0) %>% nrow() * 100}/{coef_data0_nqsem %>% filter(.variable=="b_pge_nq_diff") %>% nrow()})`% posterior probability of a positive effect of national legislative quotas on macroegalitarianism, which is also suggestive.
+One conclusion that is easy to draw from these results is that the adoption and reform of national legislative gender quotas do _not_ provoke a negative response in the public.
 There is no evidence whatsoever of anti-egalitarian backlash.
 
 
 ## Policies Advancing Gender Equality in the Workplace
 
-**Intro paragraph needed here.**
+We turn now to policies advancing gender equality in the workplace.
+Like politics, the workplace is part of the traditionally masculine public sphere, and equality for women has been slow to arrive.
+Policy can play an important role in leveling the field.
+Moreover, gender equality in the workplace strongly influences gender equality in the home: a women's earning power relative to her partner powerfully shapes the possibility of her exiting an unsatisfactory relationship without a dramatic decline in living standards, which in turn impacts her voice within the household [e.g., @Hobson1990; @Huber2009].
+Policies that advance gender equality in the workplace therefore advance gender equality in the private sphere as well as the public sphere.
 
 To measure policies advancing gender equality in the workplace, we rely on the World Bank's Women, Business, and Law v1.0 (WBL) policy index [@WorldBank2024].
 As shown in @tbl-wbl, the WBL policy index comprises thirty-five policies addressing eight topics meant "to capture inequality in legislation throughout the duration of a woman’s working life, from the time she can enter the labor force through to retirement" [@Hyland2020, 476].
@@ -1218,7 +1225,7 @@ if (!file.exists(file.path(policy_path, "data-raw", "wbl.rda"))) {
            pge_se_lag = lag(pge_se),
            fmi = if_else(country == "United States" & year < 1975, 3, fmi),
            wbl_parent_included = ifelse(!is.na(lag(pge)),
-                                            wbl,
+                                            wbl_parent,
                                             NA_real_),
            wbl_parent_reform = wbl_parent - lag(wbl_parent),
            national_quota = if_else(is.na(defacto_threshold), 0,
@@ -1371,11 +1378,11 @@ Researchers are wary of drawing conclusions based on such correlations, however.
 This strong bivariate relationship may be the consequence of spuriousness.
 @Kim2022, for example, finds that gains in women's officeholding predict subsequent increases in the WBL policy index, especially in democratic countries.
 As we have seen in @fig-m3-wr in the last chapter and @fig-m2-nq in this one, gains in women's officeholding also yield higher macroegalitarianism in the democracies of the OECD.
-The apparent relationship between gender egalitarianism among a country's citizens and the adoption of policies increasing gender equality may be driven entirely by women in the legislature---or some other variable, like national legislative quotas [see @Weeks2022]---causing both.
+The apparent relationship between gender egalitarianism among a country's citizens and the adoption of policies increasing gender equality may be driven entirely by women in the legislature---or some other variable, like national legislative quotas---causing both.
 
 So we again construct a model that includes our usual suspects of such spuriousness: national quotas, women's officeholding, feminist movement strength, and the presence of party lists in the electoral system, each measured as in our previous analyses.
 And, also as before, we use the within-between specification to parse out cross-country differences from over-time trends in each of our variables [see @Bell2015] in a Bayesian multilevel model with varying intercepts for both countries and years that capture the distinctive time-invariant characteristics of each country and the global time-varying traits that affected all countries at once [see @Shor2007]. 
-Consistent with our now-familiar approach, we also include as a predictor the one-year lag of the WBL policy index to capture the dynamics of policy adoption [see @Keele2006] and the measurement uncertainty in the PGE scores [see @Tai2024].
+Consistent with our now-familiar approach, we also include as a predictor the one-year lag of the WBL policy index to capture the dynamics of policy adoption [see @Keele2006] and include the measurement uncertainty in the PGE scores [see @Tai2024].
 
 ```{r wbl_b}
 if (!file.exists(file.path(policy_path,
@@ -1452,10 +1459,10 @@ if (!file.exists(file.path(policy_path,
            women_rep_mean,
            fmi_diff,
            fmi_mean,
-           national_quota_mean,
            national_quota_diff,
-           gdppc_mean,
+           national_quota_mean,
            gdppc_diff,
+           gdppc_mean,
            wbl_lag) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -1577,8 +1584,7 @@ coef_plot_m1 + lag_plot_m1 +
 
 The results are displayed in @fig-m1-wbl.
 They are perhaps surprising.
-Even within the OECD, a group of relatively high-income countries, the richer countries score higher on the WBL policy index than the poorer ones, by `r get_coef("gdppc_mean", coef_data_m1)` points immediately, and due to the strong dynamics in the adoption of these policies, `r get_coef("gdppc_mean", coef_data_m1_total)` points over time.
-This may indicate a long-term causal influence, but gains in GDP per capita do not evidence a similar effect so we are careful to not draw strong conclusions.
+Within the OECD, a group of relatively high-income countries, the richer countries score no higher on the WBL policy index than the poorer ones, but gains in a country's GDP per capita increases its score by `r get_coef("gdppc_diff", coef_data_m1)` points immediately, and due to the strong dynamics in the adoption of these policies, `r get_coef("gdppc_diff", coef_data_m1_total)` points over time.
 
 National gender quotas bear little relationship to the adoption of these equality-enhancing policies in this model.
 Nor does the average strength of the feminist movement, but _gains_ in the Feminist Movement Index increase the adoption of these policies by `r get_coef("fmi_diff", coef_data_m1)` points in the short run and `r get_coef("fmi_diff", coef_data_m1_total)` points compounded over time.
@@ -1641,10 +1647,10 @@ if (!file.exists(file.path(policy_path, "data", "wblsem_results.rda"))) {
            women_rep_mean,
            fmi_diff,
            fmi_mean,
-           national_quota_mean,
            national_quota_diff,
-           gdppc_mean,
+           national_quota_mean,
            gdppc_diff,
+           gdppc_mean,
            wbl_lag) %>% 
     summarize(across(everything(), by2sd)) %>% 
     pivot_longer(everything()) %>% 
@@ -1812,7 +1818,7 @@ A two-standard-deviation gain in the former yields an immedidate `r get_coef("pg
 ### A Further Test: Childcare Provision
 
 One known shortcoming of the longitudinal WBL data we use here is its exclusion of the single policy most often and closely tied to gender equality in the workforce: childcare.
-In 2024, the World Bank revised the WBL index to include childcare policy for the first time.
+The World Bank recently revised the WBL index to include childcare policy for the first time.
 Version 2.0 of the WBL dataset includes data on whether there are laws that establish public and private center-based childcare services as well as laws establishing employer-provided childcare.^[
 The new version also highlights the importance of gender-based violence to gender equality in the workplace, moving and expanding its treatment of laws combating sexual harassment from the Workplace indicator and provisions addressing domestic violence from the Marriage indicator, along with information about laws banning child marriage and criminalizing femicide, to a new Safety indicator [see @WorldBank2024a, 25-27].  As the WBL index v1.0 does include some information on policies addressing gender-based violence, we leave a more focused analysis of these specific policies to future work.]
 Unfortunately, this newly revised and expanded WBL index is currently available only for a single year.
