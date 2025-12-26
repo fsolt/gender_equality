@@ -107,10 +107,12 @@ Democracy itself depends on democratic representation, that a government's polic
 If purportedly democratic countries diverge from these preferences in matters profoundly affecting the lives of half of their populations and scarcely less those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
 And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in nearly every country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
 
-In the next section, we document that one reason these questions remain open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
+In the next section, we document that one reason these questions have remained open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
 Remedying this shortcoming of the extant surveys and the existing literature is perhaps the biggest advantage of the research presented in this book.
-Doing so allows us to find that, happily for the state of democracy but---as in the case of Korea---not always so for women's rights, the governments of the world's rich democratic countries do represent public opinion with regard to gender equality.
+
+Looking across many countries over long spans of time, we find that, happily for the state of democracy but---as in the case of Korea---not always so for women's rights, the governments of the world's rich democratic countries do represent public opinion with regard to gender equality.
 Moreover, we find that public responsiveness on this matter follows a pattern of accelerating feedback, in which gains presage additional gains.
+These findings break the logjam of the conflicting theoretical expectations alluded to above and allow further development of more nuanced arguments on the circumstances under which deviations from these average effects may occur.
 
 But before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
 To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
@@ -135,7 +137,7 @@ Still, both vantages are crucial to understanding democracy, and we hope readers
 
 Are the public's views on gender roles in the public sphere represented in what parties and policymakers do?
 And how does the extent of gender egalitarianism in the public change in response?
-Much of the reason these questions have yet to be fully answered is that data on the concept of macroegalitarianism is scant.
+Much of the reason these questions have not yet been fully answered is that data on the concept of macroegalitarianism is scant.
 Even a half century after @RuleKrauss1974 [, 1719] called for more and better data on collective attitudes on gender roles, what we have available to us remains inadequate for fully examining their causes and consequences.
 In the decades since that call, national and cross-national surveys have included a plethora of relevant questions, but sustained focus has been scant and the variety of these survey items renders the resulting data incomparable.
 As a consequence, cross-national research has been constrained to study countries at just one or a few time points [see, e.g., @Paxton2003; @Alexander2012; @Glas2019a] or to rely on proxies such as predominant religion or the percentage of women in office [see, e.g., @Burns2001, 340-341; @Claveria2014; @Barnes2018].
@@ -708,10 +710,11 @@ The policies we consider, then, are among those @Htun2010 [, 210, 209] identifie
 One benefit of this aspect of the policies we examine is that our analyses do not require a cross-nationally comparable measure of the strength of religious institutions as opponents to reform, a concept we suspect poses particularly steep challenges to cross-cultural measurement.]
 The near uniformity of our findings across this diversity of measures provides reassurance that variable selection bias does not undercut the generalizability of our conclusions.
 
-Finally, we complement our expansive cross-national over-time analyses with an in-depth case study.
-Our research on a single country allows us to assess evidence of additional aspects of the theories on democratic representation and public responsiveness, evidence that is unavailable cross-nationally.
-That we find consistent results across these nested levels of analysis further bolsters our confidence [@King2021; @Lieberman2005].
-<!-- **Talk about case studies. Multilevel research design @Lieberman2005; generalizability across units @Findley2021; subnational research design @Snyder2001** -->
+A final advantage is that we complement our expansive cross-national over-time analyses with a close examination of a single case.
+Our case is carefully selected to allow us to address two weaknesses of even the strongest cross-national comparative research designs: the understanding of rare events and the explanation of deviant observations.
+A small proportion of 'treated' observations---in this study, electoral terms during which women serve as chief executives---reduces statistical power to identify actual effects and raises the probability of mistaken conclusions [see, e.g., @Gelman2014a].
+And although one or more poorly explained observations are just to be expected in statistical analyses---most social scientific theories are probabilistic, and the corresponding models are not expected to fit the data perfectly---simply ignoring a high-profile example that does not conform to the patterns found elsewhere is not only dissatisfying, it also neglects an opportunity to further develop the extant theory on the topic [see, e.g., @Stephens1979, 100; @Ragin1987, 76-80; @Seawright2008, 302-303].
+By looking closely at a single case, we gain a better understanding of how the public responds to women chief executives, an understanding we then evaluate against the available data from other countries.
 
 
 ## Plan of the Book
@@ -722,7 +725,7 @@ In the next chapter, we review the theories and existing evidence on the relatio
 In Chapter 3, we develop our cross-national and longitudinal measure for our concept of macroegalitarianism.
 After describing how this measure, the Public Gender Egalitarianism scores, is estimated, we use them to show how macroegalitarianism varies across countries and how these attitudes have changed over the past three decades around the world.
 
-Chapter 4 narrows our geographic focus to the countries where theories of representation and responsiveness are most applicable, the advanced democracies that constitute the OECD.
+Chapter 4 narrows our geographic focus to the countries where theories of democratic representation and public responsiveness are most applicable, the advanced democracies that constitute the OECD.
 There, we explore the implications of these theories for women's officeholding, and in particular, women's success in winning election to national legislatures.
 Our analyses show that increases in macroegalitarianism predict subsequent gains in women's officeholding and that, in turn, the public responds to more women in office not with a backlash but instead by growing even more egalitarian in their views.
 
@@ -732,10 +735,10 @@ Intriguingly, these effects do not appear to work through improvements in women'
 We find some evidence of public responsiveness in this chapter as well.
 All of this evidence indicates that policymaking and public opinion constitute a virtuous circle, that the adoption of policies advancing gender equality leads, if anything, to more macroegalitarianism rather than mass opinion backlash.
 
-In Chapter 6, we further examine the relationships between public opinion, women's officeholding, and policy outcomes in the case that motivated our inquiry, South Korea.
-Taking advantage of the strengths of case study research, the chapter delves into the processes by which gender egalitarian attitudes in the public are, and are not, converted into political outcomes that further gender equality, and how those outcomes in turn shape public opinion.
-<!-- As we suggested in the opening pages, Mexico is a case that has seen rapid and dramatic changes in attitudes and policy in recent decades while Korea, on the other hand, has not witnessed such developments. -->
-<!-- Our findings from these two cases shed additional light on the reciprocal relationships between macroegalitarianism, women's descriptive representation, and the adoption of policies advancing gender equality. -->
+In Chapter 6, we further examine the relationship between women's officeholding and public opinion in the case that motivated our inquiry, South Korea.
+How can we square the successful anti-egalitarian presidential campaign of Yoon Suk-yeol just a few years after the election of Korea's first woman president with our finding in Chapter 4 of self-reinforcing feedback of women officeholders on gender egalitarian public opinion?
+Our close study of a case that is poorly explained by our model suggests an addition to extant theory: the nature of public responsiveness to women chief executives depends on their performance.
+If public opinion backlash to women in political office ever occurs in the advanced democracies, it is in response not, as @Faludi1991 argues, to women's success but rather to their failure. 
 
 Chapter 7 concludes the book by reviewing the evidence for dynamic democratic representation and public responsiveness.
 It considers the implications of our findings of dynamic democracy for political science's understanding of public opinion and of the politics of gender, as well as their implications for activism, for policy, and for democracy.
