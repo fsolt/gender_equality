@@ -996,6 +996,288 @@ if (!file.exists(file.path(policy_path, "data", "nqsem_results.rda"))) {
 }
 ```
 
+```{r nqsem_results_nwr}    
+if (!file.exists(file.path(policy_path, "data", "nqsem_results_nwr.rda"))) {  
+  bf_nq_nwr <- bf(nq ~
+                    me(pge_diff, pge_diff_se) +
+                    me(pge_mean, pge_mean_se) +
+                    # women_rep_diff +
+                    # women_rep_mean +
+                    fmi_diff +
+                    fmi_mean +
+                    list_diff +
+                    list_mean +
+                    nq_lag +
+                    (1|c|country) + (1|t|year))
+  
+  bf_pge_nwr <- bf(pge ~ 
+                     nq_diff +
+                     nq_mean +
+                     # women_rep_diff +
+                     # women_rep_mean +
+                     fmi_diff +
+                     fmi_mean +
+                     list_diff +
+                     list_mean +
+                     gdppc_diff +
+                     gdppc_mean +
+                     pge_lag +
+                     (1|c|country) + (1|t|year))
+  
+  m2_nqsem_b_nwr <- brm(formula = bf_nq_nwr + 
+                      bf_pge_nwr + 
+                      set_rescor(TRUE),  
+                    data = dft_data3 %>% 
+                      filter(!nq_lag==50),
+                    backend = "cmdstanr",
+                    control=list(adapt_delta = 0.99, 
+                                 max_treedepth = 16),
+                    warmup = 500, 
+                    iter = 1000, 
+                    chains = 4, 
+                    cores = 4,
+                    seed = 1)
+  
+  m2_data_nwr <- m2_nqsem_b_nwr$data
+  
+  m2_data_2sd_nwr <- m2_data_nwr %>% 
+    select(pge_diff,
+           pge_mean,
+           # women_rep_diff,
+           # women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           list_diff,
+           list_mean,
+           nq_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_nq_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_nq_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_nq_", name)),
+           var_names = c("Macroegalitarianism, Difference",
+                         "Macroegalitarianism, Mean",
+                         # "Women's Officeholding, Difference",
+                         # "Women's Officeholding, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "Electoral List, Difference",
+                         "Electoral List, Mean",
+                         "Lagged National Quota"
+           ),
+           sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                        1,
+                        value),
+           dv = "National Quota") %>% 
+    bind_rows(m2_data_nwr %>% 
+                select(nq_diff,
+                       nq_mean,
+                       # women_rep_diff,
+                       # women_rep_mean,
+                       fmi_diff,
+                       fmi_mean,
+                       list_diff,
+                       list_mean,
+                       gdppc_diff,
+                       gdppc_mean,
+                       pge_lag) %>% 
+                summarize(across(everything(), by2sd)) %>% 
+                pivot_longer(everything()) %>% 
+                mutate(`.variable` = paste0("b_pge_", name),
+                       var_names = c("National Quota, Difference",
+                                     "National Quota, Mean",
+                                     # "Women's Officeholding, Difference",
+                                     # "Women's Officeholding, Mean",
+                                     "Feminist Movement Index, Difference",
+                                     "Feminist Movement Index, Mean",
+                                     "Electoral List, Difference",
+                                     "Electoral List, Mean",
+                                     "GDP per Capita, Difference",
+                                     "GDP per Capita, Mean",
+                                     "Lagged Macroegalitarianism"
+                       ),
+                       sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                                    1,
+                                    value),
+                       dv = "Macroegalitarianism")) %>% 
+    mutate(dv = factor(dv, levels = c("National Quota",
+                                      "Macroegalitarianism")))
+  
+  coef_data0_nqsem_nwr <- m2_nqsem_b_nwr %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m2_data_2sd, by = join_by(.variable))
+  
+  save(m2_data_nwr, m2_data_2sd_nwr, coef_data0_nqsem_nwr, 
+       file = file.path(policy_path,
+                        "data",
+                        "nqsem_results_nwr.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "nqsem_results_nwr.rda"))
+}
+```
+
+```{r nqsem_results_nwr2, eval=FALSE}    
+if (!file.exists(file.path(policy_path, "data", "nqsem_results_nwr2.rda"))) {  
+
+  dft_data4 <- dft_data3 %>% 
+    group_by(country) %>% 
+    mutate(nqb = if_else(nq == 0, 0, 1),
+           nqb_lag = if_else(nq_lag == 0, 0, 1),
+           nqb_mean = mean(nqb_lag, na.rm = TRUE),
+           nqb_diff = nqb_lag - nqb_mean) %>% 
+    ungroup()
+  
+  bf_nqb_nwr2 <- bf(nqb ~
+                     me(pge_diff, pge_diff_se) +
+                     me(pge_mean, pge_mean_se) +
+                     # women_rep_diff +
+                     # women_rep_mean +
+                     fmi_diff +
+                     fmi_mean +
+                     list_diff +
+                     list_mean +
+                     nqb_lag +
+                     (1|c|country) + (1|t|year))
+  
+  bf_pge_nwr2 <- bf(pge ~ 
+                      nqb_diff +
+                      nqb_mean +
+                      # women_rep_diff +
+                      # women_rep_mean +
+                      fmi_diff +
+                      fmi_mean +
+                      list_diff +
+                      list_mean +
+                      gdppc_diff +
+                      gdppc_mean +
+                      pge_lag +
+                      (1|c|country) + (1|t|year))
+  
+  m2_nqsem_b_nwr2 <- brm(formula = bf_nqb_nwr2 + 
+                           bf_pge_nwr2 + 
+                           set_rescor(TRUE),  
+                         data = dft_data4, #%>% 
+                           # filter(!nqb_lag==1),
+                         backend = "cmdstanr",
+                         control=list(adapt_delta = 0.99, 
+                                      max_treedepth = 20),
+                         warmup = 500, 
+                         iter = 1000, 
+                         chains = 4, 
+                         cores = 4,
+                         seed = 1)
+  
+  m2_data_nwr2 <- m2_nqsem_b_nwr2$data
+  
+  m2_data_2sd_nwr2 <- m2_data_nwr2 %>% 
+    select(pge_diff,
+           pge_mean,
+           # women_rep_diff,
+           # women_rep_mean,
+           fmi_diff,
+           fmi_mean,
+           list_diff,
+           list_mean,
+           nqb_lag) %>% 
+    summarize(across(everything(), by2sd)) %>% 
+    pivot_longer(everything()) %>% 
+    mutate(`.variable` = case_when(name == "pge_mean" ~ 
+                                     "bsp_nqb_mepge_meanpge_mean_se",
+                                   name == "pge_diff" ~
+                                     "bsp_nqb_mepge_diffpge_diff_se",
+                                   TRUE ~ paste0("b_nqb_", name)),
+           var_names = c("Macroegalitarianism, Difference",
+                         "Macroegalitarianism, Mean",
+                         # "Women's Officeholding, Difference",
+                         # "Women's Officeholding, Mean",
+                         "Feminist Movement Index, Difference",
+                         "Feminist Movement Index, Mean",
+                         "Electoral List, Difference",
+                         "Electoral List, Mean",
+                         "Lagged National Quota"
+           ),
+           sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                        1,
+                        value),
+           dv = "National Quota") %>% 
+    bind_rows(m2_data_nwr2 %>% 
+                select(nqb_diff,
+                       nqb_mean,
+                       # women_rep_diff,
+                       # women_rep_mean,
+                       fmi_diff,
+                       fmi_mean,
+                       list_diff,
+                       list_mean,
+                       gdppc_diff,
+                       gdppc_mean,
+                       pge_lag) %>% 
+                summarize(across(everything(), by2sd)) %>% 
+                pivot_longer(everything()) %>% 
+                mutate(`.variable` = paste0("b_pge_", name),
+                       var_names = c("National Quota, Difference",
+                                     "National Quota, Mean",
+                                     # "Women's Officeholding, Difference",
+                                     # "Women's Officeholding, Mean",
+                                     "Feminist Movement Index, Difference",
+                                     "Feminist Movement Index, Mean",
+                                     "Electoral List, Difference",
+                                     "Electoral List, Mean",
+                                     "GDP per Capita, Difference",
+                                     "GDP per Capita, Mean",
+                                     "Lagged Macroegalitarianism"
+                       ),
+                       sd2 = ifelse(str_detect(.variable, "list_|_lag"),
+                                    1,
+                                    value),
+                       dv = "Macroegalitarianism")) %>% 
+    mutate(dv = factor(dv, levels = c("National Quota",
+                                      "Macroegalitarianism")))
+  
+  coef_data0_nqsem_nwr2 <- m2_nqsem_b_nwr2 %>% 
+    as_draws_df() %>% 
+    tidybayes::gather_draws(`bs?p?_.*`, regex = TRUE) %>% 
+    filter(!str_detect(`.variable`, "_Intercept")) %>% 
+    left_join(m2_data_2sd_nwr2, by = join_by(.variable))
+  
+  coef_data_nqsem_nwr2 <- coef_data0_nqsem_nwr2 %>% 
+    mutate(std_coef = round(.value * sd2, 1),
+           term = factor(var_names, levels = ordered_nqsem)) %>%
+    ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+    mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+    left_join(m2_data_2sd_nwr2, ., by = join_by(.variable))
+  
+  coef_data_nqsem_nwr2_total <- coef_data0_nqsem_nwr2 %>%  
+    group_by(.chain, .iteration, .draw) %>% 
+    mutate(alpha_nqb = mean(ifelse(name=="nqb_lag", .value, NA_real_),
+                           na.rm = TRUE),
+           alpha_pge = mean(ifelse(name=="pge_lag", .value, NA_real_),
+                            na.rm = TRUE)) %>% 
+    ungroup() %>% 
+    group_by(.variable) %>% 
+    mutate(std_coef0 = round(.value * sd2, 1),
+           std_coef = if_else(dv == "National Quota",
+                              round(std_coef0/(1 - alpha_nqb), 1),
+                              round(std_coef0/(1 - alpha_pge), 1)),
+           term = factor(var_names, levels = ordered_nqsem)) %>%
+    ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
+    mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
+    right_join(m2_data_2sd_nwr2, by = join_by(.variable))
+  
+  save(m2_data_nwr2, m2_data_2sd_nwr2, coef_data0_nqsem_nwr2, 
+       file = file.path(policy_path,
+                        "data",
+                        "nqsem_results_nwr2.rda"))
+} else {
+  load(file = file.path(policy_path, "data", "nqsem_results_nwr2.rda"))
+}
+```
+
+
 ```{r, fig.cap="Predicting National Quota Adoption and Macroegalitarianism in OECD Countries", fig.height = 9, fig.width = 7.5}
 #| label: fig-m2-nq
 
@@ -1016,7 +1298,7 @@ ordered_nqsem <- c("Macroegalitarianism, Difference",
   rev()
 
 coef_data_nqsem <- coef_data0_nqsem %>% 
-  mutate(std_coef = round(.value * sd2, 2),
+  mutate(std_coef = round(.value * sd2, 1),
          term = factor(var_names, levels = ordered_nqsem)) %>%
   ggdist::median_qi(std_coef, .width = c(.8, .9)) %>%
   mutate(ci = paste0(round(.lower, 1), " to ", round(.upper, 1))) %>%
@@ -1099,7 +1381,7 @@ This increase then grows to a total of `r get_coef("gdppc_diff", coef_data_nqsem
 
 Next are the estimates for electoral systems with a party-list component.
 As was also seen in @fig-m3-wr in the last chapter, net of the other variables in the model, countries that elect at least some legislators via a party list are estimated to have less macroegalitarianism than those with only more candidate-oriented single-member or small multi-member districts.
-In this model, this difference in PGE scores is estimated as `r coef_data_nqsem %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points, growing over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points.
+In this model, this difference in PGE scores is estimated as `r coef_data_nqsem %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% mutate(std_coef = round(std_coef, 1)) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points, growing over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_list_mean" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})") %>% str_remove_all("-")` points.
 Whether this is a true long-run effect of list electoral systems or instead the result of some other, unmeasured and omitted variable is unclear.
 The latter interpretation is perhaps reinforced by the inconclusive posterior distribution for differences over time in such electoral systems, although that distribution is mostly negative and its width is at least partially the product of the near absence in our dataset of changes in this variable within countries. 
 There is no evidence that the strength of the feminist movement has a direct effect on macroegalitarianism in these results.
@@ -1112,14 +1394,17 @@ Thanks to the strong influence of past values of macroegalitarianism on present 
 Similarly, a two-standard-deviation increase in women's officeholding in one year is estimated to correspond to `r coef_data_nqsem %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` point gain in macroegalitarianism in the next, which increases over time to `r coef_data_nqsem_total %>% filter(.variable == "b_pge_women_rep_diff" & .width == .8) %>% glue_data("{std_coef} (80% c.i. {ci})")` points.
 
 Finally, we arrive at the estimates for national quotas.
-The results are mixed.
+The results are somewhat mixed.
 On the one hand, countries that have had higher average quotas over the years examined exhibit more macroegalitarianism than countries that had lower average quotas.
 A country with a mean quota of 9.6%, a value similar to those of Spain and South Korea, is estimated to have PGE scores `r get_coef("pge_mean", coef_data_nqsem)` points higher than an otherwise similar country that never adopted a national legislative gender quota; over time, this estimated difference grows to `r get_coef("pge_mean", coef_data_nqsem_total)` points.
 So, with all of the caveats that should now be familiar regarding cross-national differences and potential omitted variables, this result points to a positive reinforcement of macroegalitarianism by national legislative quotas.
-On the other hand, quota adoptions _within_ a country's timeline do not appear to directly influence later macroegalitarianism at all: the dashed vertical line at zero bisects the posterior distribution for this estimate very nearly perfectly.
-It is important to remember, however, that this within-country result is net of quotas' indirect effect through women in office.
+On the other hand, quota adoptions _within_ a country's timeline do not seem to directly influence later macroegalitarianism at all: the dashed vertical line at zero bisects the posterior distribution for this estimate very nearly perfectly.
+
+It is important to remember, however, that this within-country result is net of quotas' indirect effect on public opinion through women in office.
 We learned in @fig-m3-wr that the adoption of a higher quota leads to more women in office and that increases in women's officeholding yield subsequent gains in macroegalitarianism.
-A model identical to that presented in @fig-m2-nq but excluding women's officeholding yields a `r round({coef_data0_nqsem %>% filter(.variable=="b_pge_nq_diff" & .value > 0) %>% nrow() * 100}/{coef_data0_nqsem %>% filter(.variable=="b_pge_nq_diff") %>% nrow()})`% posterior probability of a positive effect of national legislative quotas on macroegalitarianism, which is also suggestive.
+This suggests that quota adoption does generate more macroegalitarianism, but that it does so through its effect on increasing the number of women in office.
+A model identical to that presented in @fig-m2-nq but excluding women's officeholding yields a `r round({coef_data0_nqsem_nwr %>% filter(.variable=="b_pge_nq_diff" & .value > 0) %>% nrow() * 100}/{coef_data0_nqsem_nwr %>% filter(.variable=="b_pge_nq_diff") %>% nrow()})`% posterior probability of a positive effect of national legislative quotas on macroegalitarianism, providing support for this argument.
+
 One conclusion that is easy to draw from these results is that the adoption and reform of national legislative gender quotas do _not_ provoke a negative response in the public.
 There is no evidence whatsoever of anti-egalitarian backlash.
 
@@ -1129,7 +1414,7 @@ There is no evidence whatsoever of anti-egalitarian backlash.
 We turn now to policies advancing gender equality in the workplace.
 Like politics, the workplace is part of the traditionally masculine public sphere, and equality for women has been slow to arrive.
 Policy can play an important role in leveling the field.
-Moreover, gender equality in the workplace strongly influences gender equality in the home: a women's earning power relative to her partner powerfully shapes the possibility of her exiting an unsatisfactory relationship without a dramatic decline in living standards, which in turn impacts her voice within the household [e.g., @Hobson1990; @Huber2009].
+Moreover, gender equality in the workplace strongly influences gender equality in the home: a women's earning power relative to her partner powerfully shapes the possibility of her exiting an unsatisfactory relationship without a dramatic decline in living standards, which in turn impacts her voice within the household [see, e.g., @Hobson1990; @Huber2009].
 Policies that advance gender equality in the workplace therefore advance gender equality in the private sphere as well as the public sphere.
 
 To measure policies advancing gender equality in the workplace, we rely on the World Bank's Women, Business, and Law v1.0 (WBL) policy index [@WorldBank2024].
@@ -1140,7 +1425,7 @@ Outcomes, the extent to which a goal is achieved, are clearly important.
 But democratic representation is better measured not by what governments achieve---which may after all be influenced by many factors beyond their control---but the steps they take (or fail to take) to reach those goals.
 
 We hasten to add that the WBL policies do appear to get results.
-Cross-sectionally, in countries with more of these policies, @Htun2019 found that women have greater access to economic resources: more access to bank accounts, higher ownership of firms, more participation in the labor force, and smaller gender wage gaps.
+Cross-sectionally, in countries with more of these policies, @Htun2019 finds that women have greater access to economic resources: more access to bank accounts, higher ownership of firms, more participation in the labor force, and smaller gender wage gaps.
 Looking across countries and over time, their adoption has been shown to be closely linked to subsequently increased women's labor force participation rates, both in the OECD [@Gonzales2015, 21-23] and beyond [@Gonzales2015, 25-26; @Hyland2020, 478-488].
 Increases in the WBL policy index also yield narrowing gaps in the wages earned by men and women [@Hyland2020, 478-488].
 The WBL policies listed in @tbl-wbl are not only actionable but also effective.
@@ -1254,7 +1539,7 @@ read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoptio
   as_tibble() %>% 
   filter(!str_detect(value, "^Length|[Dd]ays")) %>% 
   mutate(Indicator = if_else(str_detect(value, "[A-Z]{2,}"), value, NA_character_) %>% 
-           str_replace("EURSHIP", "EUR-\nSHIP"),
+           str_replace("NEURSHIP", "-\nNEURSHIP"),
          Laws = if_else(str_detect(value, "[A-Z][a-z]"), value, NA_character_),
          count_i = cumsum(!is.na(Indicator)),
          Indicator = if_else(!is.na(Indicator),
@@ -1278,7 +1563,7 @@ read_excel("/Users/fsolt/Documents/Projects/gender_equality/paper/policy_adoptio
                                longtable = TRUE, 
                                output = "kableExtra",
                                notes = c("Source: Women, Business, and the Law Database v1.0 2024 (World Bank 2024).")) %>%
-  kableExtra::kable_styling(font_size = 10) %>%
+  kableExtra::kable_styling(font_size = 9) %>%
   kableExtra::column_spec(1, width = "10em") %>%
   kableExtra::column_spec(2, width = "20em")
 ```
