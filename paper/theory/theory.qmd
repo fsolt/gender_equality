@@ -170,7 +170,6 @@ On the other hand, @Schwindt-Bayer2005, one work that does include a measure of 
 Here, too, we stand in need of new and better evidence.
 
 
-
 ## Public Responsiveness: From Politics and Policy to Public Opinion
 
 How the public responds to policy change is, if anything, an even less settled question.
@@ -290,7 +289,7 @@ For this project, the current membership of the Organisation for Economic Co-ope
 The OECD comprises 38 countries (see @fig-oecdmap).
 Those countries do include the usual suspects of most of Europe plus the United States, Canada, Australia, and New Zealand, but also Japan and Korea in east Asia, Turkey and Israel in west Asia, and Mexico, Costa Rica, Colombia, and Chile in Latin America.
 As @fig-oecdmap makes clear, there are still many other, unshaded countries to better understand also.
-But the theories outlined in this chapter apply to the shaded countries, so they will be the subject of this book.
+But the theories outlined in this chapter clearly apply to the shaded countries, so it is these countries that will be the subject of this book.
 
 ```{r, fig.cap="The Cases Examined in This Book: The OECD", fig.width = 7.5}
 #| label: fig-oecdmap
