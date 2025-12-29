@@ -107,12 +107,12 @@ Democracy itself depends on democratic representation, that a government's polic
 If purportedly democratic countries diverge from these preferences in matters profoundly affecting the lives of half of their populations and scarcely less those of the rest, that fact alone would cast deep doubt on the quality of their democratic institutions.
 And if electoral results or policy change in favor of equality for women, the largest historically marginalized group in nearly every country, regularly prompt a backlash in public opinion, how can feminist activists or indeed advocates for any disadvantaged group work to advance their cause over the long term [cf. @Bishin2021, 7]?
 
-In the next section, we document that one reason these questions have remained open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
+In the next section, we document that one important reason these questions have remained open is a severe lack of comparable and longitudinal data regarding public opinion on gender roles in the public sphere of politics and paid work.
 Remedying this shortcoming of the extant surveys and the existing literature is perhaps the biggest advantage of the research presented in this book.
 
 Looking across many countries over long spans of time, we find that, happily for the state of democracy but---as in the case of Korea---not always so for women's rights, the governments of the world's rich democratic countries do represent public opinion with regard to gender equality.
 Moreover, we find that public responsiveness on this matter follows a pattern of accelerating feedback, in which gains presage additional gains.
-These findings break the logjam of the conflicting theoretical expectations alluded to above and allow further development of more nuanced arguments on the circumstances under which deviations from these average effects may occur.
+These findings break the logjam of conflicting theoretical expectations alluded to above and allow further development of more nuanced arguments on the circumstances under which deviations from these average effects may occur.
 
 But before we go on, we should mention that widely-held attitudes toward gender roles have often been labeled as aspects of ideology or norms or culture.
 To connect literatures, we will mainly refer to these attitudes, aggregated across the population of a country, as public opinion.
@@ -671,8 +671,14 @@ mean_years <- pge_summary %>%
 
 ```
 
-The research presented in this book has several advantages over the existing scholarship on public opinion toward gender roles in the public sphere.
-As just mentioned, the first involves data.
+The questions of democratic representation and public responsiveness with regard to gender equality and more generally have been debated for decades.
+Seemingly sound theoretical arguments put forward contradictory expectations, and empirical works have supported all sides of the contested claims.
+Getting definitive answers to these questions---answers that resolve the theoretical conflicts and provide actionable insights to activists, politicians, policymakers, and concerned citizens---has frustrated this scholarship.
+How is it that we propose to get these answers?
+Why will our findings be more credible than those of the works that have come before?
+The research we present in this book has a number of advantages over the existing scholarship on public opinion toward gender roles in the public sphere.
+
+As mentioned in the previous section, the first advantage involves the data employed.
 Drawing on recent advances in latent variable modeling of public opinion and a comprehensive collection of survey data, we update and expand the Public Gender Egalitarianism (PGE) dataset [@Woo2023] to address the need for comparable estimates of macroegalitarianism across countries and over time.
 The resulting data include information on `r n_countries` countries, with a mean number of consecutive years per country of `r mean_years`.
 In terms of @fig-proj-kt, the revised PGE dataset lands beyond the right hand border and toward the top, with more countries than any of the surveys and a greater mean number of years per country than all but two single-country surveys: Sweden's SOM and the U.S. GSS.
@@ -694,7 +700,7 @@ Pooling data across countries and over time in analyses that are both comparativ
 
 Moreover, a dynamic perspective examining change over time allows us to consider democratic representation _together with_ public responsiveness.
 For representation to occur, changes in public opinion must be reflected in who is elected and the policies adopted; as macroegalitarianism increases, more gender equality should result.
-The public's responsiveness involves an arrow running the opposite direction: changes in officeholding and policy influence the attitudes toward gender equality.
+The public's responsiveness involves an arrow running the opposite direction: changes in officeholding and policy influence the attitudes toward gender equality (see again @fig-diagram).
 Previous works tend to look at either one side of this loop or the other.
 The hazard of such a one-sided approach is the risk of simultaneity bias due to endogeneity.
 This is a more subtle version of the direction-of-causality problem with cross-sectional work identified by @Rustow1968 [, 48].
@@ -713,8 +719,13 @@ The near uniformity of our findings across this diversity of measures provides r
 A final advantage is that we complement our expansive cross-national over-time analyses with a close examination of a single case.
 Our case is carefully selected to allow us to address two weaknesses of even the strongest cross-national comparative research designs: the understanding of rare events and the explanation of deviant observations.
 A small proportion of 'treated' observations---in this study, electoral terms during which women serve as chief executives---reduces statistical power to identify actual effects and raises the probability of mistaken conclusions [see, e.g., @Gelman2014a].
-And although one or more poorly explained observations are just to be expected in statistical analyses---most social scientific theories are probabilistic, and the corresponding models are not expected to fit the data perfectly---simply ignoring a high-profile example that does not conform to the patterns found elsewhere is not only dissatisfying, it also neglects an opportunity to further develop the extant theory on the topic [see, e.g., @Stephens1979, 100; @Ragin1987, 76-80; @Seawright2008, 302-303].
+And although one or more poorly explained observations are just to be expected in statistical analyses---social scientific theories are typically probabilistic, and the corresponding models are not expected to fit the data perfectly---simply ignoring a high-profile example that does not conform to the patterns found elsewhere is not only dissatisfying, it also neglects an opportunity to further develop the extant theory on the topic [see, e.g., @Stephens1979, 100; @Ragin1987, 76-80; @Seawright2008, 302-303].
 By looking closely at a single case, we gain a better understanding of how the public responds to women chief executives, an understanding we then evaluate against the available data from other countries.
+
+<!-- For social scientists, distinguishing effects from causes is only occasionally straightforward. -->
+<!-- Experimental manipulation, our most reliable tool for this task, is not applicable to many concepts that are important to our theories. -->
+<!-- Such is the case with public opinion, election outcomes, and policy. -->
+<!-- We can bring discern which predictions  -->
 
 
 ## Plan of the Book
