@@ -681,7 +681,7 @@ poli_all + work_all +
 ```
 
 We can dig even deeper, though.
-One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not possible when taking the broad comparative perspective that we employ elsewhere in this book.
+One advantage of our focus on Korea in this chapter is that it facilitates looking at individual survey items in ways that are not practicable when taking the broad comparative perspective that we employ elsewhere in this book.
 @fig-kd1allplot1 displays the trends of mean responses to the survey questions on gender egalitarianism that were used to create the PGE scores for Korea, with the items regarding equality in politics in the left column and those on equality in the workplace on the right.
 The years that Park held the presidency, 2013--2016, are again shaded in pale gray.
 Among the questions on equality in politics, all but one suggest a decline during Park's term; among the questions on equality in the workplace, all but one do _not_ evince a decline during those years---if anything, they typically show a drop before Park took office followed by a recovery during her term.
@@ -695,7 +695,7 @@ With regard to political equality, the only item that intersects with Park's yea
 The upswing in agreement with this item, however, is evidenced only in 2023, some seven years after Park was replaced in office and at least four years later than the last observations of the other political-equality items.^[
 Indeed, the survey on which this observation is based, Pew Research Center's 2023 East Asian Societies Survey, was so much later that its release was too recent for it to be included in the PGE scores employed in this book.]
 And with regard to equality in the workplace, the only item for which egalitarian responses declined over Park's term was "men make better business leaders than women," which is also the only workplace item that implicates women's leadership.
-It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in politics and positions of power_, if only for a few years.
+It would seem on the basis of this evidence that Park's presidency negatively affected the Korean public's views specifically of women _in politics and in positions of power_, if only for a few years.
 
 One additional point often raised by observers of Korean politics with regard to Park's presidency is that it ushered in a period of intense political polarization, a time in which the views of men and women, young and old, and those with more and less education moved in opposite directions [see, e.g., @Cheong2023, 1219].
 If this is true, by looking at _average_ responses as we have, we may be overlooking additional signs of backlash against gender equality that are limited to particular Korean demographic groups and, within the entire public's opinion, counterbalanced by the views of other groups.
@@ -1176,19 +1176,19 @@ Upon taking office, Park abandoned her campaign-trail promises to deliver econom
 Hopes for a return to the spectacular economic growth of the Park Chung-hee era were similarly unfulfilled: GDP grew at annual rates of at most 3.2% during Park's presidency.
 
 Most dramatically, Park's five-year term in office was cut short by the 'Choi Soon-sil Gate' scandal.
-Choi Soon-sil is a long-time friend of Park Geun-hye and the daughter of the controversial cult leader, Choi Tae-min, who became a mentor to Park Geun-hye after her mother's death.
+Choi Soon-sil is a longtime friend of Park Geun-hye and the daughter of the controversial cult leader, Choi Tae-min, who became a mentor to Park Geun-hye after her mother's death.
 Even though Choi Soon-sil held no formal position within the government or the ruling party, the scandal revealed that she wielded astonishing influence over Park’s policy decisions, personnel appointments, and even her daily wardrobe.
 Choi Soon-sil was found to have received drafts of confidential presidential speeches and documents and to have influenced high-level government decisions, personnel appointments, and state affairs without any legal authorization or security clearance.
 This influence was widely viewed as a severe breach of constitutional order and a profound betrayal of public trust [@Kim2016].
 
-The scandal began to unfold in mid-2016 with allegations concerning suspicious donations to two non-profit foundations, Mir and K-Sports, ostensibly dedicated to promoting Korean culture and sports [see, e.g., @Seo2021].
+The scandal began to unfold in mid-2016 with allegations concerning suspicious donations to two non-profit foundations ostensibly dedicated to promoting Korean culture and sports [see, e.g., @Seo2021].
 Investigative reporting by a conservative television station revealed that these organizations were fronts controlled by Choi Soon-sil [@Jhee2019, 579].
 Park and Choi had both pressured Korean conglomerates to make contributions to these organizations [@Kim2016]; the straightforward details that Choi had leveraged her relationship with the president to gain her daughter acceptance at a prestigious university despite her mediocre high school grades and then later a more compliant academic advisor at that university gained the convoluted scandal continued public attention [@Seo2021].
 In October 2016, other reporting disclosed the contents of a discarded tablet computer belonging to Choi Soon-sil and finally broke the public's trust irrevocably.
 The device contained evidence that Choi Soon-sil had received and edited dozens of classified, sensitive state documents, including advance drafts of presidential speeches and state policy papers; Park's first public apology, delivered the following day, did nothing to quell public outrage [@Min2019, 7].
 
 The public reaction was overwhelming.
-Millions of South Koreans took to the streets bearing candles each Saturday evening to demand the president’s ouster [see, e.g., @Doucette2017; @Hwang2020; @Cho2021].
+Millions of South Koreans took to the streets bearing candles each Saturday evening to demand the president's ouster [see, e.g., @Doucette2017; @Hwang2020; @Cho2021].
 A special counsel investigation into Park was opened in November 2016, the National Assembly voted to impeach her that December, and with the massive protests in their twenty-third week, the Constitutional Court of South Korea unanimously upheld the impeachment in March 2017, citing Park’s gross abuse of power, her violation of her constitutional duty to protect the public’s life, and her actions that severely harmed the principles of representative democracy.
 
 The Constitutional Court's ruling triggered a sequence of events.
@@ -1215,7 +1215,7 @@ The scandal and this discourse dogged Bachelet for the rest of her term.
 
 These patterns suggest some support for the view that when a woman holds a country's chief executive office, her high visibility in what is among the most traditionally masculine domains _may_ trigger a distinctive negative response in gender egalitarian public opinion.
 However, the case of Park in South Korea as well as that of Bachelet in Chile suggest that public opinion backlash is not triggered by women making "great strides," as @Faludi1991 [, xix] puts it. 
-Rather than showing that the public lashes back against gender equality when women chief executives succeed, these cases instead indicate that it does so  only when they fail.
+Rather than showing that the public lashes back against gender equality when women chief executives succeed, these cases instead indicate that it does so only when they fail.
 
 
 ### Executive Failure, Public Approval, and Macroegalitarianism
@@ -1527,7 +1527,7 @@ With relatively few woman chief executives and even fewer examples of their abje
 The turnabout between the election of Park Geun-hye as Korea's first woman president and the election of an avowed opponent of efforts to advance gender equality, Yoon Suk-yeol, was dramatic.
 But it was not necessarily a sign of a backlash against the success of women in the public sphere, the limited and conditional retrenchment in gender egalitarian public opinion we observe in this chapter notwithstanding.
 Korea has some of the lowest levels of macroegalitarianism found in the OECD.
-In fact, as @fig-pge_women_start shows, when Park became president, Korea had the lowest PGE score of any woman chief executive's country at the start of her term.
+In fact, as @fig-pge_women_start shows, when Park became president, Korea at the start of her term had the lowest PGE score of any country to elect a woman chief executive.
 Park ran and won not so much as a woman candidate---an aspect of her candidacy that her campaign emphasized only in the final stretch before the election [@Lee2017]---but instead as a continuation of her father's political legacy, and the Korean public largely viewed her in that way [@Lee2023].
 Although she gained votes among those who felt it was time for a woman president, her "political foundation was her partisan support" from conservative voters [@Hur2023, 501] and the strongest predictor of voting for Park was voters' feelings for her father and his record [@Kang2018].
 

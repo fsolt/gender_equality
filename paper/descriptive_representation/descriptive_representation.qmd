@@ -2116,6 +2116,7 @@ Taking the dynamics into account, the estimated effect of country-mean differenc
 The conclusions reached in our analysis of entire legislative elections are not an artifact of aggregation; if anything, analyzing the arguably more theoretically relevant unit of party-elections provides even stronger evidence of public opinion's importance to women gaining office.
 Whether we look at entire legislatures or party delegations, when the public holds more egalitarian views, more women gain office.
 
+
 ## Public Responsiveness to Women's Officeholding
 
 But what about the other component of dynamic democracy: how does the public respond to changes in women's officeholding?
